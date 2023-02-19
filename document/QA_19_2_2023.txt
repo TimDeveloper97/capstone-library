@@ -1,0 +1,32 @@
+- Send overdue notification là như nào? đúng ra là Send notification, thông báo sách sắp hết hạn thuê, thông báo người thuê muốn trả sách,....
+- assign report, post: report,post là những vấn đề người dùng gửi lên và manager phải đọc và xử lý nó, hệ thống sẽ tự chia đều cho manager,
+- thanh toán: bằng gì: bằng ví. mỗi người dùng lúc tạo tk sẽ có 1 ví, có thể nạp và rút
+- view list of conmic là gì?: xem danh sách truyện theo profile người dùng, categories, hoặc vị trí,
+- Manage post là như nào? nó giống 1 cộng đồng đăng bài tương tác à: nó giống như bài đăng trên Chotot
+- setup parameter: cấu hình thời gian Send notification 
+- manage fee: mỗi lần thuê sách hệ thống sẽ charge % số tiền thuê. sẽ được admin cấu hình như setup parameter,
+- send message này làm giống messager hay như nào? giống app chat bình thường
+Bạn đã gửi
+- Chat bình thường là chat như nào? Chat 1 vs 1 hay coa thể tao thành group. Bạn nói cụ thể
+- Manage fee: thay đổi % là tất đầu sách cũng thay đổi à
+- Manage Post: chỉ đăng tin chứa thông tin không có comment hay like gì đúng chứ? 
+- Thanh toán: ng dùng có ví nhưng tiền trong ví nạp như nào? Đến trực tiếp tại quầy hay nạp qua ngân hàng. Hay các dịch vụ khác. Cái này quan trọng
+Tuấn
+Võ Tuấn
+- Chat bình thường là chat như nào? chỉ Chat 1 vs 1 
+- Manage fee: thay đổi % là tất đầu sách cũng thay đổi à, chính xác.
+- Manage Post: chỉ đăng tin chứa thông tin không có comment hay like gì đúng chứ: đúng
+- Thanh toán: ng dùng có ví nhưng tiền trong ví nạp như nào? người dùng gửi lệnh nạp, manager check đúng nội dung chuyển khoản => approve => tiền tăng,
+rút: người dùng gửi lệnh rút, manager approve => tiền giảm
+Bạn đã gửi
+Chat 1-1 có cần lưu lại hay ko? Chat vs manage đúng ko?
+Tuấn
+Võ Tuấn
+có lưu lại, chat giữa người dùng.
+Bạn đã trả lời Tuấn
+Chat như vậy thì phải có tên hay id thì mới chat giữa ng dùng đc. Vậy phải có cả kết bạn? À
+Tuấn
+k cần kết bạn
+Tuấn
+Võ Tuấn
+khi xem chi tiết bài post là có tác giả + button "chat ngay" rồi
