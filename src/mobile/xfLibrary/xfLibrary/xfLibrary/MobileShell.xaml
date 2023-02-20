@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             Shell.FlyoutBehavior="Disabled"
+             Shell.TabBarIsVisible="False"
+             Shell.TabBarBackgroundColor="{StaticResource AppColor}"
+             Shell.BackgroundColor="{StaticResource AppColor}"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             
+             x:Class="xfLibrary.MobileShell">
+
+    <ShellItem Route="LoginPage">
+        <ShellContent ContentTemplate="{DataTemplate page:LoginPage}" />
+    </ShellItem>
+
+    <TabBar>
+        <ShellContent Route="LoginPage"  ContentTemplate="{DataTemplate page:LoginPage}" />
+        <ShellContent Route="HomePage"  ContentTemplate="{DataTemplate page:HomePage}" />
+    </TabBar>
+</Shell>
