@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -26,6 +26,15 @@
     </Compile>
   </ItemGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\Fonts\fontello.ttf" />
+		<EmbeddedResource Include="Resources\Fonts\materialdesignicons.ttf" />
+		<EmbeddedResource Include="Resources\Fonts\muli-black.ttf" />
+		<EmbeddedResource Include="Resources\Fonts\muli-bold.ttf" />
+		<EmbeddedResource Include="Resources\Fonts\muli-regular.ttf" />
+		<EmbeddedResource Include="Resources\Fonts\opensans-semibold.ttf" />
+	</ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Update="MobileShell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -42,6 +51,12 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ShellContent.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ShellHeader.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
 

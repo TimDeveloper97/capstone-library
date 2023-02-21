@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             
+             x:Class="xfLibrary.Views.ShellContent">
+  <ContentView.Content>
+      <StackLayout Margin="5">
+            <Grid HeightRequest="50" ColumnDefinitions="50, *">
+                <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.Home}"
+                       TextColor="{StaticResource AppColor}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Label Grid.Column="1" Style="{StaticResource HeaderLabelStyle}" Text="Home"
+                       HorizontalOptions="Start" VerticalOptions="Center"/>
+            </Grid>
+            <Grid HeightRequest="50" ColumnDefinitions="50, *">
+                <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.FormatFloatNone}"
+                       TextColor="{StaticResource AppColor}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Label Grid.Column="1" Style="{StaticResource HeaderLabelStyle}" Text="Category"
+                       HorizontalOptions="Start" VerticalOptions="Center"/>
+            </Grid>
+            <Grid HeightRequest="50" ColumnDefinitions="50, *">
+                <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.Blogger}"
+                       TextColor="{StaticResource AppColor}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Label Grid.Column="1" Style="{StaticResource HeaderLabelStyle}" Text="Post"
+                       HorizontalOptions="Start" VerticalOptions="Center"/>
+            </Grid>
+            <Grid HeightRequest="50" ColumnDefinitions="50, *">
+                <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.FileDocument}"
+                       TextColor="{StaticResource AppColor}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Label Grid.Column="1" Style="{StaticResource HeaderLabelStyle}" Text="Report"
+                       HorizontalOptions="Start" VerticalOptions="Center"/>
+            </Grid>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>
