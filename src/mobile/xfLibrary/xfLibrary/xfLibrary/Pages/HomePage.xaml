@@ -13,7 +13,7 @@
              x:Class="xfLibrary.Pages.HomePage">
     
     <ContentPage.BindingContext>
-        <vm:LoginViewModel />
+        <vm:HomeViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
@@ -23,9 +23,58 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Grid HeightRequest="50" ColumnDefinitions="50, *, 40" Padding="5" BackgroundColor="{StaticResource Primary}">
+                <Image Source="language.png" Aspect="AspectFit"/>
+                <SearchBar Grid.Column="1" Placeholder="Find something..." Margin="-20,0,-10,0" TextColor="White"/>
+                <Label Grid.Column="2" Style="{StaticResource IconColorLabelStyle}" FontSize="40" Text="{Static icon:FontIcons.Menu}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
+                                          Command="{Binding Path=BindingContext.MenuCommand, Source={x:Reference Name=self}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <!--#region Suggest -->
+            <StackLayout Orientation="Horizontal" Margin="5,15,5,5">
+                <Label FontSize="Title" Text="Suggested Books" Style="{StaticResource TitleColorLabelStyle}"/>
+                <Label Grid.Column="2" Style="{StaticResource IconColorLabelStyle}" FontSize="40" Text="{Static icon:FontIcons.ChevronRight}" Margin="-10,0,0,0"/>
+
+            </StackLayout>
+            <CarouselView HeightRequest="170" ItemsSource="{Binding Suggests}" IsSwipeEnabled="True" IsScrollAnimated="True"
+                          PeekAreaInsets="100" IsBounceEnabled="True" CurrentItem="{Binding CurrentItem, Mode=TwoWay}">
+                <CarouselView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start" ItemSpacing="6"/>
+                </CarouselView.ItemsLayout>
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Image Source="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            <!--#endregion-->
+
+            <!--#region Recent -->
+            <StackLayout Orientation="Horizontal" Margin="5,15,5,5">
+                <Label FontSize="Title" Text="Latest Books" Style="{StaticResource TitleColorLabelStyle}"/>
+                <Label Grid.Column="2" Style="{StaticResource IconColorLabelStyle}" FontSize="40" Text="{Static icon:FontIcons.ChevronRight}" Margin="-10,0,0,0"/>
+
+            </StackLayout>
+            <CarouselView HeightRequest="170" ItemsSource="{Binding RecentUpdates}" IsSwipeEnabled="True" IsScrollAnimated="True"
+                          PeekAreaInsets="100" IsBounceEnabled="True" CurrentItem="{Binding CurrentItem, Mode=TwoWay}">
+                <CarouselView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start" ItemSpacing="6"/>
+                </CarouselView.ItemsLayout>
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="Red">
+                            <Image Source="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            <!--#endregion-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

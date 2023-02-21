@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="xfLibrary.Views.ShellHeader">
+  <ContentView.Content>
+        <Grid HeightRequest="250" BackgroundColor="{StaticResource AppColor}">
+            <Frame HeightRequest="100" WidthRequest="100" CornerRadius="55" 
+                   HorizontalOptions="Center" VerticalOptions="Center"
+                   BorderColor="Transparent">
+                <Label Text="DA" FontSize="40" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Frame>
+        </Grid>
+  </ContentView.Content>
+</ContentView>

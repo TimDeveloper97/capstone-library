@@ -11,7 +11,9 @@
     <!--#endregion-->
 
     <!--#region Color -->
-    <Color x:Key="AppColor">#88221a</Color>
+    <Color x:Key="AppColor">#47bbff</Color>
+    <Color x:Key="AppColor1">#ff531a</Color>
+    
     <Color x:Key="Red">#ff424e</Color>
     <Color x:Key="Blue">#508ce8</Color>
     <Color x:Key="Green">#32CD32</Color>
@@ -59,7 +61,7 @@
 
     <!--#region Style -->
     <Style TargetType="ActivityIndicator">
-        <Setter Property="Color" Value="{StaticResource AppColor}" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
     </Style>
@@ -102,7 +104,7 @@
     </Style>
 
     <Style TargetType="CheckBox">
-        <Setter Property="Color" Value="{StaticResource AppColor}" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -181,6 +183,15 @@
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <Style x:Key="FrameShadow" TargetType="Frame">
+        <Setter Property="HasShadow" Value="true" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+        <Setter Property="xct:ShadowEffect.Color" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
     </Style>
 
@@ -452,6 +463,24 @@
         <Setter Property="Margin" Value="1,2,0,0"/>
     </Style>
 
+    <Style x:Key="IconColorLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource Icon}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
+        <Setter Property="FontFamily" Value="MaterialIcons" />
+        <Setter Property="Margin" Value="1,2,0,0"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+    
+    <Style x:Key="TitleColorLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource Title}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
+        <Setter Property="FontFamily" Value="PoppinsBoldItalic" />
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
     <Style x:Key="TitleLabelStyle" TargetType="Label">
         <Setter Property="Text" Value="fundi"/>
         <Setter Property="FontSize" Value="{StaticResource Title}"/>
@@ -482,7 +511,7 @@
         <Setter Property="HeightRequest" Value="55"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="FontFamily" Value="PoppinsBold"/>
-        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
     </Style>
     <Style x:Key="SecondaryButtonStyle" TargetType="Button">
         <Setter Property="BackgroundColor" Value="Transparent"/>
@@ -505,7 +534,7 @@
         <Setter Property="Aspect" Value="AspectFit"/>
     </Style>
     <Style x:Key="BackImageButtonStyle" TargetType="ImageButton">
-        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
         <Setter Property="HeightRequest" Value="40"/>
         <Setter Property="WidthRequest" Value="40"/>
         <Setter Property="HorizontalOptions" Value="Start"/>
@@ -521,10 +550,11 @@
     <Style TargetType="mdc:MaterialButton">
         <Setter Property="TextColor" Value="{StaticResource White}"/>
         <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
-        <Setter Property="BackgroundColor" Value="{StaticResource AppColor}"/>
-        <Setter Property="BorderColor" Value="{StaticResource AppColor}"/>
-        <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="BusyColor" Value="{StaticResource AppColor}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="BusyColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
+        <Setter Property="WidthRequest" Value="100"/>
     </Style>
     <Style x:Key="HideButtonStyle" TargetType="mdc:MaterialButton">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
@@ -546,7 +576,7 @@
         <Setter Property="Type" Value="Filled"/>
         <Setter Property="LabelMargin" Value="0,0,0,0"/>
         <Setter Property="Margin" Value="0,10,0,0"/>
-        <Setter Property="LabelTextColor" Value="{StaticResource Sky}"/>
+        <Setter Property="LabelTextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
         <Setter Property="HeightRequest" Value="55"/>
         <Setter Property="CornerRadius" Value="5"/>
     </Style>
@@ -566,8 +596,8 @@
         <Setter Property="FontSize" Value="{StaticResource MiniTitle}"/>
     </Style>
     <Style TargetType="mdc:MaterialFloatingButton">
-        <Setter Property="BackgroundColor" Value="{StaticResource AppColor}"/>
-        <Setter Property="BorderColor" Value="{StaticResource AppColor}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
         <Setter Property="Animation" Value="Scale"/>
         <Setter Property="FontSize" Value="{StaticResource Icon}" />
         <Setter Property="ShadowColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}"/>
@@ -580,8 +610,8 @@
         <Setter Property="FontSize" Value="{StaticResource Title}" />
         <Setter Property="FontSizeSelected" Value="{StaticResource Title}" />
         <Setter Property="Padding" Value="5,0,5,0" />
-        <Setter Property="BadgeTextColor" Value="{StaticResource AppColor}" />
-        <Setter Property="BadgeBorderColor" Value="{StaticResource AppColor}" />
+        <Setter Property="BadgeTextColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
+        <Setter Property="BadgeBorderColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
         <Setter Property="BadgeBackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}" />
     </Style>
     <Style TargetType="xct:TabView">
@@ -591,7 +621,9 @@
     </Style>
 
     <Style TargetType="mdc:MaterialCheckbox">
-        <Setter Property="Color" Value="{StaticResource AppColor}" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
     </Style>
     <!--#endregion-->
 

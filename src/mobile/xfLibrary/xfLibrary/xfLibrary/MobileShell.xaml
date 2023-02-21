@@ -2,20 +2,41 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              
-             Shell.FlyoutBehavior="Disabled"
+             Shell.FlyoutBehavior="Flyout"
+             FlyoutIsPresented="False"
              Shell.TabBarIsVisible="False"
              Shell.TabBarBackgroundColor="{StaticResource AppColor}"
              Shell.BackgroundColor="{StaticResource AppColor}"
              xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:view="clr-namespace:xfLibrary.Views"
+             FlyoutHeaderBehavior="CollapseOnScroll"
              
              x:Class="xfLibrary.MobileShell">
 
-    <ShellItem Route="LoginPage">
-        <ShellContent ContentTemplate="{DataTemplate page:LoginPage}" />
+    <ShellItem Route="HomePage">
+        <ShellContent ContentTemplate="{DataTemplate page:HomePage}" />
     </ShellItem>
+    <Shell.FlyoutHeader>
+        <view:ShellHeader />
+    </Shell.FlyoutHeader>
 
-    <TabBar>
+    <Shell.FlyoutContent>
+        <view:ShellContent />
+    </Shell.FlyoutContent>
+    <!--<FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Domestic"
+             Icon="paw.png">
+            <ShellContent Title="Cats"
+                          Icon="language.png"
+                          ContentTemplate="{DataTemplate page:LoginPage}" />
+            <ShellContent Title="Dogs"
+                          Icon="language.png"
+                          ContentTemplate="{DataTemplate page:HomePage}" />
+        </Tab>
+    </FlyoutItem>-->
+
+    <!--<TabBar>
         <ShellContent Route="LoginPage"  ContentTemplate="{DataTemplate page:LoginPage}" />
         <ShellContent Route="HomePage"  ContentTemplate="{DataTemplate page:HomePage}" />
-    </TabBar>
+    </TabBar>-->
 </Shell>

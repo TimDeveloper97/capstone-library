@@ -21,10 +21,45 @@
     </ContentPage.Behaviors>
     
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid BackgroundColor="Gray">
+            <!--#region Language -->
+            <Grid HorizontalOptions="End" VerticalOptions="Start" Margin="{StaticResource Margin}">
+                <mdc:MaterialPicker ItemsSource="{Binding Languages}" LeadingIcon="language"
+                                    SelectedItem="{Binding SelectedLanguage}"/>
+            </Grid>
+            <!--#endregion-->
+
+            <Frame HorizontalOptions="Fill" VerticalOptions="Center" Margin="20,0">
+                <Grid>
+                    <StackLayout HorizontalOptions="Center">
+
+                        <Grid HeightRequest="50">
+                            <Label FontSize="Title" VerticalOptions="Center" Text="Manager Login" Style="{StaticResource TitleLabelStyle}"/>
+                        </Grid>
+                        
+                        <StackLayout Margin="20,0">
+                            <mdc:MaterialEntry LabelText="Email *" Text="{Binding UserName}"/>
+                            <mdc:MaterialEntry LabelText="Password *" IsPassword="True" Text="{Binding Password}"/>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="13,5,0,-10">
+                            <CheckBox IsChecked="False"/>
+                            <Label Text="Remember Me" VerticalOptions="Center"/>
+                        </StackLayout>
+
+                        <Grid Padding="0,10" HorizontalOptions="Fill" Margin="0,5">
+                            <mdc:MaterialButton HorizontalOptions="Center" WidthRequest="300" IsBusy="{Binding IsBusy}" Text="Sign In" Command="{Binding LoginCommand}"/>
+                        </Grid>
+
+                        <Frame Style="{StaticResource FrameShadow}" HeightRequest="40">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Margin="13,5,0,10">
+                                <Label Text="Don't have an account? "/>
+                                <Label Text="Sign Up" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

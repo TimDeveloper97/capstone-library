@@ -96,14 +96,20 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\xfLibrary\xfLibrary.csproj">
       <Project>{2C0EC4CB-12BA-4E42-898F-1E27491A175A}</Project>
       <Name>xfLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\language.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionxfLibraryAndroidHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

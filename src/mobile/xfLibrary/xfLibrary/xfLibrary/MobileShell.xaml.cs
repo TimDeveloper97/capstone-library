@@ -25,6 +25,7 @@ namespace xfLibrary
             //await CheckAndRequestPermission();
             //DependencyService.Register<Services.Temp.SomeService>();
             //DependencyService.Register<Services.MainService>();
+            
         }
 
         void InitRoute()
