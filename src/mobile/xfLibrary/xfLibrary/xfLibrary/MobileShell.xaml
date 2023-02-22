@@ -2,7 +2,8 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              
-             Shell.FlyoutBehavior="Flyout"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False"
              FlyoutIsPresented="False"
              Shell.TabBarIsVisible="False"
              Shell.TabBarBackgroundColor="{StaticResource AppColor}"
@@ -13,8 +14,8 @@
              
              x:Class="xfLibrary.MobileShell">
 
-    <ShellItem Route="HomePage">
-        <ShellContent ContentTemplate="{DataTemplate page:HomePage}" />
+    <ShellItem Route="BottomPage">
+        <ShellContent ContentTemplate="{DataTemplate page:BottomPage}" />
     </ShellItem>
     <Shell.FlyoutHeader>
         <view:ShellHeader />

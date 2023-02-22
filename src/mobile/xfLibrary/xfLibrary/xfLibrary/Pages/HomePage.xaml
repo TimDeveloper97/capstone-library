@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              
              Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
+             xmlns:view="clr-namespace:xfLibrary.Views"
+             xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
              
@@ -22,78 +27,103 @@
     </ContentPage.Behaviors>
 
     <ContentPage.Content>
-        <Grid>
+        <Grid Style="{StaticResource GridBackground}">
             <StackLayout>
-                <StackLayout>
-                    <Grid HeightRequest="50" ColumnDefinitions="50, *, 40" Padding="5" BackgroundColor="{StaticResource Primary}">
+                <!--#region Header -->
+                <StackLayout Padding="5,5,5,10" BackgroundColor="{StaticResource AppColor}">
+                    <Grid HeightRequest="50" ColumnDefinitions="50, *" Padding="5" BackgroundColor="{StaticResource AppColor}">
                         <Image Source="language.png" Aspect="AspectFit"/>
-                        <SearchBar Grid.Column="1" Placeholder="Find something..." Margin="-20,0,-10,0" TextColor="White"/>
-                        <Label Grid.Column="2" Style="{StaticResource IconColorLabelStyle}" FontSize="40" Text="{Static icon:FontIcons.Menu}">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
-                                          Command="{Binding Path=BindingContext.MenuCommand, Source={x:Reference Name=self}}"/>
-                            </Label.GestureRecognizers>
-                        </Label>
+                        <SearchBar Grid.Column="1" Placeholder="Find something..." BackgroundColor="White"/>
                     </Grid>
                 </StackLayout>
+                <!--#endregion-->
 
-                <StackLayout Opacity="0.5">
-                    <!--#region Suggest -->
-                    <StackLayout Orientation="Horizontal" Margin="5,15,5,5">
-                        <Label FontSize="Title" Text="Suggested Books" Style="{StaticResource TitleColorLabelStyle}"/>
-                        <Label Grid.Column="2" Style="{StaticResource IconColorLabelStyle}" FontSize="40" Text="{Static icon:FontIcons.ChevronRight}" Margin="-10,0,0,0"/>
-
-                    </StackLayout>
-                    <CarouselView HeightRequest="170" ItemsSource="{Binding Suggests}" IsSwipeEnabled="True" IsScrollAnimated="True"
-                          PeekAreaInsets="100" IsBounceEnabled="True" CurrentItem="{Binding CurrentItem, Mode=TwoWay}">
-                        <CarouselView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start" ItemSpacing="6"/>
-                        </CarouselView.ItemsLayout>
-                        <CarouselView.ItemTemplate>
+                <!--#region Live slide -->
+                <StackLayout Margin="0,-7">
+                    <cards:CarouselView ItemsSource="{Binding Suggests}" SlideShowDuration="3500">
+                        <cards:CarouselView.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <Image Source="{Binding}"/>
-                                </Grid>
+                                <ContentView>
+                                    <Frame Style="{StaticResource FrameShadow}" HeightRequest="150">
+                                        <Image Source="{Binding}" Aspect="Fill"/>
+                                    </Frame>
+                                </ContentView>
                             </DataTemplate>
-                        </CarouselView.ItemTemplate>
-                    </CarouselView>
-                    <!--#endregion-->
+                        </cards:CarouselView.ItemTemplate>
 
-                    <!--#region Recent -->
-                    <StackLayout Orientation="Horizontal" Margin="5,15,5,5">
-                        <Label FontSize="Title" Text="Latest Books" Style="{StaticResource TitleColorLabelStyle}"/>
-                        <Label Grid.Column="2" Style="{StaticResource IconColorLabelStyle}" FontSize="40" Text="{Static icon:FontIcons.ChevronRight}" Margin="-10,0,0,0"/>
-
-                    </StackLayout>
-                    <CarouselView HeightRequest="170" ItemsSource="{Binding RecentUpdates}" IsSwipeEnabled="True" IsScrollAnimated="True"
-                          PeekAreaInsets="100" IsBounceEnabled="True" CurrentItem="{Binding CurrentItem, Mode=TwoWay}">
-                        <CarouselView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start" ItemSpacing="6"/>
-                        </CarouselView.ItemsLayout>
-                        <CarouselView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid BackgroundColor="Red">
-                                    <Image Source="{Binding}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </CarouselView.ItemTemplate>
-                    </CarouselView>
-                    <!--#endregion-->
+                        <controls:IndicatorsControl/>
+                    </cards:CarouselView>
                 </StackLayout>
+                <!--#endregion-->
+
+                <!--#region Category -->
+                <Grid Padding="10" Margin="0,10,0,5" BackgroundColor="Red">
+                    <StackLayout>
+                        <Label FontSize="Title" Text="Khám phá danh mục" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
+                               HorizontalOptions="Start"/>
+
+                        <CollectionView ItemsSource="{Binding Suggests}" HeightRequest="100">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid RowDefinitions="*, 15" Padding="10">
+                                        <Frame HeightRequest="70" WidthRequest="70">
+                                            <Image Source="{Binding}" Aspect="Fill"/>
+                                        </Frame>
+                                        <Label Grid.Row="1" Text="{Binding}" HorizontalOptions="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Grid>
+                <!--#endregion-->
+
+
+                <Grid Padding="10">
+                    <StackLayout>
+                        <!--#region Category -->
+                        <Label FontSize="Title" Text="Tin đăng mới" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
+                               HorizontalOptions="Start"/>
+
+                        <CollectionView ItemsSource="{Binding Suggests}" HeightRequest="100">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid RowDefinitions="*, 15" Padding="10">
+                                        <Frame HeightRequest="70" WidthRequest="70">
+                                            <Image Source="{Binding}" Aspect="Fill"/>
+                                        </Frame>
+                                        <Label Grid.Row="1" Text="{Binding}" HorizontalOptions="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <!--#endregion-->
+                    </StackLayout>
+                </Grid>
             </StackLayout>
 
-            <Grid ColumnDefinitions="50, *, 40" Margin="0,55,0,0" VerticalOptions="Start" 
-                 BackgroundColor="Transparent" IsVisible="true" WidthRequest="300" >
-                <ListView Grid.Column="1" ItemsSource="{Binding Suggests}" BackgroundColor="Red" RowHeight="70">
+            <!--#region Search bar -->
+            <Grid ColumnDefinitions="60, *, 4" Margin="0,55,0,0" VerticalOptions="Start" BackgroundColor="Transparent" 
+                  IsVisible="true" WidthRequest="300" HeightRequest="350">
+                <ListView Grid.Column="1" ItemsSource="{Binding Suggests}" HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid ColumnDefinitions="50, *" Margin="5,10">
+                                <Grid ColumnDefinitions="50, *" Padding="5,10">
                                     <Image Source="{Binding}"/>
-                                    <Grid Grid.Column="1" RowDefinitions="4*,3*,3*">
-                                        <Label Text="{Binding}"/>
-                                        <Label Grid.Row="1" Text="{Binding}"/>
-                                        <Label Grid.Row="2" Text="{Binding}"/>
+                                    <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
+                                        <Label Text="{Binding}" Style="{StaticResource SubHeaderLabelStyle}" VerticalOptions="End" Margin="0,0,0,-10"/>
+                                        <Label Grid.Row="1" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" 
+                                               HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5"/>
+                                        <Label Grid.Row="2" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
+                                               TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
+                                               HorizontalOptions="Start" VerticalOptions="Start" FontFamily="MuliBold"/>
                                     </Grid>
                                 </Grid>
                             </ViewCell>
@@ -101,6 +131,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
+            <!--#endregion-->
         </Grid>
         
         

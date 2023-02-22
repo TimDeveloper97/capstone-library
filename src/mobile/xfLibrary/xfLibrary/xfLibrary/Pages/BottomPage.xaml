@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xf:BottomBarPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xf="clr-namespace:BottomBar.XamarinForms"
+             Shell.TabBarIsVisible="False"
+             xmlns:pages="clr-namespace:xfLibrary.Pages"
+             
+             x:Class="xfLibrary.Pages.BottomPage">
+
+    <pages:HomePage Title="Trang chủ"
+                 Icon="ic_home.png"
+                 xf:BottomBarPageExtensions.TabColor="#FF7B54"/>
+
+    <pages:NewsPage Title="Quản lý tin"
+                 Icon="ic_news.png"
+                 xf:BottomBarPageExtensions.TabColor="#939B62" />
+
+    <pages:AddPage Title="Đăng tin"
+                 Icon="ic_plus.png"
+                 xf:BottomBarPageExtensions.TabColor="#411530" />
+
+    <pages:NotificationPage Title="Thông báo"
+                 Icon="ic_notification.png"
+                 xf:BottomBarPageExtensions.TabColor="#73777B" />
+
+    <pages:AccountPage Title="Tài khoản"
+                 Icon="ic_account.png"
+                 xf:BottomBarPageExtensions.TabColor="#E0D8B0" />
+</xf:BottomBarPage>

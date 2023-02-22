@@ -38,12 +38,9 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Suggests = new ObservableCollection<string>();
+            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png" };
             RecentUpdates = new ObservableCollection<string>();
-            for (int i = 0; i < 5; i++)
-            {
-                Suggests.Add("language.png");
-            }
+
             CurrentItem = Suggests.Skip(1).FirstOrDefault();
         }
 

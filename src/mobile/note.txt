@@ -1,0 +1,41 @@
+<!--#region Suggest -->
+                    <StackLayout Orientation="Horizontal" Margin="5,15,5,5">
+                        <Label FontSize="Title" Text="Suggested Books" Style="{StaticResource TitleColorLabelStyle}"/>
+                        <Label Grid.Column="2" Style="{StaticResource IconColorLabelStyle}" FontSize="40" Text="{Static icon:FontIcons.ChevronRight}" Margin="-10,0,0,0"/>
+
+                    </StackLayout>
+                    <CarouselView HeightRequest="170" ItemsSource="{Binding Suggests}" IsSwipeEnabled="True" IsScrollAnimated="True"
+                          PeekAreaInsets="100" IsBounceEnabled="True" CurrentItem="{Binding CurrentItem, Mode=TwoWay}">
+                        <CarouselView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start" ItemSpacing="6"/>
+                        </CarouselView.ItemsLayout>
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Image Source="{Binding}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+                    <!--#endregion-->
+
+                    <!--#region Recent -->
+                    <StackLayout Orientation="Horizontal" Margin="5,15,5,5">
+                        <Label FontSize="Title" Text="Latest Books" Style="{StaticResource TitleColorLabelStyle}"/>
+                        <Label Grid.Column="2" Style="{StaticResource IconColorLabelStyle}" FontSize="40" Text="{Static icon:FontIcons.ChevronRight}" Margin="-10,0,0,0"/>
+
+                    </StackLayout>
+                    <CarouselView HeightRequest="170" ItemsSource="{Binding RecentUpdates}" IsSwipeEnabled="True" IsScrollAnimated="True"
+                          PeekAreaInsets="100" IsBounceEnabled="True" CurrentItem="{Binding CurrentItem, Mode=TwoWay}">
+                        <CarouselView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start" ItemSpacing="6"/>
+                        </CarouselView.ItemsLayout>
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid BackgroundColor="Red">
+                                    <Image Source="{Binding}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+                    <!--#endregion-->

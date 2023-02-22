@@ -12,6 +12,7 @@ namespace xfLibrary
         {
             InitializeComponent();
 
+            //MainPage = new NavigationPage(new MobileShell());
             MainPage = new MobileShell();
         }
 
