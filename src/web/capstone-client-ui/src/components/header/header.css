@@ -1,20 +1,39 @@
-.bg-header{
-    background: url(../../assets/img/bg_header.png) top center repeat-x;
-    width: 100%;
-    height: 50px;
-    padding: 5px 0 0 0;
+.bg-header {
+  background-color: #ffba00;
+  width: 100%;
 }
-.logo-brand{
-    float: left;
+.logo-brand {
+  float: left;
 }
 
-.search-header{
-    width: 300px;
+.search-header {
+  width: 100%;
 }
 
-.btn-login{
-    border: none;
-    background-color: unset;
-    color: #fff;
-    font-weight: 500;
+.btn-login {
+  border: none;
+  background-color: #ff8800;
+  color: #fff;
+  font-weight: 500;
+  width: 100%;
+  height: 40px;
+  text-transform: uppercase;
+  border-radius: 5px;
+}
+
+.btn-login:hover {
+  background-color: #e56700;
+}
+
+.header-item {
+  margin-left: 10px;
+  font-weight: 600;
+}
+.header-item svg {
+  margin-right: 10px;
+}
+@media only screen and (min-width: 1400px) {
+  .self-header {
+    max-width: 1000px;
+  }
 }
