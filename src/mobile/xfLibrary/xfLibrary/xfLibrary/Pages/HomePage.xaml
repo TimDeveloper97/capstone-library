@@ -38,79 +38,83 @@
                 </StackLayout>
                 <!--#endregion-->
 
-                <!--#region Live slide -->
-                <StackLayout Margin="0,-7">
-                    <cards:CarouselView ItemsSource="{Binding Suggests}" SlideShowDuration="3500">
-                        <cards:CarouselView.ItemTemplate>
-                            <DataTemplate>
-                                <ContentView>
-                                    <Frame Style="{StaticResource FrameShadow}" HeightRequest="150">
-                                        <Image Source="{Binding}" Aspect="Fill"/>
-                                    </Frame>
-                                </ContentView>
-                            </DataTemplate>
-                        </cards:CarouselView.ItemTemplate>
-
-                        <controls:IndicatorsControl/>
-                    </cards:CarouselView>
-                </StackLayout>
-                <!--#endregion-->
-
-                <!--#region Category -->
-                <Grid Padding="10" Margin="0,10,0,5" BackgroundColor="Red">
+                <ScrollView>
                     <StackLayout>
-                        <Label FontSize="Title" Text="Khám phá danh mục" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
-                               HorizontalOptions="Start"/>
+                        <!--#region Live slide -->
+                        <StackLayout Margin="0,-7">
+                            <cards:CarouselView ItemsSource="{Binding Suggests}" SlideShowDuration="3500">
+                                <cards:CarouselView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentView>
+                                            <Frame Style="{StaticResource FrameShadow}" HeightRequest="150">
+                                                <Image Source="{Binding}" Aspect="Fill"/>
+                                            </Frame>
+                                        </ContentView>
+                                    </DataTemplate>
+                                </cards:CarouselView.ItemTemplate>
 
-                        <CollectionView ItemsSource="{Binding Suggests}" HeightRequest="100">
-                            <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Horizontal" />
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid RowDefinitions="*, 15" Padding="10">
-                                        <Frame HeightRequest="70" WidthRequest="70">
-                                            <Image Source="{Binding}" Aspect="Fill"/>
-                                        </Frame>
-                                        <Label Grid.Row="1" Text="{Binding}" HorizontalOptions="Center"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </StackLayout>
-                </Grid>
-                <!--#endregion-->
-
-
-                <Grid Padding="10">
-                    <StackLayout>
-                        <!--#region Category -->
-                        <Label FontSize="Title" Text="Tin đăng mới" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
-                               HorizontalOptions="Start"/>
-
-                        <CollectionView ItemsSource="{Binding Suggests}" HeightRequest="100">
-                            <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Horizontal" />
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid RowDefinitions="*, 15" Padding="10">
-                                        <Frame HeightRequest="70" WidthRequest="70">
-                                            <Image Source="{Binding}" Aspect="Fill"/>
-                                        </Frame>
-                                        <Label Grid.Row="1" Text="{Binding}" HorizontalOptions="Center"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                                <controls:IndicatorsControl/>
+                            </cards:CarouselView>
+                        </StackLayout>
                         <!--#endregion-->
+
+                        <!--#region Category -->
+                        <Grid Padding="10" Margin="0,10,0,5" >
+                            <StackLayout>
+                                <Label FontSize="Title" Text="Khám phá danh mục" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
+                               HorizontalOptions="Start"/>
+
+                                <CollectionView ItemsSource="{Binding Suggests}" HeightRequest="100">
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout Orientation="Horizontal" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid RowDefinitions="*, 15" Padding="10">
+                                                <Frame HeightRequest="70" WidthRequest="70">
+                                                    <Image Source="{Binding}" Aspect="Fill"/>
+                                                </Frame>
+                                                <Label Grid.Row="1" Text="{Binding}" HorizontalOptions="Center"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
+                        </Grid>
+                        <!--#endregion-->
+
+                        <Grid Padding="10" VerticalOptions="FillAndExpand" BackgroundColor="Red">
+                            <StackLayout BackgroundColor="Green">
+                                <!--#region Category -->
+                                <Label FontSize="Title" Text="Tin đăng mới" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" HorizontalOptions="Start"/>
+
+                                <RefreshView Command="{Binding LoadNewFeedCommand}" IsRefreshing="{Binding IsBusy}">
+                                    <FlexLayout BindableLayout.ItemsSource="{Binding Suggests}" AlignContent="Start">
+                                        <FlexLayout.Behaviors>
+                                            <!--<behaviors:FlexLayoutItemTappedBehavior Command="{Binding DetailClassroomCommand}" Paramater="{Binding .}"/>-->
+                                        </FlexLayout.Behaviors>
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid RowDefinitions="*, 15" Padding="10">
+                                                    <Frame HeightRequest="160" WidthRequest="160">
+                                                        <Image Source="{Binding}" Aspect="Fill"/>
+                                                    </Frame>
+                                                    <Label Grid.Row="1" Text="{Binding}" HorizontalOptions="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </FlexLayout>
+                                </RefreshView>
+                                <!--#endregion-->
+                            </StackLayout>
+                        </Grid>
                     </StackLayout>
-                </Grid>
+                </ScrollView>
             </StackLayout>
 
             <!--#region Search bar -->
             <Grid ColumnDefinitions="60, *, 4" Margin="0,55,0,0" VerticalOptions="Start" BackgroundColor="Transparent" 
-                  IsVisible="true" WidthRequest="300" HeightRequest="350">
+                  IsVisible="false" WidthRequest="300" HeightRequest="350">
                 <ListView Grid.Column="1" ItemsSource="{Binding Suggests}" HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -133,7 +137,5 @@
             </Grid>
             <!--#endregion-->
         </Grid>
-        
-        
     </ContentPage.Content>
 </ContentPage>

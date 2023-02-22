@@ -327,6 +327,14 @@
         </Setter>
     </Style>
 
+    <Style TargetType="FlexLayout">
+        <Setter Property="Direction" Value="Row" />
+        <Setter Property="Wrap" Value="Wrap" />
+        <Setter Property="AlignContent" Value="Start" />
+        <Setter Property="AlignItems" Value="Start" />
+        <Setter Property="JustifyContent" Value="SpaceBetween" />
+    </Style>
+
     <Style TargetType="SearchHandler">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />

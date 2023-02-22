@@ -28,6 +28,11 @@ namespace xfLibrary.ViewModels
             Init();
         });
 
+        public ICommand LoadNewFeedCommand => new Command(() =>
+        {
+            IsBusy = true;
+            IsBusy = false;
+        });
         public ICommand MenuCommand => new Command(() => Shell.Current.FlyoutIsPresented = true);
         #endregion
 
@@ -38,9 +43,9 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png" };
+            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png" };
             RecentUpdates = new ObservableCollection<string>();
-
+            IsBusy = true;
             CurrentItem = Suggests.Skip(1).FirstOrDefault();
         }
 
