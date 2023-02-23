@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NotificationPage : ContentPage
+    public partial class NewsView : ContentView
     {
-        public NotificationPage()
+        public NewsView()
         {
             InitializeComponent();
         }

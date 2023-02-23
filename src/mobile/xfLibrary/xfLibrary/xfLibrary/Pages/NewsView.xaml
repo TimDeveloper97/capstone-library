@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
+             xmlns:view="clr-namespace:xfLibrary.Views"
+             xmlns:xf="clr-namespace:BottomBar.XamarinForms"
+             xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             x:Name="self"
+             
+             x:Class="xfLibrary.Pages.NewsView">
+    <ContentView.BindingContext>
+        <vm:NewsViewModel />
+    </ContentView.BindingContext>
+    <ContentView.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageAppearingCommand}" />
+    </ContentView.Behaviors>
+    <ContentView.Content>
+        <StackLayout>
+            <Label Text="Hello Xamarin.Forms!222" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

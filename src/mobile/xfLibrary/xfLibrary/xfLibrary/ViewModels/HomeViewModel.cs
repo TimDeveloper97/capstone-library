@@ -39,11 +39,15 @@ namespace xfLibrary.ViewModels
         public ICommand SelectedRecentItemCommand => new Command<string>((text) =>
         {
             var x = text;
+
+            
         });
 
         public ICommand TextChangedCommand => new Command<string>((text) =>
         {
-            var x = text;
+            if (string.IsNullOrEmpty(text)) IsSearching = false;
+            else IsSearching = true;
+            var y = IsSearching;
         });
 
         public ICommand TestCommand => new Command(() =>

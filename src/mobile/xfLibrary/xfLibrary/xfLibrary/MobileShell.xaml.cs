@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using xfLibrary.Pages;
 
 namespace xfLibrary
 {
@@ -30,7 +31,7 @@ namespace xfLibrary
 
         void InitRoute()
         {
-            //Routing.RegisterRoute(nameof(FormPage), typeof(FormPage));
+            Routing.RegisterRoute(nameof(NewsView), typeof(NewsView));
             //Routing.RegisterRoute(nameof(NewFormPopup), typeof(NewFormPopup));
             //Routing.RegisterRoute(nameof(UserPopup), typeof(UserPopup));
             //Routing.RegisterRoute(nameof(ListUserPopup), typeof(ListUserPopup));

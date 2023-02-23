@@ -24,19 +24,4 @@
     <Shell.FlyoutContent>
         <view:ShellContent />
     </Shell.FlyoutContent>
-    <!--<FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <Tab Title="Domestic"
-             Icon="paw.png">
-            <ShellContent Title="Cats"
-                          Icon="language.png"
-                          ContentTemplate="{DataTemplate page:LoginPage}" />
-            <ShellContent Title="Dogs"
-                          Icon="language.png"
-                          ContentTemplate="{DataTemplate page:HomePage}" />
-        </Tab>
-    </FlyoutItem>-->
-    <!--<TabBar>
-        <ShellContent Route="LoginPage"  ContentTemplate="{DataTemplate page:LoginPage}" />
-        <ShellContent Route="HomePage"  ContentTemplate="{DataTemplate page:HomePage}" />
-    </TabBar>-->
 </Shell>

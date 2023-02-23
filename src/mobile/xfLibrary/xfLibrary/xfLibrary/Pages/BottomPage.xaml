@@ -5,26 +5,67 @@
              Shell.TabBarIsVisible="False"
              xmlns:pages="clr-namespace:xfLibrary.Pages"
              xmlns:view="clr-namespace:xfLibrary.Views"
+             FixedMode="False"
              x:Class="xfLibrary.Pages.BottomPage">
 
-    
-    <pages:HomePage Title="Trang chủ"
-                 Icon="ic_home.png"
-                 xf:BottomBarPageExtensions.TabColor="#FF7B54"/>
+    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#FF7B54">
+        <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
+            <view:HeaderView x:Name="searchBar" SearchCommand="{Binding SearchCommand}"
+                             TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+            <pages:View1 Margin="0,-7" Grid.Row="1"/>
 
-    <pages:NewsPage Title="Quản lý tin"
-                 Icon="ic_news.png"
-                 xf:BottomBarPageExtensions.TabColor="#939B62" />
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
+                                           SelectedCommand="{Binding TestCommand}"/>
+        </Grid>
+    </ContentPage>
 
-    <pages:AddPage Title="Đăng tin"
-                 Icon="ic_plus.png"
-                 xf:BottomBarPageExtensions.TabColor="#411530" />
+    <ContentPage Title="Quản lý tin" Icon="ic_news.png" xf:BottomBarPageExtensions.TabColor="#939B62">
+        <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
+            <view:HeaderView x:Name="searchBar1" SearchCommand="{Binding SearchCommand}"
+                             TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar1}}"/>
+            <pages:NewsView Margin="0,-7" Grid.Row="1"/>
 
-    <pages:NotificationPage Title="Thông báo"
-                 Icon="ic_notification.png"
-                 xf:BottomBarPageExtensions.TabColor="#73777B" />
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
+                                           SelectedCommand="{Binding TestCommand}"/>
+        </Grid>
+    </ContentPage>
 
-    <pages:AccountPage Title="Tài khoản"
-                 Icon="ic_account.png"
-                 xf:BottomBarPageExtensions.TabColor="#E0D8B0" />
+    <ContentPage Title="Đăng tin" Icon="ic_plus.png" xf:BottomBarPageExtensions.TabColor="#411530">
+        <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
+            <view:HeaderView x:Name="searchBar2" SearchCommand="{Binding SearchCommand}"
+                             TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar2}}"/>
+            <pages:View1 Margin="0,-7" Grid.Row="1"/>
+
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
+                                           SelectedCommand="{Binding TestCommand}"/>
+        </Grid>
+    </ContentPage>
+
+    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#73777B">
+        <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
+            <view:HeaderView x:Name="searchBar3" SearchCommand="{Binding SearchCommand}"
+                             TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar3}}"/>
+            <pages:View1 Margin="0,-7" Grid.Row="1"/>
+
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
+                                           SelectedCommand="{Binding TestCommand}"/>
+        </Grid>
+    </ContentPage>
+
+    <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#E0D8B0">
+        <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
+            <view:HeaderView x:Name="searchBar4" SearchCommand="{Binding SearchCommand}"
+                             TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar4}}"/>
+            <pages:View1 Margin="0,-7" Grid.Row="1"/>
+
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
+                                           SelectedCommand="{Binding TestCommand}"/>
+        </Grid>
+    </ContentPage>
+
 </xf:BottomBarPage>
