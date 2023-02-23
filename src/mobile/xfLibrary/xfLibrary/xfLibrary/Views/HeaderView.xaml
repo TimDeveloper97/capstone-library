@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="seft"
+             x:Class="xfLibrary.Views.HeaderView">
+    <ContentView.Content>
+        <!--#region Header-->
+        <StackLayout Padding="5,5,5,10" BackgroundColor="{StaticResource AppColor}" VerticalOptions="Start">
+            <Grid HeightRequest="70" ColumnDefinitions="50, *" Padding="5" BackgroundColor="{StaticResource AppColor}">
+                <Image Source="chotot.jpg" Aspect="AspectFit"/>
+                <SearchBar Grid.Column="1" Placeholder="Tìm kiếm trên Chợ Tốt..." BackgroundColor="White"
+                           Text="{Binding Text, Source={x:Reference seft}}"
+                           TextChanged="SearchBar_TextChanged"
+                           SearchCommand="{Binding SearchCommand, Source={x:Reference seft}}"
+                           SearchCommandParameter="{Binding SearchCommandParameter, Source={x:Reference seft}}"/>
+            </Grid>
+        </StackLayout>
+        <!--#endregion-->
+    </ContentView.Content>
+</ContentView>

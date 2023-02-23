@@ -14,10 +14,12 @@ namespace xfLibrary.ViewModels
         #region Property
         private ObservableCollection<string> suggests, recentUpdates;
         private string widthCard, currentItem;
+        private bool isSearching;
 
         public ObservableCollection<string> Suggests { get => suggests; set => SetProperty(ref suggests, value); }
         public ObservableCollection<string> RecentUpdates { get => recentUpdates; set => SetProperty(ref recentUpdates, value); }
         public string WidthCard { get => widthCard; set => SetProperty(ref widthCard, value); }
+        public bool IsSearching { get => isSearching; set => SetProperty(ref isSearching, value); }
         public string CurrentItem { get => currentItem; set => SetProperty(ref currentItem, value); }
 
         #endregion
@@ -26,6 +28,27 @@ namespace xfLibrary.ViewModels
         public ICommand PageAppearingCommand => new Command(() =>
         {
             Init();
+        });
+
+        public ICommand SearchCommand => new Command<string>((text) =>
+        {
+            var x = text;
+            Suggests.RemoveAt(0);
+        });
+
+        public ICommand SelectedRecentItemCommand => new Command<string>((text) =>
+        {
+            var x = text;
+        });
+
+        public ICommand TextChangedCommand => new Command<string>((text) =>
+        {
+            var x = text;
+        });
+
+        public ICommand TestCommand => new Command(() =>
+        {
+            //var x = text;
         });
 
         public ICommand LoadNewFeedCommand => new Command(() =>
@@ -43,7 +66,8 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png" };
+            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png", 
+                "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png" };
             RecentUpdates = new ObservableCollection<string>();
             IsBusy = true;
             CurrentItem = Suggests.Skip(1).FirstOrDefault();

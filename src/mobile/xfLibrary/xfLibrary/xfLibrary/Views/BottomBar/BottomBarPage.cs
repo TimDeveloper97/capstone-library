@@ -21,6 +21,7 @@ namespace BottomBar.XamarinForms
 {
 	public class BottomBarPage : TabbedPage
 	{
+	
 		public enum BarThemeTypes { Light, DarkWithAlpha, DarkWithoutAlpha }
 
 		public bool FixedMode { get; set; }

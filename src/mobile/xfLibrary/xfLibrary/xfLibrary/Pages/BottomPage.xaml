@@ -4,9 +4,10 @@
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              Shell.TabBarIsVisible="False"
              xmlns:pages="clr-namespace:xfLibrary.Pages"
-             
+             xmlns:view="clr-namespace:xfLibrary.Views"
              x:Class="xfLibrary.Pages.BottomPage">
 
+    
     <pages:HomePage Title="Trang chủ"
                  Icon="ic_home.png"
                  xf:BottomBarPageExtensions.TabColor="#FF7B54"/>
