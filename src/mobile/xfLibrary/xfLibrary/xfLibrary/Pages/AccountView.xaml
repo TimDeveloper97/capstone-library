@@ -23,7 +23,17 @@
 
     <ContentView.Content>
         <StackLayout>
-            <Label Text="Hello Xamarin.Forms!" />
+            <!--#region SignIn/SignUp -->
+            <Grid ColumnDefinitions="70, *">
+                <Frame Margin="10" CornerRadius="30">
+                    <Image Source="chotot.jpg"/>
+                </Frame>
+                <Label Grid.Column="1" Text="Đăng nhập / Đăng ký" Style="{StaticResource TitleLabelStyle}" VerticalOptions="Center" HorizontalOptions="Start"/>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.LoginCommand, Source={x:Reference Name=self}}"/>
+                </Grid.GestureRecognizers>
+            </Grid>
+            <!--#endregion-->
         </StackLayout>
     </ContentView.Content>
 </ContentView>

@@ -20,7 +20,7 @@
                 Command="{Binding PageHomeAppearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
-            <view:HeaderView x:Name="searchBar" SearchCommand="{Binding SearchCommand}"
+            <view:HeaderView x:Name="searchBar" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
             <pages:HomeView Margin="0,-7" Grid.Row="1"/>
 
@@ -64,7 +64,7 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#73777B">
+    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#6D67E4">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -81,7 +81,7 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#E0D8B0">
+    <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#73777B">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"

@@ -10,9 +10,20 @@
     <converter:DatetimeConverter x:Key="StringToDateTime" />
     <!--#endregion-->
 
+    <x:Double x:Key="Title">20</x:Double>
+    <x:Double x:Key="SubTitle">17</x:Double>
+    <x:Double x:Key="MiniTitle">14</x:Double>
+    <x:Double x:Key="Header">25</x:Double>
+    <x:Double x:Key="SubHeader">22</x:Double>
+    <x:Double x:Key="CornerRadius">5</x:Double>
+    <x:Double x:Key="Padding">10</x:Double>
+    <x:Double x:Key="Margin">10</x:Double>
+    <x:Double x:Key="Icon">30</x:Double>
+    <x:Double x:Key="TopNavigator">60</x:Double>
+
     <!--#region Color -->
-    <Color x:Key="AppColor">#ffba00</Color>
-    <Color x:Key="AppColor1">#ffcc00</Color>
+    <Color x:Key="AppColor">#ffb900</Color>
+    <Color x:Key="AppColor1">#ffb900</Color>
     
     <Color x:Key="Red">#ff424e</Color>
     <Color x:Key="Blue">#508ce8</Color>
@@ -72,6 +83,13 @@
 
     <Style x:Key="GridBackground" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"/>
+    </Style>
+    <Style x:Key="GridColor" TargetType="Grid">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
+    </Style>
+
+    <Style x:Key="StackColor" TargetType="StackLayout">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
     </Style>
 
     <Style TargetType="IndicatorView">
@@ -461,15 +479,7 @@
     <!--#endregion-->
 
     <!--#region Config -->
-    <x:Double x:Key="Title">20</x:Double>
-    <x:Double x:Key="SubTitle">17</x:Double>
-    <x:Double x:Key="MiniTitle">14</x:Double>
-    <x:Double x:Key="Header">25</x:Double>
-    <x:Double x:Key="SubHeader">22</x:Double>
-    <x:Double x:Key="CornerRadius">5</x:Double>
-    <x:Double x:Key="Padding">10</x:Double>
-    <x:Double x:Key="Margin">10</x:Double>
-    <x:Double x:Key="Icon">30</x:Double>
+
 
 
     <Style x:Key="IconLabel" TargetType="Label">

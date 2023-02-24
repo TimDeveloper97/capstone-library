@@ -83,8 +83,7 @@
                                         </Frame>
                                         <Label Grid.Row="1" Text="{Binding}" HorizontalOptions="Center"/>
                                         <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
-                                          Command="{Binding Path=BindingContext.SelectedRecentItemCommand, Source={x:Reference Name=self}}"/>
+                                            <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.SelectedRecentItemCommand, Source={x:Reference Name=self}}"/>
                                         </Grid.GestureRecognizers>
                                     </Grid>
                                 </DataTemplate>

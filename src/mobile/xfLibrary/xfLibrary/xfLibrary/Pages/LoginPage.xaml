@@ -21,40 +21,46 @@
     </ContentPage.Behaviors>
     
     <ContentPage.Content>
-        <Grid BackgroundColor="Gray">
-            <!--#region Language -->
-            <Grid HorizontalOptions="End" VerticalOptions="Start" Margin="{StaticResource Margin}">
-                <mdc:MaterialPicker ItemsSource="{Binding Languages}" LeadingIcon="language"
-                                    SelectedItem="{Binding SelectedLanguage}"/>
+        <Grid>
+            <Image Source="background.jpg" Aspect="AspectFill" VerticalOptions="End"/>
+
+            <Grid ColumnDefinitions="auto, *" VerticalOptions="Start" Style="{StaticResource GridColor}" HeightRequest="{StaticResource TopNavigator}">
+                <Label Margin="20,0,0,0" Style="{StaticResource IconLabel}" Text="{Static icon:FontIcons.ChevronLeft}" VerticalOptions="Center"/>
+                <Image Grid.Column="1" Source="chotot.jpg" Aspect="AspectFit" HorizontalOptions="Center"/>
             </Grid>
             <!--#endregion-->
 
-            <Frame HorizontalOptions="Fill" VerticalOptions="Center" Margin="20,0">
+            <Frame HorizontalOptions="Fill" VerticalOptions="Center" Margin="20,0" Style="{StaticResource FrameShadow}">
                 <Grid>
                     <StackLayout HorizontalOptions="Center">
 
-                        <Grid HeightRequest="50">
-                            <Label FontSize="Title" VerticalOptions="Center" Text="Manager Login" Style="{StaticResource TitleLabelStyle}"/>
+                        <Grid Padding="20,0" HeightRequest="80" ColumnDefinitions="*, auto">
+                            <StackLayout  VerticalOptions="Center">
+                                <Label FontSize="Title" HorizontalOptions="Start" Text="Đăng nhập" Style="{StaticResource TitleColorLabelStyle}"/>
+                                <Label FontSize="Body" Margin="0,-5,0,0" HorizontalOptions="Start" Text="Chào bạn quay lại" Style="{StaticResource TitleLabelStyle}"/>
+                            </StackLayout>
+                            <Image Grid.Column="1" Source="chototicon.png" Aspect="Fill"  VerticalOptions="Center" HorizontalOptions="Center"
+                                   HeightRequest="60" WidthRequest="60"/>
                         </Grid>
                         
                         <StackLayout Margin="20,0">
-                            <mdc:MaterialEntry LabelText="Email *" Text="{Binding UserName}"/>
-                            <mdc:MaterialEntry LabelText="Password *" IsPassword="True" Text="{Binding Password}"/>
+                            <mdc:MaterialEntry LabelText="Tài khoản *" Text="{Binding UserName}"/>
+                            <mdc:MaterialEntry LabelText="Mật khẩu *" IsPassword="True" Text="{Binding Password}"/>
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="13,5,0,-10">
                             <CheckBox IsChecked="False"/>
-                            <Label Text="Remember Me" VerticalOptions="Center"/>
+                            <Label Text="Nhớ tài khoản mật khẩu" VerticalOptions="Center"/>
                         </StackLayout>
 
                         <Grid Padding="0,10" HorizontalOptions="Fill" Margin="0,5">
-                            <mdc:MaterialButton HorizontalOptions="Center" WidthRequest="300" IsBusy="{Binding IsBusy}" Text="Sign In" Command="{Binding LoginCommand}"/>
+                            <mdc:MaterialButton HorizontalOptions="Center" WidthRequest="300" IsBusy="{Binding IsBusy}" Text="Đăng nhập" Command="{Binding LoginCommand}"/>
                         </Grid>
 
                         <Frame Style="{StaticResource FrameShadow}" HeightRequest="40">
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Margin="13,5,0,10">
-                                <Label Text="Don't have an account? "/>
-                                <Label Text="Sign Up" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}"/>
+                                <Label Text="Chưa có tài khoản? "/>
+                                <Label Text="Đăng ký ngay" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}"/>
                             </StackLayout>
                         </Frame>
                     </StackLayout>

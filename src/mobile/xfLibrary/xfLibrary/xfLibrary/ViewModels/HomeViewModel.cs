@@ -22,8 +22,6 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-
-
         public ICommand LoadNewFeedCommand => new Command(() =>
         {
             IsBusy = true;
