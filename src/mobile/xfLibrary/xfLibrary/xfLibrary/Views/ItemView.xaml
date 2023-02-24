@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             x:Name="self"
+             x:Class="xfLibrary.Views.ItemView">
+  <ContentView.Content>
+        <Grid ColumnDefinitions="auto, *" Padding="10,5">
+            <Frame BackgroundColor="{Binding Color, Source={x:Reference self}}" CornerRadius="30" HeightRequest="35" WidthRequest="35"
+                   Style="{StaticResource FrameNoBorder}">
+                <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Binding Icon, Source={x:Reference self}}" TextColor="White"
+                       VerticalOptions="Center" HorizontalOptions="Center"/>
+            </Frame>
+            <Label Grid.Column="1" Style="{StaticResource TitleLabelStyle}" FontSize="20" Text="{Binding Text, Source={x:Reference self}}"
+                   VerticalOptions="Center" HorizontalOptions="Start"/>
+        </Grid>
+  </ContentView.Content>
+</ContentView>

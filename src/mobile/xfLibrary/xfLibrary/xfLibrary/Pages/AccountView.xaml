@@ -22,18 +22,63 @@
     </ContentView.BindingContext>
 
     <ContentView.Content>
-        <StackLayout>
-            <!--#region SignIn/SignUp -->
-            <Grid ColumnDefinitions="70, *">
-                <Frame Margin="10" CornerRadius="30">
-                    <Image Source="chotot.jpg"/>
-                </Frame>
-                <Label Grid.Column="1" Text="Đăng nhập / Đăng ký" Style="{StaticResource TitleLabelStyle}" VerticalOptions="Center" HorizontalOptions="Start"/>
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.LoginCommand, Source={x:Reference Name=self}}"/>
-                </Grid.GestureRecognizers>
-            </Grid>
-            <!--#endregion-->
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <!--#region SignIn/SignUp -->
+                <Grid ColumnDefinitions="70, *" IsVisible="false">
+                    <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
+                        <Image Source="account.png"/>
+                    </Frame>
+                    <Label Grid.Column="1" Text="Đăng nhập / Đăng ký" Style="{StaticResource TitleLabelStyle}" VerticalOptions="Center" HorizontalOptions="Start"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.LoginCommand, Source={x:Reference Name=self}}"/>
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Profile -->
+                <Grid ColumnDefinitions="70, *">
+                    <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
+                        <Image Source="account.png"/>
+                    </Frame>
+                    <Grid Grid.Column="1" RowDefinitions="*, *">
+                        <Label Text="Tim Dev" FontFamily="MuliBlack" Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start"/>
+                        <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start">
+                            <Label Text="Đồng tốt: " Style="{StaticResource TitleLabelStyle}"/>
+                            <Label Text="0" Style="{StaticResource TitleLabelStyle}"/>
+                            <Label Style="{StaticResource IconColorLabelStyle}" FontSize="23" Text="{Static icon:FontIcons.CashUsd}"/>
+                        </StackLayout>
+                    </Grid>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.LoginCommand, Source={x:Reference Name=self}}"/>
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Items -->
+                <StackLayout Spacing="0">
+                    <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý đơn hàng" HorizontalOptions="Start" Padding="10,5"/>
+                    <view:ItemView Text="Đơn mua" Icon="{Static icon:FontIcons.BagPersonal}" Color="{StaticResource Blue}"/>
+                    <view:ItemView Text="Đơn bán" Icon="{Static icon:FontIcons.Post}" Color="{StaticResource Green}"/>
+                    <view:ItemView Text="Ví" Icon="{Static icon:FontIcons.Wallet}" Color="{StaticResource Yellow100Accent}"/>
+                </StackLayout>
+
+                <StackLayout Spacing="0">
+                    <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="10,5"/>
+                    <view:ItemView Text="Tin đăng" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Tertiary}"/>
+                    <view:ItemView Text="Yêu thích" Icon="{Static icon:FontIcons.Heart}" Color="{StaticResource Red}"/>
+                </StackLayout>
+
+                <StackLayout Spacing="0">
+                    <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Khác" HorizontalOptions="Start" Padding="10,5"/>
+                    <view:ItemView Text="Cài đặt tài khoản" Icon="{Static icon:FontIcons.Tools}" Color="{StaticResource Gray500}"/>
+                    <view:ItemView Text="Trợ giúp" Icon="{Static icon:FontIcons.Help}" Color="{StaticResource Gray500}"/>
+                    <view:ItemView Text="Đóng góp ý kiến" Icon="{Static icon:FontIcons.Note}" Color="{StaticResource Gray500}"/>
+                    <view:ItemView Text="Đăng xuất" Icon="{Static icon:FontIcons.Logout}" Color="{StaticResource Gray500}"/>
+                </StackLayout>
+                <!--#endregion-->
+
+            </StackLayout>
+        </ScrollView>
     </ContentView.Content>
 </ContentView>

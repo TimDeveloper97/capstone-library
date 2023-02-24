@@ -37,7 +37,7 @@
                 Command="{Binding PageNewsAppearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
-            <view:HeaderView x:Name="searchBar1" SearchCommand="{Binding SearchCommand}"
+            <view:HeaderView x:Name="searchBar1" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar1}}"/>
             <pages:NewsView Margin="0,-7" Grid.Row="1"/>
 
@@ -54,7 +54,7 @@
                 Command="{Binding PageAddAppearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
-            <view:HeaderView x:Name="searchBar2" SearchCommand="{Binding SearchCommand}"
+            <view:HeaderView x:Name="searchBar2" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar2}}"/>
             <pages:AddView Margin="0,-7" Grid.Row="1"/>
 
@@ -71,7 +71,7 @@
                 Command="{Binding PageNotificationAppearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
-            <view:HeaderView x:Name="searchBar3" SearchCommand="{Binding SearchCommand}"
+            <view:HeaderView x:Name="searchBar3" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar3}}"/>
             <pages:NotificationView Margin="0,-7" Grid.Row="1"/>
 
@@ -88,7 +88,7 @@
                 Command="{Binding PageAccountAppearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
-            <view:HeaderView x:Name="searchBar4" SearchCommand="{Binding SearchCommand}"
+            <view:HeaderView x:Name="searchBar4" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar4}}"/>
             <pages:AccountView Margin="0,-7" Grid.Row="1"/>
 
