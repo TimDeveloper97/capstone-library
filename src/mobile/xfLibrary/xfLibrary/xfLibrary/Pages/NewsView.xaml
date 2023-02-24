@@ -20,14 +20,10 @@
     <ContentView.BindingContext>
         <vm:NewsViewModel />
     </ContentView.BindingContext>
-    <ContentView.Behaviors>
-        <xct:EventToCommandBehavior
-                EventName="Appearing"
-                Command="{Binding PageAppearingCommand}" />
-    </ContentView.Behaviors>
+
     <ContentView.Content>
         <StackLayout>
-            <Label Text="Hello Xamarin.Forms!222" />
+            <Label Text="{Binding Text}" />
         </StackLayout>
     </ContentView.Content>
 </ContentView>

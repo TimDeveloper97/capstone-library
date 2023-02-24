@@ -5,14 +5,24 @@
              Shell.TabBarIsVisible="False"
              xmlns:pages="clr-namespace:xfLibrary.Pages"
              xmlns:view="clr-namespace:xfLibrary.Views"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              FixedMode="False"
              x:Class="xfLibrary.Pages.BottomPage">
-
+    <xf:BottomBarPage.BindingContext>
+        <vm:BottomViewModel />
+    </xf:BottomBarPage.BindingContext>
+    
     <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#FF7B54">
+        <ContentPage.Behaviors>
+            <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageHomeAppearingCommand}" />
+        </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar" SearchCommand="{Binding SearchCommand}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
-            <pages:View1 Margin="0,-7" Grid.Row="1"/>
+            <pages:HomeView Margin="0,-7" Grid.Row="1"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
                                            IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
@@ -21,6 +31,11 @@
     </ContentPage>
 
     <ContentPage Title="Quản lý tin" Icon="ic_news.png" xf:BottomBarPageExtensions.TabColor="#939B62">
+        <ContentPage.Behaviors>
+            <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageNewsAppearingCommand}" />
+        </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar1" SearchCommand="{Binding SearchCommand}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar1}}"/>
@@ -33,10 +48,15 @@
     </ContentPage>
 
     <ContentPage Title="Đăng tin" Icon="ic_plus.png" xf:BottomBarPageExtensions.TabColor="#411530">
+        <ContentPage.Behaviors>
+            <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageAddAppearingCommand}" />
+        </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar2" SearchCommand="{Binding SearchCommand}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar2}}"/>
-            <pages:View1 Margin="0,-7" Grid.Row="1"/>
+            <pages:AddView Margin="0,-7" Grid.Row="1"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
                                            IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
@@ -45,10 +65,15 @@
     </ContentPage>
 
     <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#73777B">
+        <ContentPage.Behaviors>
+            <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageNotificationAppearingCommand}" />
+        </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar3" SearchCommand="{Binding SearchCommand}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar3}}"/>
-            <pages:View1 Margin="0,-7" Grid.Row="1"/>
+            <pages:NotificationView Margin="0,-7" Grid.Row="1"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
                                            IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
@@ -57,10 +82,15 @@
     </ContentPage>
 
     <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#E0D8B0">
+        <ContentPage.Behaviors>
+            <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageAccountAppearingCommand}" />
+        </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar4" SearchCommand="{Binding SearchCommand}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar4}}"/>
-            <pages:View1 Margin="0,-7" Grid.Row="1"/>
+            <pages:AccountView Margin="0,-7" Grid.Row="1"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
                                            IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"

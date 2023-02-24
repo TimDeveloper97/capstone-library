@@ -11,7 +11,7 @@
     <!--#endregion-->
 
     <!--#region Color -->
-    <Color x:Key="AppColor">#ffcc00</Color>
+    <Color x:Key="AppColor">#ffba00</Color>
     <Color x:Key="AppColor1">#ffcc00</Color>
     
     <Color x:Key="Red">#ff424e</Color>

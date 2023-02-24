@@ -31,7 +31,6 @@ namespace xfLibrary
 
         void InitRoute()
         {
-            Routing.RegisterRoute(nameof(NewsView), typeof(NewsView));
             //Routing.RegisterRoute(nameof(NewFormPopup), typeof(NewFormPopup));
             //Routing.RegisterRoute(nameof(UserPopup), typeof(UserPopup));
             //Routing.RegisterRoute(nameof(ListUserPopup), typeof(ListUserPopup));

@@ -13,73 +13,36 @@ namespace xfLibrary.ViewModels
     {
         #region Property
         private ObservableCollection<string> suggests, recentUpdates;
-        private string widthCard, currentItem;
-        private bool isSearching;
+        private string currentItem;
 
         public ObservableCollection<string> Suggests { get => suggests; set => SetProperty(ref suggests, value); }
         public ObservableCollection<string> RecentUpdates { get => recentUpdates; set => SetProperty(ref recentUpdates, value); }
-        public string WidthCard { get => widthCard; set => SetProperty(ref widthCard, value); }
-        public bool IsSearching { get => isSearching; set => SetProperty(ref isSearching, value); }
         public string CurrentItem { get => currentItem; set => SetProperty(ref currentItem, value); }
 
         #endregion
 
         #region Command 
-        public ICommand PageAppearingCommand => new Command(() =>
-        {
-            Init();
-        });
 
-        public ICommand SearchCommand => new Command<string>((text) =>
-        {
-            var x = text;
-            Suggests.RemoveAt(0);
-        });
-
-        public ICommand SelectedRecentItemCommand => new Command<string>((text) =>
-        {
-            var x = text;
-
-            
-        });
-
-        public ICommand TextChangedCommand => new Command<string>((text) =>
-        {
-            if (string.IsNullOrEmpty(text)) IsSearching = false;
-            else IsSearching = true;
-            var y = IsSearching;
-        });
-
-        public ICommand TestCommand => new Command(() =>
-        {
-            //var x = text;
-        });
 
         public ICommand LoadNewFeedCommand => new Command(() =>
         {
             IsBusy = true;
             IsBusy = false;
         });
-        public ICommand MenuCommand => new Command(() => Shell.Current.FlyoutIsPresented = true);
         #endregion
 
         public HomeViewModel()
         {
+            Init();
         }
 
         #region Method
         void Init()
         {
-            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png", 
-                "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png" };
+            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png"};
             RecentUpdates = new ObservableCollection<string>();
             IsBusy = true;
             CurrentItem = Suggests.Skip(1).FirstOrDefault();
-        }
-
-        void ExecuteLoadDeviceCommand()
-        {
-
         }
         #endregion
     }

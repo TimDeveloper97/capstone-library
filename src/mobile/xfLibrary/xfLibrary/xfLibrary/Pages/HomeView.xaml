@@ -19,11 +19,7 @@
     <ContentView.BindingContext>
         <vm:HomeViewModel />
     </ContentView.BindingContext>
-    <ContentView.Behaviors>
-        <xct:EventToCommandBehavior
-                EventName="Appearing"
-                Command="{Binding PageAppearingCommand}" />
-    </ContentView.Behaviors>
+
     <ContentView.Content>
         <StackLayout>
             <ScrollView>
