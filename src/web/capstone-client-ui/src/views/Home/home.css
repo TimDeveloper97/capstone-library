@@ -22,3 +22,18 @@
     display: inline-block;
     margin: 10px 30px;
 }
+.key-word-item{
+    text-align: left;
+    color: #777777;
+}
+
+.key-word-item a{
+    text-decoration: none;
+    color: #777777;
+}
+
+.key-word-title{
+    color: #9B9B9B;
+    font-weight: bolder;
+    text-align: left;
+}

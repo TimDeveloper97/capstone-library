@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import "./home.css";
 import Header from "../../components/header/Header";
 import Slider from "../../components/slider/Slider";
@@ -28,6 +28,22 @@ export default function Home() {
         </div>
       </Container>
       <ListBookItem title={"Tin đăng mới"} />
+      <Container className="self-header">
+        <p className="key-word-title">Các từ khóa phổ biến</p>
+        <ul className="key-words">
+          <Row>
+            {[...Array(15)].map((item, index) => {
+              return (
+                <Col md={3} key={index}>
+                  <li className="key-word-item ">
+                    <a href="#">Sách kỹ năng</a>
+                  </li>
+                </Col>
+              );
+            })}
+          </Row>
+        </ul>
+      </Container>
       <Footer />
     </>
   );
