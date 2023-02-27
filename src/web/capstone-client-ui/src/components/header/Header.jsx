@@ -38,7 +38,7 @@ export default function Header() {
                   style={{ maxHeight: "100px" }}
                   navbarScroll
                 >
-                  <Nav.Link className="header-item" href="#action2">
+                  <Nav.Link className="header-item" href="#action1">
                     <HouseDoor size={iconSize} />
                     Trang chủ
                   </Nav.Link>
@@ -46,19 +46,19 @@ export default function Header() {
                     <FilePerson size={iconSize} />
                     Quản lí tin
                   </Nav.Link>
-                  <Nav.Link className="header-item" href="#action2">
+                  <Nav.Link className="header-item" href="#action3">
                     <BagCheckFill size={iconSize} />
                     Đơn hàng
                   </Nav.Link>
-                  <Nav.Link className="header-item" href="#action2">
+                  <Nav.Link className="header-item" href="#action4">
                     <ChatLeftText size={iconSize} />
                     Chat
                   </Nav.Link>
-                  <Nav.Link className="header-item" href="#action2">
+                  <Nav.Link className="header-item" href="#action5">
                     <BellFill size={iconSize} />
                     Thông báo
                   </Nav.Link>
-                  <Nav.Link className="header-item" href="#action2">
+                  <Nav.Link className="header-item" href="#action6">
                     <PersonCircle size={iconSize} />
                     Tài khoản
                     <CaretDownFill />

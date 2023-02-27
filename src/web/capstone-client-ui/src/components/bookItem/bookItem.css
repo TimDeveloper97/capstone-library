@@ -7,6 +7,33 @@
 }
 .book-item{
     position: relative;
-    width: 100px;
-    background-color: red;
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+}
+.book-item:hover{
+    box-shadow: 1px 1px 1px 2px #AAA;
+}
+.book-img-wrapper{
+    width: 170px;
+    height: 220px;
+    margin: 0 auto;
+}
+.book-title{
+    margin: 10px 0 0 0;
+}
+.rating{
+    font-size: 0.8rem;
+    color: #808089;
+}
+.book-price{
+    color: #FF424E;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    margin: 5px 0 10px 0;
+}
+.sub-title{
+    color: #9B9B9B;
+    font-size: 10px;
 }

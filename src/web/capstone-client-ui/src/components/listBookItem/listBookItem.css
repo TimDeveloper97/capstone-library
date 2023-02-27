@@ -1,0 +1,5 @@
+.list-categories{
+    display: flex;
+    flex-wrap: wrap;
+    
+}
