@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              
              Shell.NavBarIsVisible="False"
-             Shell.TabBarIsVisible="False"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
@@ -22,8 +21,33 @@
     </ContentView.BindingContext>
 
     <ContentView.Content>
-        <StackLayout>
-            <Label Text="Hello Xamarin.Forms!" />
-        </StackLayout>
+        <Grid HorizontalOptions="FillAndExpand">
+            <RefreshView Command="{Binding ReloadNotificationCommand}" IsRefreshing="{Binding IsBusy}">
+                <CollectionView ItemsSource="{Binding Notifications}" HeightRequest="70" SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame CornerRadius="0">
+                                <Grid ColumnDefinitions="90, *" Margin="0,1">
+                                    <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
+                                        <Image Source="account.png"/>
+                                    </Frame>
+                                    <Grid Grid.Column="1" RowDefinitions="7*, 3*">
+                                        <Label Text="70 Điểm Tốt của bạn sẽ hết hạn trong 0 ngày nữa. Săn điểm để gia hạn ngay"
+                                               Style="{StaticResource TitleLabelStyle}" VerticalOptions="End"
+                                               MaxLines="2" LineBreakMode="WordWrap" HorizontalTextAlignment="Start"/>
+
+                                        <Label Text="28 ngày trước" Style="{StaticResource MiniLabelStyle}"
+                                           Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start"/>
+                                    </Grid>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
     </ContentView.Content>
 </ContentView>

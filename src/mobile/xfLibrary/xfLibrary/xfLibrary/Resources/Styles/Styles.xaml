@@ -84,6 +84,7 @@
     <Style x:Key="GridBackground" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"/>
     </Style>
+
     <Style x:Key="GridColor" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
     </Style>

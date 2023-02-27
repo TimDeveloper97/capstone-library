@@ -36,25 +36,25 @@ namespace xfLibrary.Domain
                     var content = await response.Content.ReadAsStringAsync();
                     var jBaseModel = JsonConvert.DeserializeObject<BaseModel>(content);
 
-                    if (jBaseModel.Code != 0 || jBaseModel.Value == null)
-                    {
-                        DependencyService.Get<IMessage>().ShortAlert(jBaseModel.Message);
-                        if (jBaseModel.Code == 100)
-                            await Shell.Current.GoToAsync("//LoginPage");
-                    }
-                    else
-                    {
-                        var jvalue = JsonConvert.SerializeObject(jBaseModel.Value);
-                        var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(jvalue);
-                        var result = new List<R>();
-                        foreach (var kv in dict)
-                        {
-                            var r = JsonConvert.DeserializeObject<R>(kv.Value.ToString());
-                            result.Add(r);
-                        }
+                    //if (jBaseModel.Code != 0 || jBaseModel.Value == null)
+                    //{
+                    //    DependencyService.Get<IMessage>().ShortAlert(jBaseModel.Message);
+                    //    if (jBaseModel.Code == 100)
+                    //        await Shell.Current.GoToAsync("//LoginPage");
+                    //}
+                    //else
+                    //{
+                    //    var jvalue = JsonConvert.SerializeObject(jBaseModel.Value);
+                    //    var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(jvalue);
+                    //    var result = new List<R>();
+                    //    foreach (var kv in dict)
+                    //    {
+                    //        var r = JsonConvert.DeserializeObject<R>(kv.Value.ToString());
+                    //        result.Add(r);
+                    //    }
 
-                        return result;
-                    }
+                    //    return result;
+                    //}
 
                 }
             }
@@ -83,19 +83,19 @@ namespace xfLibrary.Domain
                     var content = await response.Content.ReadAsStringAsync();
                     var jBaseModel = JsonConvert.DeserializeObject<BaseModel>(content);
 
-                    if (jBaseModel.Code != 0 || jBaseModel.Value == null)
-                    {
-                        DependencyService.Get<IMessage>().ShortAlert(jBaseModel.Message);
+                    //if (jBaseModel.Code != 0 || jBaseModel.Value == null)
+                    //{
+                    //    DependencyService.Get<IMessage>().ShortAlert(jBaseModel.Message);
 
-                        if (jBaseModel.Code == 100)
-                            await Shell.Current.GoToAsync("//LoginPage");
-                    }
-                    else
-                    {
-                        var jvalue = JsonConvert.SerializeObject(jBaseModel.Value);
-                        var jObj = JsonConvert.DeserializeObject<R>(jvalue);
-                        return jObj;
-                    }
+                    //    if (jBaseModel.Code == 100)
+                    //        await Shell.Current.GoToAsync("//LoginPage");
+                    //}
+                    //else
+                    //{
+                    //    var jvalue = JsonConvert.SerializeObject(jBaseModel.Value);
+                    //    var jObj = JsonConvert.DeserializeObject<R>(jvalue);
+                    //    return jObj;
+                    //}
                 }
             }
             catch (Exception ex)
@@ -123,14 +123,14 @@ namespace xfLibrary.Domain
                     var content = await response.Content.ReadAsStringAsync();
                     var jBaseModel = JsonConvert.DeserializeObject<BaseModel>(content);
 
-                    if (jBaseModel.Code != 0 || jBaseModel.Value == null)
-                    {
-                        DependencyService.Get<IMessage>().ShortAlert(jBaseModel.Message);
-                        if (jBaseModel.Code == 100)
-                            await Shell.Current.GoToAsync("//LoginPage");
+                    //if (jBaseModel.Code != 0 || jBaseModel.Value == null)
+                    //{
+                    //    DependencyService.Get<IMessage>().ShortAlert(jBaseModel.Message);
+                    //    if (jBaseModel.Code == 100)
+                    //        await Shell.Current.GoToAsync("//LoginPage");
 
-                        return false;
-                    }
+                    //    return false;
+                    //}
 
                     return true;
                 }

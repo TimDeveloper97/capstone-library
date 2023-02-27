@@ -1,0 +1,12 @@
+Share:
+- Postman
+
+Mobile: (C#)
+- Visual studio 2019 installer (or higher) => Setup Xamarin
+Server: (Java)
+- IntelliJ IDEA 
+- jdk-17
+- MySql
+Web: (javascript)
+- Visual studio code
+- Npm
