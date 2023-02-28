@@ -1,4 +1,5 @@
 ﻿using BottomBar.XamarinForms;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace xfLibrary.Pages
@@ -9,6 +10,7 @@ namespace xfLibrary.Pages
         public BottomPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }

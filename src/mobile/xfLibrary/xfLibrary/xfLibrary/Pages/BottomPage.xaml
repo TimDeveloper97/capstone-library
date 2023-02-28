@@ -7,12 +7,13 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             Shell.NavBarIsVisible="False"
              FixedMode="False"
              x:Class="xfLibrary.Pages.BottomPage">
     <xf:BottomBarPage.BindingContext>
         <vm:BottomViewModel />
     </xf:BottomBarPage.BindingContext>
-    
+
     <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#FF7B54">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior

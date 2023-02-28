@@ -15,6 +15,7 @@ namespace xfLibrary.Pages
         public HomeView()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }

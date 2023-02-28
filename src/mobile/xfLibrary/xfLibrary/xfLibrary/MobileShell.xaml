@@ -4,14 +4,14 @@
              
              Shell.FlyoutBehavior="Disabled"
              Shell.NavBarIsVisible="False"
-             FlyoutIsPresented="False"
              Shell.TabBarIsVisible="False"
+             FlyoutIsPresented="False"
              Shell.TabBarBackgroundColor="{StaticResource AppColor}"
              Shell.BackgroundColor="{StaticResource AppColor}"
              xmlns:page="clr-namespace:xfLibrary.Pages"
              xmlns:view="clr-namespace:xfLibrary.Views"
              FlyoutHeaderBehavior="CollapseOnScroll"
-             
+             NavigationPage.HasNavigationBar="false"
              x:Class="xfLibrary.MobileShell">
 
     <ShellItem Route="BottomPage">

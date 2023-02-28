@@ -34,35 +34,8 @@ namespace xfLibrary.ViewModels
 
         public DetailViewModel()
         {
-            ExecuteLoadMessagingCenter();
             User = MessageService.Instance.GetUsers().FirstOrDefault();
             Messages = new ObservableCollection<Message>(MessageService.Instance.GetMessages(User));
         }
-
-        void ExecuteLoadMessagingCenter()
-        {
-            //MessagingCenter.Subscribe<object, object>(this, "parameter",
-            //      (sender, arg) =>
-            //      {
-                      
-            //      });
-        }
-
-        //public ICommand BackCommand => new Command(OnBack);
-
-        //public override Task InitializeAsync(object navigationData)
-        //{
-        //    if (navigationData is Message message)
-        //    {
-        //        
-        //    }
-
-        //    return base.InitializeAsync(navigationData);
-        //}
-
-        //async void OnBack()
-        //{
-        //    await NavigationService.Instance.NavigateBackAsync();
-        //}
     }
 }

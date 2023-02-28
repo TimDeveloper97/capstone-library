@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="xfLibrary.Pages.DetailView"   
     xmlns:controls="clr-namespace:xfLibrary.Controls"
+    xmlns:icon="clr-namespace:xfLibrary.Resources"
     xmlns:templates="clr-namespace:xfLibrary.Views.Templates"
     xmlns:viewmodel="clr-namespace:xfLibrary.ViewModels">
     <ContentPage.Resources>
@@ -98,108 +99,30 @@
         <viewmodel:DetailViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <ScrollView
-            BackgroundColor="{StaticResource Primary}">
-            <Grid
-                RowDefinitions="Auto, *">
-                <Grid 
-                    Grid.Row="0"
-                    RowDefinitions="Auto, *">
-                    <Grid 
-                        ColumnDefinitions="Auto, *"
-                        Style="{StaticResource NavigationButtonContainerStyle}">
-                        <Label
-                            Text="Back"
-                            Style="{StaticResource NavigationButtonStyle}">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                    Command="{Binding BackCommand}" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <Label
-                            Grid.Column="1"
-                            Text="Search"
-                            HorizontalOptions="End"
-                            Style="{StaticResource NavigationButtonStyle}"/>
-                    </Grid>
-                    <Grid         
-                        Grid.Row="1"
-                        ColumnDefinitions="*, Auto">
-                        <Label  
-                            Text="{Binding User.Name}" 
-                            Style="{StaticResource UsernameTextStyle}"/>
-                        <StackLayout 
-                            Grid.Column="1" 
-                            Style="{StaticResource ButtonsContainerStyle}">
-                            <Grid>
-                                <BoxView
-                                    Color="{StaticResource CircularButtonEllipseColor}"
-                                    Style="{StaticResource CircularButtonEllipseStyle}" />
-                                <Image    
-                                    Margin="8">
-                                    <Image.Source>
-                                        <FontImageSource   
-                                            FontFamily="Material Icons"
-                                            Glyph="&#xe0b0;"
-                                            Color="White"
-                                            Size="12" />
-                                    </Image.Source>
-                                </Image>
-                            </Grid>
-                            <Grid>
-                                <BoxView
-                                    Color="{StaticResource CircularButtonEllipseColor}"
-                                    Style="{StaticResource CircularButtonEllipseStyle}" />
-                                <Image       
-                                    Margin="8">
-                                    <Image.Source>
-                                        <FontImageSource   
-                                            FontFamily="Material Icons"
-                                            Glyph="&#xe04b;"
-                                            Color="White"
-                                            Size="12" />
-                                    </Image.Source>
-                                </Image>
-                            </Grid>
-                        </StackLayout>
-                    </Grid>
+        <ScrollView>
+            <Grid RowDefinitions="auto, *" BackgroundColor="Red">
+                <Grid Grid.Row="0" RowDefinitions="Auto, *" BackgroundColor="{StaticResource AppColor}">
+                    <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" Style="{StaticResource FrameNoBorder}"
+                           HorizontalOptions="Start" VerticalOptions="Center">
+                        <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
+                           VerticalOptions="Center" HorizontalOptions="Center"/>
+                    </Frame>
+                    <Label Grid.Row="1" Text="{Binding User.Name}" Style="{StaticResource TitleLabelStyle}"
+                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="10,10"/>
                 </Grid>
-                <Grid
-                    Grid.Row="1">
-                    <BoxView
-                        Style="{StaticResource ChatAdornerStyle}"/>
-                    <Grid
-                        RowDefinitions="*, Auto">
+                <Grid Grid.Row="1">
+                    <BoxView Style="{StaticResource ChatAdornerStyle}"/>
+                    <Grid RowDefinitions="*, Auto">
                         <Grid>
                             <CollectionView 
                                 ItemsSource="{Binding Messages}"
                                 ItemTemplate="{StaticResource MessageDataTemplateSelector}"
                                 Style="{StaticResource ChatCollectionStyle}" />
                         </Grid>
-                        <Frame
-                            Grid.Row="1"
-                            Style="{StaticResource ChatEntryContainerStyle}">
-                            <Grid
-                                ColumnDefinitions="*, Auto">
-                                <controls:BorderlessEntry
-                                    Placeholder="Type your message..."
-                                    Style="{StaticResource ChatEntryStyle}"/>
-                                <Grid
-                                    Grid.Column="1">
-                                    <Ellipse
-                                        Fill="{StaticResource PrimaryBrush}"
-                                        Style="{StaticResource SearchButtonEllipseStyle}"/>
-                                    <Image
-                                        Margin="6">
-                                        <Image.Source>
-                                            <FontImageSource   
-                                                FontFamily="Material Icons"
-                                                Glyph="&#xe163;"
-                                                Color="White"
-                                                Size="12" /> 
-                                        </Image.Source>
-                                    </Image>
-                                </Grid>
+                        <Frame Grid.Row="1" Style="{StaticResource ChatEntryContainerStyle}">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <controls:BorderlessEntry Placeholder="Viết tin nhắn..." Style="{StaticResource ChatEntryStyle}"/>
+                                <templates:SuggestedItemTemplate Color="{StaticResource Blue}" Image="ic_send.png"/>
                             </Grid>
                         </Frame>
                     </Grid>

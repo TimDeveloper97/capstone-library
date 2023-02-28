@@ -25,11 +25,14 @@ namespace xfLibrary.Domain
             set { SetProperty(ref title, value); }
         }
 
+        public virtual Task InitializeAsync(object navigationData)
+        {
+            return Task.FromResult(false);
+        }
+
         #region Extend
 
-        //protected IMainService Service = DependencyService.Get<IMainService>();
         protected IMessage Message = DependencyService.Get<IMessage>();
-        //protected ISms Sms = DependencyService.Get<ISms>();
         protected static string Token { get; set; }
 
         protected async Task TimeoutSession(string message)

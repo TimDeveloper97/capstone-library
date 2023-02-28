@@ -2,6 +2,7 @@
 <ContentView 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="self"
     x:Class="xfLibrary.Views.Templates.SuggestedItemTemplate">
     <ContentView.Resources>
         <ResourceDictionary>
@@ -29,9 +30,9 @@
                 CornerRadius="40"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                Color="{Binding Color}"/>
+                Color="{Binding Color, Source={x:Reference self}}"/>
             <Image
-                Source="{Binding Image}"
+                Source="{Binding Image, Source={x:Reference self}}"
                 Style="{StaticResource SuggestedImageStyle}"/>
       </Grid>
   </ContentView.Content>

@@ -34,6 +34,7 @@ namespace xfLibrary
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(ChatView), typeof(ChatView));
             Routing.RegisterRoute(nameof(DetailView), typeof(DetailView));
+            Routing.RegisterRoute(nameof(DetailView), typeof(DetailView));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
