@@ -1,11 +1,11 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./views/Home/Home";
+import Route from "./route";
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      <Route />
     </div>
   );
 }

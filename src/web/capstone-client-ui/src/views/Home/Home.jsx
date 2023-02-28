@@ -1,17 +1,12 @@
-import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import "./home.css";
-import Header from "../../components/header/Header";
 import Slider from "../../components/slider/Slider";
 import img_1 from "../../assets/img/skill-book.jpg";
 import ListBookItem from "../../components/listBookItem/ListBookItem";
-import Footer from "../../components/footer/Footer";
-
+import { Col, Container, Row } from "react-bootstrap";
+import React from "react";
 export default function Home() {
   return (
     <>
-      <Header />
-      <Slider />
+    <Slider />
       <Container className="self-header wrapper ta-l">
         <p className="categories-title">Khám phá danh mục</p>
         <div className="list-categories">
@@ -43,8 +38,6 @@ export default function Home() {
             })}
           </Row>
         </ul>
-      </Container>
-      <Footer />
-    </>
+      </Container></>
   );
 }
