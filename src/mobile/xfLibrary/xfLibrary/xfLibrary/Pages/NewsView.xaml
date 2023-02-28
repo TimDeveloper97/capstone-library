@@ -22,8 +22,94 @@
     </ContentView.BindingContext>
 
     <ContentView.Content>
-        <StackLayout>
-            <Label Text="{Binding Text}" />
-        </StackLayout>
+        <Grid HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">
+            <RefreshView Command="{Binding ReloadNewsCommand}" IsRefreshing="{Binding IsBusy}">
+                <CollectionView ItemsSource="{Binding News}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems SwipeBehaviorOnInvoked="Auto">
+                                            <SwipeItem Text="Delete" BackgroundColor="{StaticResource Gray600}"/>
+                                            <SwipeItem Text="Sold out" BackgroundColor="{StaticResource Gray600}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <!-- Content -->
+
+                                    <Grid RowDefinitions="80, auto, *" RowSpacing="0" >
+                                        <!--#region User -->
+                                        <Grid ColumnDefinitions="auto, *">
+                                            <Grid ColumnDefinitions="60, *" Margin="0,5">
+                                                <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
+                                                    <Image Source="account.png"/>
+                                                </Frame>
+                                                <Grid Grid.Column="1" RowDefinitions="7*, 3*">
+                                                    <Label Text="Nguyễn Văn A" Style="{StaticResource TitleLabelStyle}" 
+                                                           VerticalOptions="End" HorizontalTextAlignment="Start"/>
+
+                                                    <Label Text="28 ngày trước" Style="{StaticResource MiniLabelStyle}"
+                                                           Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start"/>
+                                                </Grid>
+                                            </Grid>
+
+                                            <!--#region Tools -->
+                                            <StackLayout Grid.Column="1" Orientation="Horizontal" Margin="0,0,20,0" VerticalOptions="Center" HorizontalOptions="End">
+                                                <Frame BackgroundColor="{StaticResource Blue}"
+                                                   CornerRadius="30" HeightRequest="35" WidthRequest="35"
+                                                   Style="{StaticResource FrameNoBorder}">
+                                                    <Label Style="{StaticResource IconLabel}" FontSize="23"
+                                                       Text="{Static icon:FontIcons.MessageText}" TextColor="White"
+                                                       VerticalOptions="Center" HorizontalOptions="Center"/>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.MessagerCommand, Source={x:Reference Name=self}}"/>
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
+
+                                                <Frame BackgroundColor="{StaticResource Green}" IsVisible="true"
+                                                   CornerRadius="30" HeightRequest="35" WidthRequest="35"
+                                                   Style="{StaticResource FrameNoBorder}">
+                                                    <Label Style="{StaticResource IconLabel}" FontSize="23"
+                                                       Text="{Static icon:FontIcons.CheckBold}" TextColor="White"
+                                                       VerticalOptions="Center" HorizontalOptions="Center"/>
+                                                </Frame>
+                                            </StackLayout>
+                                            <!--#endregion-->
+                                        </Grid>
+                                        <!--#endregion-->
+
+                                        <!--#region Content -->
+                                        <Label Grid.Row="1" Padding="10,0,15,10" Text="{Binding Text}" MaxLines="{Binding MaxLines}">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.ExtendTextCommand, Source={x:Reference Name=self}}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+
+                                        <cards:CarouselView Grid.Row="2" ItemsSource="{Binding Slide}" SlideShowDuration="3500">
+                                            <cards:CarouselView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ContentView>
+                                                        <Frame Style="{StaticResource FrameShadow}" HeightRequest="150">
+                                                            <Image Source="{Binding}" Aspect="Fill"/>
+                                                        </Frame>
+                                                    </ContentView>
+                                                </DataTemplate>
+                                            </cards:CarouselView.ItemTemplate>
+
+                                            <controls:IndicatorsControl/>
+                                        </cards:CarouselView>
+                                        <!--#endregion-->
+                                    </Grid>
+                                </SwipeView>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
     </ContentView.Content>
 </ContentView>

@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class View1 : ContentView
+    public partial class ChatView : ContentPage
     {
-        public View1()
+        public ChatView()
         {
             InitializeComponent();
         }

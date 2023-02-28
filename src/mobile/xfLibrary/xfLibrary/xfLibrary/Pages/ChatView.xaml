@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="xfLibrary.Pages.ChatView"
+             x:Name="self"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             xmlns:templates="clr-namespace:xfLibrary.Views.Templates"
+             xmlns:viewmodel="clr-namespace:xfLibrary.ViewModels">
+    <ContentPage.BindingContext>
+        <viewmodel:ChatViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, *" Padding="20,10,0,10">
+            <Grid RowDefinitions="40, 60, *">
+                <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" Style="{StaticResource FrameNoBorder}"
+                       HorizontalOptions="Start" VerticalOptions="Center">
+                    <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
+                           VerticalOptions="Center" HorizontalOptions="Center"/>
+                </Frame>
+                <Label Grid.Row="1" Style="{StaticResource TitleLabelStyle}" VerticalOptions="Center" HorizontalOptions="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="CAPSTONE"
+                                  TextColor="{StaticResource AppColor}"/>
+                            <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text=" MESSAGE"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <CollectionView Grid.Row="2" ItemsSource="{Binding Users}" HeightRequest="60">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout
+                                    Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:SuggestedItemTemplate Color="{Binding Color}" Image="{Binding Image}"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <CollectionView Grid.Row="1" x:Name="cv" ItemsSource="{Binding RecentChat}"
+                        SelectionChangedCommand="{Binding DetailCommand}" Margin="0,0,10,0" SelectionMode="Single"
+                        SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference cv}}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <templates:RecentChatItemTemplate />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

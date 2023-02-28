@@ -8,6 +8,7 @@
     
     <!--#region Converter -->
     <converter:DatetimeConverter x:Key="StringToDateTime" />
+    <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
@@ -84,6 +85,7 @@
     <Style x:Key="GridBackground" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"/>
     </Style>
+
     <Style x:Key="GridColor" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"/>
     </Style>
@@ -134,6 +136,21 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="CollectionView">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Selected">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
