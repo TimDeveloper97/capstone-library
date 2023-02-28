@@ -9,7 +9,7 @@ using xfLibrary.Services;
 
 namespace xfLibrary.Domain
 {
-    class BaseViewModel : BaseBinding
+    public class BaseViewModel : BaseBinding
     {
         bool isBusy = false;
         public bool IsBusy

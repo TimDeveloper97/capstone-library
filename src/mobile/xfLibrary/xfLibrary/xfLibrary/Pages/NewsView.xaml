@@ -64,6 +64,9 @@
                                                     <Label Style="{StaticResource IconLabel}" FontSize="23"
                                                        Text="{Static icon:FontIcons.MessageText}" TextColor="White"
                                                        VerticalOptions="Center" HorizontalOptions="Center"/>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.MessagerCommand, Source={x:Reference Name=self}}"/>
+                                                    </Frame.GestureRecognizers>
                                                 </Frame>
 
                                                 <Frame BackgroundColor="{StaticResource Green}" IsVisible="true"

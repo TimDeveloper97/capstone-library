@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using xfLibrary.Domain;
+using xfLibrary.Pages;
 
 namespace xfLibrary.ViewModels
 {
@@ -28,6 +29,11 @@ namespace xfLibrary.ViewModels
             else
                 a.MaxLines = 3;
 
+        });
+
+        public ICommand MessagerCommand => new Command<A>(async (a) =>
+        {
+            await Shell.Current.GoToAsync(nameof(ChatView));
         });
 
         #endregion

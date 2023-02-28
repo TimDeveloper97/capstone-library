@@ -8,6 +8,7 @@
     
     <!--#region Converter -->
     <converter:DatetimeConverter x:Key="StringToDateTime" />
+    <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>

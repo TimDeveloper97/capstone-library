@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using xfLibrary.Domain;
-
-namespace xfLibrary.Models
+﻿namespace ChatApp.Models
 {
-    public class Message : BaseModel
+    public class Message
     {
-        public string Content { get; set; }
-        public string ConversationId { get; set; }
-        public bool ISent { get; set; }
-
-        public bool ISentPreviousMessage { get; set; }
-
-        public Message ReplyTo { get; set; }
-        public string SenderId { get; set; }
         public User Sender { get; set; }
+        public string Text { get; set; }
+        public string Time { get; set; }
     }
 }
