@@ -1,3 +1,9 @@
+@media only screen and (min-width: 1400px) {
+  .self-header {
+    max-width: 1000px;
+  }
+}
+
 .bg-header {
   background-color: #ffba00;
   width: 100%;
@@ -36,16 +42,61 @@
   margin-right: 10px;
 }
 
-.item-link{
+.item-link {
   text-decoration: none;
-  color: #18122B;
+  color: #18122b;
 }
-.item-link:hover{
+.item-link:hover {
   color: #635985;
 }
 
-@media only screen and (min-width: 1400px) {
-  .self-header {
-    max-width: 1000px;
-  }
+.account{
+  position: relative;
+  cursor: pointer;
+}
+.account:hover .detail-account{
+  display: block;
+}
+
+.detail-account {
+  width: 250px;
+  min-height: 400px;
+  background-color: #fff;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  z-index: 10;
+  box-shadow: 0 0 1px 1px #aaa;
+  text-align: left;
+  display: none;
+  cursor: default;
+}
+
+.default-user {
+  display: block;
+  background-image: url(../../assets/img/default_user.png);
+  background-size: 100% 100%;
+  border-radius: 50%;
+  height: 48px;
+  width: 48px;
+  float: left;
+  position: relative;
+  padding: 15px;
+  margin-right: 20px;
+}
+.login-out {
+  height: 80px;
+  padding: 15px;
+}
+
+.accout-title {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  padding-left: 15px;
+  color: #777777;
+}
+
+.detail-item {
+  padding-left: 15px;
+  font-weight: normal;
 }

@@ -22,6 +22,7 @@ import {
   PencilSquare,
 } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
+import DetailAccount from "./DetailAccount";
 export default function Header() {
   let iconSize = 26;
   return (
@@ -60,12 +61,11 @@ export default function Header() {
                     <BellFill size={iconSize} />
                     Thông báo
                   </div>
-                  <div className="header-item">
-                    <Link to={"/login"} className="item-link">
-                      <PersonCircle size={iconSize} />
-                      Tài khoản
-                      <CaretDownFill />
-                    </Link>
+                  <div className="header-item account">
+                    <PersonCircle size={iconSize} />
+                    Tài khoản
+                    <CaretDownFill />
+                    <DetailAccount isLogged={true} />
                   </div>
                 </Nav>
               </Navbar.Collapse>

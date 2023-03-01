@@ -3,6 +3,7 @@ import { useRoutes } from 'react-router-dom'
 import MainLayout from './layout/MainLayout'
 import Home from './views/Home/Home'
 import Login from './views/Login/Login'
+import Profile from './views/Profile/Profile'
 import Register from './views/Register/Register'
 
 export default function Route() {
@@ -20,8 +21,12 @@ export default function Route() {
                 element: <Home />
             },
             {
-                path: 'register',
+                path: '/register',
                 element: <Register />
+            },
+            {
+                path: '/profile',
+                element: <Profile />
             }
         ]
     }

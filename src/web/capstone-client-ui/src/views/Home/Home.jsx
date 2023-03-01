@@ -6,7 +6,7 @@ import React from "react";
 export default function Home() {
   return (
     <>
-    <Slider />
+      <Slider />
       <Container className="self-header wrapper ta-l">
         <p className="categories-title">Khám phá danh mục</p>
         <div className="list-categories">
@@ -38,6 +38,7 @@ export default function Home() {
             })}
           </Row>
         </ul>
-      </Container></>
+      </Container>
+    </>
   );
 }
