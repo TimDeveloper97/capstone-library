@@ -7,7 +7,7 @@
         <ResourceDictionary>
 
             <Style x:Key="MessageContainerStyle" TargetType="Grid">
-                <Setter Property="Margin" Value="8" />
+                <Setter Property="Margin" Value="5" />
             </Style>
             
             <Style x:Key="SenderContainerStyle" TargetType="Grid">
@@ -30,18 +30,19 @@
             <Color x:Key="MessageColor">#F7F7F8</Color>
 
             <Style x:Key="MessageShapeStyle" TargetType="BoxView">
-                <Setter Property="BackgroundColor" Value="{StaticResource MessageColor}" />
+                <Setter Property="Color" Value="{StaticResource Blue300Accent}" />
                 <Setter Property="CornerRadius" Value="24, 24, 0, 24" />
             </Style>
 
             <Style x:Key="MessageTextStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="12" />
-                <Setter Property="FontFamily" Value="Metropolis Regular" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="FontFamily" Value="PoppinsBoldItalic" />
                 <Setter Property="TextColor" Value="Black" />
+                <Setter Property="Padding" Value="20,12,12,12" />
             </Style>
 
             <Style x:Key="TimeTextStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="10" />
+                <Setter Property="FontSize" Value="12" />
                 <Setter Property="FontFamily" Value="Metropolis Regular" />
                 <Setter Property="TextColor" Value="Gray" />
                 <Setter Property="VerticalOptions" Value="Center" />
@@ -69,7 +70,6 @@
                     Style="{StaticResource MessageShapeStyle}" />
                 <Label 
                     Text="{Binding Text}"
-                    Padding="12"
                     Style="{StaticResource MessageTextStyle}"/>
             </Grid>
             <Label

@@ -14,7 +14,7 @@
         <vm:BottomViewModel />
     </xf:BottomBarPage.BindingContext>
 
-    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#FF7B54">
+    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#13005A">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -31,7 +31,7 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage Title="Quản lý tin" Icon="ic_news.png" xf:BottomBarPageExtensions.TabColor="#939B62">
+    <ContentPage Title="Quản lý tin" Icon="ic_news.png" xf:BottomBarPageExtensions.TabColor="#00337C">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -48,7 +48,7 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage Title="Đăng tin" Icon="ic_plus.png" xf:BottomBarPageExtensions.TabColor="#411530">
+    <!--<ContentPage Title="Đăng tin" Icon="ic_plus.png" xf:BottomBarPageExtensions.TabColor="#411530">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -63,9 +63,9 @@
                                            IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
                                            SelectedCommand="{Binding TestCommand}"/>
         </Grid>
-    </ContentPage>
+    </ContentPage>-->
 
-    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#6D67E4">
+    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#1C82AD">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -82,7 +82,7 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#73777B">
+    <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#03C988">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"

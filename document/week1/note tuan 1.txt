@@ -1,0 +1,20 @@
+Database
+- nhu trong ảnh và file
+
+Mobile
+- Base project MVVM
+- Home page
+- Account page
+- Login page
+Web
+- Home page
+
+Server
+- xong gần hết phần api admin 
+
+
+Yêu cầu khách hàng
+- mở rộng thêm map giống grap (map google)
+- mỗi người có 1 kho sách riêng và có thể cho thuê
+- A có thể B xong A confirm là cho phép B B đc cho thuê lại tương tự lặp lại
+- giao diện giống  https://nhattruyenmin.com/ chức nang thì gi?ng https://www.chotot.com/

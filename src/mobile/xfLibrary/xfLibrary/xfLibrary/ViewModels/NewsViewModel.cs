@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -36,6 +37,11 @@ namespace xfLibrary.ViewModels
             await Shell.Current.GoToAsync(nameof(ChatView));
         });
 
+        public ICommand AddNewsCommand => new Command(async () =>
+        {
+            await Shell.Current.GoToAsync(nameof(AddView));
+        });
+
         #endregion
 
         public NewsViewModel()
@@ -64,7 +70,7 @@ namespace xfLibrary.ViewModels
                     Text = "Một hôm Main gặp tai nạn > xuyên không về 1 thế giới Murim và thấy mình được sinh ra với hình hài một đứa bé đạo sĩ! " +
                 "Có một thời tôi ở cửu phái nhất môn, nhưng bây giờ thì ở Chung Nam phái, một môn phái đang dần trở nên yếu thế." +
                 "Tôi được đặt tên là 'Geon Chung', dùng những kiến thức của kiếp để ngộ ra đạo lý võ công và tiến bộ thần tốc.",
-                    Slide = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", }
+                    Slide = new ObservableCollection<string> (),
                 },
 
                 new A
@@ -76,18 +82,25 @@ namespace xfLibrary.ViewModels
                     Slide = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", }
                 },
             };
+
+            foreach (var item in News)
+            {
+                item.Height = item.Slide.Count == 0 ? 0 : 150;
+            }
             IsBusy = true;
+
         }
 
         public class A : BaseBinding
         {
             private string text;
-            private int maxLines;
+            private int maxLines, height;
             private ObservableCollection<string> slide;
 
             public string Text { get => text; set => SetProperty(ref text, value); }
             public ObservableCollection<string> Slide { get => slide; set => SetProperty(ref slide, value); }
             public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }
+            public int Height { get => height; set => SetProperty(ref height, value); }
 
         }
     }

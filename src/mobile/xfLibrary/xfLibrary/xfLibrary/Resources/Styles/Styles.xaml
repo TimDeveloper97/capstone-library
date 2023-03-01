@@ -9,6 +9,7 @@
     <!--#region Converter -->
     <converter:DatetimeConverter x:Key="StringToDateTime" />
     <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    <converter:HeightConverter x:Key="AutoHeightConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
@@ -638,10 +639,11 @@
         <Setter Property="Padding" Value="-4,0"/>
     </Style>
     <Style TargetType="mdc:MaterialPicker">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}"/>
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
         <Setter Property="Type" Value="Filled"/>
-        <Setter Property="Padding" Value="2,2"/>
+        <Setter Property="Padding" Value="2,-5"/>
+        <Setter Property="Margin" Value="0,-5"/>
         <Setter Property="PickerRowHeight" Value="0"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
         <Setter Property="FontSize" Value="{StaticResource MiniTitle}"/>

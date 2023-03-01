@@ -33,7 +33,7 @@ namespace xfLibrary
         {
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(ChatView), typeof(ChatView));
-            Routing.RegisterRoute(nameof(DetailView), typeof(DetailView));
+            Routing.RegisterRoute(nameof(AddView), typeof(AddView));
             Routing.RegisterRoute(nameof(DetailView), typeof(DetailView));
         }
 
