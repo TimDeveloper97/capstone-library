@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddView : ContentView
+    public partial class AddView : ContentPage
     {
         public AddView()
         {

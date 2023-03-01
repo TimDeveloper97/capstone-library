@@ -88,11 +88,12 @@
                                             </Label.GestureRecognizers>
                                         </Label>
 
-                                        <cards:CarouselView Grid.Row="2" ItemsSource="{Binding Slide}" SlideShowDuration="3500">
+                                        <cards:CarouselView Grid.Row="2" ItemsSource="{Binding Slide}" SlideShowDuration="3500"
+                                                            HeightRequest="{Binding Height}">
                                             <cards:CarouselView.ItemTemplate>
                                                 <DataTemplate>
                                                     <ContentView>
-                                                        <Frame Style="{StaticResource FrameShadow}" HeightRequest="150">
+                                                        <Frame Style="{StaticResource FrameShadow}">
                                                             <Image Source="{Binding}" Aspect="Fill"/>
                                                         </Frame>
                                                     </ContentView>
@@ -110,6 +111,9 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </RefreshView>
+
+            <mdc:MaterialFloatingButton VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus.png"
+                                        Command="{Binding AddNewsCommand}" CommandParameter="{Binding .}"/>
         </Grid>
     </ContentView.Content>
 </ContentView>
