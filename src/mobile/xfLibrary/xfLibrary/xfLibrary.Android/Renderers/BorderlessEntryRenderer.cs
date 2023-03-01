@@ -1,4 +1,6 @@
 ﻿using Android.Content;
+using Android.Graphics.Drawables;
+using Android.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using xfLibrary.Controls;
@@ -21,6 +23,10 @@ namespace xfLibrary.Droid.Renderers
             if (e.OldElement == null)
             {
                 Control.Background = null;
+                GradientDrawable gd = new GradientDrawable();
+                gd.SetColor(global::Android.Graphics.Color.Transparent);
+                Control.SetBackgroundDrawable(gd);
+                Control.SetRawInputType(InputTypes.TextFlagNoSuggestions);
             }
         }
     }
