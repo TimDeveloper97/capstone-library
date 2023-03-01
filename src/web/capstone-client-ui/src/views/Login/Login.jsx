@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import Footer from "../../components/footer/Footer";
-import Header from "../../components/header/Header";
+import { Link } from "react-router-dom";
+import Input from "../../components/Input/Input";
+import './login.css';
 
 export default function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const handleSubmit = () => {
+        console.log(username);
+    }
   return (
     <>
-      <Header />
-      <Form>
+      <Form className="body-content">
         <div className="login-form">
-          <p>Đăng nhập</p>
-          <Form.Control type="text" placeholder="Nhập SĐT của bạn" />
+          <h3>Đăng nhập</h3>
+          <Input type={"text"} placeHolder={"Nhập số điện thoại"} value={username} setValue={setUsername} />
           <Form.Control type="password" placeholder="Nhập mật khẩu của bạn" />
-          <Button variant="primary" type="submit">
+          <Button variant="primary" onClick={handleSubmit}>
             Đăng nhập
           </Button>
           <a href="#">Quên mật khẩu?</a>
-          <p>Chưa có tài khoản? <span><a href="#">Đăng ký ngay</a></span></p>
+          <p>Chưa có tài khoản? <span><Link to={'/register'}>Đăng ký ngay</Link></span></p>
         </div>
       </Form>
-      <Footer />
     </>
   );
 }

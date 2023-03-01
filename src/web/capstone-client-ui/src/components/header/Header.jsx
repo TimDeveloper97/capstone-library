@@ -7,7 +7,6 @@ import {
   InputGroup,
   Nav,
   Navbar,
-  NavDropdown,
   Row,
 } from "react-bootstrap";
 import "./header.css";
@@ -22,6 +21,7 @@ import {
   CaretDownFill,
   PencilSquare,
 } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 export default function Header() {
   let iconSize = 26;
   return (
@@ -38,31 +38,35 @@ export default function Header() {
                   style={{ maxHeight: "100px" }}
                   navbarScroll
                 >
-                  <Nav.Link className="header-item" href="#action1">
-                    <HouseDoor size={iconSize} />
-                    Trang chủ
-                  </Nav.Link>
-                  <Nav.Link className="header-item" href="#action2">
+                  <div className="header-item">
+                    <Link to={"/"} className="item-link">
+                      <HouseDoor size={iconSize} />
+                      Trang chủ
+                    </Link>
+                  </div>
+                  <div className="header-item" href="#action2">
                     <FilePerson size={iconSize} />
                     Quản lí tin
-                  </Nav.Link>
-                  <Nav.Link className="header-item" href="#action3">
+                  </div>
+                  <div className="header-item" href="#action3">
                     <BagCheckFill size={iconSize} />
                     Đơn hàng
-                  </Nav.Link>
-                  <Nav.Link className="header-item" href="#action4">
+                  </div>
+                  <div className="header-item" href="#action4">
                     <ChatLeftText size={iconSize} />
                     Chat
-                  </Nav.Link>
-                  <Nav.Link className="header-item" href="#action5">
+                  </div>
+                  <div className="header-item" href="#action5">
                     <BellFill size={iconSize} />
                     Thông báo
-                  </Nav.Link>
-                  <Nav.Link className="header-item" href="#action6">
-                    <PersonCircle size={iconSize} />
-                    Tài khoản
-                    <CaretDownFill />
-                  </Nav.Link>
+                  </div>
+                  <div className="header-item">
+                    <Link to={"/login"} className="item-link">
+                      <PersonCircle size={iconSize} />
+                      Tài khoản
+                      <CaretDownFill />
+                    </Link>
+                  </div>
                 </Nav>
               </Navbar.Collapse>
             </Container>
