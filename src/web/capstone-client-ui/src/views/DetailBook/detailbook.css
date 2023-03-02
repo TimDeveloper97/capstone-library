@@ -1,0 +1,13 @@
+.carousel-control-prev, .carousel-control-next{
+    display: flex;
+    justify-content: center;
+}
+
+.detail-carousel{
+    height: 400px;
+}
+
+.book-img{
+    height: 400px;
+    width: 100%;
+}
