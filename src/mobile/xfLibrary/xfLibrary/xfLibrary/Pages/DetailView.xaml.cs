@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using xfLibrary.ViewModels;
 
 namespace xfLibrary.Pages
 {
@@ -8,7 +9,7 @@ namespace xfLibrary.Pages
         {
             InitializeComponent();
 
-            NavigationPage.SetHasNavigationBar(this, false);
+            BindingContext = new DetailViewModel();
         }
     }
 }

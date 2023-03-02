@@ -13,13 +13,9 @@
              xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
-             xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.AddView">
-    <ContentPage.BindingContext>
-        <vm:AddViewModel />
-    </ContentPage.BindingContext>
     <ContentPage.Resources>
         <Style x:Key="SenderContainerStyle" TargetType="Grid">
             <Setter Property="HeightRequest" Value="60" />

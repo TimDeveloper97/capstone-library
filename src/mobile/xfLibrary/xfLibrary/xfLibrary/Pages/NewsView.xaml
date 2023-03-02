@@ -17,9 +17,6 @@
              x:Name="self"
              
              x:Class="xfLibrary.Pages.NewsView">
-    <ContentView.BindingContext>
-        <vm:NewsViewModel />
-    </ContentView.BindingContext>
 
     <ContentView.Content>
         <Grid HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">

@@ -17,9 +17,6 @@
              x:Name="self"
              
              x:Class="xfLibrary.Pages.AccountView">
-    <ContentView.BindingContext>
-        <vm:AccountViewModel />
-    </ContentView.BindingContext>
 
     <ContentView.Content>
         <ScrollView>

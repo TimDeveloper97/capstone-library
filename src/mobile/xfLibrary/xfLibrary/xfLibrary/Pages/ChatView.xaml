@@ -6,9 +6,7 @@
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              xmlns:templates="clr-namespace:xfLibrary.Views.Templates"
              xmlns:viewmodel="clr-namespace:xfLibrary.ViewModels">
-    <ContentPage.BindingContext>
-        <viewmodel:ChatViewModel />
-    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         <Grid RowDefinitions="auto, *" Padding="20,10,0,10">
             <Grid RowDefinitions="40, 60, *">

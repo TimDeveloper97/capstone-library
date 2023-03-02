@@ -105,9 +105,7 @@
             
         </ResourceDictionary>
     </ContentPage.Resources>
-    <ContentPage.BindingContext>
-        <viewmodel:DetailViewModel />
-    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         <ScrollView>
             <Grid RowDefinitions="auto, *" BackgroundColor="{StaticResource AppColor}">
