@@ -21,7 +21,7 @@ namespace xfLibrary
             InitRoute();
         }
 
-        async void InitDependencyService()
+        void InitDependencyService()
         {
             //await CheckAndRequestPermission();
             //DependencyService.Register<Services.Temp.SomeService>();
@@ -35,6 +35,7 @@ namespace xfLibrary
             Routing.RegisterRoute(nameof(ChatView), typeof(ChatView));
             Routing.RegisterRoute(nameof(AddView), typeof(AddView));
             Routing.RegisterRoute(nameof(DetailView), typeof(DetailView));
+            Routing.RegisterRoute(nameof(RegisterView), typeof(RegisterView));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

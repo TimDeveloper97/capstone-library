@@ -22,7 +22,7 @@
         <ScrollView>
             <StackLayout>
                 <!--#region SignIn/SignUp -->
-                <Grid ColumnDefinitions="70, *" IsVisible="false" Padding="10,0">
+                <Grid ColumnDefinitions="70, *" IsVisible="true" Padding="10,0">
                     <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
                         <Image Source="account.png"/>
                     </Frame>
@@ -34,9 +34,9 @@
                 <!--#endregion-->
 
                 <!--#region Profile -->
-                <Grid ColumnDefinitions="70, *" Padding="10,0">
+                <Grid ColumnDefinitions="70, *" Padding="10,0" IsVisible="false">
                     <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
-                        <Image Source="account.png"/>
+                        <Image Source="emoji6.png"/>
                     </Frame>
                     <Grid Grid.Column="1" RowDefinitions="*, *">
                         <Label Text="Tim Dev" FontFamily="MuliBlack" Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start"/>
@@ -46,9 +46,6 @@
                             <Label Style="{StaticResource IconColorLabelStyle}" FontSize="23" Text="{Static icon:FontIcons.CashUsd}"/>
                         </StackLayout>
                     </Grid>
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.LoginCommand, Source={x:Reference Name=self}}"/>
-                    </Grid.GestureRecognizers>
                 </Grid>
                 <!--#endregion-->
 
