@@ -2,10 +2,11 @@
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="xfLibrary.Pages.DetailView"   
+    x:Class="xfLibrary.Pages.ChatDetailView"   
     xmlns:controls="clr-namespace:xfLibrary.Controls"
     xmlns:icon="clr-namespace:xfLibrary.Resources"
     xmlns:templates="clr-namespace:xfLibrary.Views.Templates"
+    x:Name="self"
     xmlns:viewmodel="clr-namespace:xfLibrary.ViewModels">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -69,7 +70,7 @@
 
             <Style x:Key="ChatCollectionStyle" TargetType="CollectionView">
                 <Setter Property="HeightRequest" Value="400" />
-                <Setter Property="Margin" Value="10, 20, 10, 0" />
+                <Setter Property="Margin" Value="10, -10, 10, 0" />
             </Style>
 
             <Color x:Key="ChatEntryBackgroundColor">#F7F7F8</Color>
@@ -113,7 +114,11 @@
                     <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" Style="{StaticResource ChatEntryContainerStyle}"
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
                         <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
-                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
                     </Frame>
                     <Label Grid.Row="1" Text="{Binding User.Name}" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
                            HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
@@ -121,12 +126,11 @@
                 <Grid Grid.Row="1" RowDefinitions="auto,*" BackgroundColor="{StaticResource AppColor}">
                     <BoxView Style="{StaticResource ChatAdornerStyle}" Margin="0,0,0,-10"/>
                     <Grid Grid.Row="1" RowDefinitions="*, Auto">
-                        <Grid>
-                            <CollectionView 
+                        <CollectionView 
                                 ItemsSource="{Binding Messages}"
                                 ItemTemplate="{StaticResource MessageDataTemplateSelector}"
                                 Style="{StaticResource ChatCollectionStyle}" />
-                        </Grid>
+                        
                         <Frame Grid.Row="1" Style="{StaticResource ChatEntryContainerStyle1}">
                             <Grid ColumnDefinitions="*, Auto" Margin="5,0">
                                 <Entry Placeholder="Viết tin nhắn..." Style="{StaticResource ChatEntryStyle}"/>

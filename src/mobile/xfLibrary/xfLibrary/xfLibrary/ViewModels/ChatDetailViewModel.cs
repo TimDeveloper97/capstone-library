@@ -9,8 +9,10 @@ using xfLibrary.Services;
 
 namespace xfLibrary.ViewModels
 {
-    public class DetailViewModel : BaseViewModel
+    public class ChatDetailViewModel : BaseViewModel
     {
+        #region Properties
+
         User _user;
         ObservableCollection<Message> _messages;
 
@@ -31,8 +33,14 @@ namespace xfLibrary.ViewModels
                 SetProperty(ref _messages, value);
             }
         }
+        #endregion
 
-        public DetailViewModel()
+        #region Command
+        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
+
+        #endregion
+
+        public ChatDetailViewModel()
         {
             User = MessageService.Instance.GetUsers().FirstOrDefault();
             Messages = new ObservableCollection<Message>(MessageService.Instance.GetMessages(User));

@@ -3,13 +3,13 @@ using xfLibrary.ViewModels;
 
 namespace xfLibrary.Pages
 {
-    public partial class DetailView : ContentPage
+    public partial class ChatDetailView : ContentPage
     {
-        public DetailView()
+        public ChatDetailView()
         {
             InitializeComponent();
 
-            BindingContext = new DetailViewModel();
+            BindingContext = new ChatDetailViewModel();
         }
     }
 }

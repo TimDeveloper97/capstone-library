@@ -23,10 +23,12 @@
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.5" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
-	<!--<PackageReference Include="Xamarin.AndroidX.AppCompat.Resources" Version="1.1.0" />-->
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\ChatDetailView.xaml.cs">
+      <DependentUpon>ChatDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
