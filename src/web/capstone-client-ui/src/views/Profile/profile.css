@@ -1,0 +1,20 @@
+.profile{
+    background-color: #fff;
+}
+.avatar-col{
+    padding: 50px;
+}
+.avatar-wrapper img{
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+}
+.avatar-wrapper{
+    position: relative;
+}
+.avatar-wrapper svg{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+}

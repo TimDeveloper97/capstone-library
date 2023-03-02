@@ -5,17 +5,16 @@ import Input from "../../components/Input/Input";
 import './login.css';
 
 export default function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+
     const handleSubmit = () => {
-        console.log(username);
+        
     }
   return (
     <>
       <Form className="body-content">
         <div className="login-form">
           <h3>Đăng nhập</h3>
-          <Input type={"text"} placeHolder={"Nhập số điện thoại"} value={username} setValue={setUsername} />
+          <Input type="text" placeholder="Nhập số điện thoại" />
           <Form.Control type="password" placeholder="Nhập mật khẩu của bạn" />
           <Button variant="primary" onClick={handleSubmit}>
             Đăng nhập
