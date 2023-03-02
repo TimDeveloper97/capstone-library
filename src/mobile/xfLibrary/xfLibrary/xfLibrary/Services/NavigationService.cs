@@ -91,7 +91,7 @@ namespace ChatApp.Services
         {
             Page page = CreateAndBindPage(viewModelType, parameter);
 
-            if (page is BottomPage)
+            if (page is MainPage)
             {
                 CurrentApplication.MainPage = page;
             }
@@ -108,7 +108,7 @@ namespace ChatApp.Services
 
         void CreatePageViewModelMappings()
         {
-            _mappings.Add(typeof(BottomViewModel), typeof(BottomPage));
+            _mappings.Add(typeof(BottomViewModel), typeof(MainPage));
             _mappings.Add(typeof(DetailViewModel), typeof(DetailView));
             _mappings.Add(typeof(HomeViewModel), typeof(HomeView));
             _mappings.Add(typeof(AddViewModel), typeof(AddView));

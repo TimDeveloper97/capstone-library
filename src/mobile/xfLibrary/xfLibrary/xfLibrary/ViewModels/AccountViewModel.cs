@@ -20,7 +20,7 @@ namespace xfLibrary.ViewModels
         #region Command
         public ICommand LoginCommand => new Command(async () =>
         {
-            await Shell.Current.GoToAsync(nameof(LoginPage));
+            await Shell.Current.GoToAsync(nameof(LoginView));
         });
 
         #endregion

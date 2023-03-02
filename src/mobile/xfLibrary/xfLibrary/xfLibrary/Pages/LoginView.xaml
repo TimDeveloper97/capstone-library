@@ -10,7 +10,7 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.LoginPage">
+             x:Class="xfLibrary.Pages.LoginView">
 
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
