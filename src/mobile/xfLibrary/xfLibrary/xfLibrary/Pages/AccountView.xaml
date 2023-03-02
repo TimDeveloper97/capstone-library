@@ -17,15 +17,12 @@
              x:Name="self"
              
              x:Class="xfLibrary.Pages.AccountView">
-    <ContentView.BindingContext>
-        <vm:AccountViewModel />
-    </ContentView.BindingContext>
 
     <ContentView.Content>
         <ScrollView>
             <StackLayout>
                 <!--#region SignIn/SignUp -->
-                <Grid ColumnDefinitions="70, *" IsVisible="false" Padding="10,0">
+                <Grid ColumnDefinitions="70, *" IsVisible="true" Padding="10,0">
                     <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
                         <Image Source="account.png"/>
                     </Frame>
@@ -37,9 +34,9 @@
                 <!--#endregion-->
 
                 <!--#region Profile -->
-                <Grid ColumnDefinitions="70, *" Padding="10,0">
+                <Grid ColumnDefinitions="70, *" Padding="10,0" IsVisible="false">
                     <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
-                        <Image Source="account.png"/>
+                        <Image Source="emoji6.png"/>
                     </Frame>
                     <Grid Grid.Column="1" RowDefinitions="*, *">
                         <Label Text="Tim Dev" FontFamily="MuliBlack" Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start"/>
@@ -49,9 +46,6 @@
                             <Label Style="{StaticResource IconColorLabelStyle}" FontSize="23" Text="{Static icon:FontIcons.CashUsd}"/>
                         </StackLayout>
                     </Grid>
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.LoginCommand, Source={x:Reference Name=self}}"/>
-                    </Grid.GestureRecognizers>
                 </Grid>
                 <!--#endregion-->
 
@@ -60,7 +54,7 @@
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý đơn hàng" HorizontalOptions="Start" Padding="15,20,10,5"/>
                     <view:ItemView Text="Đơn mua" Icon="{Static icon:FontIcons.BagPersonal}" Color="{StaticResource Blue}"/>
                     <view:ItemView Text="Đơn bán" Icon="{Static icon:FontIcons.Post}" Color="{StaticResource Green}"/>
-                    <view:ItemView Text="Ví" Icon="{Static icon:FontIcons.Wallet}" Color="{StaticResource Yellow100Accent}"/>
+                    <view:ItemView Text="Ví" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Wallet}" Color="{StaticResource Yellow100Accent}"/>
                 </StackLayout>
 
                 <StackLayout Spacing="0">

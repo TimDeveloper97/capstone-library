@@ -9,10 +9,7 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              Shell.NavBarIsVisible="False"
              FixedMode="False"
-             x:Class="xfLibrary.Pages.BottomPage">
-    <xf:BottomBarPage.BindingContext>
-        <vm:BottomViewModel />
-    </xf:BottomBarPage.BindingContext>
+             x:Class="xfLibrary.Pages.MainPage">
 
     <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#13005A">
         <ContentPage.Behaviors>

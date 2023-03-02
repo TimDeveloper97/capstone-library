@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using xfLibrary.Pages;
+using xfLibrary.Pages.Popup;
 
 namespace xfLibrary
 {
@@ -21,7 +22,7 @@ namespace xfLibrary
             InitRoute();
         }
 
-        async void InitDependencyService()
+        void InitDependencyService()
         {
             //await CheckAndRequestPermission();
             //DependencyService.Register<Services.Temp.SomeService>();
@@ -31,15 +32,12 @@ namespace xfLibrary
 
         void InitRoute()
         {
-            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(LoginView), typeof(LoginView));
             Routing.RegisterRoute(nameof(ChatView), typeof(ChatView));
             Routing.RegisterRoute(nameof(AddView), typeof(AddView));
-            Routing.RegisterRoute(nameof(DetailView), typeof(DetailView));
-        }
-
-        private async void OnMenuItemClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("//LoginPage");
+            Routing.RegisterRoute(nameof(ChatDetailView), typeof(ChatDetailView));
+            Routing.RegisterRoute(nameof(RegisterView), typeof(RegisterView));
+            Routing.RegisterRoute(nameof(TransactionPopup), typeof(TransactionPopup));
         }
 
         //public async Task<PermissionStatus> CheckAndRequestPermission()

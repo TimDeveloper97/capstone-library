@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             Size="350,270"
+             x:TypeArguments="x:String"
+             IsLightDismissEnabled="True"
+             
+             x:Class="xfLibrary.Pages.Popup.TransactionPopup">
+    <xct:Popup.Content>
+        <Grid>
+            <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">
+                <StackLayout Spacing="0">
+                    <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
+                        <Label Text="Mẫu chuyển khoản" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                    </Grid>
+                    <Grid Margin="20,25,20,5">
+                        <Frame>
+                            <StackLayout Padding="10" Spacing="0">
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Chủ tài khoản: " FontSize="Medium"/>
+                                            <Span Text="Đinh Duy Anh" FontFamily="MuliBold" FontSize="Medium"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Ngân hàng: " FontSize="Medium"/>
+                                            <Span Text="BIDV" FontFamily="MuliBold" FontSize="Medium"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Số tài khoản: " FontSize="Medium"/>
+                                            <Span Text="098765432123456789" FontFamily="MuliBold" FontSize="Medium"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Nội dung: " FontSize="Medium"/>
+                                            <Span x:Name="username" FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text=" &lt;Số tiền&gt; " FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text=" &lt;Mã chuyển tiền&gt;" FontFamily="MuliBold" FontSize="Medium"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Ví dụ: " FontSize="Medium"/>
+                                            <Span Text="nguyenvana" FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text=" 100000 " FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text=" abcdef" FontFamily="MuliBold" FontSize="Medium"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                        </Frame>
+                        <Label Text="Mẫu chuyển khoản" Margin="15,-7,0,0" BackgroundColor="White" VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
+                    </Grid>
+                    <Label Margin="20,5,20,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Lưu ý: " FontSize="Medium"/>
+                                <Span Text="Việc nạp tiền vào tài khoản sẽ được tiến hành trong vòng 24h. Quá trình xử lý được tiến hành theo thứ tự khách hàng, mong quý khách thông cảm." FontSize="Medium" TextColor="{StaticResource Red}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </xct:Popup.Content>
+</xct:Popup>

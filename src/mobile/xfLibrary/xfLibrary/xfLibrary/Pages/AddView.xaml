@@ -13,14 +13,18 @@
              xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
-             xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.AddView">
-    <ContentPage.BindingContext>
-        <vm:AddViewModel />
-    </ContentPage.BindingContext>
     <ContentPage.Resources>
+
+        <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
+            <Setter Property="Color" Value="White" />
+            <Setter Property="HeightRequest" Value="30" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
+        </Style>
+        
         <Style x:Key="SenderContainerStyle" TargetType="Grid">
             <Setter Property="HeightRequest" Value="60" />
             <Setter Property="WidthRequest" Value="60" />
@@ -40,14 +44,18 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
-            <Grid RowDefinitions="auto, auto, *, auto">
+            <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
                 <!--#region Navigator -->
                 <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
                     <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
                            Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="10"
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
                         <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
-                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
                     </Frame>
 
                     <Label Grid.Row="1" Text="Tạo tin mới" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
@@ -68,7 +76,10 @@
                 <!--#endregion-->
 
                 <!--#region Header -->
-                <Grid Grid.Row="1" ColumnDefinitions="auto, *" Margin="10,5">
+                <Grid Grid.Row="1" BackgroundColor="{StaticResource AppColor}"/>
+                <BoxView Grid.Row="1" Style="{StaticResource ChatAdornerStyle}"/>
+
+                <Grid Grid.Row="2" ColumnDefinitions="auto, *" Margin="10,-10,10,5">
                     <Grid Style="{StaticResource SenderContainerStyle}">
                         <Ellipse Fill="{StaticResource Sky}" Style="{StaticResource SenderEllipseStyle}"/>
                         <Image Source="emoji8.png" Style="{StaticResource SenderImageStyle}"/>
@@ -89,11 +100,11 @@
                 <!--#endregion-->
 
                 <!--#region Content -->
-                <StackLayout Grid.Row="2" VerticalOptions="FillAndExpand">
-                    <mdc:MaterialEditor FieldHeightRequest="250" KeyboardFlags="CapitalizeSentence"
-                                    BackgroundColor="White" BorderColor="White" Placeholder="Bạn đang nghĩ gì..." Text="{Binding Observation}" Type="Outlined" />
+                <StackLayout Grid.Row="3" VerticalOptions="FillAndExpand">
+                    <mdc:MaterialEditor KeyboardFlags="CapitalizeSentence" BackgroundColor="White" BorderColor="White" 
+                                        Placeholder="Bạn đang nghĩ gì..." Text="{Binding Observation}" Type="Outlined"/>
 
-                    <cards:CarouselView Grid.Row="2" ItemsSource="{Binding Slides}" SlideShowDuration="3500" VerticalOptions="FillAndExpand">
+                    <cards:CarouselView ItemsSource="{Binding Slides}" SlideShowDuration="3500" VerticalOptions="FillAndExpand">
                         <cards:CarouselView.ItemTemplate>
                             <DataTemplate>
                                 <ContentView>

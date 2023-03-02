@@ -17,9 +17,6 @@
              x:Name="self"
              
              x:Class="xfLibrary.Pages.NewsView">
-    <ContentView.BindingContext>
-        <vm:NewsViewModel />
-    </ContentView.BindingContext>
 
     <ContentView.Content>
         <Grid HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">
@@ -112,7 +109,7 @@
                 </CollectionView>
             </RefreshView>
 
-            <mdc:MaterialFloatingButton VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus.png"
+            <mdc:MaterialFloatingButton VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"
                                         Command="{Binding AddNewsCommand}" CommandParameter="{Binding .}"/>
         </Grid>
     </ContentView.Content>

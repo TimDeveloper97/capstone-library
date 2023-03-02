@@ -11,12 +11,12 @@ using xfLibrary.ViewModels;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ChatView : ContentPage
+    public partial class LoginView : ContentPage
     {
-        public ChatView()
+        public LoginView()
         {
             InitializeComponent();
-            BindingContext = new ChatViewModel();
+            BindingContext = new LoginViewModel();
         }
     }
 }

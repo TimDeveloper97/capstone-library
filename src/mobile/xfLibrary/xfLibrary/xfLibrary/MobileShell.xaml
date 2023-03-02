@@ -14,14 +14,7 @@
              NavigationPage.HasNavigationBar="false"
              x:Class="xfLibrary.MobileShell">
 
-    <ShellItem Route="BottomPage">
-        <ShellContent ContentTemplate="{DataTemplate page:BottomPage}" />
+    <ShellItem Route="MainPage">
+        <ShellContent ContentTemplate="{DataTemplate page:MainPage}" />
     </ShellItem>
-    <Shell.FlyoutHeader>
-        <view:ShellHeader />
-    </Shell.FlyoutHeader>
-
-    <Shell.FlyoutContent>
-        <view:ShellContent />
-    </Shell.FlyoutContent>
 </Shell>

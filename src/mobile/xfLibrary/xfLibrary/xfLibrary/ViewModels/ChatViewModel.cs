@@ -13,6 +13,8 @@ namespace xfLibrary.ViewModels
 {
     public class ChatViewModel : BaseViewModel
     {
+        #region Properties
+
         ObservableCollection<User> _users;
         ObservableCollection<Message> _recentChat;
 
@@ -38,8 +40,13 @@ namespace xfLibrary.ViewModels
                 SetProperty(ref _recentChat, value);
             }
         }
+        #endregion
+
+        #region Command
 
         public ICommand DetailCommand => new Command<object>(OnNavigate);
+        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
+        #endregion
 
         void LoadData()
         {
@@ -50,7 +57,7 @@ namespace xfLibrary.ViewModels
         async void OnNavigate(object parameter)
         {
             MessagingCenter.Send<object, object>(this, "parameter", parameter);
-            await Shell.Current.GoToAsync(nameof(DetailView));
+            await Shell.Current.GoToAsync(nameof(ChatDetailView));
         }
     }
 }

@@ -4,11 +4,10 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using xfLibrary.Domain;
-using xfLibrary.Pages;
 
 namespace xfLibrary.ViewModels
 {
-    class LoginViewModel : BaseViewModel
+    class RegisterViewModel : BaseViewModel
     {
         #region Properties
         private string text;
@@ -20,14 +19,14 @@ namespace xfLibrary.ViewModels
         #region Command
         public ICommand RegisterCommand => new Command(async () =>
         {
-            await Shell.Current.GoToAsync(nameof(RegisterView));
+            
         });
+
         public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         #endregion
 
-        public LoginViewModel()
+        public RegisterViewModel()
         {
         }
-
     }
 }

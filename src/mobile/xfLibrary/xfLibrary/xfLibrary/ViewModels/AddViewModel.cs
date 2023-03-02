@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 using xfLibrary.Domain;
 
 namespace xfLibrary.ViewModels
@@ -23,6 +25,8 @@ namespace xfLibrary.ViewModels
         //    IsBusy = true;
         //    IsBusy = false;
         //});
+
+        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         #endregion
 
         public AddViewModel()
@@ -35,7 +39,7 @@ namespace xfLibrary.ViewModels
         {
             Categorys = new ObservableCollection<string> { "Kinh dị", "Tình cảm", "Hành động", "Hài hước", "18+", "Manhwa", "Fantasy"  };
             Sublet = new ObservableCollection<string> { "Có", "Không" };
-            Slides = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.jpg" };
+            Slides = new ObservableCollection<string> { "event1.png", "event2.png", "event3.png" };
             IsBusy = true;
         }
         #endregion

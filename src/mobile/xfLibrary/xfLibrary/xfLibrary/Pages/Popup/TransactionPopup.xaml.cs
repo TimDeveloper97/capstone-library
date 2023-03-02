@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using xfLibrary.ViewModels;
 
-namespace xfLibrary.Pages
+namespace xfLibrary.Pages.Popup
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ChatView : ContentPage
+    public partial class TransactionPopup : Xamarin.CommunityToolkit.UI.Views.Popup<string>
     {
-        public ChatView()
+        public TransactionPopup(string un)
         {
             InitializeComponent();
-            BindingContext = new ChatViewModel();
+
+            username.Text = un;
         }
     }
 }

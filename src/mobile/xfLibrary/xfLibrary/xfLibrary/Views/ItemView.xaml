@@ -13,6 +13,9 @@
             </Frame>
             <Label Grid.Column="1" Style="{StaticResource TitleLabelStyle}" FontSize="20" Text="{Binding Text, Source={x:Reference self}}"
                    VerticalOptions="Center" HorizontalOptions="Start"/>
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=TabCommand, Source={x:Reference Name=self}}"/>
+            </Grid.GestureRecognizers>
         </Grid>
   </ContentView.Content>
 </ContentView>

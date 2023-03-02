@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using xfLibrary.ViewModels;
 
 namespace xfLibrary.Pages
 {
@@ -15,7 +16,7 @@ namespace xfLibrary.Pages
         public HomeView()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
+            BindingContext = new HomeViewModel();
         }
     }
 }

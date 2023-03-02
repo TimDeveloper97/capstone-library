@@ -10,10 +10,8 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.LoginPage">
-    <ContentPage.BindingContext>
-        <vm:LoginViewModel />
-    </ContentPage.BindingContext>
+             x:Class="xfLibrary.Pages.LoginView">
+
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -25,7 +23,11 @@
             <Image Source="background.jpg" Aspect="AspectFill" VerticalOptions="End"/>
 
             <Grid ColumnDefinitions="auto, *" VerticalOptions="Start" Style="{StaticResource GridColor}" HeightRequest="{StaticResource TopNavigator}">
-                <Label Margin="20,0,0,0" Style="{StaticResource IconLabel}" Text="{Static icon:FontIcons.ChevronLeft}" VerticalOptions="Center"/>
+                <Label Margin="20,0,0,0" Style="{StaticResource IconLabel}" FontSize="35" TextColor="White" Text="{Static icon:FontIcons.ChevronLeft}" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
                 <Image Grid.Column="1" Source="chotot.jpg" Aspect="AspectFit" HorizontalOptions="Center"/>
             </Grid>
             <!--#endregion-->
@@ -60,7 +62,11 @@
                         <Frame Style="{StaticResource FrameShadow}" HeightRequest="40">
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Margin="13,5,0,10">
                                 <Label Text="Chưa có tài khoản? "/>
-                                <Label Text="Đăng ký ngay" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}"/>
+                                <Label Text="Đăng ký ngay" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.RegisterCommand, Source={x:Reference Name=self}}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
                             </StackLayout>
                         </Frame>
                     </StackLayout>

@@ -16,9 +16,6 @@
              x:Name="self"
              
              x:Class="xfLibrary.Pages.NotificationView">
-    <ContentView.BindingContext>
-        <vm:NotificationViewModel />
-    </ContentView.BindingContext>
 
     <ContentView.Content>
         <Grid HorizontalOptions="FillAndExpand">

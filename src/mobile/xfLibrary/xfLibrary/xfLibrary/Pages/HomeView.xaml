@@ -16,10 +16,6 @@
              
              x:Class="xfLibrary.Pages.HomeView">
 
-    <ContentView.BindingContext>
-        <vm:HomeViewModel />
-    </ContentView.BindingContext>
-
     <ContentView.Content>
         <StackLayout>
             <ScrollView>

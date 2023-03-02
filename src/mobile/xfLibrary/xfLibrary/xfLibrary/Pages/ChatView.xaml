@@ -6,18 +6,20 @@
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              xmlns:templates="clr-namespace:xfLibrary.Views.Templates"
              xmlns:viewmodel="clr-namespace:xfLibrary.ViewModels">
-    <ContentPage.BindingContext>
-        <viewmodel:ChatViewModel />
-    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         <Grid RowDefinitions="auto, *" Padding="20,10,0,10">
             <Grid RowDefinitions="40, 60, *">
                 <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" Style="{StaticResource FrameNoBorder}"
                        HorizontalOptions="Start" VerticalOptions="Center">
                     <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
-                           VerticalOptions="Center" HorizontalOptions="Center"/>
+                           VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
                 </Frame>
-                <Label Grid.Row="1" Style="{StaticResource TitleLabelStyle}" VerticalOptions="Center" HorizontalOptions="Start">
+                <Label Grid.Row="1" Margin="10,0" Style="{StaticResource TitleLabelStyle}" VerticalOptions="Center" HorizontalOptions="Start">
                     <Label.FormattedText>
                         <FormattedString>
                             <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="CAPSTONE"
