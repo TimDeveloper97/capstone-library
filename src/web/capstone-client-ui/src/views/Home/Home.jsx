@@ -22,7 +22,7 @@ export default function Home() {
           })}
         </div>
       </Container>
-      <ListBookItem title={"Tin đăng mới"} />
+      <ListBookItem title={"Sách mới đăng"} numberItem={20} />
       <Container className="self-header">
         <p className="key-word-title">Các từ khóa phổ biến</p>
         <ul className="key-words">

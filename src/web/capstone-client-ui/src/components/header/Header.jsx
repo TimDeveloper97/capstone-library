@@ -86,10 +86,12 @@ export default function Header() {
             </InputGroup>
           </Col>
           <Col md={2}>
-            <button className="btn-login">
-              <PencilSquare size={20} style={{ marginRight: "10px" }} />
-              Đăng tin
-            </button>
+            <Link to={"/write-post"}>
+              <button className="btn-login">
+                <PencilSquare size={20} style={{ marginRight: "10px" }} />
+                Đăng tin
+              </button>
+            </Link>
           </Col>
         </Row>
       </Container>

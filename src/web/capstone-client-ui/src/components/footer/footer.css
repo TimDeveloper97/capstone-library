@@ -4,7 +4,7 @@
 }
 .footer{
     padding: 20px;
-    background-color: #ffba00;
+    background-image:linear-gradient(to bottom right,#E3F6FF, #FFEA20);
     margin-bottom: 0;
     height: 120px;
 }

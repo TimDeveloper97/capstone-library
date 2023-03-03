@@ -9,7 +9,7 @@ export default function ListBookItem(props) {
       <p className="categories-title">{props.title}</p>
       <div className="list-categories">
         {
-            [...Array(20)].map((item, index) => {
+            [...Array(props.numberItem)].map((item, index) => {
                 return <BookItem key={index} id={index} />
             })
         }
