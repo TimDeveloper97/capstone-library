@@ -16,7 +16,7 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.NewsView">
+             x:Class="xfLibrary.Pages.ReportView">
 
     <ContentView.Content>
         <Grid HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">

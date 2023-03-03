@@ -10,7 +10,7 @@ using xfLibrary.Pages;
 
 namespace xfLibrary.ViewModels
 {
-    class NewsViewModel : BaseViewModel
+    class ReportViewModel : BaseViewModel
     {
         #region Properties
         private string text;
@@ -39,12 +39,12 @@ namespace xfLibrary.ViewModels
 
         public ICommand AddNewsCommand => new Command(async () =>
         {
-            await Shell.Current.GoToAsync(nameof(AddView));
+            await Shell.Current.GoToAsync(nameof(AddReportView));
         });
 
         #endregion
 
-        public NewsViewModel()
+        public ReportViewModel()
         {
             ExecuteLoadMessagingCenter();
             Init();

@@ -8,7 +8,7 @@ using xfLibrary.Domain;
 
 namespace xfLibrary.ViewModels
 {
-    class AddViewModel : BaseViewModel
+    class AddReportViewModel : BaseViewModel
     {
         #region Property
         private ObservableCollection<string> categorys, sublet, slides;
@@ -29,7 +29,7 @@ namespace xfLibrary.ViewModels
         public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         #endregion
 
-        public AddViewModel()
+        public AddReportViewModel()
         {
             Init();
         }

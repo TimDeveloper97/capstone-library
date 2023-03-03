@@ -15,7 +15,7 @@
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.AddView">
+             x:Class="xfLibrary.Pages.AddReportView">
     <ContentPage.Resources>
 
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
