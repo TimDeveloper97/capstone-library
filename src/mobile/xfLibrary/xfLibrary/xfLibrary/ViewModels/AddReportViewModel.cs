@@ -8,28 +8,21 @@ using xfLibrary.Domain;
 
 namespace xfLibrary.ViewModels
 {
-    class AddViewModel : BaseViewModel
+    class AddReportViewModel : BaseViewModel
     {
         #region Property
-        private ObservableCollection<string> categorys, sublet, slides;
+        private ObservableCollection<string> errors, slides;
 
-        public ObservableCollection<string> Categorys { get => categorys; set => SetProperty(ref categorys, value); }
-        public ObservableCollection<string> Sublet { get => sublet; set => SetProperty(ref sublet, value); }
+        public ObservableCollection<string> Errors { get => errors; set => SetProperty(ref errors, value); }
         public ObservableCollection<string> Slides { get => slides; set => SetProperty(ref slides, value); }
 
         #endregion
 
         #region Command 
-        //public ICommand LoadNewFeedCommand => new Command(() =>
-        //{
-        //    IsBusy = true;
-        //    IsBusy = false;
-        //});
-
         public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         #endregion
 
-        public AddViewModel()
+        public AddReportViewModel()
         {
             Init();
         }
@@ -37,8 +30,7 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Categorys = new ObservableCollection<string> { "Kinh dị", "Tình cảm", "Hành động", "Hài hước", "18+", "Manhwa", "Fantasy"  };
-            Sublet = new ObservableCollection<string> { "Có", "Không" };
+            Errors = new ObservableCollection<string> { "Sách không đúng mô tả", "Phá vỡ thỏa thuận", "Hỏng/Mất sách", "Chưa nhận được hàng", "Lỗi khác"  };
             Slides = new ObservableCollection<string> { "event1.png", "event2.png", "event3.png" };
             IsBusy = true;
         }

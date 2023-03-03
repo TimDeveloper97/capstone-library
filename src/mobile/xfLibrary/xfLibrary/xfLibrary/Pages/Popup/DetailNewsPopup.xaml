@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             xmlns:m="clr-namespace:xfLibrary.Models"
+             Size="350,400"
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             x:TypeArguments="m:A"
+             IsLightDismissEnabled="True"
+             x:Name="self"
+             
+             x:Class="xfLibrary.Pages.Popup.DetailNewsPopup">
+    <xct:Popup.Content>
+        <Grid>
+            <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">
+                <ScrollView>
+                    <StackLayout Spacing="0" VerticalOptions="FillAndExpand">
+                        <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
+                            <Label Text="Thông tin đơn" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                        </Grid>
+                        <Grid RowDefinitions="70, auto, *" RowSpacing="0" Margin="0,0,0,5">
+                            <!--#region User -->
+                            <Grid ColumnDefinitions="auto, *" Margin="5,0">
+                                <Grid ColumnDefinitions="60, *" Margin="0,5" ColumnSpacing="0">
+                                    <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
+                                        <Image Source="account.png"/>
+                                    </Frame>
+                                    <Grid Grid.Column="1" RowDefinitions="7*, 3*">
+                                        <Label Text="Nguyễn Văn A" Style="{StaticResource TitleLabelStyle}" 
+                                                           VerticalOptions="End" HorizontalTextAlignment="Start"/>
+
+                                        <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start">
+                                            <Label Text="28 ngày trước" Style="{StaticResource MiniLabelStyle}"/>
+                                            
+                                            <Label Text="(Số ngày thuê: 100)" Style="{StaticResource MiniLabelStyle}"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </Grid>
+
+                                <!--#region Tools -->
+                                <StackLayout Grid.Column="1" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
+                                    <Frame BackgroundColor="{StaticResource Green}" IsVisible="true"
+                                                   CornerRadius="30" HeightRequest="35" WidthRequest="35"
+                                                   Style="{StaticResource FrameNoBorder}">
+                                        <Label Style="{StaticResource IconLabel}" FontSize="23"
+                                                       Text="{Static icon:FontIcons.CheckBold}" TextColor="White"
+                                                       VerticalOptions="Center" HorizontalOptions="Center"/>
+                                    </Frame>
+                                </StackLayout>
+                                <!--#endregion-->
+                            </Grid>
+                            <!--#endregion-->
+
+                            <!--#region Content -->
+                            <Label x:Name="text" Grid.Row="1" Margin="10,0" Padding="10,0,10,10">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <cards:CarouselView x:Name="slide" Grid.Row="2" Margin="10,0" SlideShowDuration="3500" HeightRequest="150">
+                                <cards:CarouselView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentView>
+                                            <Frame Style="{StaticResource FrameShadow}">
+                                                <Image Source="{Binding .}" Aspect="Fill"/>
+                                            </Frame>
+                                        </ContentView>
+                                    </DataTemplate>
+                                </cards:CarouselView.ItemTemplate>
+
+                                <controls:IndicatorsControl/>
+                            </cards:CarouselView>
+                            <!--#endregion-->
+                        </Grid>
+                        <Grid VerticalOptions="End">
+                            <StackLayout Margin="0,10,0,10" HorizontalOptions="End" VerticalOptions="End" Orientation="Horizontal">
+                                <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Nhắn tin"/>
+                                <mdc:MaterialButton x:Name="cancelBtn" Style="{StaticResource HideButtonStyle}" WidthRequest="100" Clicked="cancelBtn_Clicked" Text="Thuê"/>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
+            </Frame>
+        </Grid>
+    </xct:Popup.Content>
+</xct:Popup>

@@ -611,8 +611,8 @@
     <Style x:Key="HideButtonStyle" TargetType="mdc:MaterialButton">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
         <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"/>
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="BorderColor" Value="Transparent"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="BusyColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
     </Style>
@@ -634,9 +634,9 @@
     </Style>
     <Style TargetType="mdc:MaterialSwitch">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
-        <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="FontSize" Value="{StaticResource MiniTitle}"/>
         <Setter Property="OnColor" Value="{StaticResource Blue}"/>
-        <Setter Property="Padding" Value="-4,0"/>
+        <Setter Property="Padding" Value="-3,0"/>
     </Style>
     <Style TargetType="mdc:MaterialPicker">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>

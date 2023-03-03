@@ -111,8 +111,8 @@ namespace ChatApp.Services
             _mappings.Add(typeof(BottomViewModel), typeof(MainPage));
             _mappings.Add(typeof(ChatDetailViewModel), typeof(ChatDetailView));
             _mappings.Add(typeof(HomeViewModel), typeof(HomeView));
-            _mappings.Add(typeof(AddViewModel), typeof(AddView));
-            _mappings.Add(typeof(NewsViewModel), typeof(NewsView));
+            _mappings.Add(typeof(AddReportViewModel), typeof(AddReportView));
+            _mappings.Add(typeof(ReportViewModel), typeof(ReportView));
             _mappings.Add(typeof(NotificationViewModel), typeof(NotificationView));
             _mappings.Add(typeof(AccountViewModel), typeof(AccountView));
             _mappings.Add(typeof(ChatViewModel), typeof(ChatView));
