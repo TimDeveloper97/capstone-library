@@ -2,8 +2,9 @@ import React from "react";
 import { Star } from "react-bootstrap-icons";
 import "./bookItem.css";
 import img_book from "../../assets/img/harry-potter-and-the-goblet-of-fire-6.jpg";
+import { Link } from "react-router-dom";
 
-export default function BookItem() {
+export default function BookItem(props) {
   return (
     <div className="book-item">
       <div className="book-img-wrapper">
@@ -18,7 +19,7 @@ export default function BookItem() {
         <span className="upload-time" style={{marginRight: "15px"}}>55 giây trước</span>
         <span className="upload-location">Ha Noi</span>
       </div>
-      <a href="#"></a>
+      <Link to={`/detailbook/${props.id}`} />
     </div>
   );
 }

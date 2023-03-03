@@ -10,7 +10,7 @@ export default function ListBookItem(props) {
       <div className="list-categories">
         {
             [...Array(20)].map((item, index) => {
-                return <BookItem key={index} />
+                return <BookItem key={index} id={index} />
             })
         }
       </div>

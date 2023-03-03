@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRoutes } from 'react-router-dom'
 import MainLayout from './layout/MainLayout'
+import DetailBook from './views/DetailBook/DetailBook'
 import Home from './views/Home/Home'
 import Login from './views/Login/Login'
 import Profile from './views/Profile/Profile'
@@ -27,6 +28,10 @@ export default function Route() {
             {
                 path: '/profile',
                 element: <Profile />
+            },
+            {
+                path: '/detailbook/:id',
+                element: <DetailBook />
             }
         ]
     }
