@@ -91,8 +91,8 @@
                             <Frame HeightRequest="45" WidthRequest="120" Padding="1,-5">
                                 <mdc:MaterialPicker VerticalOptions="Center" ItemsSource="{Binding Categorys}" Type="Filled" Placeholder="Thể loại" LeadingIcon="ic_category.png"/>
                             </Frame>
-                            <Frame HeightRequest="45" WidthRequest="100" Padding="1,-5">
-                                <mdc:MaterialPicker VerticalOptions="Center" ItemsSource="{Binding Sublet}" Placeholder="Cho thuê" LeadingIcon="ic_mark.png"/>
+                            <Frame HeightRequest="45" Padding="1,-5" WidthRequest="100">
+                                <mdc:MaterialSwitch Text="Thuê lại" VerticalOptions="Center"/>
                             </Frame>
                         </StackLayout>
                     </Grid>

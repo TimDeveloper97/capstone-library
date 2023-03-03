@@ -29,6 +29,11 @@ namespace xfLibrary.ViewModels
         {
             var update = await Shell.Current.ShowPopupAsync(new TransactionPopup("duyanh"));
         });
+
+        public ICommand ReportCommand => new Command(async () =>
+        {
+            await Shell.Current.GoToAsync(nameof(AddReportView));
+        });
         #endregion
 
         public AccountViewModel()

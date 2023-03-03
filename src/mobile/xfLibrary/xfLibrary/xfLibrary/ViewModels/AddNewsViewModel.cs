@@ -11,10 +11,9 @@ namespace xfLibrary.ViewModels
     class AddNewsViewModel : BaseViewModel
     {
         #region Property
-        private ObservableCollection<string> categorys, sublet, slides;
+        private ObservableCollection<string> categorys, slides;
 
         public ObservableCollection<string> Categorys { get => categorys; set => SetProperty(ref categorys, value); }
-        public ObservableCollection<string> Sublet { get => sublet; set => SetProperty(ref sublet, value); }
         public ObservableCollection<string> Slides { get => slides; set => SetProperty(ref slides, value); }
 
         #endregion
@@ -38,7 +37,6 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Categorys = new ObservableCollection<string> { "Kinh dị", "Tình cảm", "Hành động", "Hài hước", "18+", "Manhwa", "Fantasy" };
-            Sublet = new ObservableCollection<string> { "Có", "Không" };
             Slides = new ObservableCollection<string> { "event1.png", "event2.png", "event3.png" };
             IsBusy = true;
         }

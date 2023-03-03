@@ -38,11 +38,6 @@ namespace xfLibrary.ViewModels
             await Shell.Current.GoToAsync(nameof(ChatView));
         });
 
-        public ICommand AddNewsCommand => new Command(async () =>
-        {
-            await Shell.Current.GoToAsync(nameof(AddReportView));
-        });
-
         #endregion
 
         public ReportViewModel()
