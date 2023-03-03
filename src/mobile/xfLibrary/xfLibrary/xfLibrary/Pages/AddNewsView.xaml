@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              
              Shell.NavBarIsVisible="False"
@@ -15,7 +15,7 @@
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.AddReportView">
+             x:Class="xfLibrary.Pages.AddNewsView">
     <ContentPage.Resources>
 
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
@@ -24,7 +24,7 @@
             <Setter Property="Margin" Value="0" />
             <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
         </Style>
-        
+
         <Style x:Key="SenderContainerStyle" TargetType="Grid">
             <Setter Property="HeightRequest" Value="60" />
             <Setter Property="WidthRequest" Value="60" />
@@ -58,7 +58,7 @@
                         </Label>
                     </Frame>
 
-                    <Label Grid.Row="1" Text="Đóng góp ý kiến" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                    <Label Grid.Row="1" Text="Tạo tin mới" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
                            HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
 
                     <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
@@ -67,8 +67,8 @@
                         <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Upload}"
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
                     </Frame>
-                    
-                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Báo cáo" Margin="10"
+
+                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng tin" Margin="10"
                                                BackgroundColor="{StaticResource Primary}"
                                                BorderColor="{StaticResource Primary}" FontSize="20"
                                                FontFamily="MuliBlack" TextColor="White"/>
@@ -89,7 +89,10 @@
                         <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBlack" HorizontalOptions="Start" VerticalOptions="End" Text="Tim Dev"/>
                         <StackLayout Grid.Row="1" Orientation="Horizontal" Spacing="10" VerticalOptions="Start">
                             <Frame HeightRequest="45" WidthRequest="120" Padding="1,-5">
-                                <mdc:MaterialPicker VerticalOptions="Center" ItemsSource="{Binding Errors}" Placeholder="Loại vấn đề" LeadingIcon="ic_category.png"/>
+                                <mdc:MaterialPicker VerticalOptions="Center" ItemsSource="{Binding Categorys}" Type="Filled" Placeholder="Thể loại" LeadingIcon="ic_category.png"/>
+                            </Frame>
+                            <Frame HeightRequest="45" WidthRequest="100" Padding="1,-5">
+                                <mdc:MaterialPicker VerticalOptions="Center" ItemsSource="{Binding Sublet}" Placeholder="Cho thuê" LeadingIcon="ic_mark.png"/>
                             </Frame>
                         </StackLayout>
                     </Grid>
@@ -99,7 +102,7 @@
                 <!--#region Content -->
                 <StackLayout Grid.Row="3" VerticalOptions="FillAndExpand">
                     <mdc:MaterialEditor KeyboardFlags="CapitalizeSentence" BackgroundColor="White" BorderColor="White" 
-                                        Placeholder="Mô tả chi tiết vấn đề..." Text="{Binding Observation}" Type="Outlined"/>
+                                        Placeholder="Bạn đang nghĩ gì..." Text="{Binding Observation}" Type="Outlined"/>
 
                     <cards:CarouselView ItemsSource="{Binding Slides}" SlideShowDuration="3500" VerticalOptions="FillAndExpand">
                         <cards:CarouselView.ItemTemplate>
@@ -117,8 +120,8 @@
                 </StackLayout>
                 <!--#endregion-->
             </Grid>
-            
-            
+
+
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

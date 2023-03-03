@@ -31,8 +31,8 @@
                                 <SwipeView>
                                     <SwipeView.RightItems>
                                         <SwipeItems SwipeBehaviorOnInvoked="Auto">
-                                            <SwipeItem Text="Delete" BackgroundColor="{StaticResource Gray600}"/>
-                                            <SwipeItem Text="Sold out" BackgroundColor="{StaticResource Gray600}"/>
+                                            <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}"/>
+                                            <SwipeItem Text="Chấp nhận" BackgroundColor="{StaticResource Gray600}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
                                     <!-- Content -->
@@ -64,14 +64,6 @@
                                                     <Frame.GestureRecognizers>
                                                         <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.MessagerCommand, Source={x:Reference Name=self}}"/>
                                                     </Frame.GestureRecognizers>
-                                                </Frame>
-
-                                                <Frame BackgroundColor="{StaticResource Green}" IsVisible="true"
-                                                   CornerRadius="30" HeightRequest="35" WidthRequest="35"
-                                                   Style="{StaticResource FrameNoBorder}">
-                                                    <Label Style="{StaticResource IconLabel}" FontSize="23"
-                                                       Text="{Static icon:FontIcons.CheckBold}" TextColor="White"
-                                                       VerticalOptions="Center" HorizontalOptions="Center"/>
                                                 </Frame>
                                             </StackLayout>
                                             <!--#endregion-->
@@ -109,8 +101,8 @@
                 </CollectionView>
             </RefreshView>
 
-            <mdc:MaterialFloatingButton VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"
-                                        Command="{Binding AddNewsCommand}" CommandParameter="{Binding .}"/>
+            <!--<mdc:MaterialFloatingButton VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"
+                                        Command="{Binding AddNewsCommand}" CommandParameter="{Binding .}"/>-->
         </Grid>
     </ContentView.Content>
 </ContentView>
