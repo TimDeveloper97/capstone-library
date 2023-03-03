@@ -19,7 +19,7 @@ export default function BookItem(props) {
         <span className="upload-time" style={{marginRight: "15px"}}>55 giây trước</span>
         <span className="upload-location">Ha Noi</span>
       </div>
-      <Link to={`/detailbook/${props.id}`} />
+      <Link to={`/detail-book/${props.id}`} />
     </div>
   );
 }

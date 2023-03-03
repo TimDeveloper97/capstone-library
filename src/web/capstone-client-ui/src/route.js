@@ -6,6 +6,7 @@ import Home from './views/Home/Home'
 import Login from './views/Login/Login'
 import Profile from './views/Profile/Profile'
 import Register from './views/Register/Register'
+import WritePost from './views/WritePost/WritePost'
 
 export default function Route() {
   return useRoutes([
@@ -30,8 +31,12 @@ export default function Route() {
                 element: <Profile />
             },
             {
-                path: '/detailbook/:id',
+                path: '/detail-book/:id',
                 element: <DetailBook />
+            },
+            {
+                path: '/write-post',
+                element: <WritePost />
             }
         ]
     }
