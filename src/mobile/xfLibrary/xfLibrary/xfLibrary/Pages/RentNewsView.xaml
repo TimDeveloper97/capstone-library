@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
+             xmlns:view="clr-namespace:xfLibrary.Views"
+             xmlns:xf="clr-namespace:BottomBar.XamarinForms"
+             xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             x:Name="self"
+             
+             x:Class="xfLibrary.Pages.RentNewsView">
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, *" HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">
+            <!--#region Navigator -->
+            <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
+                <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
+                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="10"
+                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
+                    <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+
+                <Label Grid.Row="1" Text="Đơn cho thuê" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+
+                <!--<Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
+                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
+                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
+                    <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Upload}"
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                </Frame>-->
+            </Grid>
+            <!--#endregion-->
+            
+            <RefreshView Grid.Row="1" Command="{Binding ReloadNewsCommand}" IsRefreshing="{Binding IsBusy}">
+                <CollectionView ItemsSource="{Binding News}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems SwipeBehaviorOnInvoked="Auto">
+                                            <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}"/>
+                                            <SwipeItem Text="Chấp nhận" BackgroundColor="{StaticResource Gray600}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <!-- Content -->
+
+                                    <Grid RowDefinitions="80, auto, *" RowSpacing="0" Margin="0,0,0,10">
+                                        <!--#region User -->
+                                        <Grid ColumnDefinitions="auto, *" Margin="5,0">
+                                            <Grid ColumnDefinitions="60, *" Margin="0,5">
+                                                <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
+                                                    <Image Source="account.png"/>
+                                                </Frame>
+                                                <Grid Grid.Column="1" RowDefinitions="7*, 3*" VerticalOptions="Center" Margin="0,-5,0,0">
+                                                    <Label Text="Nguyễn Văn A11" Style="{StaticResource TitleLabelStyle}" 
+                                                           VerticalOptions="End" HorizontalTextAlignment="Start"/>
+
+                                                    <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start">
+                                                        <Label Text="3/4/2023" Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Red}"
+                                                               FontFamily="MuliBold" Margin="0,-2,0,0"/>
+
+                                                        <Label Text="(Số ngày còn lại: 100)" Style="{StaticResource MiniLabelStyle}"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </Grid>
+
+                                            <!--#region Tools -->
+                                            <StackLayout Grid.Column="1" Orientation="Horizontal" Margin="0,0,20,0" VerticalOptions="Center" HorizontalOptions="End">
+                                                <Frame BackgroundColor="{StaticResource Blue}" IsVisible="true"
+                                                   CornerRadius="30" HeightRequest="35" WidthRequest="35"
+                                                   Style="{StaticResource FrameNoBorder}">
+                                                    <Label Style="{StaticResource IconLabel}" FontSize="23"
+                                                       Text="{Static icon:FontIcons.MessageText}" TextColor="White"
+                                                       VerticalOptions="Center" HorizontalOptions="Center"/>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.MessagerCommand, Source={x:Reference Name=self}}"/>
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
+
+                                                <Frame BackgroundColor="{StaticResource Green}" IsVisible="true"
+                                                   CornerRadius="30" HeightRequest="35" WidthRequest="35"
+                                                   Style="{StaticResource FrameNoBorder}">
+                                                    <Label Style="{StaticResource IconLabel}" FontSize="23"
+                                                       Text="{Static icon:FontIcons.CheckBold}" TextColor="White"
+                                                       VerticalOptions="Center" HorizontalOptions="Center"/>
+                                                </Frame>
+                                            </StackLayout>
+                                            <!--#endregion-->
+                                        </Grid>
+                                        <!--#endregion-->
+
+                                        <!--#region Content -->
+                                        <Label Grid.Row="1" Margin="10,0" Padding="10,0,15,10" Text="{Binding Text}" MaxLines="{Binding MaxLines}">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.ExtendTextCommand, Source={x:Reference Name=self}}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+
+                                        <cards:CarouselView Grid.Row="2" ItemsSource="{Binding Slide}" SlideShowDuration="3500"
+                                                            HeightRequest="{Binding Height}">
+                                            <cards:CarouselView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ContentView>
+                                                        <Frame Style="{StaticResource FrameShadow}">
+                                                            <Image Source="{Binding}" Aspect="Fill"/>
+                                                        </Frame>
+                                                    </ContentView>
+                                                </DataTemplate>
+                                            </cards:CarouselView.ItemTemplate>
+
+                                            <controls:IndicatorsControl/>
+                                        </cards:CarouselView>
+                                        <!--#endregion-->
+                                    </Grid>
+                                </SwipeView>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
