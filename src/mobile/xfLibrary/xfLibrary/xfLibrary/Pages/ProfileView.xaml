@@ -18,10 +18,74 @@
              
              x:Class="xfLibrary.Pages.ProfileView">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Image Source="background.jpg" Aspect="AspectFill" VerticalOptions="End"/>
+
+            <Grid ColumnDefinitions="auto, *" VerticalOptions="Start" Style="{StaticResource GridColor}" HeightRequest="{StaticResource TopNavigator}">
+                <Label Margin="20,0,0,0" Style="{StaticResource IconLabel}" FontSize="35" TextColor="White" Text="{Static icon:FontIcons.ChevronLeft}" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Image Grid.Column="1" Source="chotot.jpg" Aspect="AspectFit" HorizontalOptions="Center"/>
+            </Grid>
+            <!--#endregion-->
+
+            <Frame HorizontalOptions="Fill" VerticalOptions="Center" Margin="20,80,20,100" Style="{StaticResource FrameShadow}">
+                <ScrollView>
+                    <StackLayout HorizontalOptions="Center">
+
+                        <Grid Padding="20,0" HeightRequest="80" ColumnDefinitions="*, auto">
+                            <StackLayout  VerticalOptions="Center">
+                                <Label FontSize="Title" HorizontalOptions="Start" Text="Thông tin cá nhân" Style="{StaticResource TitleColorLabelStyle}"/>
+                                <Label FontSize="Body" Margin="0,-5,0,0" HorizontalOptions="Start" Text="Chỉnh sửa thông tin của bạn" Style="{StaticResource TitleLabelStyle}"/>
+                            </StackLayout>
+                            <Image Grid.Column="1" Source="chototicon.png" Aspect="Fill"  VerticalOptions="Center" HorizontalOptions="Center"
+                                   HeightRequest="60" WidthRequest="60"/>
+                        </Grid>
+
+                        <StackLayout Margin="20,0">
+                            <mdc:MaterialEntry LabelText="Tên người dùng *" Text="{Binding Name}"/>
+                            <mdc:MaterialEntry LabelText="Số điện thoại *" Text="{Binding Phone}"/>
+                            <mdc:MaterialEntry LabelText="Tài khoản *" Text="{Binding UserName}"/>
+                            <mdc:MaterialEntry LabelText="Địa chỉ" Text="{Binding Address}"/>
+                            <mdc:MaterialEntry LabelText="CMND/CCCD/Hộ chiếu" Text="{Binding Cmnd}"/>
+                            <mdc:MaterialEntry LabelText="Ngày sinh" Text="{Binding DateofBirth}"/>
+                            <mdc:MaterialEntry LabelText="Giới tính" Text="{Binding Gender}"/>
+                            <mdc:MaterialEntry LabelText="Code" Text="{Binding Code}"/>
+                            <mdc:MaterialEntry LabelText="Mật khẩu *" IsPassword="True" Text="{Binding Password}"/>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="20,10,0,-10">
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Yêu cầu"/>
+                                        <Span Text=" Chấm dứt" TextColor="{StaticResource Red}"/>
+                                        <Span Text=" tài khoản" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+
+                        <Grid Padding="0,10" HorizontalOptions="Fill" Margin="0,5">
+                            <mdc:MaterialButton HorizontalOptions="Center" WidthRequest="300" IsBusy="{Binding IsBusy}" Text="Lưu thay đổi"
+                                                Command="{Binding RegisterCommand}" IsEnabled="{Binding IsChecked, Source={x:Reference cbCondition}}"/>
+                        </Grid>
+
+                        <!--<Frame Style="{StaticResource FrameShadow}" HeightRequest="40">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Margin="13,5,0,10">
+                                <Label Text="Đã có tài khoản? "/>
+                                <Label Text="Đăng nhập ngay" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                        </Frame>-->
+                    </StackLayout>
+                </ScrollView>
+            </Frame>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
