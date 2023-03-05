@@ -27,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\AddNewsStep1View.xaml.cs">
+      <DependentUpon>AddNewsStep1View.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\AddReportView.xaml.cs">
       <DependentUpon>AddReportView.xaml</DependentUpon>
     </Compile>
@@ -65,7 +68,10 @@
     <EmbeddedResource Update="Pages\AccountView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddNewsView.xaml">
+    <EmbeddedResource Update="Pages\AddNewsStep1View.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\AddNewsStep2View.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\AddReportView.xaml">

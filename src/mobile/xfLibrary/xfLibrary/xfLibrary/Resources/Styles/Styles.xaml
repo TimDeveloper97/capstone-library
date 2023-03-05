@@ -632,6 +632,55 @@
         <Setter Property="HeightRequest" Value="55"/>
         <Setter Property="CornerRadius" Value="5"/>
     </Style>
+
+    <Style TargetType="mdc:MaterialEditor">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="LabelSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray900}}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Type" Value="Outlined"/>
+        <Setter Property="LabelMargin" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="0,10,0,0"/>
+        <Setter Property="LabelTextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="KeyboardFlags" Value="CapitalizeSentence"/>
+        <Setter Property="FieldHeightRequest" Value="150"/>
+    </Style>
+
+    <Style x:Key="EditorTransperent" TargetType="mdc:MaterialEditor">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="LabelSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Type" Value="Outlined"/>
+        <Setter Property="LabelMargin" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="0,10,0,0"/>
+        <Setter Property="LabelTextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="KeyboardFlags" Value="CapitalizeSentence"/>
+        <Setter Property="FieldHeightRequest" Value="150"/>
+    </Style>
+
+    <Style TargetType="mdc:MaterialDatePicker">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="LabelSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray900}}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="5,0"/>
+        <Setter Property="Type" Value="Filled"/>
+        <Setter Property="LabelMargin" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="0,10,0,0"/>
+        <Setter Property="LabelTextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
+        <Setter Property="HeightRequest" Value="55"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
     <Style TargetType="mdc:MaterialSwitch">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
         <Setter Property="FontSize" Value="{StaticResource MiniTitle}"/>
