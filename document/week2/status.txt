@@ -1,0 +1,4 @@
+
+Web: còn UI phần mua bán (còn lại khá ổn)
+Mobile: Có vẻ hiện tại là xong hết UI (có thể khi ghép API vào sẽ phải sửa thêm)
+Server: Catergory, User, Login, Logout, Forgotpassword, book, register
