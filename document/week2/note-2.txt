@@ -1,0 +1,19 @@
+- Khóa riêng cho từng cột ( message)
+- post -- manager quan hệ nhiều nhiều post-manager(solution)
+- có thể chia ra các bảng customer, manager, admin thành bảng riêng
+- thêm 1 bảng post-detail
+
+- report phải gắn vào post
+
+- order_detail phải có giá 
+
+- giá ở bài post 
+
+- book nối với post, order_detail nối với post
+
+- post có tổng tiền 
+
+- bookid thay = post id 
+- post có thể có nhiều cuốn sách
+
+- Thêm 1 bảng payment lưu lại giao dịch

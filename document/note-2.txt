@@ -1,4 +1,0 @@
-Khóa riêng cho từng cột
-post -- manager quan hệ nhiều nhiều post-manager(solution)
-có thể chia ra các bảng customer, manager, admin thành bảng riêng
-thêm 1 bảng post-detail
