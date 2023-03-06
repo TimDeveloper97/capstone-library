@@ -23,13 +23,12 @@ namespace xfLibrary.ViewModels
 
         #region Command 
 
-        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         public ICommand PostCommand => new Command(async () => { });
         public ICommand CategoryCommand => new Command(async () => {
             var jobs = Category;
 
             var result = await MaterialDialog.Instance.SelectChoicesAsync(title: "Chọn thể loại sách",
-                                                                         choices: jobs, dismissiveText: "Hủy", );
+                                                                         choices: jobs, dismissiveText: "Hủy");
 
         });
         #endregion

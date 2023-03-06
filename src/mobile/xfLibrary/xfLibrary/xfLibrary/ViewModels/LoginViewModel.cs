@@ -22,7 +22,6 @@ namespace xfLibrary.ViewModels
         {
             await Shell.Current.GoToAsync(nameof(RegisterView));
         });
-        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         #endregion
 
         public LoginViewModel()

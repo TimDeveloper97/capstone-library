@@ -36,7 +36,6 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command
-        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
 
         #endregion
 

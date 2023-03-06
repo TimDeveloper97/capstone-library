@@ -19,7 +19,6 @@ namespace xfLibrary.ViewModels
 
         #region Command 
 
-        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         public ICommand AddCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(AddBookView)));
         #endregion
 

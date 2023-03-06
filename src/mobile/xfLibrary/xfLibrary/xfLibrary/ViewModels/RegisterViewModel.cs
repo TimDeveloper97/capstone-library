@@ -22,7 +22,6 @@ namespace xfLibrary.ViewModels
             
         });
 
-        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         #endregion
 
         public RegisterViewModel()

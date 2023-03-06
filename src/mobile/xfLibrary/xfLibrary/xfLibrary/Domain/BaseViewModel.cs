@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 using xfLibrary.Services;
 
@@ -34,6 +35,9 @@ namespace xfLibrary.Domain
 
         protected IMessage Message = DependencyService.Get<IMessage>();
         protected static string Token { get; set; }
+
+        protected ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
+        protected ICommand LogoutCommand => new Command(async () => await TimeoutSession("Đăng xuất thành công"));
 
         protected async Task TimeoutSession(string message)
         {
