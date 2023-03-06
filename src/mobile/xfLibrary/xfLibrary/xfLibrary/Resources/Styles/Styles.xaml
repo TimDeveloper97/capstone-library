@@ -286,6 +286,8 @@
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="RowHeight" Value="70" />
         <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="IsPullToRefreshEnabled" Value="True" />
+        <Setter Property="HasUnevenRows" Value="True" />
     </Style>
 
     <Style TargetType="Picker">

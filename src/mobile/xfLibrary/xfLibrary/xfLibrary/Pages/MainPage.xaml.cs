@@ -12,7 +12,7 @@ namespace xfLibrary.Pages
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-            BindingContext = new BottomViewModel();
+            BindingContext = new MainViewModel();
         }
     }
 }

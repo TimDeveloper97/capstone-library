@@ -15,7 +15,7 @@
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.AddNewsStep2View">
+             x:Class="xfLibrary.Pages.AddBookView">
     <ContentPage.Resources>
 
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
@@ -61,14 +61,14 @@
                     <Label Grid.Row="1" Text="Tạo sách mới" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
                            HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
 
-                    <!--<Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
+                    <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
                            Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
                         <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Image}"
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
-                    </Frame>-->
+                    </Frame>
 
-                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng" Margin="10" FontSize="20"
+                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng sách" Margin="10" FontSize="20"
                                                FontFamily="MuliBlack" TextColor="White" BorderColor="White"/>
                 </Grid>
                 <!--#endregion-->
@@ -82,16 +82,6 @@
                 <!--#region Content -->
                 <ScrollView Grid.Row="3" Padding="0,0,0,20">
                     <StackLayout VerticalOptions="FillAndExpand">
-                        <!--<Grid ColumnDefinitions="auto, *" Margin="20,-10,10,0">
-                            <Frame CornerRadius="30" HeightRequest="30" WidthRequest="30" BorderColor="Transparent" 
-                               Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
-                               HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource Green}" >
-                                <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Plus}"
-                                   VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
-                            </Frame>
-
-                            <Label Grid.Column="1" Text="Thêm thông tin sách" Margin="10,0" VerticalOptions="Center" HorizontalOptions="Start"/>
-                        </Grid>-->
 
                         <Grid Margin="20,5,20,5">
                             <Frame>
@@ -110,6 +100,19 @@
                                    VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
                         </Grid>
 
+                        <cards:CarouselView Margin="20,5,20,5" ItemsSource="{Binding Slides}" SlideShowDuration="3500" HeightRequest="150" IsVisible="true">
+                            <cards:CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentView>
+                                        <Frame Style="{StaticResource FrameShadow}">
+                                            <Image Source="{Binding}" Aspect="Fill"/>
+                                        </Frame>
+                                    </ContentView>
+                                </DataTemplate>
+                            </cards:CarouselView.ItemTemplate>
+
+                            <controls:IndicatorsControl/>
+                        </cards:CarouselView>
                     </StackLayout>
                 </ScrollView>
                 <!--#endregion-->

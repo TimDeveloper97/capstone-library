@@ -15,7 +15,7 @@
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.AddNewsStep1View">
+             x:Class="xfLibrary.Pages.AddPostView">
     <ContentPage.Resources>
 
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
@@ -68,8 +68,8 @@
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
                     </Frame>
 
-                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Tiếp tục" Margin="10" FontSize="20"
-                                               Command="{Binding NextViewCommand}"
+                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng bài" Margin="10" FontSize="20"
+                                               Command="{Binding PostCommand}"
                                                FontFamily="MuliBlack" TextColor="White" BorderColor="White"/>
                 </Grid>
                 <!--#endregion-->

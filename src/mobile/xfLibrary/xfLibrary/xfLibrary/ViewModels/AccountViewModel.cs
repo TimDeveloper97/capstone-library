@@ -30,20 +30,13 @@ namespace xfLibrary.ViewModels
             var update = await Shell.Current.ShowPopupAsync(new TransactionPopup("duyanh"));
         });
 
-        public ICommand ReportCommand => new Command(async () =>
-        {
-            await Shell.Current.GoToAsync(nameof(AddReportView));
-        });
+        public ICommand ReportCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(AddReportView)));
 
-        public ICommand RentCommand => new Command(async () =>
-        {
-            await Shell.Current.GoToAsync(nameof(RentNewsView));
-        });
+        public ICommand RentCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(RentNewsView)));
 
-        public ICommand ProfileCommand => new Command(async () =>
-        {
-            await Shell.Current.GoToAsync(nameof(ProfileView));
-        });
+        public ICommand ProfileCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(ProfileView)));
+
+        public ICommand BookCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(BookView)));
         #endregion
 
         public AccountViewModel()

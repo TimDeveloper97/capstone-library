@@ -9,7 +9,7 @@ using xfLibrary.Pages;
 
 namespace xfLibrary.ViewModels
 {
-    class AddNewsStep1ViewModel : BaseViewModel
+    class AddPostViewModel : BaseViewModel
     {
         #region Property
         private ObservableCollection<string> categorys, slides;
@@ -22,10 +22,10 @@ namespace xfLibrary.ViewModels
         #region Command 
 
         public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
-        public ICommand NextViewCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(AddNewsStep2View)));
+        public ICommand PostCommand => new Command(async () => { });
         #endregion
 
-        public AddNewsStep1ViewModel()
+        public AddPostViewModel()
         {
             Init();
         }

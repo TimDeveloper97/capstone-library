@@ -27,8 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Pages\AddNewsStep1View.xaml.cs">
-      <DependentUpon>AddNewsStep1View.xaml</DependentUpon>
+    <Compile Update="Pages\AddPostView.xaml.cs">
+      <DependentUpon>AddPostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\AddBookView.xaml.cs">
+      <DependentUpon>AddBookView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\AddReportView.xaml.cs">
       <DependentUpon>AddReportView.xaml</DependentUpon>
@@ -41,6 +44,9 @@
     </Compile>
     <Compile Update="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\RentPostView.xaml.cs">
+      <DependentUpon>RentPostView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
@@ -68,13 +74,16 @@
     <EmbeddedResource Update="Pages\AccountView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddNewsStep1View.xaml">
+    <EmbeddedResource Update="Pages\AddPostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddNewsStep2View.xaml">
+    <EmbeddedResource Update="Pages\AddBookView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\AddReportView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BookView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\MainPage.xaml">
@@ -95,7 +104,7 @@
     <EmbeddedResource Update="Pages\ProfileView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\RentNewsView.xaml">
+    <EmbeddedResource Update="Pages\RentPostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\ReportView.xaml">

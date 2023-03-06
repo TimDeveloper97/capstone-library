@@ -8,7 +8,7 @@ using xfLibrary.Domain;
 
 namespace xfLibrary.ViewModels
 {
-    class BottomViewModel : BaseViewModel
+    class MainViewModel : BaseViewModel
     {
         #region Properties
         private bool isSearching;

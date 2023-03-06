@@ -34,7 +34,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand AddNewsCommand => new Command(async () =>
         {
-            await Shell.Current.GoToAsync(nameof(AddNewsStep1View));
+            await Shell.Current.GoToAsync(nameof(AddPostView));
         });
 
         public ICommand SelectedRecentItemCommand => new Command(async () =>

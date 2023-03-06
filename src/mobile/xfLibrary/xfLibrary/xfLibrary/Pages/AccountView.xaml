@@ -59,8 +59,8 @@
 
                 <StackLayout Spacing="0">
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="15,20,10,5"/>
-                    <view:ItemView Text="Tin đăng" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Tertiary}"/>
-                    <view:ItemView Text="Yêu thích" Icon="{Static icon:FontIcons.Heart}" Color="{StaticResource Red}"/>
+                    <view:ItemView Text="Tin đăng" Icon="{Static icon:FontIcons.Newspaper}" Color="{StaticResource Tertiary}"/>
+                    <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Red}" TabCommand="{Binding BookCommand}"/>
                 </StackLayout>
 
                 <StackLayout Spacing="0">

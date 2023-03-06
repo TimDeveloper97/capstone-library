@@ -11,12 +11,12 @@ using xfLibrary.ViewModels;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RentNewsView : ContentPage
+    public partial class BookView : ContentPage
     {
-        public RentNewsView()
+        public BookView()
         {
             InitializeComponent();
-            BindingContext = new RentNewsViewModel();
+            BindingContext = new BookViewModel();
         }
     }
 }
