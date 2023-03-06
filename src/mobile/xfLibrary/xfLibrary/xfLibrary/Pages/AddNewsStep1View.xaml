@@ -15,7 +15,7 @@
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.AddNewsView">
+             x:Class="xfLibrary.Pages.AddNewsStep1View">
     <ContentPage.Resources>
 
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
@@ -64,14 +64,13 @@
                     <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
                            Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
-                        <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Upload}"
+                        <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Image}"
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
                     </Frame>
 
-                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng tin" Margin="10"
-                                               BackgroundColor="{StaticResource Primary}"
-                                               BorderColor="{StaticResource Primary}" FontSize="20"
-                                               FontFamily="MuliBlack" TextColor="White"/>
+                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Tiếp tục" Margin="10" FontSize="20"
+                                               Command="{Binding NextViewCommand}"
+                                               FontFamily="MuliBlack" TextColor="White" BorderColor="White"/>
                 </Grid>
                 <!--#endregion-->
 
@@ -101,10 +100,9 @@
 
                 <!--#region Content -->
                 <StackLayout Grid.Row="3" VerticalOptions="FillAndExpand">
-                    <mdc:MaterialEditor KeyboardFlags="CapitalizeSentence" BackgroundColor="White" BorderColor="White" 
-                                        Placeholder="Bạn đang nghĩ gì..." Text="{Binding Observation}" Type="Outlined"/>
+                    <mdc:MaterialEditor Margin="5,-5" Text="{Binding Content}" Style="{StaticResource EditorTransperent}"/>
 
-                    <cards:CarouselView ItemsSource="{Binding Slides}" SlideShowDuration="3500" VerticalOptions="FillAndExpand">
+                    <cards:CarouselView ItemsSource="{Binding Slides}" SlideShowDuration="3500" VerticalOptions="FillAndExpand" IsVisible="false">
                         <cards:CarouselView.ItemTemplate>
                             <DataTemplate>
                                 <ContentView>

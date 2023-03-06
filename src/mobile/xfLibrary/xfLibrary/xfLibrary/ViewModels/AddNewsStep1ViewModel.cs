@@ -5,10 +5,11 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using xfLibrary.Domain;
+using xfLibrary.Pages;
 
 namespace xfLibrary.ViewModels
 {
-    class AddNewsViewModel : BaseViewModel
+    class AddNewsStep1ViewModel : BaseViewModel
     {
         #region Property
         private ObservableCollection<string> categorys, slides;
@@ -19,16 +20,12 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-        //public ICommand LoadNewFeedCommand => new Command(() =>
-        //{
-        //    IsBusy = true;
-        //    IsBusy = false;
-        //});
 
         public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
+        public ICommand NextViewCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(AddNewsStep2View)));
         #endregion
 
-        public AddNewsViewModel()
+        public AddNewsStep1ViewModel()
         {
             Init();
         }

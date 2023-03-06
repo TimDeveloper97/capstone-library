@@ -34,6 +34,16 @@ namespace xfLibrary.ViewModels
         {
             await Shell.Current.GoToAsync(nameof(AddReportView));
         });
+
+        public ICommand RentCommand => new Command(async () =>
+        {
+            await Shell.Current.GoToAsync(nameof(RentNewsView));
+        });
+
+        public ICommand ProfileCommand => new Command(async () =>
+        {
+            await Shell.Current.GoToAsync(nameof(ProfileView));
+        });
         #endregion
 
         public AccountViewModel()
