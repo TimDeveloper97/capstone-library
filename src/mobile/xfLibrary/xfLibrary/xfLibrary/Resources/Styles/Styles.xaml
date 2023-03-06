@@ -727,7 +727,12 @@
     <Style TargetType="mdc:MaterialCheckbox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
         <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+    </Style>
+
+    <Style TargetType="mdc:MaterialSegmented">
+        <Setter Property="SelectedColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
+        <Setter Property="UnselectedColor" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="10" />
     </Style>
     <!--#endregion-->
 

@@ -13,6 +13,7 @@
              xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
+             xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.AddPostView">
@@ -64,7 +65,7 @@
                     <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
                            Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
-                        <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Image}"
+                        <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.BookPlus}"
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
                     </Frame>
 
@@ -87,11 +88,18 @@
                     <Grid Grid.Column="1" RowDefinitions="4*,6*">
                         <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBlack" HorizontalOptions="Start" VerticalOptions="End" Text="Tim Dev"/>
                         <StackLayout Grid.Row="1" Orientation="Horizontal" Spacing="10" VerticalOptions="Start">
-                            <Frame HeightRequest="45" WidthRequest="120" Padding="1,-5">
-                                <mdc:MaterialPicker VerticalOptions="Center" ItemsSource="{Binding Categorys}" Type="Filled" Placeholder="Thể loại" LeadingIcon="ic_category.png"/>
+                            <Frame HeightRequest="45" WidthRequest="90" Padding="1,-5">
+                                <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
+                                    <Label Style="{StaticResource IconLabel}" FontSize="25" Text="{Static icon:FontIcons.BookPlus}"
+                                            VerticalOptions="Center" HorizontalOptions="Start" />
+                                    <Label Style="{StaticResource TitleLabelStyle}" Text="Thể loại" VerticalOptions="Center" HorizontalOptions="Start" FontSize="{StaticResource MiniTitle}"/>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.CategoryCommand, Source={x:Reference Name=self}}"/>
+                                </Frame.GestureRecognizers>
                             </Frame>
-                            <Frame HeightRequest="45" Padding="1,-5" WidthRequest="100">
-                                <mdc:MaterialSwitch Text="Thuê lại" VerticalOptions="Center"/>
+                            <Frame HeightRequest="45" Padding="1,-5">
+                                <mdc:MaterialSegmented ItemsSource="{Binding YesNo}" Margin="10"/>
                             </Frame>
                         </StackLayout>
                     </Grid>

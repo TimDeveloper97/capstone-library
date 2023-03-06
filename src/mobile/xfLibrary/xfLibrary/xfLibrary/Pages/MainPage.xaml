@@ -29,7 +29,7 @@
     </ContentPage>
 
     <!--#region Show only Manager -->
-    <ContentPage Title="Quản lý báo cáo" Icon="ic_news.png" xf:BottomBarPageExtensions.TabColor="#00337C">
+    <ContentPage Title="Quản lý" Icon="ic_news.png" xf:BottomBarPageExtensions.TabColor="#00337C">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
