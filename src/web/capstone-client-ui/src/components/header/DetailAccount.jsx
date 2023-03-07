@@ -1,5 +1,5 @@
 import React from "react";
-import { BoxArrowRight, Cart, PersonFillGear, Receipt } from "react-bootstrap-icons";
+import { BookHalf, BoxArrowRight, Cart, PersonFillGear, Receipt } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
 export default function DetailAccount(props) {
@@ -19,18 +19,24 @@ export default function DetailAccount(props) {
         <Cart color="Green" size={iconSize} /> Đơn mua
       </div>
       <div className="detail-item">
-        <Receipt color="blue" size={iconSize} /> Đơn bán
+        <Receipt color="#FD8A8A" size={iconSize} /> Đơn bán
+      </div>
+      <div className="detail-item">
+        <Link to={'./my-book'} className="item-link">
+          <BookHalf  size={iconSize} color="#2F58CD" /> Sách của tôi
+        </Link>
       </div>
       <div className="accout-title">
         Khác
       </div>
       <div className="detail-item">
-       <Link to={'/profile'} className="item-link">
-       <PersonFillGear /> Cài đặt tài khoản
+       <Link to={'/profile'}  className="item-link">
+       <PersonFillGear size={iconSize} /> Cài đặt tài khoản
        </Link>
       </div>
+      
       {props.isLogged && <div className="detail-item">
-        <BoxArrowRight /> Đăng xuất
+        <BoxArrowRight size={iconSize} /> Đăng xuất
       </div>}
     </div>
   );

@@ -1,0 +1,39 @@
+.upload-img {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px dotted black;
+    border-radius: 20px;
+    width: 10rem;
+    height: 4rem;
+    cursor: pointer;
+    font-size: large;
+    background-color: #C0DEFF;
+}
+.upload-img span{
+    font-weight: lighter;
+    font-size: small;
+    padding-top: 0.5rem;
+}
+.upload-img input {
+    display: none;
+}
+.image {
+    position: relative;
+    margin: 10px 0;
+}
+
+.image button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background: border-box;
+}
+.input-mg{
+    margin: 15px 0;
+}
+.btn-pd{
+    padding: 5px 15px;
+}
