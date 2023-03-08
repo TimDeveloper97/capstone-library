@@ -11,9 +11,9 @@ using xfLibrary.ViewModels;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RentNewsView : ContentPage
+    public partial class RentPostView : ContentPage
     {
-        public RentNewsView()
+        public RentPostView()
         {
             InitializeComponent();
             BindingContext = new RentPostViewModel();

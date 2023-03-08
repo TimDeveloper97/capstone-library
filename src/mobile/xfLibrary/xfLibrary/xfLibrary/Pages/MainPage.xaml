@@ -9,13 +9,17 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              Shell.NavBarIsVisible="False"
              FixedMode="False"
+             x:Name="self"
              x:Class="xfLibrary.Pages.MainPage">
 
-    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#13005A">
+    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#13005A" >
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
                 Command="{Binding PageHomeAppearingCommand}" />
+            <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding PageHomeDisappearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
@@ -33,12 +37,15 @@
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
-                Command="{Binding PageNewsAppearingCommand}" />
+                Command="{Binding PagePostAppearingCommand}" />
+            <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding PagePostDisappearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar1" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar1}}"/>
-            <pages:ReportView Margin="0,-7" Grid.Row="1"/>
+            <pages:ReportView Margin="0,-7" Grid.Row="1" IsVisible="{Binding IsBusy, Source={x:Reference self}}"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
                                            IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
@@ -52,6 +59,9 @@
             <xct:EventToCommandBehavior
                 EventName="Appearing"
                 Command="{Binding PageNotificationAppearingCommand}" />
+            <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding PageNotificationDisappearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar3" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
@@ -69,6 +79,9 @@
             <xct:EventToCommandBehavior
                 EventName="Appearing"
                 Command="{Binding PageAccountAppearingCommand}" />
+            <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding PageAccountDisappearingCommand}" />
         </ContentPage.Behaviors>
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar4" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"

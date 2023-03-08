@@ -45,6 +45,9 @@
     <Compile Update="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\Popup\DetailPostPopup.xaml.cs">
+      <DependentUpon>DetailPostPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\RentPostView.xaml.cs">
       <DependentUpon>RentPostView.xaml</DependentUpon>
     </Compile>
@@ -98,7 +101,10 @@
     <EmbeddedResource Update="Pages\LoginView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\Popup\DetailNewsPopup.xaml">
+    <EmbeddedResource Update="Pages\Popup\DetailPostPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\OrderBookPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\ProfileView.xaml">

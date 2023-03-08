@@ -16,11 +16,13 @@ namespace xfLibrary.ViewModels
     class HomeViewModel : BaseViewModel
     {
         #region Property
-        private ObservableCollection<string> suggests, recentUpdates;
+        private ObservableCollection<Category> category;
+        private ObservableCollection<string> recentUpdates, slide;
         private string currentItem;
 
-        public ObservableCollection<string> Suggests { get => suggests; set => SetProperty(ref suggests, value); }
+        public ObservableCollection<Category> Category { get => category; set => SetProperty(ref category, value); }
         public ObservableCollection<string> RecentUpdates { get => recentUpdates; set => SetProperty(ref recentUpdates, value); }
+        public ObservableCollection<string> Slide { get => slide; set => SetProperty(ref slide, value); }
         public string CurrentItem { get => currentItem; set => SetProperty(ref currentItem, value); }
 
         #endregion
@@ -47,7 +49,7 @@ namespace xfLibrary.ViewModels
                 "Tôi được đặt tên là 'Geon Chung', dùng những kiến thức của kiếp để ngộ ra đạo lý võ công và tiến bộ thần tốc.",
                 Slide = new ObservableCollection<string>() { "slide1.jpg", "slide2.jpg", "slide3.jpg" },
             };
-            var update = await Shell.Current.ShowPopupAsync(new DetailNewsPopup(a));
+            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(a));
         });
         #endregion
 
@@ -59,10 +61,29 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png"};
+            Slide = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.jpg" };
+            Category = new ObservableCollection<Category>();
+
+            MessagingCenter.Subscribe<object, object>(this, "category",
+                  (sender, arg) =>
+                  {
+                      if (arg == null)
+                          _message.ShortAlert("Mất kết nối internet.");
+                      else
+                      {
+                          var category = (IList<Category>)arg;
+
+                          foreach (var item in category)
+                          {
+                              item.Image = "chotot.jpg";
+                              Category.Add(item);
+                          }
+                      }    
+                  });
+
+
             RecentUpdates = new ObservableCollection<string>();
-            IsBusy = true;
-            CurrentItem = Suggests.Skip(1).FirstOrDefault();
+
         }
         #endregion
     }

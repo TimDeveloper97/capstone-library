@@ -42,38 +42,57 @@ namespace xfLibrary.ViewModels
 
         public ICommand TestCommand => new Command(() =>
         {
-            //var x = text;
         });
         #endregion
 
-
-        public ICommand PageHomeAppearingCommand => new Command(() =>
+        public MainViewModel()
         {
-            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png",
-                "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png" };
+        }
+
+        #region Appearing
+        public ICommand PageHomeAppearingCommand => new Command(async () =>
+        {
+            var category = await _mainService.CategoryAsync();
+
+            MessagingCenter.Send<object, object>(this, "category", category);
         });
 
-        public ICommand PageNewsAppearingCommand => new Command(() =>
+        public ICommand PagePostAppearingCommand => new Command(async () =>
         {
-            MessagingCenter.Send<object, string>(this, "Hi", "News View");
+            await MoveToLogin(() =>
+            { });
         });
 
-        public ICommand PageAddAppearingCommand => new Command(() =>
+        public ICommand PageNotificationAppearingCommand => new Command(async () =>
         {
-            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png",
-                "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png" };
-        });
-
-        public ICommand PageNotificationAppearingCommand => new Command(() =>
-        {
-            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png",
-                "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png" };
+            await MoveToLogin(() =>
+            { MessagingCenter.Send<object, string>(this, "Hi", "Notification View"); });
         });
 
         public ICommand PageAccountAppearingCommand => new Command(() =>
         {
-            Suggests = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png",
-                "slide1.jpg", "slide2.jpg", "slide3.png", "slide1.jpg", "slide2.jpg", "slide3.png" };
         });
+        #endregion
+
+
+        #region MyRegion 
+        public ICommand PageHomeDisappearingCommand => new Command(async () =>
+        {
+            MessagingCenter.Unsubscribe<object, object>(this, "category");
+        });
+
+        public ICommand PagePostDisappearingCommand => new Command(async () =>
+        {
+        });
+
+        public ICommand PageNotificationDisappearingCommand => new Command(async () =>
+        {
+            
+        });
+
+        public ICommand PageAccountDisappearingCommand => new Command(() =>
+        {
+        });
+        #endregion
     }
 }

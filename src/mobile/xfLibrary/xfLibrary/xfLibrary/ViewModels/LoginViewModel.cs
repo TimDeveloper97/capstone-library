@@ -22,10 +22,26 @@ namespace xfLibrary.ViewModels
         {
             await Shell.Current.GoToAsync(nameof(RegisterView));
         });
+
+        public ICommand LoginCommand => new Command(async () =>
+        {
+            var user = await _accountService.LoginAsync("admin", "1");
+
+            if(user != null)
+            {
+                _token = user.Id;
+                _user = user;
+
+                MessagingCenter.Send<object, string>(this, "HasLogin", "true");
+                HomeCommand.Execute(null);
+            }
+        });
+
         #endregion
 
         public LoginViewModel()
         {
+            
         }
 
     }

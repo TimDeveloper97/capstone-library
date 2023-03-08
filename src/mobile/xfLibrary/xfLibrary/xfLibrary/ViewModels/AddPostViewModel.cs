@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 using XF.Material.Forms.UI.Dialogs;
 using xfLibrary.Domain;
 using xfLibrary.Pages;
+using xfLibrary.Pages.Popup;
 
 namespace xfLibrary.ViewModels
 {
@@ -22,7 +24,18 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
+        public ICommand PageAppearingCommand => new Command(async () => {
+            var category = await _mainService.CategoryAsync();
+            foreach (var item in category)
+            {
+                Category.Add(item.Name);
+            }
+        });
+        public ICommand BookCommand => new Command(async () => {
+            var books = await _accountService.GetAllBookAsync();
 
+            var update = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new Models.ListBook { Books = new ObservableCollection<Models.Book>(books) }));
+        });
         public ICommand PostCommand => new Command(async () => { });
         public ICommand CategoryCommand => new Command(async () => {
             var jobs = Category;

@@ -14,7 +14,7 @@
              IsLightDismissEnabled="True"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.Popup.DetailNewsPopup">
+             x:Class="xfLibrary.Pages.Popup.DetailPostPopup">
     <xct:Popup.Content>
         <Grid>
             <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">

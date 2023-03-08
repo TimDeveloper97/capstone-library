@@ -10,6 +10,11 @@
     <converter:DatetimeConverter x:Key="StringToDateTime" />
     <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <converter:HeightConverter x:Key="AutoHeightConverter" />
+    <converter:ChangeBoolConverter x:Key="ChangeBoolConverter" />
+    <converter:StringToMoneyConverter x:Key="StringToMoneyConverter" />
+    <converter:UpperStringConverter x:Key="UpperStringConverter" />
+    <converter:LimitNumberConverter x:Key="LimitNumberConverter" />
+    <converter:NoneConverter x:Key="NoneConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>

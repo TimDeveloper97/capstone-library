@@ -11,10 +11,10 @@ using xfLibrary.Models;
 namespace xfLibrary.Pages.Popup
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DetailNewsPopup : Xamarin.CommunityToolkit.UI.Views.Popup<A>
+    public partial class DetailPostPopup : Xamarin.CommunityToolkit.UI.Views.Popup<A>
     {
         A _model;
-        public DetailNewsPopup(A m)
+        public DetailPostPopup(A m)
         {
             InitializeComponent();
             _model = m;

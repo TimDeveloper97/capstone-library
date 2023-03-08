@@ -43,6 +43,14 @@
             <Setter Property="Margin" Value="10" />
         </Style>
     </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageAppearingCommand}" />
+        <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding PageDisappearingCommand}" />
+    </ContentPage.Behaviors>
     <ContentPage.Content>
         <ScrollView>
             <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
@@ -67,6 +75,9 @@
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
                         <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.BookPlus}"
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BookCommand, Source={x:Reference Name=self}}"/>
+                        </Frame.GestureRecognizers>
                     </Frame>
 
                     <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng bài" Margin="10" FontSize="20"

@@ -22,7 +22,7 @@
                 <Grid RowDefinitions="auto, auto, auto" Style="{StaticResource GridBackground}">
                     <!--#region Live slide -->
                     <StackLayout Grid.Row="0">
-                        <cards:CarouselView ItemsSource="{Binding Suggests}" SlideShowDuration="3500">
+                        <cards:CarouselView ItemsSource="{Binding Slide}" SlideShowDuration="3500">
                             <cards:CarouselView.ItemTemplate>
                                 <DataTemplate>
                                     <ContentView>
@@ -44,17 +44,18 @@
                             <Label FontSize="Title" Text="Khám phá danh mục" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
                                         HorizontalOptions="Start"/>
 
-                            <CollectionView ItemsSource="{Binding Suggests}" HeightRequest="100" SelectionMode="Single">
+                            <CollectionView ItemsSource="{Binding Category}" HeightRequest="100" SelectionMode="Single">
                                 <CollectionView.ItemsLayout>
                                     <LinearItemsLayout Orientation="Horizontal" />
                                 </CollectionView.ItemsLayout>
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid RowDefinitions="*, 15" Padding="10">
+                                        <Grid RowDefinitions="*, 40" Padding="10,0,10,0">
                                             <Frame HeightRequest="70" WidthRequest="70">
-                                                <Image Source="{Binding}" Aspect="Fill"/>
+                                                <Image Source="{Binding Image}" Aspect="Fill"/>
                                             </Frame>
-                                            <Label Grid.Row="1" Text="{Binding}" HorizontalOptions="Center"/>
+                                            <Label Grid.Row="1" Text="{Binding Name}" WidthRequest="70"
+                                                   LineBreakMode="WordWrap" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
