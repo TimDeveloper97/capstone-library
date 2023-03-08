@@ -12,7 +12,7 @@ export default function BookItem(props) {
       </div>
       <p className="book-title">Harry Potter and the goblet of fire</p>
       <div className="rating">
-        4.8 <Star color="rgb(253, 216, 54)" /> <span>|</span> Đã được thuê 5000
+        Trinh thám <span>|</span> Kinh dị <span>|</span> Viễn tưởng
       </div>
       <div className="book-price">100.000 đ</div>
       <div className="sub-title">
