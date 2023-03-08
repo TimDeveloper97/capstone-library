@@ -37,3 +37,52 @@
 .btn-pd{
     padding: 5px 15px;
 }
+
+
+.post-content{
+    height: 480px;
+    position: sticky;
+    top: 0;
+}
+.post{
+    height: 120px;
+}
+.post p{
+    margin: 0;
+}
+.post .mybook-title{
+    font-size: unset;
+}
+.post .price{
+    font-size: small;
+}
+.post .quantity{
+    font-size: smaller;
+}
+.btn-adj{
+    padding: 0 5px 5px 5px;
+}
+.number-col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.check-book{
+    margin-top: 25px;
+}
+.list-book-selected{
+    padding: 10px;
+}
+.book-selected{
+    display: flex;
+    justify-content: space-between;
+    color: #2192FF;
+    font-size: small;
+}
+.sum-price{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
