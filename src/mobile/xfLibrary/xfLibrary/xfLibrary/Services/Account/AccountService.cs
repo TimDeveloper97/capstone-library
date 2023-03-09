@@ -26,5 +26,11 @@ namespace xfLibrary.Services.Account
                         }, Api.Login);
             return res;
         }
+
+        public async Task<MResponse> RegisterAsync(object obj)
+        {
+            var res = await Service<MResponse>.Post(obj, Api.Register);
+            return res;
+        }
     }
 }

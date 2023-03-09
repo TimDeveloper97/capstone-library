@@ -35,11 +35,6 @@ namespace xfLibrary.ViewModels
 
         public ICommand BookCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(BookView))));
 
-        public ICommand LayoutChangedCommand => new Command(() =>
-        {
-            //IsVisible = HasLogin();
-        });
-
         public ICommand LogoutCommand => new Command(async () =>
         {
             await TimeoutSession("Đăng xuất thành công");
