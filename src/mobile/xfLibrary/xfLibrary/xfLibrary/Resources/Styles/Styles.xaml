@@ -10,6 +10,11 @@
     <converter:DatetimeConverter x:Key="StringToDateTime" />
     <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <converter:HeightConverter x:Key="AutoHeightConverter" />
+    <converter:ChangeBoolConverter x:Key="ChangeBoolConverter" />
+    <converter:StringToMoneyConverter x:Key="StringToMoneyConverter" />
+    <converter:UpperStringConverter x:Key="UpperStringConverter" />
+    <converter:LimitNumberConverter x:Key="LimitNumberConverter" />
+    <converter:NoneConverter x:Key="NoneConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
@@ -286,6 +291,8 @@
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="RowHeight" Value="70" />
         <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="IsPullToRefreshEnabled" Value="True" />
+        <Setter Property="HasUnevenRows" Value="True" />
     </Style>
 
     <Style TargetType="Picker">
@@ -725,7 +732,12 @@
     <Style TargetType="mdc:MaterialCheckbox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
         <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+    </Style>
+
+    <Style TargetType="mdc:MaterialSegmented">
+        <Setter Property="SelectedColor" Value="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}" />
+        <Setter Property="UnselectedColor" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="10" />
     </Style>
     <!--#endregion-->
 

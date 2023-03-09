@@ -45,7 +45,6 @@ namespace xfLibrary.ViewModels
         #region Command
 
         public ICommand DetailCommand => new Command<object>(OnNavigate);
-        public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
         #endregion
 
         void LoadData()

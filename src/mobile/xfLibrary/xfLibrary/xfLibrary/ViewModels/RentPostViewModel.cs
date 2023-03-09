@@ -10,7 +10,7 @@ using xfLibrary.Pages;
 
 namespace xfLibrary.ViewModels
 {
-    class RentNewsViewModel : BaseViewModel
+    class RentPostViewModel : BaseViewModel
     {
         #region Properties
         private string text;
@@ -39,7 +39,7 @@ namespace xfLibrary.ViewModels
 
         #endregion
 
-        public RentNewsViewModel()
+        public RentPostViewModel()
         {
             ExecuteLoadMessagingCenter();
             Init();

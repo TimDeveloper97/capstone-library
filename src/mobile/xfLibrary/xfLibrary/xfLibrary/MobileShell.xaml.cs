@@ -8,6 +8,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using xfLibrary.Pages;
 using xfLibrary.Pages.Popup;
+using xfLibrary.Services.Account;
+using xfLibrary.Services.Main;
 
 namespace xfLibrary
 {
@@ -25,9 +27,8 @@ namespace xfLibrary
         void InitDependencyService()
         {
             //await CheckAndRequestPermission();
-            //DependencyService.Register<Services.Temp.SomeService>();
-            //DependencyService.Register<Services.MainService>();
-            
+            DependencyService.Register<AccountService>();
+            DependencyService.Register<MainService>();
         }
 
         void InitRoute()
@@ -35,9 +36,10 @@ namespace xfLibrary
             Routing.RegisterRoute(nameof(LoginView), typeof(LoginView));
             Routing.RegisterRoute(nameof(ChatView), typeof(ChatView));
             Routing.RegisterRoute(nameof(AddReportView), typeof(AddReportView));
-            Routing.RegisterRoute(nameof(RentNewsView), typeof(RentNewsView));
-            Routing.RegisterRoute(nameof(AddNewsStep1View), typeof(AddNewsStep1View));
-            Routing.RegisterRoute(nameof(AddNewsStep2View), typeof(AddNewsStep2View));
+            Routing.RegisterRoute(nameof(RentPostView), typeof(RentPostView));
+            Routing.RegisterRoute(nameof(AddPostView), typeof(AddPostView));
+            Routing.RegisterRoute(nameof(BookView), typeof(BookView));
+            Routing.RegisterRoute(nameof(AddBookView), typeof(AddBookView));
             Routing.RegisterRoute(nameof(ChatDetailView), typeof(ChatDetailView));
             Routing.RegisterRoute(nameof(RegisterView), typeof(RegisterView));
             Routing.RegisterRoute(nameof(OrderView), typeof(OrderView));

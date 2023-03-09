@@ -16,7 +16,7 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.RentNewsView">
+             x:Class="xfLibrary.Pages.RentPostView">
     <ContentPage.Content>
         <Grid RowDefinitions="auto, *" HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">
             <!--#region Navigator -->

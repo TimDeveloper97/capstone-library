@@ -7,10 +7,10 @@ namespace xfLibrary.Domain
 {
     public class BaseModel : BaseBinding
     {
-        [JsonProperty("Id")]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("CreationDate")]
+        [JsonProperty("creationDate")]
         public DateTime CreationDate { get; set; }
     }
 }
