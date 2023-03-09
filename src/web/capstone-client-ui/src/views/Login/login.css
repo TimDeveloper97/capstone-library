@@ -27,3 +27,15 @@
     min-height: calc(100vh - 120px - 110px);
     padding-top: 20px;
 }
+.error-message{
+    text-align: left;
+    color: red;
+    font-size: 0.75rem;
+}
+.notification-message{
+    text-align: left !important;
+}
+.notification-message h4{
+    border-bottom: none;
+    padding-bottom: 0;
+}
