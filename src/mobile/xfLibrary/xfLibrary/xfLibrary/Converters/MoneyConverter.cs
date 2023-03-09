@@ -6,14 +6,17 @@ using Xamarin.Forms;
 
 namespace xfLibrary.Converters
 {
-    class UpperStringConverter : IValueConverter
+    class MoneyConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return null;
-
-            string result = value.ToString().ToUpper();
-            return result;
+            CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
+            if (value != null)
+            {
+                string result = double.Parse(value.ToString()).ToString("#,###", cul.NumberFormat);
+                return result;
+            }
+            return 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

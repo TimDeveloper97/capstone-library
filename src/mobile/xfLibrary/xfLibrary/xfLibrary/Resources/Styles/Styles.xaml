@@ -15,6 +15,7 @@
     <converter:UpperStringConverter x:Key="UpperStringConverter" />
     <converter:LimitNumberConverter x:Key="LimitNumberConverter" />
     <converter:NoneConverter x:Key="NoneConverter" />
+    <converter:MoneyConverter x:Key="MoneyConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>

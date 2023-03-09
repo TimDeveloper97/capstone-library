@@ -46,12 +46,12 @@
                         </Grid>
                         
                         <StackLayout Margin="20,0">
-                            <mdc:MaterialEntry LabelText="Tài khoản *" Text="{Binding UserName}"/>
+                            <mdc:MaterialEntry LabelText="Tài khoản *" Text="{Binding Email}"/>
                             <mdc:MaterialEntry LabelText="Mật khẩu *" IsPassword="True" Text="{Binding Password}"/>
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="13,5,0,-10">
-                            <CheckBox IsChecked="False"/>
+                            <CheckBox IsChecked="{Binding IsRemember}"/>
                             <Label Text="Nhớ tài khoản mật khẩu" VerticalOptions="Center"/>
                         </StackLayout>
 

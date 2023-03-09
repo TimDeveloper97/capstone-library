@@ -14,13 +14,9 @@ namespace xfLibrary.ViewModels
     public class AccountViewModel : BaseViewModel
     {
         #region Properties
-        private string text;
-        User user;
+        private User profile;
 
-        public User User { get => user; set => SetProperty(ref user, value); }
-
-        public string Text { get => text; set => SetProperty(ref text, value); }
-
+        public User Profile { get => profile; set => SetProperty(ref profile, value); }
         #endregion
 
         #region Command 
@@ -41,25 +37,34 @@ namespace xfLibrary.ViewModels
 
         public ICommand LayoutChangedCommand => new Command(() =>
         {
-            IsVisible = HasLogin();
+            //IsVisible = HasLogin();
         });
 
         public ICommand LogoutCommand => new Command(async () =>
         {
             await TimeoutSession("Đăng xuất thành công");
-            User = null;
+            Profile = null;
         });
         #endregion
 
         public AccountViewModel()
         {
-            MessagingCenter.Subscribe<object, string>(this, "HasLogin",
+            Init();
+        }
+
+        #region Method
+        void Init()
+        {
+            Profile = new User();
+
+            MessagingCenter.Subscribe<object, bool>(this, "haslogin",
                   (sender, arg) =>
                   {
-                      IsVisible = bool.Parse(arg);
+                      IsVisible = arg;
 
-                      User = _user;
+                      Profile = _user;
                   });
         }
+        #endregion
     }
 }

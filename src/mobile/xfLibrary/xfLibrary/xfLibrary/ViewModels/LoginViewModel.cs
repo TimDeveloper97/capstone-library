@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Pages;
@@ -11,9 +12,12 @@ namespace xfLibrary.ViewModels
     class LoginViewModel : BaseViewModel
     {
         #region Properties
-        private string text;
+        private string email, password;
+        private bool isRemember;
 
-        public string Text { get => text; set => SetProperty(ref text, value); }
+        public string Email { get => email; set => SetProperty(ref email, value); }
+        public string Password { get => password; set => SetProperty(ref password, value); }
+        public bool IsRemember { get => isRemember; set => SetProperty(ref isRemember, value); }
 
         #endregion
 
@@ -25,6 +29,13 @@ namespace xfLibrary.ViewModels
 
         public ICommand LoginCommand => new Command(async () =>
         {
+            if(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+            {
+                _message.ShortAlert("Không được để trống");
+                return;
+            }
+
+            IsBusy = true;
             var user = await _accountService.LoginAsync("admin", "1");
 
             if(user != null)
@@ -32,8 +43,15 @@ namespace xfLibrary.ViewModels
                 _token = user.Id;
                 _user = user;
 
-                MessagingCenter.Send<object, string>(this, "HasLogin", "true");
-                HomeCommand.Execute(null);
+                if(IsRemember)
+                {
+                    Preferences.Set("email", Email);
+                    Preferences.Set("password", Password);
+                }
+                Preferences.Set("isremember", IsRemember);
+
+                IsBusy = false;
+                await Shell.Current.GoToAsync($"..");
             }
         });
 
@@ -41,7 +59,15 @@ namespace xfLibrary.ViewModels
 
         public LoginViewModel()
         {
-            
+            Email = "admin";
+            Password = "1";
+
+            var isremember = Preferences.Get("isremember", false);
+            if(isremember)
+            {
+                Email = Preferences.Get("email", null);
+                Password = Preferences.Get("password", null);
+            }
         }
 
     }
