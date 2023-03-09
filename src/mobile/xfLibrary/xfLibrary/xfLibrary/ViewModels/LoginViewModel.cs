@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Pages;
+using xfLibrary.Pages.Popup;
 
 namespace xfLibrary.ViewModels
 {
@@ -21,10 +23,16 @@ namespace xfLibrary.ViewModels
 
         #endregion
 
-        #region Command
+        #region Command 
         public ICommand RegisterCommand => new Command(async () =>
         {
             await Shell.Current.GoToAsync(nameof(RegisterView));
+        });
+
+        public ICommand ForgotPasswordCommand => new Command(async () =>
+        {
+            var message = await Shell.Current.ShowPopupAsync(new ForgotPasswordPopup());
+            _message.ShortAlert(message);
         });
 
         public ICommand LoginCommand => new Command(async () =>

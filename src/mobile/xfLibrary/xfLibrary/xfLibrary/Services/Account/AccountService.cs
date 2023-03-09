@@ -11,6 +11,12 @@ namespace xfLibrary.Services.Account
 {
     class AccountService : IAccountService
     {
+        public async Task<MResponse> ForgotPasswordAsync(object obj)
+        {
+            var res = await Service<MResponse>.Post(obj, Api.ForgotPassword);
+            return res;
+        }
+
         public async Task<List<Book>> GetAllBookAsync()
         {
             var res = await Service<List<Book>>.Get(Api.Book);

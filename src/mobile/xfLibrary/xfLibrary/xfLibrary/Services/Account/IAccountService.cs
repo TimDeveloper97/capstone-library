@@ -12,6 +12,7 @@ namespace xfLibrary.Services.Login
     {
         Task<User> LoginAsync(string username, string password);
         Task<MResponse> RegisterAsync(object obj);
+        Task<MResponse> ForgotPasswordAsync(object obj);
         Task<List<Book>> GetAllBookAsync();
     }
 }

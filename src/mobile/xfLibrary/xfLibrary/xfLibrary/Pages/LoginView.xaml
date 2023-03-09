@@ -48,6 +48,11 @@
                         <StackLayout Margin="20,0">
                             <mdc:MaterialEntry LabelText="Tài khoản *" Text="{Binding Email}"/>
                             <mdc:MaterialEntry LabelText="Mật khẩu *" IsPassword="True" Text="{Binding Password}"/>
+                            <Label Text="Quên mật khẩu?" HorizontalOptions="End" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.ForgotPasswordCommand, Source={x:Reference Name=self}}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="13,5,0,-10">
