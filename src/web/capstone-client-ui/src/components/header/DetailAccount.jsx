@@ -22,7 +22,7 @@ export default function DetailAccount(props) {
         <Receipt color="#FD8A8A" size={iconSize} /> Đơn bán
       </div>
       <div className="detail-item">
-        <Link to={'./my-book'} className="item-link">
+        <Link to={'/user/my-book'} className="item-link">
           <BookHalf  size={iconSize} color="#2F58CD" /> Sách của tôi
         </Link>
       </div>
@@ -30,7 +30,7 @@ export default function DetailAccount(props) {
         Khác
       </div>
       <div className="detail-item">
-       <Link to={'/profile'}  className="item-link">
+       <Link to={'/user/profile'}  className="item-link">
        <PersonFillGear size={iconSize} /> Cài đặt tài khoản
        </Link>
       </div>

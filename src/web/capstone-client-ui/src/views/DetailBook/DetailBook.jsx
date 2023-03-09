@@ -40,8 +40,22 @@ export default function DetailBook() {
             <p className="book-price">
               <Coin color="green" /> 100.000 d
             </p>
-            <p className="quantity">So luong: 1</p>
-            <h6>Mo ta</h6>
+            <h6>Danh sách</h6>
+            <div className="list-book-selected">
+                    <div className="book-selected">
+                        <span>Harry potter and halfblood prince</span>
+                        <span>x4</span>
+                    </div>
+                    <div className="book-selected">
+                        <span>Harry potter and halfblood prince</span>
+                        <span>x4</span>
+                    </div>
+                    <div className="book-selected">
+                        <span>Harry potter and halfblood prince</span>
+                        <span>x4</span>
+                    </div>
+                </div>
+            <h6>Mô tả</h6>
             <p className="description">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
@@ -50,7 +64,7 @@ export default function DetailBook() {
               survived not only five centuries, but also the leap into
               electronic typesetting, remaining essentially unchanged
             </p>
-            <h6>Location</h6>
+            <h6>Địa điểm</h6>
             <p className="location">
               <GeoAlt /> Phuong Thanh Xuan Nam, Quan Thanh Xuan, Ha Noi
             </p>

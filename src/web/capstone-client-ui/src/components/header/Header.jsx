@@ -86,7 +86,7 @@ export default function Header() {
             </InputGroup>
           </Col>
           <Col md={2}>
-            <Link to={"/write-post"}>
+            <Link to={"/user/write-post"}>
               <button className="btn-login">
                 <PencilSquare size={20} style={{ marginRight: "10px" }} />
                 Đăng tin
