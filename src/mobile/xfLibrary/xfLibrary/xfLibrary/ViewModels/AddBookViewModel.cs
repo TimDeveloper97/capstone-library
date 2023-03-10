@@ -95,17 +95,6 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             selects = new List<int>();
-            //Book = new Book
-            //{
-            //    Name = "Hoàng tử bé",
-            //    Author = "Antoine deSaint-Exupery",
-            //    Publisher = _user?.Email ?? "Anonymous",
-            //    Description = "Hoàng tử bé sống trên tiểu tinh cầu B612. Ở đó có ba ngọn núi lửa (hai ngọn đang hoạt động còn ngọn kia thì không)" +
-            //    " và một bông hoa hồng. Cậu chăm sóc cho tiểu hành tinh của mình hằng ngày, nhổ hết các cây bao báp định bám rễ, mọc lên tại đây.",
-            //    PublishYear = DateTime.Now.Year.ToString(),
-            //    Price = "1000000",
-            //    Quantity = "100",
-            //};
             List = new ObservableCollection<string>();
             Slides = new ObservableCollection<byte[]>();
         }

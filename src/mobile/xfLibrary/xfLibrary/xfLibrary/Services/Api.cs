@@ -12,10 +12,10 @@ namespace xfLibrary.Services
 {
     public class Api
     {
-        public const string Url = "http://192.168.137.75:8090/api/";
+        public const string Url = "http://192.168.108.184:8090/api/";
         public const string Login = "login";
         public const string Category = "admin/categories";
-        public const string Book = "admin/books";
+        public const string Book = "books";
         public const string AddBook = "admin/books/add";
         public const string Register = "register";
         public const string ForgotPassword = "forgotpassword";

@@ -34,10 +34,10 @@ namespace xfLibrary.Models
         public string Quantity { get; set; }
 
         [JsonProperty("imageBook")]
-        public string ImageBook { get; set; }
+        public string ImageBook { get => imageBook; set { SetProperty(ref imageBook, value); OnPropertyChanged("ImageBook"); } }
 
 
-
+        private string imageBook;
         [JsonIgnore]
         public bool IsChecked { get; set; } = false;
         [JsonIgnore]

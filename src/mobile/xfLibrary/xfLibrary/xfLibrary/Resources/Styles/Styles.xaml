@@ -18,6 +18,7 @@
     <converter:MoneyConverter x:Key="MoneyConverter" />
     <converter:ListStringConverter x:Key="ListStringConverter" />
     <converter:StreamsToImageConverter x:Key="StreamsToImageConverter" />
+    <converter:Base64ToImageConverter x:Key="Base64ToImageConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
