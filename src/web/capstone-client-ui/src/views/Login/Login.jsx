@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -11,8 +11,6 @@ import {
   NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-import { useDispatch } from "react-redux";
-import { clearUserSession, saveUserSession } from "../../actions/auth";
 
 const schema = yup.object({
   username: yup.string().required("Tên đăng nhập không được để trống"),
@@ -29,9 +27,7 @@ export default function Login() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const dispatch = useDispatch();
   window.localStorage.clear();
-  dispatch(clearUserSession());
   const onSubmit = (data, e) => {
     e.preventDefault();
     axiosIntance
@@ -39,7 +35,7 @@ export default function Login() {
       .then((response) => {
         const {value, token} = response.data;
         window.localStorage.setItem("token", token);
-        dispatch(saveUserSession(value));
+        window.localStorage.setItem("user", JSON.stringify(value));
         const from = location.state?.from || "/";
         navigate(from, {replace: true});
       })
