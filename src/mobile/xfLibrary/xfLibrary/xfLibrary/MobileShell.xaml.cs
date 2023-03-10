@@ -46,6 +46,7 @@ namespace xfLibrary
             Routing.RegisterRoute(nameof(ProfileView), typeof(ProfileView));
             Routing.RegisterRoute(nameof(TransactionPopup), typeof(TransactionPopup));
             Routing.RegisterRoute(nameof(ForgotPasswordPopup), typeof(ForgotPasswordPopup));
+            Routing.RegisterRoute(nameof(ChangePasswordPopup), typeof(ChangePasswordPopup));
         }
 
         //public async Task<PermissionStatus> CheckAndRequestPermission()

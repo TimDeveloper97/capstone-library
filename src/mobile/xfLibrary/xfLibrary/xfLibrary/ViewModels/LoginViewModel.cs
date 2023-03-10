@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ChatApp.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
@@ -44,11 +46,18 @@ namespace xfLibrary.ViewModels
             }
 
             IsBusy = true;
-            var user = await _accountService.LoginAsync("admin", "1");
+            var res = await _accountService.LoginAsync("admin", "2");
+            if(res.Value == null)
+            {
+                IsBusy = false;
+                _message.ShortAlert(res.Message);
+                return;
+            }    
 
+            var user = JsonConvert.DeserializeObject<User>(res.Value?.ToString());
             if(user != null)
             {
-                _token = user.Id;
+                _token = res.Token;
                 _user = user;
 
                 if(IsRemember)
@@ -57,8 +66,8 @@ namespace xfLibrary.ViewModels
                     Preferences.Set("password", Password);
                 }
                 Preferences.Set("isremember", IsRemember);
-
                 IsBusy = false;
+
                 await Shell.Current.GoToAsync($"..");
             }
         });

@@ -66,9 +66,12 @@
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
                         <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Image}"
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.PickImageCommand, Source={x:Reference Name=self}}"/>
+                        </Frame.GestureRecognizers>
                     </Frame>
 
-                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng sách" Margin="10" FontSize="20"
+                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng sách" Margin="10" FontSize="20" Command="{Binding BookCommand}"
                                                FontFamily="MuliBlack" TextColor="White" BorderColor="White"/>
                 </Grid>
                 <!--#endregion-->
@@ -87,12 +90,35 @@
                             <Frame>
                                 <StackLayout Padding="10,5,10,15" Spacing="0">
                                     <StackLayout Margin="20,0">
-                                        <mdc:MaterialEntry LabelText="Tên sách *" Text="{Binding Name}"/>
-                                        <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Password}"/>
-                                        <mdc:MaterialEntry LabelText="Nhà xuất bản" IsPassword="True" Text="{Binding Password}"/>
-                                        <mdc:MaterialDatePicker LabelText="Ngày thuê *" />
-                                        <mdc:MaterialDatePicker LabelText="Ngày trả *"/>
-                                        <mdc:MaterialEntry LabelText="Giá thuê *" Text="{Binding UserName}"/>
+                                        <mdc:MaterialEntry LabelText="Tên sách *" Text="{Binding Book.Name}"/>
+                                        <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Book.Description}"/>
+                                        <Grid ColumnDefinitions="*,*">
+                                            <mdc:MaterialEntry Grid.Column="0" LabelText="Nhà xuất bản *" Text="{Binding Book.Publisher}"/>
+                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Tác giả *" Text="{Binding Book.Author}"/>
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*,*">
+                                            <mdc:MaterialEntry LabelText="Số lượng *" Text="{Binding Book.Quantity}"/>
+                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Giá *" Text="{Binding Book.Price}"/>
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*, auto">
+                                            <Grid RowDefinitions="4*,6*" RowSpacing="0" Margin="0,5,0,0">
+                                                <Label Text="Thể loại *" Style="{StaticResource SubTitleGrayLabelStyle}" HorizontalOptions="Start"/>
+                                                <Label x:Name="category" Text="{Binding Book.Categories}" IsVisible="false"/>
+                                                <Frame Grid.Row="1" HeightRequest="35">
+                                                    <Label Style="{StaticResource SubTitleLabelStyle}" LineBreakMode="TailTruncation" Text="{Binding List, Converter={StaticResource ListStringConverter}}"
+                                                           VerticalOptions="Center" Margin="10,0" HorizontalTextAlignment="Start"/>
+                                                </Frame>
+                                            </Grid>
+                                            <Frame Grid.Column="1" HeightRequest="30" WidthRequest="30" BorderColor="Transparent" 
+                                                    Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="5,2"
+                                                    VerticalOptions="End" BackgroundColor="{StaticResource AppColor}" >
+                                                <Label Style="{StaticResource IconLabel}" FontSize="25" Text="{Static icon:FontIcons.BookEdit}"
+                                                    VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.CategoryCommand, Source={x:Reference Name=self}}"/>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </Grid>
                                     </StackLayout>
                                 </StackLayout>
                             </Frame>
@@ -105,7 +131,7 @@
                                 <DataTemplate>
                                     <ContentView>
                                         <Frame Style="{StaticResource FrameShadow}">
-                                            <Image Source="{Binding}" Aspect="Fill"/>
+                                            <Image Source="{Binding Converter={StaticResource StreamsToImageConverter}}" Aspect="Fill"/>
                                         </Frame>
                                     </ContentView>
                                 </DataTemplate>

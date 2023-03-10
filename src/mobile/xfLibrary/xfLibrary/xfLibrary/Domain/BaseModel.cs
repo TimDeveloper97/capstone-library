@@ -13,14 +13,23 @@ namespace xfLibrary.Domain
 
         [JsonProperty("creationDate")]
         public DateTime CreationDate { get; set; }
-
-        [JsonIgnore]
-        public HttpStatusCode Code { get; set; }
     }
 
-    public class MResponse : BaseModel
+    public class Response : BaseModel
     {
-        [JsonProperty("errorMessage")]
+        [JsonProperty("message")]
         public string Message { get; set; }
+
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("value")]
+        public object Value { get; set; }
+
+        [JsonProperty("token")]
+        public string Token { get; set; }
+
+        [JsonProperty("success")]
+        public bool Success { get; set; }
     }
 }

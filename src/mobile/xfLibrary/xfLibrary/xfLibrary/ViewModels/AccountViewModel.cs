@@ -33,7 +33,15 @@ namespace xfLibrary.ViewModels
 
         public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(ProfileView))));
 
-        public ICommand BookCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(BookView))));
+        //public ICommand BookCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(BookView))));
+        public ICommand BookCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(BookView)));
+
+        public ICommand ChangePasswordCommand => new Command(async () =>
+        {
+            var message = await Shell.Current.ShowPopupAsync(new ChangePasswordPopup(_token));
+            if (message == null) return;
+            _message.ShortAlert(message);
+        });
 
         public ICommand LogoutCommand => new Command(async () =>
         {

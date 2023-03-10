@@ -61,13 +61,6 @@
                 <Label Grid.Row="1" Text="Danh sách truyện" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
                            HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
 
-                <!--<Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
-                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
-                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
-                        <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Image}"
-                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
-                    </Frame>-->
-
             </Grid>
             <!--#endregion-->
 

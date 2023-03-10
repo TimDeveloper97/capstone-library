@@ -1,6 +1,10 @@
 ﻿using ChatApp.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using xfLibrary.Domain;
@@ -11,31 +15,43 @@ namespace xfLibrary.Services.Account
 {
     class AccountService : IAccountService
     {
-        public async Task<MResponse> ForgotPasswordAsync(object obj)
+        public async Task<Response> ChangePasswordAsync(object obj, string token)
         {
-            var res = await Service<MResponse>.Post(obj, Api.ForgotPassword);
+            var res = await Service.Post(obj, Api.ChangePassword, token);
+
             return res;
         }
 
-        public async Task<List<Book>> GetAllBookAsync()
+        public async Task<Response> ForgotPasswordAsync(object obj)
         {
-            var res = await Service<List<Book>>.Get(Api.Book);
+            var res = await Service.Post(obj, Api.ForgotPassword);
             return res;
         }
 
-        public async Task<User> LoginAsync(string username, string password)
+        public async Task<Response> AddBookAsync(object obj, string token)
         {
-            var res = await Service<User>.PostFromData(new[]
-                        {
-                            new KeyValuePair<string, string>("username", username),
-                            new KeyValuePair<string, string>("password", password)
-                        }, Api.Login);
+            var res = await Service.Post(obj, Api.AddBook, token);
+
             return res;
         }
 
-        public async Task<MResponse> RegisterAsync(object obj)
+        public async Task<List<Book>> GetAllBookAsync(string token)
         {
-            var res = await Service<MResponse>.Post(obj, Api.Register);
+            var res = await Service.Get(Api.Book, token);
+            var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
+            
+            return value;
+        }
+
+        public async Task<Response> LoginAsync(string username, string password)
+        {
+            var res = await Service.Post(new { username = username, password = password }, Api.Login);
+            return res;
+        }
+
+        public async Task<Response> RegisterAsync(object obj)
+        {
+            var res = await Service.Post(obj, Api.Register);
             return res;
         }
     }

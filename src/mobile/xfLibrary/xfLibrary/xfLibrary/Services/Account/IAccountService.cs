@@ -1,6 +1,7 @@
 ﻿using ChatApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using xfLibrary.Domain;
@@ -10,9 +11,12 @@ namespace xfLibrary.Services.Login
 {
     public interface IAccountService
     {
-        Task<User> LoginAsync(string username, string password);
-        Task<MResponse> RegisterAsync(object obj);
-        Task<MResponse> ForgotPasswordAsync(object obj);
-        Task<List<Book>> GetAllBookAsync();
+        Task<Response> LoginAsync(string username, string password);
+        Task<Response> RegisterAsync(object obj);
+        Task<Response> ForgotPasswordAsync(object obj);
+        Task<Response> ChangePasswordAsync(object obj, string token);
+        Task<List<Book>> GetAllBookAsync(string token);
+        Task<Response> AddBookAsync(object obj, string token);
+
     }
 }
