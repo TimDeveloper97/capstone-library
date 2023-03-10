@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./login.css";
@@ -11,6 +11,8 @@ import {
   NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import { useDispatch } from "react-redux";
+import { clearUserSession, saveUserSession } from "../../actions/auth";
 
 const schema = yup.object({
   username: yup.string().required("Tên đăng nhập không được để trống"),
@@ -18,6 +20,8 @@ const schema = yup.object({
 });
 
 export default function Login() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -25,15 +29,22 @@ export default function Login() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const dispatch = useDispatch();
+  window.localStorage.clear();
+  dispatch(clearUserSession());
   const onSubmit = (data, e) => {
     e.preventDefault();
     axiosIntance
       .post("/login", data)
       .then((response) => {
-        console.log(response.data);
+        const {value, token} = response.data;
+        window.localStorage.setItem("token", token);
+        dispatch(saveUserSession(value));
+        const from = location.state?.from || "/";
+        navigate(from, {replace: true});
       })
       .catch((err) => {
-        if(err.response.status === 401){
+        if(err.response.status === 404){
           NotificationManager.error("Tên đăng nhập hoặc mật khẩu không chính xác", "Thông báo", 2000);
         }
       });

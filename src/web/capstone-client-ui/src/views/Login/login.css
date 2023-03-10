@@ -26,6 +26,7 @@
 .body-content{
     min-height: calc(100vh - 120px - 110px);
     padding-top: 20px;
+    background-color: #fff;
 }
 .error-message{
     text-align: left;

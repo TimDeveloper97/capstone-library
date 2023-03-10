@@ -36,7 +36,7 @@ export default function Route() {
         },
         {
           path: "user",
-          element: <PrivateRoute />,
+          element: <PrivateRoute  />,
           children: [
             {
               path: "profile",
