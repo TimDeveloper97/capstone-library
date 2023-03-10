@@ -71,7 +71,9 @@ namespace xfLibrary.ViewModels
 
         public ICommand PageAccountAppearingCommand => new Command(() =>
         {
+            MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin());
         });
+       
         #endregion
 
 
@@ -89,10 +91,11 @@ namespace xfLibrary.ViewModels
         {
             
         });
-
         public ICommand PageAccountDisappearingCommand => new Command(() =>
         {
+            MessagingCenter.Unsubscribe<object, bool>(this, "haslogin");
         });
+
         #endregion
     }
 }

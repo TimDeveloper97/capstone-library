@@ -44,7 +44,7 @@
 
                         <StackLayout Margin="20,0">
                             <mdc:MaterialEntry LabelText="Tên người dùng *" Text="{Binding Name}"/>
-                            <mdc:MaterialEntry LabelText="Số điện thoại *" Text="{Binding Phone}"/>
+                            <mdc:MaterialEntry LabelText="Email *" Text="{Binding Email}"/>
                             <mdc:MaterialEntry LabelText="Tài khoản *" Text="{Binding UserName}"/>
                             <mdc:MaterialEntry LabelText="Mật khẩu *" IsPassword="True" Text="{Binding Password}"/>
                         </StackLayout>

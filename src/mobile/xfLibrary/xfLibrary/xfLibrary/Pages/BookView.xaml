@@ -43,6 +43,14 @@
             <Setter Property="Margin" Value="10" />
         </Style>
     </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <vm:BookViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageAppearingCommand}" />
+    </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
             <!--#region Navigator -->
@@ -60,13 +68,6 @@
 
                 <Label Grid.Row="1" Text="Danh sách truyện" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
                            HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
-
-                <!--<Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
-                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
-                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
-                        <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Image}"
-                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
-                    </Frame>-->
 
             </Grid>
             <!--#endregion-->
@@ -93,12 +94,12 @@
                                         <!-- Content -->
 
                                         <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                            <Image Source="{Binding}"/>
+                                            <Image Source="{Binding Path=ImageBook, Converter={StaticResource Base64ToImageConverter}, Mode=OneWay}"/>
                                             <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                                <Label Text="{Binding}" Style="{StaticResource SubHeaderLabelStyle}" VerticalOptions="End" Margin="0,0,0,-10"/>
-                                                <Label Grid.Row="1" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" 
+                                                <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End" Margin="0,0,0,-5"/>
+                                                <Label Grid.Row="1" Text="{Binding Author}" Style="{StaticResource MiniLabelStyle}" 
                                                                                HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5"/>
-                                                <Label Grid.Row="2" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
+                                                <Label Grid.Row="2" Text="{Binding Categories, Converter={StaticResource ListStringConverter}}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
                                                                                TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                                                HorizontalOptions="Start" VerticalOptions="Start" FontFamily="MuliBold"/>
                                             </Grid>

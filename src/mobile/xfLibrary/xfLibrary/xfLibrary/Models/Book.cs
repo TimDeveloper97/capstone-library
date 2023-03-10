@@ -25,11 +25,19 @@ namespace xfLibrary.Models
         public string PublishYear { get; set; }
 
         [JsonProperty("categories")]
-        public List<string> Categories { get; set; }
+        public List<string> Categories;
+
+        [JsonProperty("author")]
+        public string Author { get; set; }
 
         [JsonProperty("quantity")]
         public string Quantity { get; set; }
 
+        [JsonProperty("imageBook")]
+        public string ImageBook { get => imageBook; set { SetProperty(ref imageBook, value); OnPropertyChanged("ImageBook"); } }
+
+
+        private string imageBook;
         [JsonIgnore]
         public bool IsChecked { get; set; } = false;
         [JsonIgnore]

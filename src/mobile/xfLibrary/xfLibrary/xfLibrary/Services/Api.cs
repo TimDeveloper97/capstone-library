@@ -5,20 +5,26 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
+using xfLibrary.Domain;
 
 namespace xfLibrary.Services
 {
     public class Api
     {
-        public const string Url = "http://192.168.137.75:8090/api/";
+        public const string Url = "http://192.168.108.184:8090/api/";
         public const string Login = "login";
         public const string Category = "admin/categories";
-        public const string Book = "admin/books";
+        public const string Book = "books";
+        public const string AddBook = "admin/books/add";
+        public const string Register = "register";
+        public const string ForgotPassword = "forgotpassword";
+        public const string ChangePassword = "change-password";
     }
 
-    public class Service<T> : Api
+    public class Service : Api
     {
-        public static async Task<T> PostFromData(IEnumerable<KeyValuePair<string, string>> l, string url)
+        public static async Task<Response> PostFromData(IEnumerable<KeyValuePair<string, string>> l, string url, string token = null)
         {
             HttpClientHandler clientHandler = new HttpClientHandler
             {
@@ -26,74 +32,76 @@ namespace xfLibrary.Services
             };
 
             var httpClient = new HttpClient(clientHandler);
+            if (token != null)
+                httpClient.DefaultRequestHeaders.Authorization =
+                            new AuthenticationHeaderValue("Bearer", token);
+
+
             var formContent = new FormUrlEncodedContent(l);
 
             try
             {
                 var response = await httpClient.PostAsync(Url + url, formContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var jresult = JsonConvert.DeserializeObject<T>(content);
+                var content = await response.Content.ReadAsStringAsync();
+                var jBaseModel = JsonConvert.DeserializeObject<Response>(content);
 
-                    return jresult;                    
-                }
+                return jBaseModel;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error: Fail to call api");
             }
 
-            return default(T);
+            return default(Response);
         }
 
-        public static async Task<T> Get(string url)
+        public static async Task<Response> Get(string url, string token = null)
         {
             var httpClient = new HttpClient();
+            if (token != null)
+                httpClient.DefaultRequestHeaders.Authorization =
+                            new AuthenticationHeaderValue("Bearer", token);
 
             try
             {
                 var response = await httpClient.GetAsync(Url + url);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var jBaseModel = JsonConvert.DeserializeObject<T>(content);
+                var content = await response.Content.ReadAsStringAsync();
+                var jBaseModel = JsonConvert.DeserializeObject<Response>(content);
 
-                    return jBaseModel;
-                }
+                return jBaseModel;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error: fail to call api");
             }
 
-            return default(T);
+            return default(Response);
         }
 
-        public static async Task<T> Post(object obj, string url)
+        public static async Task<Response> Post(object obj, string url, string token = null)
         {
             var httpClient = new HttpClient();
             var json = JsonConvert.SerializeObject(obj);
             HttpContent httpContent = new StringContent(json);
-
+            if (token != null)
+                httpClient.DefaultRequestHeaders.Authorization =
+                            new AuthenticationHeaderValue("Bearer", token);
             httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
             try
             {
                 var response = await httpClient.PostAsync(Url + url, httpContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var jBaseModel = JsonConvert.DeserializeObject<T>(content);
+                var content = await response.Content.ReadAsStringAsync();
+                var jBaseModel = JsonConvert.DeserializeObject<Response>(content);
 
-                    return jBaseModel;
-                }
+                return jBaseModel;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error: fail to call api");
             }
 
-            return default(T);
+            return default(Response);
         }
-    }    
+    }
 }

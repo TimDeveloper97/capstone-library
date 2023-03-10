@@ -15,11 +15,12 @@
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
+            
              
              x:Class="xfLibrary.Pages.AccountView">
     <ContentView.Behaviors>
         <xct:EventToCommandBehavior
-                EventName="LayoutChanged"
+                EventName="MeasureInvalidated"
                 Command="{Binding LayoutChangedCommand}" />
     </ContentView.Behaviors>
     <ContentView.Content>
@@ -46,14 +47,14 @@
                         <Label Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="{Binding User.FirstName, Converter={StaticResource UpperStringConverter}}"/>
-                                    <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="{Binding User.LastName, StringFormat=' {0}', Converter={StaticResource UpperStringConverter}}"/>
+                                    <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="{Binding Profile.FirstName, Converter={StaticResource UpperStringConverter}}"/>
+                                    <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="{Binding Profile.LastName, StringFormat=' {0}', Converter={StaticResource UpperStringConverter}}"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
                         <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start">
                             <Label Text="Tiền: " Style="{StaticResource TitleLabelStyle}"/>
-                            <Label Text="{Binding User.Balance, Converter={StaticResource StringToMoneyConverter}}" Style="{StaticResource TitleLabelStyle}"/>
+                            <Label Text="{Binding Profile.Balance, Converter={StaticResource MoneyConverter}}" Style="{StaticResource TitleLabelStyle}"/>
                             <Label Style="{StaticResource IconColorLabelStyle}" FontSize="23" Text="{Static icon:FontIcons.CashUsd}"/>
                         </StackLayout>
                     </Grid>
@@ -77,7 +78,7 @@
                 <StackLayout Spacing="0">
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Khác" HorizontalOptions="Start" Padding="15,20,10,5"/>
                     <view:ItemView Text="Cài đặt tài khoản" Icon="{Static icon:FontIcons.Tools}" Color="{StaticResource Gray500}" TabCommand="{Binding ProfileCommand}"/>
-                    <view:ItemView Text="Trợ giúp" Icon="{Static icon:FontIcons.Help}" Color="{StaticResource Gray500}"/>
+                    <view:ItemView Text="Đổi mật khẩu" Icon="{Static icon:FontIcons.KeyChange}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding ChangePasswordCommand}"/>
                     <view:ItemView Text="Đóng góp ý kiến" Icon="{Static icon:FontIcons.Note}" Color="{StaticResource Gray500}" TabCommand="{Binding ReportCommand}"/>
                     <view:ItemView Text="Đăng xuất" Icon="{Static icon:FontIcons.Logout}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding LogoutCommand}"/>
                 </StackLayout>

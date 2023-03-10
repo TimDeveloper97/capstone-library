@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using xfLibrary.Domain;
 using xfLibrary.Models;
 
 namespace xfLibrary.Services.Main
@@ -10,8 +12,10 @@ namespace xfLibrary.Services.Main
     {
         public async Task<List<Category>> CategoryAsync()
         {
-            var res = await Service<List<Category>>.Get(Api.Category);
-            return res;
+            var res = await Service.Get(Api.Category);
+            var value = JsonConvert.DeserializeObject<List<Category>>(res.Value.ToString());
+
+            return value;
         }
     }
 }

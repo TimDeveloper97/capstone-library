@@ -32,7 +32,7 @@ namespace xfLibrary.ViewModels
             }
         });
         public ICommand BookCommand => new Command(async () => {
-            var books = await _accountService.GetAllBookAsync();
+            var books = await _accountService.GetAllBookAsync(_token);
 
             var update = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new Models.ListBook { Books = new ObservableCollection<Models.Book>(books) }));
         });
@@ -42,7 +42,7 @@ namespace xfLibrary.ViewModels
 
             var result = await MaterialDialog.Instance.SelectChoicesAsync(title: "Chọn thể loại sách",
                                                                          choices: jobs, dismissiveText: "Hủy");
-
+            if (result == null) return;
         });
         #endregion
 
