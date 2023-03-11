@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
+using Xamarin.Forms;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace xfLibrary.Resources
@@ -21,6 +22,20 @@ namespace xfLibrary.Resources
                 }
                 return ms.ToArray();
             }
+        }
+
+        public static ImageSource Base64ToImage(string encode)
+        {
+            ImageSource objImageSource;
+            if (string.IsNullOrEmpty(encode))
+            {
+                byte[] imageBytes = System.Convert.FromBase64String(encode);
+                var ms = new MemoryStream(imageBytes);
+                objImageSource = ImageSource.FromStream(() => ms);
+            }
+            else
+                objImageSource = null;
+            return objImageSource;
         }
     }
 }

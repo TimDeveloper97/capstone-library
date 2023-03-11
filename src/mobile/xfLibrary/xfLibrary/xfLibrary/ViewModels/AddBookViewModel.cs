@@ -78,7 +78,7 @@ namespace xfLibrary.ViewModels
             foreach (var index in result)
             {
                 List.Add(category[index].Name);
-                Book.Categories.Add(category[index].Code);
+                Book.Categories.Add(category[index]);
             }
 
             //notification

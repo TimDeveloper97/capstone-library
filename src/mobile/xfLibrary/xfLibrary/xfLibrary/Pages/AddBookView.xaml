@@ -103,7 +103,6 @@
                                         <Grid ColumnDefinitions="*, auto">
                                             <Grid RowDefinitions="4*,6*" RowSpacing="0" Margin="0,5,0,0">
                                                 <Label Text="Thể loại *" Style="{StaticResource SubTitleGrayLabelStyle}" HorizontalOptions="Start"/>
-                                                <Label x:Name="category" Text="{Binding Book.Categories}" IsVisible="false"/>
                                                 <Frame Grid.Row="1" HeightRequest="35">
                                                     <Label Style="{StaticResource SubTitleLabelStyle}" LineBreakMode="TailTruncation" Text="{Binding List, Converter={StaticResource ListStringConverter}}"
                                                            VerticalOptions="Center" Margin="10,0" HorizontalTextAlignment="Start"/>

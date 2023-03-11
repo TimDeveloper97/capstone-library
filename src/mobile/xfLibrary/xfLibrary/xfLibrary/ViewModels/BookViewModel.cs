@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Models;
 using xfLibrary.Pages;
+using xfLibrary.Resources;
 
 namespace xfLibrary.ViewModels
 {
@@ -24,8 +25,12 @@ namespace xfLibrary.ViewModels
 
             foreach (var book in books)
             {
+                //format to view
+                book.ImageSource = ExtentionHelper.Base64ToImage(book.ImageBook);
+                book.StringCategories = ListToString(book.Categories);
+
+                //update view
                 ItemsSource.Add(book);
-                OnPropertyChanged("ImageBook");
             }
         });
 
@@ -41,6 +46,16 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             ItemsSource = new ObservableCollection<Book>();
+        }
+
+        string ListToString(List<Category> categories)
+        {
+            var result = "";
+            foreach (var c in categories)
+            {
+                result += c.Name + ",";
+            }
+            return result.Substring(0, result.Length - 1);
         }
         #endregion
     }

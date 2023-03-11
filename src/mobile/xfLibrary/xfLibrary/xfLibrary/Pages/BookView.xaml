@@ -18,7 +18,6 @@
              
              x:Class="xfLibrary.Pages.BookView">
     <ContentPage.Resources>
-
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
             <Setter Property="Color" Value="White" />
             <Setter Property="HeightRequest" Value="30" />
@@ -94,12 +93,12 @@
                                         <!-- Content -->
 
                                         <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                            <Image Source="{Binding Path=ImageBook, Converter={StaticResource Base64ToImageConverter}, Mode=OneWay}"/>
+                                            <Image Source="{Binding ImageSource}"/>
                                             <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
                                                 <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End" Margin="0,0,0,-5"/>
                                                 <Label Grid.Row="1" Text="{Binding Author}" Style="{StaticResource MiniLabelStyle}" 
                                                                                HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5"/>
-                                                <Label Grid.Row="2" Text="{Binding Categories, Converter={StaticResource ListStringConverter}}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
+                                                <Label Grid.Row="2" Text="{Binding StringCategories}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
                                                                                TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                                                HorizontalOptions="Start" VerticalOptions="Start" FontFamily="MuliBold"/>
                                             </Grid>
