@@ -10,11 +10,17 @@ namespace xfLibrary.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
-            if (value != null)
+            try
             {
-                string result = double.Parse(value.ToString()).ToString("#,###", cul.NumberFormat);
-                return result;
+                CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
+                if (value != null)
+                {
+                    string result = double.Parse(value.ToString()).ToString("#,###", cul.NumberFormat);
+                    return result;
+                }
+            }
+            catch (Exception)
+            {
             }
             return 0;
         }

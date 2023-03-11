@@ -76,5 +76,12 @@ namespace xfLibrary.Pages.Popup
             if (b != null && !string.IsNullOrEmpty(x))
                 b.PreTotal = double.Parse(x.Replace(".",""));
         }
+
+        private void lDeposit_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var total = _sum + double.Parse(lDeposit.Text);
+
+            lSum.Text = total.ToString("#,###", cul.NumberFormat) + "VND";
+        }
     }
 }

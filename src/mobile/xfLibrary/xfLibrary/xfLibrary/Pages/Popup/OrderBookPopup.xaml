@@ -8,13 +8,20 @@
              xmlns:page="clr-namespace:xfLibrary.Pages"
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              xmlns:m="clr-namespace:xfLibrary.Models"
-             Size="350,400"
+             xmlns:c="clr-namespace:xfLibrary.Controls"
+             Size="350,350"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              x:TypeArguments="m:ListBook"
              IsLightDismissEnabled="false"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.Popup.OrderBookPopup">
+    <xct:Popup.Resources>
+        <Style x:Key="ChatEntryStyle" TargetType="c:BorderlessEntry">
+            <Setter Property="FontSize" Value="{StaticResource SubTitle}" />
+            <Setter Property="Margin" Value="5,5" />
+        </Style>
+    </xct:Popup.Resources>
     <xct:Popup.Content>
       <Grid>
             <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">
@@ -24,7 +31,7 @@
                             <Label Text="Danh sách truyện" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
                         </Grid>
 
-                        <ListView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" SelectedItem="{Binding SelectItem}" Margin="5,0" ItemTapped="lv_ItemTapped" ItemSelected="lv_ItemSelected">
+                        <ListView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" HeightRequest="250" BackgroundColor="Red" SelectedItem="{Binding SelectItem}" Margin="5,0" ItemTapped="lv_ItemTapped" ItemSelected="lv_ItemSelected">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -46,20 +53,21 @@
                             </ListView.ItemTemplate>
                         </ListView>
 
-                        <StackLayout Grid.Row="2" Margin="0,10,0,10" HeightRequest="45" Orientation="Horizontal" HorizontalOptions="End">
-                            <Grid Margin="5,0" VerticalOptions="Center">
-                                <Frame>
-                                    <StackLayout Padding="10" Spacing="0">
-                                        <Editor x:Name="lDeposit"  Text="0VND" FontSize="{StaticResource SubTitle}"/>
+                        <StackLayout Grid.Row="2" Margin="0,10,10,10" HeightRequest="45" Orientation="Horizontal" HorizontalOptions="End">
+                            <Grid Margin="5,0" VerticalOptions="Center" >
+                                <Frame WidthRequest="120">
+                                    <StackLayout Padding="5,0,0,10" Spacing="0">
+                                        <c:BorderlessEntry x:Name="lDeposit" Keyboard="Numeric" MaxLength="10" TextChanged="lDeposit_TextChanged"
+                                                           Style="{StaticResource ChatEntryStyle}" VerticalOptions="Center"/>
                                     </StackLayout>
                                 </Frame>
                                 <Label Text="Tiền cọc" Margin="10,-7,0,0" BackgroundColor="White" VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
                             </Grid>
                             <Grid Margin="5,0" VerticalOptions="Center">
                                 <Frame>
-                                    <StackLayout Padding="10" Spacing="0">
+                                    <StackLayout Padding="10,15,10,0" Spacing="0">
                                         <Label x:Name="lSum" Style="{StaticResource TitleLabelStyle}" Text="0VND"
-                                           FontSize="{StaticResource SubTitle}" FontFamily="MuliBold"/>
+                                                FontSize="{StaticResource SubTitle}" FontFamily="MuliBold"/>
                                     </StackLayout>
                                 </Frame>
                                 <Label Text="Tổng tiền" Margin="10,-7,0,0" BackgroundColor="White" VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
