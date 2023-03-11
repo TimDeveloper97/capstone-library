@@ -32,8 +32,9 @@ namespace xfLibrary.ViewModels
             }
         });
         public ICommand BookCommand => new Command(async () => {
-            var books = await _accountService.GetAllBookAsync(_token);
+            //var books = await _accountService.GetAllBookAsync(_token);
 
+            var books = new List<Models.Book> { new Models.Book { Name = "A", Price = "100000", Quantity = "100" } };
             var update = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new Models.ListBook { Books = new ObservableCollection<Models.Book>(books) }));
         });
         public ICommand PostCommand => new Command(async () => { });

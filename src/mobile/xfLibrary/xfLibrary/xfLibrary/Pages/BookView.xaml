@@ -87,7 +87,7 @@
                                         <SwipeView.RightItems>
                                             <SwipeItems SwipeBehaviorOnInvoked="Auto">
                                                 <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
-                                                <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}" Command="{Binding UpdateCommand}" CommandParameter="{Binding .}/>
+                                                <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}" Command="{Binding UpdateCommand}" CommandParameter="{Binding .}"/>
                                             </SwipeItems>
                                         </SwipeView.RightItems>
                                         <!-- Content -->
