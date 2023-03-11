@@ -30,8 +30,8 @@
     <Compile Update="Pages\AddPostView.xaml.cs">
       <DependentUpon>AddPostView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Pages\AddBookView.xaml.cs">
-      <DependentUpon>AddBookView.xaml</DependentUpon>
+    <Compile Update="Pages\DetailBookView.xaml.cs">
+      <DependentUpon>DetailBookView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\AddReportView.xaml.cs">
       <DependentUpon>AddReportView.xaml</DependentUpon>
@@ -80,7 +80,7 @@
     <EmbeddedResource Update="Pages\AddPostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddBookView.xaml">
+    <EmbeddedResource Update="Pages\DetailBookView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\AddReportView.xaml">

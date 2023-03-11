@@ -13,10 +13,12 @@ using xfLibrary.Models;
 
 namespace xfLibrary.ViewModels
 {
-    class AddBookViewModel : BaseViewModel
+    [QueryProperty(nameof(Book), nameof(Book))]
+    class DetailBookViewModel : BaseViewModel
     {
         #region Property
         private Book book;
+        private string parameterBook;
         private ObservableCollection<string> list;
         private ObservableCollection<byte[]> slides;
         private List<int> selects;
@@ -24,7 +26,17 @@ namespace xfLibrary.ViewModels
         public ObservableCollection<byte[]> Slides { get => slides; set => SetProperty(ref slides, value); }
         public ObservableCollection<string> List { get => list; set => SetProperty(ref list, value); }
         public Book Book { get => book; set => SetProperty(ref book, value); }
+        public string ParameterBook
+        {
+            get => parameterBook;
+            set
+            {
+                parameterBook = Uri.UnescapeDataString(value ?? string.Empty);
+                SetProperty(ref parameterBook, value);
 
+                Book = Newtonsoft.Json.JsonConvert.DeserializeObject<Book>(parameterBook);
+            }
+        }
         #endregion
 
         #region Command 
@@ -86,7 +98,7 @@ namespace xfLibrary.ViewModels
         });
         #endregion
 
-        public AddBookViewModel()
+        public DetailBookViewModel()
         {
             Init();
         }

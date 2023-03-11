@@ -20,7 +20,8 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-        public ICommand PageAppearingCommand => new Command(async () => {
+        public ICommand PageAppearingCommand => new Command(async () =>
+        {
             var books = await _accountService.GetAllBookAsync(_token);
 
             foreach (var book in books)
@@ -34,7 +35,19 @@ namespace xfLibrary.ViewModels
             }
         });
 
-        public ICommand AddCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(AddBookView)));
+        public ICommand AddCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(DetailBookView)));
+
+        public ICommand DeleteCommand => new Command<Book>(async (book) =>
+        {
+            var res = await _accountService.DeleteBookAsync(book.Id, _token);
+            if (res.Success)
+                ItemsSource.Remove(book);
+
+            _message.ShortAlert(res.Message);
+        });
+
+        public ICommand UpdateCommand => new Command<Book>(async (book) => await Shell.Current.GoToAsync($"{nameof(DetailBookView)}" +
+            $"?{nameof(DetailBookViewModel.ParameterBook)}={Newtonsoft.Json.JsonConvert.SerializeObject(book)}"));
         #endregion
 
         public BookViewModel()

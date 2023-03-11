@@ -13,13 +13,19 @@ namespace xfLibrary.Services
     public class Api
     {
         public const string Url = "http://192.168.108.184:8090/api/";
+
         public const string Login = "login";
-        public const string Category = "admin/categories";
-        public const string Book = "books";
-        public const string AddBook = "admin/books/add";
         public const string Register = "register";
         public const string ForgotPassword = "forgotpassword";
         public const string ChangePassword = "change-password";
+
+        public const string Book = "books";
+        public const string AddBook = "admin/books/add";
+        public const string GetBook = "admin/books";
+        public const string DeleteBook = "admin/books/delete";
+        public const string UpdateBook = "admin/books/update";
+
+        public const string Category = "admin/categories";
     }
 
     public class Service : Api
@@ -77,6 +83,8 @@ namespace xfLibrary.Services
 
             return default(Response);
         }
+
+        public static async Task<Response> Get(string para, string url, string token = null) => await Get(url + @"/" + para, token);
 
         public static async Task<Response> Post(object obj, string url, string token = null)
         {

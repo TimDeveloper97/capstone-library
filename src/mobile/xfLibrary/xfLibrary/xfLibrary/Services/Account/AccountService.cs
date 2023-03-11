@@ -15,6 +15,7 @@ namespace xfLibrary.Services.Account
 {
     class AccountService : IAccountService
     {
+        #region Profile
         public async Task<Response> ChangePasswordAsync(object obj, string token)
         {
             var res = await Service.Post(obj, Api.ChangePassword, token);
@@ -28,21 +29,6 @@ namespace xfLibrary.Services.Account
             return res;
         }
 
-        public async Task<Response> AddBookAsync(object obj, string token)
-        {
-            var res = await Service.Post(obj, Api.AddBook, token);
-
-            return res;
-        }
-
-        public async Task<List<Book>> GetAllBookAsync(string token)
-        {
-            var res = await Service.Get(Api.Book, token);
-            var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
-            
-            return value;
-        }
-
         public async Task<Response> LoginAsync(string username, string password)
         {
             var res = await Service.Post(new { username = username, password = password }, Api.Login);
@@ -54,5 +40,48 @@ namespace xfLibrary.Services.Account
             var res = await Service.Post(obj, Api.Register);
             return res;
         }
+        #endregion
+
+
+        #region Books
+
+        public async Task<Response> AddBookAsync(object obj, string token)
+        {
+            var res = await Service.Post(obj, Api.AddBook, token);
+            return res;
+        }
+
+        public async Task<Book> GetBookAsync(string id, string token)
+        {
+            var res = await Service.Get(id, Api.GetBook, token);
+            if (res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<Book>(res.Value.ToString());
+
+            return value;
+        }
+
+        public async Task<Response> DeleteBookAsync(string id, string token)
+        {
+            var res = await Service.Get(id, Api.DeleteBook, token);
+            return res;
+        }
+
+        public async Task<Response> UpdateBookAsync(object obj, string token)
+        {
+            var res = await Service.Post(obj, Api.UpdateBook, token);
+            return res;
+        }
+
+        public async Task<List<Book>> GetAllBookAsync(string token)
+        {
+            var res = await Service.Get(Api.Book, token);
+            var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
+            
+            return value;
+        }
+        #endregion
+
+
     }
 }
