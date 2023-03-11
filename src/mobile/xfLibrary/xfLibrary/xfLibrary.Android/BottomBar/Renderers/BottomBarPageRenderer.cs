@@ -44,7 +44,8 @@ namespace BottomBar.Droid.Renderers
 		IPageController _pageController;
 	    IDictionary<Page, BottomBarBadge> _badges;
 
-		public BottomBarPageRenderer ()
+        [Obsolete]
+        public BottomBarPageRenderer ()
 		{
 			AutoPackage = false;
 		}
@@ -62,9 +63,10 @@ namespace BottomBar.Droid.Renderers
 		public virtual void OnTabReSelected (int position)
 		{
 		}
-		#endregion
+        #endregion
 
-		protected override void Dispose (bool disposing)
+        [Obsolete]
+        protected override void Dispose(bool disposing)
 		{
 			if (disposing && !_disposed) {
 				_disposed = true;
@@ -80,7 +82,6 @@ namespace BottomBar.Droid.Renderers
 					}
 
                     pageToRemove.PropertyChanged -= OnPagePropertyChanged;
-					// pageToRemove.ClearValue (Platform.RendererProperty);
 				}
 
 			    if (_badges != null)
@@ -120,8 +121,8 @@ namespace BottomBar.Droid.Renderers
 			_pageController.SendDisappearing ();
 		}
 
-
-		protected override void OnElementChanged (ElementChangedEventArgs<BottomBarPage> e)
+        [Obsolete]
+        protected override void OnElementChanged (ElementChangedEventArgs<BottomBarPage> e)
 		{
 			base.OnElementChanged (e);
 
@@ -186,6 +187,7 @@ namespace BottomBar.Droid.Renderers
 			}
 		}
 
+        [Obsolete]
         protected virtual void SwitchContent (Page view)
 		{
 			Context.HideKeyboard (this);

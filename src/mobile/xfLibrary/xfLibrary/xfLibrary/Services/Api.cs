@@ -49,7 +49,7 @@ namespace xfLibrary.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: Fail to call api");
+                Console.WriteLine("Error: Fail to call api" + ex.Message);
             }
 
             return default(Response);
@@ -72,7 +72,7 @@ namespace xfLibrary.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: fail to call api");
+                Console.WriteLine("Error: fail to call api" + ex.Message);
             }
 
             return default(Response);
@@ -98,7 +98,7 @@ namespace xfLibrary.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: fail to call api");
+                Console.WriteLine("Error: fail to call api" + ex.Message);
             }
 
             return default(Response);

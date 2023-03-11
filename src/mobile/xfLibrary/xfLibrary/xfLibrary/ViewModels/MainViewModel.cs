@@ -78,16 +78,16 @@ namespace xfLibrary.ViewModels
 
 
         #region MyRegion 
-        public ICommand PageHomeDisappearingCommand => new Command(async () =>
+        public ICommand PageHomeDisappearingCommand => new Command(() =>
         {
             MessagingCenter.Unsubscribe<object, object>(this, "category");
         });
 
-        public ICommand PagePostDisappearingCommand => new Command(async () =>
+        public ICommand PagePostDisappearingCommand => new Command(() =>
         {
         });
 
-        public ICommand PageNotificationDisappearingCommand => new Command(async () =>
+        public ICommand PageNotificationDisappearingCommand => new Command(() =>
         {
             
         });
