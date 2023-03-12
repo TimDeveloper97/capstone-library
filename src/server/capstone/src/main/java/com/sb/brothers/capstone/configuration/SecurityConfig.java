@@ -6,32 +6,32 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
     @Autowired
     GoogleOAuth2SuccessHandler googleOAuth2SuccessHandler;
 
     @Autowired
     CustomUserDetailService customUserDetailService;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 //permit all url
                 .authorizeRequests()
                 .antMatchers("/", "/shop/**", "/forgotpassword", "/register", "/login").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/users/**").hasRole("USER")
-                .anyRequest()
-                .authenticated()
+                //.antMatchers("/admin/**").hasRole("ADMIN")
+                //.antMatchers("/users/**").hasRole("USER")
+                //.anyRequest()
+                //.authenticated()
 
                 //google authen
                 .and()
@@ -43,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .usernameParameter("email")
+                .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/")
-                .failureUrl("/login?error= true")
+                .failureUrl("/login?error=true")
 
                 //when you logout
                 .and()
@@ -65,6 +65,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable();
         http.headers().frameOptions().disable();
+
+        http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(customUserDetailService)
+                .passwordEncoder(bCryptPasswordEncoder());
+        return http.build();
     }//config authenication & authorization
 
     @Bean
@@ -72,14 +77,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }//ma hoa password
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    /*@Bean
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailService).passwordEncoder(bCryptPasswordEncoder());
-    }//chon class quan li thong tin account
+    }//chon class quan li thong tin account*/
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**",
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        return (web)-> web.ignoring().antMatchers("/resources/**",
+                "/templates/**",
                 "/static/**",
                 "/images/**",
                 "/productImages/**",

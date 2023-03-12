@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class CategoryServiceImpl implements CategoryService {
@@ -22,12 +23,22 @@ public class CategoryServiceImpl implements CategoryService {
     	categoryRepository.save(category);
     }//add or update (tuy vao pri-key)
 
-    public void removeCategoryById(int id){
+    public void removeCategoryById(String id){
         categoryRepository.deleteById(id);
     }//delete truyen vao pri-key
 
-    public Optional<Category> getCategoryById(int id){
+    public Optional<Category> getCategoryById(String id){
         return categoryRepository.findById(id);
     }//search theo id
+
+    @Override
+    public boolean isCategoryExist(String nameCode) {
+        return categoryRepository.existsById(nameCode);
+    }
+
+    @Override
+    public Set<Category> getAllCategoriesByBookId(int id) {
+        return categoryRepository.findAllCategoriesByBookId(id);
+    }
 
 }

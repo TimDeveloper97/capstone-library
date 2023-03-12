@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public interface BookService {
 
-	List<Book> getAllBookByCategoryId(String id);
+	Set<Book> getAllBooksByCategory(String id);
 
 	Optional<Book> getBookById(int id);
 
@@ -18,5 +19,8 @@ public interface BookService {
 	void updateBook(Book book);
 
 	List<Book> getAllBook();
-    
+
+    boolean isBookExist(int id);
+
+    Set<Book> getAllBooksByUserId(String id);
 }

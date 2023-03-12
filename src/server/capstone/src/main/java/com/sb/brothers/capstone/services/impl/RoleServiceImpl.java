@@ -18,8 +18,8 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findAll();
     }
 
-    public Optional<Role> findRoleById(String id){
-        return roleRepository.findById(id);
+    public Role findRoleByName(String id){
+        return roleRepository.findRoleByName(id);
     }
 
     @Override

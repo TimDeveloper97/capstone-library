@@ -1,5 +1,9 @@
 package com.sb.brothers.capstone.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name="users")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id;
@@ -22,18 +27,36 @@ public class User implements Serializable {
 	private String email;
 	private String firstName;
 	private String lastName;
+
+	@JsonIgnore
 	private String modifiedBy;
+	@JsonIgnore
 	private Date modifiedDate;
 	private String password;
 	private String phone;
 	private int status;			//
+
+	@JsonIgnore
 	private Set<Message> messages1;
+
+	@JsonIgnore
 	private Set<Message> messages2;
+
+	@JsonIgnore
 	private Set<Notification> notifications;
+
+	@JsonIgnore
 	private Set<Order> orders;
+
+	@JsonIgnore
 	private Set<Post> posts1;
+
+	@JsonIgnore
 	private Set<Post> posts2;
+
+	@JsonIgnore
 	private Set<Report> reports;
+
 	private List<Role> roles;
 
 
@@ -171,7 +194,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="user1")
+	@OneToMany(mappedBy="user1", fetch = FetchType.LAZY)
 	public Set<Message> getMessages1() {
 		return this.messages1;
 	}
@@ -196,7 +219,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="user2")
+	@OneToMany(mappedBy="user2", fetch = FetchType.LAZY)
 	public Set<Message> getMessages2() {
 		return this.messages2;
 	}
@@ -221,7 +244,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-one association to Notification
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	public Set<Notification> getNotifications() {
 		return this.notifications;
 	}
@@ -246,7 +269,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	public Set<Order> getOrders() {
 		return this.orders;
 	}
@@ -271,7 +294,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-one association to Post
-	@OneToMany(mappedBy="user1")
+	@OneToMany(mappedBy="user1", fetch = FetchType.LAZY)
 	public Set<Post> getPosts1() {
 		return this.posts1;
 	}
@@ -296,7 +319,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-one association to Post
-	@OneToMany(mappedBy="user2")
+	@OneToMany(mappedBy="user2", fetch = FetchType.LAZY)
 	public Set<Post> getPosts2() {
 		return this.posts2;
 	}
@@ -321,7 +344,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-one association to Report
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	public Set<Report> getReports() {
 		return this.reports;
 	}
@@ -346,7 +369,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-many association to Role
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		name="user_role"
 		, joinColumns={
@@ -356,6 +379,7 @@ public class User implements Serializable {
 			@JoinColumn(name="role_id")
 			}
 		)
+	@JsonManagedReference
 	public List<Role> getRoles() {
 		return this.roles;
 	}
@@ -364,4 +388,14 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
+	public void lazyLoad(){
+		this.setPassword("");
+		this.setNotifications(null);
+		this.setReports(null);
+		this.setOrders(null);
+		this.setPosts2(null);
+		this.setPosts1(null);
+		this.setMessages1(null);
+		this.setMessages2(null);
+	}
 }
