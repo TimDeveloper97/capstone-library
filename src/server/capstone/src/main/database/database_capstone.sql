@@ -40,6 +40,7 @@ CREATE TABLE `book_category` (
 
 LOCK TABLES `book_category` WRITE;
 /*!40000 ALTER TABLE `book_category` DISABLE KEYS */;
+INSERT INTO `book_category` VALUES (1,'thieunhi'),(3,'thieunhi'),(4,'thieunhi'),(1,'truyen'),(3,'truyen'),(4,'truyen');
 /*!40000 ALTER TABLE `book_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,14 +54,17 @@ DROP TABLE IF EXISTS `books`;
 CREATE TABLE `books` (
   `id` int NOT NULL AUTO_INCREMENT,
   `author` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` longtext,
   `name` varchar(255) DEFAULT NULL,
   `price` double NOT NULL,
   `publish_year` int DEFAULT '1925',
   `publisher` varchar(255) DEFAULT NULL,
   `quantity` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `user_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKcykkh3hxh89ammmwch0gw5o1s` (`user_id`),
+  CONSTRAINT `FKcykkh3hxh89ammmwch0gw5o1s` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,8 +73,29 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
+INSERT INTO `books` VALUES (1,'Tô Hoài','Diễn biến tâm trạng nhân vật dế mèn, ...','Dế Mèn phưu lưu ký',10,2000,'NXB Kim Đồng',10,NULL),(3,'Khuyết danh','Diễn biến tâm trạng nhân vật dế mèn, ...','Dế Mèn phưu lưu ký',10,2000,'NXB Kim Đồng',10,NULL),(4,'Khuyết danh','Truyền thuyết “Thánh Gióng” kể về một cậu bé làng Gióng','Truyện cổ tích Thánh Gióng',10,2000,'NXB Kim Đồng',10,NULL);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `books_BEFORE_DELETE` BEFORE DELETE ON `books` FOR EACH ROW BEGIN
+	DELETE FROM `capstone_db`.`book_category`
+	WHERE `book_category`.book_id = OLD.id;
+    DELETE FROM `capstone_db`.`image`
+	WHERE `image`.book_id = OLD.id;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `category`
@@ -92,7 +117,35 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES ('chinhtri_phapluat','Chính trị - Pháp luật'),('giaotrinh','Giáo trình'),('KHCN_kinhte','Khoa học công nghệ - Kinh tế'),('tamlinh','Tâm linh'),('thieunhi','Thiếu nhi'),('tieuthuyet','Tiểu thuyết'),('truyen','Truyện'),('VHNT','Văn học nghệ thuật'),('VHXH_lichsu','Văn hóa xã hội - Lịch sử');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `favourite_book`
+--
+
+DROP TABLE IF EXISTS `favourite_book`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `favourite_book` (
+  `user_id` varchar(255) NOT NULL,
+  `book_id` int NOT NULL,
+  `rating` double NOT NULL,
+  PRIMARY KEY (`user_id`,`book_id`),
+  KEY `FKldegjt2bi7ijajn7fa94cqu96` (`book_id`),
+  CONSTRAINT `FKldegjt2bi7ijajn7fa94cqu96` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
+  CONSTRAINT `FKoh438e8vwbyo3iv436um0q0uk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `favourite_book`
+--
+
+LOCK TABLES `favourite_book` WRITE;
+/*!40000 ALTER TABLE `favourite_book` DISABLE KEYS */;
+/*!40000 ALTER TABLE `favourite_book` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -104,12 +157,12 @@ DROP TABLE IF EXISTS `image`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `image` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `link` varchar(255) DEFAULT NULL,
+  `link` longtext,
   `book_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK1x4slc19br0o6h6nxmjdkp103` (`book_id`),
   CONSTRAINT `FK1x4slc19br0o6h6nxmjdkp103` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,6 +171,7 @@ CREATE TABLE `image` (
 
 LOCK TABLES `image` WRITE;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
+INSERT INTO `image` VALUES (2,'demen_phuuluuky.jpeg',3),(3,'demen_phuuluuky.jpeg',4);
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,15 +183,17 @@ DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `message` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `content` longtext,
   `created_date` datetime DEFAULT NULL,
   `usera_id` varchar(255) NOT NULL,
   `userb_id` varchar(255) NOT NULL,
-  PRIMARY KEY (`userb_id`,`usera_id`),
+  PRIMARY KEY (`id`),
   KEY `FK9x3i8ueh8l9bs0a8v9wat1qoq` (`usera_id`),
+  KEY `FK58l2h5ehlsb53261i1kri0x0t` (`userb_id`),
   CONSTRAINT `FK58l2h5ehlsb53261i1kri0x0t` FOREIGN KEY (`userb_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK9x3i8ueh8l9bs0a8v9wat1qoq` FOREIGN KEY (`usera_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,6 +202,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
+INSERT INTO `message` VALUES (1,'Hi','2023-03-06 01:56:20','userA','admin'),(2,'Hi. Can i help u?','2023-03-06 01:56:24','admin','userA'),(3,'I want to learn more about Vietnamese.','2023-03-06 01:56:26','userA','admin'),(4,'Haha','2023-03-06 03:32:03','admin','userA');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,35 +234,6 @@ LOCK TABLES `notification` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `order_detail`
---
-
-DROP TABLE IF EXISTS `order_detail`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `order_detail` (
-  `borrow_date` datetime DEFAULT NULL,
-  `quantity` int NOT NULL,
-  `return_date` datetime DEFAULT NULL,
-  `order_id` int NOT NULL,
-  `book_id` int NOT NULL,
-  PRIMARY KEY (`order_id`,`book_id`),
-  KEY `FKst2ici0tm90wra4ht9ln4x78v` (`book_id`),
-  CONSTRAINT `FKrws2q0si6oyd6il8gqe2aennc` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
-  CONSTRAINT `FKst2ici0tm90wra4ht9ln4x78v` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `order_detail`
---
-
-LOCK TABLES `order_detail` WRITE;
-/*!40000 ALTER TABLE `order_detail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `order_detail` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `orders`
 --
 
@@ -214,14 +242,18 @@ DROP TABLE IF EXISTS `orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `created_date` datetime DEFAULT NULL,
+  `borrowed_date` datetime NOT NULL,
+  `return_date` datetime NOT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `discount` int NOT NULL,
-  `total_price` double DEFAULT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
+  `discount` int DEFAULT '0',
+  `total_price` double NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `post_id` int NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `FKa81lufs91i9gxew3whm25d4u0` (`post_id`),
   KEY `FK32ql8ubntj5uh44ph9659tiih` (`user_id`),
-  CONSTRAINT `FK32ql8ubntj5uh44ph9659tiih` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK32ql8ubntj5uh44ph9659tiih` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKa81lufs91i9gxew3whm25d4u0` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -249,6 +281,7 @@ CREATE TABLE `post` (
   `modified_date` datetime DEFAULT NULL,
   `status` int NOT NULL,
   `title` varchar(255) DEFAULT NULL,
+  `no_days`	int DEFAULT '7',
   `manager_id` varchar(255) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
@@ -256,7 +289,7 @@ CREATE TABLE `post` (
   KEY `FK7ky67sgi7k0ayf22652f7763r` (`user_id`),
   CONSTRAINT `FK5ko4exgy0w18vjidsn53yqq6u` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK7ky67sgi7k0ayf22652f7763r` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,6 +298,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
+INSERT INTO `post` VALUES (1,'Dế mèn phưu lưu ký',NULL,NULL,NULL,0,'[Cho thuê] Sách','admin','userA');
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,6 +313,7 @@ CREATE TABLE `post_detail` (
   `fee` double NOT NULL,
   `sublet` bit(1) NOT NULL,
   `post_id` int NOT NULL,
+  `quantity` int DEFAULT '1',
   `book_id` int NOT NULL,
   PRIMARY KEY (`post_id`,`book_id`),
   KEY `FK6li9i4xwinbd19wvh5buy60dh` (`book_id`),
@@ -293,6 +328,7 @@ CREATE TABLE `post_detail` (
 
 LOCK TABLES `post_detail` WRITE;
 /*!40000 ALTER TABLE `post_detail` DISABLE KEYS */;
+INSERT INTO `post_detail` VALUES (0.5,_binary '',1,1,1);
 /*!40000 ALTER TABLE `post_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,9 +347,12 @@ CREATE TABLE `report` (
   `title` varchar(255) DEFAULT NULL,
   `type_report` int DEFAULT NULL,
   `created_by` varchar(255) DEFAULT NULL,
+  `post_id` int NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `FKnuqod1y014fp5bmqjeoffcgqy` (`post_id`),
   KEY `FKide3gruwmi3na8jjsgfs04din` (`created_by`),
-  CONSTRAINT `FKide3gruwmi3na8jjsgfs04din` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
+  CONSTRAINT `FKide3gruwmi3na8jjsgfs04din` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKnuqod1y014fp5bmqjeoffcgqy` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -373,6 +412,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+INSERT INTO `user_role` VALUES ('admin',1),('admin',2),('admin',3),('admin',4),('admin',5),('admin5',1),('admin5',2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -410,11 +450,68 @@ INSERT INTO `users` VALUES ('admin','Ha noi',10000,'admin@gmail.com','son','nguy
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'capstone_demo_db'
+-- Table structure for table `manager_post`
 --
 
+DROP TABLE IF EXISTS `manager_post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `manager_post` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` longtext,
+  `post_id` int DEFAULT NULL,
+  `manager_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK6u4bj0ek722dnx1vykkv81qt8` (`post_id`),
+  KEY `FKfliw96qdbrvcn14njxqay843m` (`manager_id`),
+  CONSTRAINT `FK6u4bj0ek722dnx1vykkv81qt8` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+  CONSTRAINT `FKfliw96qdbrvcn14njxqay843m` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 --
--- Dumping routines for database 'capstone_demo_db'
+-- Dumping data for table `manager_post`
+--
+
+LOCK TABLES `manager_post` WRITE;
+/*!40000 ALTER TABLE `manager_post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `manager_post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment`
+--
+
+DROP TABLE IF EXISTS `payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `manager_id` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  `transfer_amount` double NOT NULL,
+  `content` longtext,
+  `status` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKfgpy0aqmx4gil04lu2hdxp8gk` (`manager_id`),
+  KEY `FKmi2669nkjesvp7cd257fptl6f` (`user_id`),
+  CONSTRAINT `FKfgpy0aqmx4gil04lu2hdxp8gk` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKmi2669nkjesvp7cd257fptl6f` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment`
+--
+
+LOCK TABLES `payment` WRITE;
+/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+UNLOCK TABLES;
+--
+-- Dumping routines for database 'capstone_db'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
