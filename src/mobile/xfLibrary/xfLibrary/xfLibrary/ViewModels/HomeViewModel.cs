@@ -20,12 +20,17 @@ namespace xfLibrary.ViewModels
         private ObservableCollection<Category> category;
         private ObservableCollection<Post> posts;
         private ObservableCollection<string> slide;
+        private static List<Post> _allPosts;
         private string currentItem;
+        private int numberItemDisplay = 8, currentTab = 1;
+        private bool isPrevious, isNext;
 
         public ObservableCollection<Category> Category { get => category; set => SetProperty(ref category, value); }
         public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
         public ObservableCollection<string> Slide { get => slide; set => SetProperty(ref slide, value); }
         public string CurrentItem { get => currentItem; set => SetProperty(ref currentItem, value); }
+        public bool IsPrevious { get => isPrevious; set => SetProperty(ref isPrevious, value); }
+        public bool IsNext { get => isNext; set => SetProperty(ref isNext, value); }
 
         #endregion
 
@@ -41,6 +46,40 @@ namespace xfLibrary.ViewModels
             await Shell.Current.GoToAsync(nameof(AddPostView));
         });
 
+        public ICommand PreviousCommand => new Command(() =>
+        {
+            Posts.Clear();
+            var r = numberItemDisplay * (currentTab - 1);
+            var l = numberItemDisplay * (currentTab - 2);
+            var min = l < 0 ? 0 : l;
+            for (int i = min; i < r; i++)
+            {
+                var item = _allPosts[i];
+                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
+                Posts.Add(item);
+            }
+
+            currentTab--;
+            ItemDisplayToView(currentTab);
+        });
+
+        public ICommand NextCommand => new Command(() =>
+        {
+            Posts.Clear();
+            var r = numberItemDisplay * (currentTab + 1);
+            var l = _allPosts.Count();
+            var max = l > r ? r : l;
+            for (int i = numberItemDisplay * currentTab; i < max; i++)
+            {
+                var item = _allPosts[i];
+                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
+                Posts.Add(item);
+            }
+
+            currentTab++;
+            ItemDisplayToView(currentTab);
+        });
+
         public ICommand SelectedRecentItemCommand => new Command<Post>(async (post) =>
         {
             var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
@@ -51,14 +90,18 @@ namespace xfLibrary.ViewModels
         {
             Init();
             FakeData();
+            InitCurrentTab();
+            ItemDisplayToView(currentTab);
         }
 
         #region Method
         void Init()
         {
             Slide = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.jpg" };
+            _allPosts = new List<Post>();
             Category = new ObservableCollection<Category>();
             Posts = new ObservableCollection<Post>();
+            IsNext = true; IsPrevious = false;
 
             MessagingCenter.Subscribe<object, object>(this, "category",
                   (sender, arg) =>
@@ -74,38 +117,66 @@ namespace xfLibrary.ViewModels
                               item.Image = "chotot.jpg";
                               Category.Add(item);
                           }
-                      }    
+                      }
                   });
         }
 
-        async void FakeData()
+        void FakeData()
         {
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 20; i++)
             {
-                Posts.Add(new Post
+                _allPosts.Add(new Post
                 {
                     Title = "[Cho thuê] Truyện tuổi thơ",
                     Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
+                    "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
                     Imgs = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg" },
-                    //ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image),
-                    ImageSource = ImageSource.FromFile("book.png"),
-                    CreatedDate = new DateTime(2023,3,3),
-                    ReturnDate = new DateTime(2023,4,4),
+                    CreatedDate = new DateTime(2023, 3, 3),
+                    ReturnDate = new DateTime(2023, 4, 4),
                     Books = new ObservableCollection<Book>
-                {
-                    new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                    new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" }
-                }});
+                    {
+                        new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                        "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                        new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                        "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" }
+                    }
+                });
             }
-            //var x = await DependencyService.Get<Services.ISaveImage>().SaveImage(Services.Api.Base64Image);
-            //foreach (var item in Posts)
-            //{
-            //    item.ImageSource = ImageSource.FromFile("Capstone/" + x);
+        }
 
-            //}
+        void ItemDisplayToView(int current)
+        {
+            int maxPage = (_allPosts.Count / numberItemDisplay) + 1;
+
+            //show or hide next previous
+            if(current == 1)
+            {
+                IsNext = true;
+                IsPrevious = false;
+            }
+            else if (current == maxPage)
+            {
+                IsNext = false;
+                IsPrevious = true;
+            }
+            else
+            {
+                IsNext = true;
+                IsPrevious = true;
+            }
+        }
+
+        void InitCurrentTab()
+        {
+            var r = numberItemDisplay * currentTab;
+            var l = _allPosts.Count();
+            var max = l > r ? r : l;
+            for (int i = 0; i < max; i++)
+            {
+                var item = _allPosts[i];
+                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
+                Posts.Add(item);
+            }
         }
         #endregion
     }
