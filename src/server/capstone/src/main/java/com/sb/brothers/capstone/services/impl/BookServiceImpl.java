@@ -12,8 +12,9 @@ import java.util.Set;
 
 @Component
 public class BookServiceImpl implements BookService {
+
     @Autowired
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     @Override
 	public List<Book> getAllBook() {
@@ -28,6 +29,31 @@ public class BookServiceImpl implements BookService {
     @Override
     public Set<Book> getAllBooksByUserId(String id) {
         return bookRepository.findAllByUserId(id);
+    }
+
+    @Override
+    public Set<Book> searchBookByName(String name) {
+        return bookRepository.findByNameContains(name);
+    }
+
+    @Override
+    public Set<Book> searchBookByAuthor(String author) {
+        return bookRepository.findByAuthorContains(author);
+    }
+
+    @Override
+    public Set<Book> searchBookByPostLocation(String address) {
+        return bookRepository.findByPostLocation(address);
+    }
+
+    @Override
+    public Set<Book> getListBooksOfUserId(String uId) {
+        return bookRepository.getListBooksOfUserId(uId);
+    }
+
+    @Override
+    public Set<Book> searchBySuggest(String uId) {
+        return null;//bookRepository.recommendBooks(uId);
     }
 
     @Override
