@@ -10,9 +10,6 @@ namespace xfLibrary.Domain
     {
         [JsonProperty("id")]
         public string Id { get; set; }
-
-        [JsonProperty("creationDate")]
-        public DateTime CreationDate { get; set; }
     }
 
     public class Response : BaseModel

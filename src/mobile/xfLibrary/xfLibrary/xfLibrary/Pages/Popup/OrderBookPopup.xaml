@@ -31,7 +31,7 @@
                             <Label Text="Danh sách truyện" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
                         </Grid>
 
-                        <ListView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" HeightRequest="250" BackgroundColor="Red" SelectedItem="{Binding SelectItem}" Margin="5,0" ItemTapped="lv_ItemTapped" ItemSelected="lv_ItemSelected">
+                        <ListView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" HeightRequest="250" SelectedItem="{Binding SelectItem}" Margin="5,0" ItemTapped="lv_ItemTapped" ItemSelected="lv_ItemSelected">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>

@@ -17,11 +17,12 @@ namespace xfLibrary.ViewModels
     {
         #region Property
         private ObservableCollection<Category> category;
-        private ObservableCollection<string> recentUpdates, slide;
+        private ObservableCollection<Post> posts;
+        private ObservableCollection<string> slide;
         private string currentItem;
 
         public ObservableCollection<Category> Category { get => category; set => SetProperty(ref category, value); }
-        public ObservableCollection<string> RecentUpdates { get => recentUpdates; set => SetProperty(ref recentUpdates, value); }
+        public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
         public ObservableCollection<string> Slide { get => slide; set => SetProperty(ref slide, value); }
         public string CurrentItem { get => currentItem; set => SetProperty(ref currentItem, value); }
 
@@ -39,23 +40,16 @@ namespace xfLibrary.ViewModels
             await Shell.Current.GoToAsync(nameof(AddPostView));
         });
 
-        public ICommand SelectedRecentItemCommand => new Command(async () =>
+        public ICommand SelectedRecentItemCommand => new Command<Post>(async (post) =>
         {
-            var a = new A
-            {
-                MaxLines = 3,
-                Text = "Một hôm Main gặp tai nạn > xuyên không về 1 thế giới Murim và thấy mình được sinh ra với hình hài một đứa bé đạo sĩ! " +
-                "Có một thời tôi ở cửu phái nhất môn, nhưng bây giờ thì ở Chung Nam phái, một môn phái đang dần trở nên yếu thế." +
-                "Tôi được đặt tên là 'Geon Chung', dùng những kiến thức của kiếp để ngộ ra đạo lý võ công và tiến bộ thần tốc.",
-                Slide = new ObservableCollection<string>() { "slide1.jpg", "slide2.jpg", "slide3.jpg" },
-            };
-            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(a));
+            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
         });
         #endregion
 
         public HomeViewModel()
         {
             Init();
+            FakeData();
         }
 
         #region Method
@@ -63,6 +57,7 @@ namespace xfLibrary.ViewModels
         {
             Slide = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.jpg" };
             Category = new ObservableCollection<Category>();
+            Posts = new ObservableCollection<Post>();
 
             MessagingCenter.Subscribe<object, object>(this, "category",
                   (sender, arg) =>
@@ -80,10 +75,28 @@ namespace xfLibrary.ViewModels
                           }
                       }    
                   });
+        }
 
-
-            RecentUpdates = new ObservableCollection<string>();
-
+        void FakeData()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Posts.Add(new Post
+                {
+                    Title = "[Cho thuê] Truyện tuổi thơ",
+                    Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
+                    Imgs = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg" },
+                    CreatedDate = new DateTime(2023,3,3),
+                    ReturnDate = new DateTime(2023,4,4),
+                    Books = new ObservableCollection<Book>
+                {
+                    new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                    new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" }
+                }});
+            }
         }
         #endregion
     }

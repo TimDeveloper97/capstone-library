@@ -11,17 +11,25 @@ using xfLibrary.Models;
 namespace xfLibrary.Pages.Popup
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DetailPostPopup : Xamarin.CommunityToolkit.UI.Views.Popup<A>
+    public partial class DetailPostPopup : Xamarin.CommunityToolkit.UI.Views.Popup<Post>
     {
-        A _model;
-        public DetailPostPopup(A m)
+        Post _model;
+        public DetailPostPopup(Post m)
         {
             InitializeComponent();
             _model = m;
 
-            text.Text = _model.Text;
-            text.MaxLines = _model.MaxLines;
-            slide.ItemsSource = _model.Slide;
+            Init();
+        }
+
+        void Init()
+        {
+            lCreateDate.Text = Math.Round((DateTime.Now - (_model.CreatedDate ?? DateTime.Now)).TotalDays, 2) + " ngày trước";
+            lReturnDate.Text = "(Số ngày thuê: " + Math.Round(((_model.ReturnDate ?? DateTime.Now) - DateTime.Now).TotalDays, 2) + " ngày)";
+            content.Text = _model.Content;
+            content.MaxLines = _model.MaxLines;
+            imgs.ItemsSource = _model.Imgs;
+            books.ItemsSource = _model.Books;
         }
 
         private void okBtn_Clicked(object sender, EventArgs e)
@@ -36,10 +44,10 @@ namespace xfLibrary.Pages.Popup
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            if (text.MaxLines == 3)
-                text.MaxLines = 99;
+            if (content.MaxLines == 3)
+                content.MaxLines = 99;
             else
-                text.MaxLines = 3;
+                content.MaxLines = 3;
         }
     }
 }
