@@ -14,6 +14,7 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,17 +49,17 @@ public class HomeController {
     BookService bookService;
 
     @GetMapping({"/", "/home"})
-    public ResponseEntity<?> home(Model model){
+    public ResponseEntity<?> home(Authentication auth, Model model){
         logger.info("Get Home page.");
         model.addAttribute("cartCount", GlobalData.cart.size());
-        User user = CustomUserDetail.getPrincipal();
+        User user = (User) auth;
         if(user != null){
             user.setRoles(roleService.getAllByUserId(user.getId()));
             UserDTO userDTO = new UserDTO();
             userDTO.convertUser(user);
             return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
         }
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(new CustomErrorType(true,"return home page."), HttpStatus.OK);
     } //index
     @GetMapping("/users/add")
     public String updateUser(Model model){
