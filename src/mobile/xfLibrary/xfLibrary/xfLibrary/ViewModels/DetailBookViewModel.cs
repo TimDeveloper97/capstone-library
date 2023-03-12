@@ -13,7 +13,7 @@ using xfLibrary.Models;
 
 namespace xfLibrary.ViewModels
 {
-    [QueryProperty(nameof(Book), nameof(Book))]
+    [QueryProperty(nameof(ParameterBook), nameof(ParameterBook))]
     class DetailBookViewModel : BaseViewModel
     {
         #region Property
@@ -35,6 +35,7 @@ namespace xfLibrary.ViewModels
                 SetProperty(ref parameterBook, value);
 
                 Book = Newtonsoft.Json.JsonConvert.DeserializeObject<Book>(parameterBook);
+                List = new ObservableCollection<string>(Book.Categories);
             }
         }
         #endregion
@@ -43,7 +44,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand BookCommand => new Command(async () =>
         {
-            if(string.IsNullOrEmpty(Book.Name) || string.IsNullOrEmpty(Book.ImageBook) || Book.Categories.Count == 0)
+            if(string.IsNullOrEmpty(Book.Name) || Book.Imgs.Count == 0 || Book.Categories.Count == 0)
             {
                 _message.ShortAlert("Không được để trống");
                 return;
@@ -51,7 +52,10 @@ namespace xfLibrary.ViewModels
 
             if(Slides.Count > 1)
             {
-                Book.ImageBook = Convert.ToBase64String(Slides[0]);
+                foreach (var item in Slides)
+                {
+                    Book.Imgs.Add(Convert.ToBase64String(item));
+                }
             }    
             
             var res = await _accountService.AddBookAsync(Book, _token);
@@ -90,7 +94,7 @@ namespace xfLibrary.ViewModels
             foreach (var index in result)
             {
                 List.Add(category[index].Name);
-                Book.Categories.Add(category[index]);
+                Book.Categories.Add(category[index].Code);
             }
 
             //notification

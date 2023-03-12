@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Xamarin.Forms;
 using xfLibrary.Domain;
 
 namespace xfLibrary.Models
@@ -41,6 +42,8 @@ namespace xfLibrary.Models
         public int MaxLines { get; set; } = 3;
         [JsonIgnore]
         public int Height { get; set; }
+        [JsonIgnore]
+        public ImageSource ImageSource { get; set; }
         [JsonIgnore]
         public ObservableCollection<Book> Books { get; set; }
         

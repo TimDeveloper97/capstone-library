@@ -46,7 +46,7 @@ namespace xfLibrary.ViewModels
             }
 
             IsBusy = true;
-            var res = await _accountService.LoginAsync("admin", "2");
+            var res = await _accountService.LoginAsync(Email, Password);
             if(res.Value == null)
             {
                 IsBusy = false;
@@ -79,8 +79,8 @@ namespace xfLibrary.ViewModels
             Email = "admin";
             Password = "1";
 
-            var isremember = Preferences.Get("isremember", false);
-            if(isremember)
+            IsRemember = Preferences.Get("isremember", false);
+            if(IsRemember)
             {
                 Email = Preferences.Get("email", null);
                 Password = Preferences.Get("password", null);

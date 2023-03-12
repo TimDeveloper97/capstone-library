@@ -63,13 +63,13 @@ namespace xfLibrary.Services.Account
 
         public async Task<Response> DeleteBookAsync(string id, string token)
         {
-            var res = await Service.Get(id, Api.DeleteBook, token);
+            var res = await Service.Post(id, Api.DeleteBook, token);
             return res;
         }
 
         public async Task<Response> UpdateBookAsync(object obj, string token)
         {
-            var res = await Service.Post(obj, Api.UpdateBook, token);
+            var res = await Service.Put(obj, Api.UpdateBook, token);
             return res;
         }
 

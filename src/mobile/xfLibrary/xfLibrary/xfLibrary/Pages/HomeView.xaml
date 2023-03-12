@@ -76,7 +76,7 @@
                                 <DataTemplate>
                                     <Grid RowDefinitions="*, 15" Padding="10" VerticalOptions="Start" HorizontalOptions="Start">
                                         <Frame HeightRequest="130">
-                                            <Image Source="{Binding Imgs[0]}" Aspect="Fill"/>
+                                            <Image Source="{Binding ImageSource}" Aspect="Fill"/>
                                         </Frame>
                                         <Label Grid.Row="1" Text="{Binding Title}" HorizontalOptions="Center"/>
                                         <Grid.GestureRecognizers>

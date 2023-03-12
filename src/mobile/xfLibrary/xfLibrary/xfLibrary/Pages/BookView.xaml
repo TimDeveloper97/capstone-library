@@ -77,8 +77,8 @@
 
             <!--#endregion-->
 
-            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}" Margin="10,0">
-                <ListView ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectItem}">
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}" Margin="10,-10,10,0">
+                <ListView x:Name="lv" ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectItem}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -86,8 +86,8 @@
                                     <SwipeView>
                                         <SwipeView.RightItems>
                                             <SwipeItems SwipeBehaviorOnInvoked="Auto">
-                                                <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
-                                                <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}" Command="{Binding UpdateCommand}" CommandParameter="{Binding .}"/>
+                                                <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                                <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                             </SwipeItems>
                                         </SwipeView.RightItems>
                                         <!-- Content -->
@@ -96,8 +96,14 @@
                                             <Image Source="{Binding ImageSource}"/>
                                             <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
                                                 <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End" Margin="0,0,0,-5"/>
-                                                <Label Grid.Row="1" Text="{Binding Author}" Style="{StaticResource MiniLabelStyle}" 
-                                                                               HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5"/>
+                                                <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding Author}"/>
+                                                            <Span Text="{Binding Publisher, StringFormat=' ({0})'}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
                                                 <Label Grid.Row="2" Text="{Binding StringCategories}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
                                                                                TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                                                HorizontalOptions="Start" VerticalOptions="Start" FontFamily="MuliBold"/>

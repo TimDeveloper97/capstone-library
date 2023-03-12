@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -77,9 +78,9 @@ namespace xfLibrary.ViewModels
                   });
         }
 
-        void FakeData()
+        async void FakeData()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 15; i++)
             {
                 Posts.Add(new Post
                 {
@@ -87,6 +88,8 @@ namespace xfLibrary.ViewModels
                     Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
                 "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
                     Imgs = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg" },
+                    //ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image),
+                    ImageSource = ImageSource.FromFile("book.png"),
                     CreatedDate = new DateTime(2023,3,3),
                     ReturnDate = new DateTime(2023,4,4),
                     Books = new ObservableCollection<Book>
@@ -97,6 +100,12 @@ namespace xfLibrary.ViewModels
                 "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" }
                 }});
             }
+            //var x = await DependencyService.Get<Services.ISaveImage>().SaveImage(Services.Api.Base64Image);
+            //foreach (var item in Posts)
+            //{
+            //    item.ImageSource = ImageSource.FromFile("Capstone/" + x);
+
+            //}
         }
         #endregion
     }

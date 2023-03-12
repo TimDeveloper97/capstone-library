@@ -26,7 +26,7 @@ namespace xfLibrary.Models
         public string PublishYear { get; set; }
 
         [JsonProperty("categories")]
-        public List<Category> Categories;
+        public List<string> Categories;
 
         [JsonProperty("author")]
         public string Author { get; set; }
@@ -34,8 +34,8 @@ namespace xfLibrary.Models
         [JsonProperty("quantity")]
         public string Quantity { get; set; }
 
-        [JsonProperty("imageBook")]
-        public string ImageBook { get; set; }
+        [JsonProperty("imgs")]
+        public List<string> Imgs { get; set; }
 
 
         [JsonIgnore]

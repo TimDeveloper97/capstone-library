@@ -26,8 +26,16 @@ namespace xfLibrary.ViewModels
 
             foreach (var book in books)
             {
+                //format image
+                book.Imgs = new List<string>();
+                book.Imgs.Add(Services.Api.Base64Image);
+
+                book.Categories = new List<string>();
+                book.Categories.Add("thieunhi");
+                book.Categories.Add("truyentranh");
+
                 //format to view
-                book.ImageSource = ExtentionHelper.Base64ToImage(book.ImageBook);
+                book.ImageSource = ImageSource.FromFile("book.png");
                 book.StringCategories = ListToString(book.Categories);
 
                 //update view
@@ -61,12 +69,12 @@ namespace xfLibrary.ViewModels
             ItemsSource = new ObservableCollection<Book>();
         }
 
-        string ListToString(List<Category> categories)
+        string ListToString(List<string> categories)
         {
             var result = "";
             foreach (var c in categories)
             {
-                result += c.Name + ",";
+                result += c + ",";
             }
             return result.Substring(0, result.Length - 1);
         }

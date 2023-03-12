@@ -26,15 +26,19 @@ namespace xfLibrary.Resources
 
         public static ImageSource Base64ToImage(string encode)
         {
-            ImageSource objImageSource;
-            if (string.IsNullOrEmpty(encode))
+            ImageSource objImageSource = null;
+            try
             {
-                byte[] imageBytes = System.Convert.FromBase64String(encode);
-                var ms = new MemoryStream(imageBytes);
-                objImageSource = ImageSource.FromStream(() => ms);
+                if (!string.IsNullOrEmpty(encode))
+                {
+                    byte[] imageBytes = System.Convert.FromBase64String(encode);
+                    var ms = new MemoryStream(imageBytes);
+                    objImageSource = ImageSource.FromStream(() => ms);
+                }
             }
-            else
-                objImageSource = null;
+            catch (Exception)
+            {}
+
             return objImageSource;
         }
     }
