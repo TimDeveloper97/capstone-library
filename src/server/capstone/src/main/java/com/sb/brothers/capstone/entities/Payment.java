@@ -6,25 +6,24 @@ import java.util.Date;
 
 
 /**
- * The persistent class for the report database table.
+ * The persistent class for the payment database table.
  * 
  */
 @Entity
-@NamedQuery(name="Report.findAll", query="SELECT r FROM Report r")
-public class Report implements Serializable {
+@NamedQuery(name="Payment.findAll", query="SELECT p FROM Payment p")
+public class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String content;
 	private Date createdDate;
+	private Date modifiedDate;
 	private int status;
-	private String title;
-	private int typeReport;
-	private Post post;
+	private double transferAmount;
+	private User manager;
 	private User user;
 
-	public Report() {
+	public Payment() {
 	}
-
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -35,7 +34,6 @@ public class Report implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	@Lob
 	public String getContent() {
@@ -58,6 +56,17 @@ public class Report implements Serializable {
 	}
 
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="modified_date")
+	public Date getModifiedDate() {
+		return this.modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+
 	public int getStatus() {
 		return this.status;
 	}
@@ -67,39 +76,29 @@ public class Report implements Serializable {
 	}
 
 
-	public String getTitle() {
-		return this.title;
+	@Column(name="transfer_amount")
+	public double getTransferAmount() {
+		return this.transferAmount;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-
-	@Column(name="type_report")
-	public int getTypeReport() {
-		return this.typeReport;
-	}
-
-	public void setTypeReport(int typeReport) {
-		this.typeReport = typeReport;
-	}
-
-
-	//bi-directional many-to-one association to Post
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Post getPost() {
-		return this.post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
+	public void setTransferAmount(double transferAmount) {
+		this.transferAmount = transferAmount;
 	}
 
 
 	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="created_by")
+	public User getManager() {
+		return this.manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+
+
+	//bi-directional many-to-one association to User
+	@ManyToOne(fetch=FetchType.LAZY)
 	public User getUser() {
 		return this.user;
 	}

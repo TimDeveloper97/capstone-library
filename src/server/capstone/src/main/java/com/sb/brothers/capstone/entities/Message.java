@@ -1,5 +1,7 @@
 package com.sb.brothers.capstone.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
@@ -13,17 +15,31 @@ import java.util.Date;
 @NamedQuery(name="Message.findAll", query="SELECT m FROM Message m")
 public class Message implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String content;
 	private Date createdDate;
+
+	@JsonIgnore
 	private User user1;
+	@JsonIgnore
 	private User user2;
 
 	public Message() {
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Lob
 	public String getContent() {
-		return this.content;
+		return user1.getId()+": "+this.content;
 	}
 
 	public void setContent(String content) {
@@ -41,9 +57,7 @@ public class Message implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-
 	//bi-directional many-to-one association to User
-	@Id
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="userA_id")
 	public User getUser1() {
@@ -54,9 +68,7 @@ public class Message implements Serializable {
 		this.user1 = user1;
 	}
 
-
 	//bi-directional many-to-one association to User
-	@Id
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="userB_id")
 	public User getUser2() {

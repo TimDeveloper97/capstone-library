@@ -2,10 +2,10 @@ package com.sb.brothers.capstone.entities;
 
 import com.sb.brothers.capstone.configuration.BeanClass;
 import com.sb.brothers.capstone.services.RoleService;
-import org.springframework.security.core.Authentication;
+import com.sb.brothers.capstone.util.CustomStatus;
+import com.sb.brothers.capstone.util.UserNotActivatedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -21,24 +21,15 @@ public class CustomUserDetail extends User implements UserDetails {
         super(user);
     }//ke thua lai model user
 
-    public static User getPrincipal() {
-        Authentication auth = (SecurityContextHolder.getContext()).getAuthentication();
-        User myUser = null;
-        if(auth != null) {
-            myUser = (User) auth.getPrincipal();
-        }
-        return myUser;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if ((super.getStatus() & CustomStatus.ACTIVATE) == 0) {
+            throw new UserNotActivatedException("User " + super.getId() + " was not activated");
+        }
         List<GrantedAuthority> authorityList = new ArrayList<>();
         roleService.getAllByUserId(super.getId()).forEach(role -> {
                     authorityList.add(new SimpleGrantedAuthority(role.getName()));
                 });
-        /*super.getRoles().forEach(role -> {
-            authorityList.add(new SimpleGrantedAuthority(role.getName()));
-        });*/
         return authorityList;
     } //load menu role cho GrantedAuthority
 
