@@ -10,7 +10,9 @@ import java.util.List;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String> {
-    @Query(value = "SELECT * FROM roles WHERE id in (SELECT gur.role_id FROM group_user_role as gur WHERE gur.user_id = :userId)",
+    @Query(value = "SELECT * FROM roles WHERE id in (SELECT ur.role_id FROM user_role as ur WHERE ur.user_id = :userId)",
             nativeQuery = true)
     List<Role> getRoleByUserId(@Param("userId") String userId);
+
+    Role findRoleByName(String name);
 }

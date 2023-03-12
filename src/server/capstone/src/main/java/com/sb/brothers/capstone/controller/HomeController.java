@@ -1,6 +1,7 @@
 package com.sb.brothers.capstone.controller;
 
 import com.sb.brothers.capstone.dto.UserDTO;
+import com.sb.brothers.capstone.entities.CustomUserDetail;
 import com.sb.brothers.capstone.global.GlobalData;
 import com.sb.brothers.capstone.entities.Role;
 import com.sb.brothers.capstone.entities.User;
@@ -8,7 +9,11 @@ import com.sb.brothers.capstone.services.BookService;
 import com.sb.brothers.capstone.services.CategoryService;
 import com.sb.brothers.capstone.services.RoleService;
 import com.sb.brothers.capstone.services.UserService;
+import com.sb.brothers.capstone.util.CustomErrorType;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +29,9 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+
+    private Logger logger = Logger.getLogger(HomeController.class);
+
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
@@ -40,9 +48,17 @@ public class HomeController {
     BookService bookService;
 
     @GetMapping({"/", "/home"})
-    public String home(Model model){
+    public ResponseEntity<?> home(Model model){
+        logger.info("Get Home page.");
         model.addAttribute("cartCount", GlobalData.cart.size());
-        return "index";
+        User user = CustomUserDetail.getPrincipal();
+        if(user != null){
+            user.setRoles(roleService.getAllByUserId(user.getId()));
+            UserDTO userDTO = new UserDTO();
+            userDTO.convertUser(user);
+            return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.OK);
     } //index
     @GetMapping("/users/add")
     public String updateUser(Model model){
@@ -60,7 +76,7 @@ public class HomeController {
             for (Role item:user.getRoles()) {
                 roleIds.add(item.getName());
             }
-            currentUser.setRoleIds(roleIds);
+            currentUser.setRoles(roleIds);
         }//get current User runtime
 
         model.addAttribute("userDTO", currentUser);
@@ -82,23 +98,23 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/shop")
-    public String shop(Model model){
+    @GetMapping("/books")
+    public String books(Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
         model.addAttribute("categories", categoryService.getAllCategory());
         model.addAttribute("books", bookService.getAllBook());
-        return "shop";
+        return "books";
     } //view All Books
 
-    @GetMapping("/shop/category/{id}")
-    public String shopByCat(@PathVariable String id, Model model){
+    @GetMapping("/books/category/{id}")
+    public String booksByCat(@PathVariable String id, Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
         model.addAttribute("categories", categoryService.getAllCategory());
-        model.addAttribute("books", bookService.getAllBookByCategoryId(id));
-        return "shop";
+        model.addAttribute("books", bookService.getAllBooksByCategory(id));
+        return "books";
     } //view Books By Category
 
-    @GetMapping("/shop/viewBook/{id}")
+    @GetMapping("/books/viewBook/{id}")
     public String viewBook(@PathVariable int id, Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
         model.addAttribute("book", bookService.getBookById(id).get());

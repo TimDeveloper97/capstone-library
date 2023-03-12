@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `capstone_db` /*!40100 DEFAULT CHARACTER SET utf8
 USE `capstone_db`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: ligimi_db
+-- Host: 127.0.0.1    Database: capstone_demo_db
 -- ------------------------------------------------------
 -- Server version	8.0.31
 
@@ -18,6 +18,61 @@ USE `capstone_db`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `book_category`
+--
+
+DROP TABLE IF EXISTS `book_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `book_category` (
+  `book_id` int NOT NULL,
+  `category_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`book_id`,`category_id`),
+  KEY `FKam8llderp40mvbbwceqpu6l2s` (`category_id`),
+  CONSTRAINT `FK7k0c5mr0rx89i8jy5ges23jpe` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
+  CONSTRAINT `FKam8llderp40mvbbwceqpu6l2s` FOREIGN KEY (`category_id`) REFERENCES `category` (`name_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `book_category`
+--
+
+LOCK TABLES `book_category` WRITE;
+/*!40000 ALTER TABLE `book_category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `book_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `books`
+--
+
+DROP TABLE IF EXISTS `books`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `books` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `author` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `price` double NOT NULL,
+  `publish_year` int DEFAULT '1925',
+  `publisher` varchar(255) DEFAULT NULL,
+  `quantity` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `books`
+--
+
+LOCK TABLES `books` WRITE;
+/*!40000 ALTER TABLE `books` DISABLE KEYS */;
+/*!40000 ALTER TABLE `books` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `category`
 --
 
@@ -25,11 +80,10 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`name_code`),
-  UNIQUE KEY `name_code` (`name_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `name_code` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`name_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,64 +92,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES ('kinh dị','kinhdi'),('phưu lưu','phuuluu');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `group`
---
-
-/* DROP TABLE IF EXISTS `group`; */
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-/* CREATE TABLE `group` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `modified_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modified_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci; */
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `group`
---
-
-/* LOCK TABLES `group` WRITE; */
--- /*!40000 ALTER TABLE `group` DISABLE KEYS */;
-/* INSERT INTO `group` VALUES (1,'ADMINISTRATOR','ADJUST_PRICE,ADJUST_SALE,BLOG,UPDATE_BOOK,UPDATE_CATEGORY,UPDATE_LEADER,UPDATE_SUB_LEADER,UPDATE_EMPLOYEE',NULL,NULL,NULL,NULL),(2,'LEADER','ADJUST_PRICE,ADJUST_SALE,BLOG,UPDATE_BOOK,UPDATE_CATEGORY,UPDATE_SUB_LEADER,\r\nUPDATE_EMPLOYEE',NULL,NULL,NULL,NULL),(3,'SUB_LEADER','BLOG,UPDATE_EMPLOYEE',NULL,NULL,NULL,NULL),(4,'EMPLOYEE','BLOG',NULL,NULL,NULL,NULL); */
--- /*!40000 ALTER TABLE `group` ENABLE KEYS */;
-/* UNLOCK TABLES; */
-
---
--- Table structure for table `user_role`
---
-
-DROP TABLE IF EXISTS `user_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_role` (
-  `user_id` varchar(255) NOT NULL,
-  `role_id` varchar(255) NOT NULL,
-  KEY `FK80ch3f5u2lu6cxjpdqwt5qhqk` (`role_id`),
-  KEY `FK63doayc93flgiq6lrw8dep9gr` (`user_id`),
-  CONSTRAINT `FK63doayc93flgiq6lrw8dep9gr` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK80ch3f5u2lu6cxjpdqwt5qhqk` FOREIGN KEY (`role_id`) REFERENCES `roles` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `group_user_role`
---
-
-LOCK TABLES `user_role` WRITE;
-/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES ('admin','ROLE_ADMIN');
-/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -107,29 +104,13 @@ DROP TABLE IF EXISTS `image`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `image` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
   `book_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKgpextbyee3uk9u6o2381m7ft1` (`book_id`),
-  CONSTRAINT `FKgpextbyee3uk9u6o2381m7ft1` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `FK1x4slc19br0o6h6nxmjdkp103` (`book_id`),
+  CONSTRAINT `FK1x4slc19br0o6h6nxmjdkp103` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
-
-DROP TABLE IF EXISTS `notification`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `notification` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `created_date` datetime DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_notification_user` (`user_id`),
-  CONSTRAINT `FK_notification_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
 
 --
 -- Dumping data for table `image`
@@ -137,37 +118,62 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `image` WRITE;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
-INSERT INTO `image` VALUES (1,'macbook-air-space-gray.jpg',1),(2,'ipad-pro-12-select-202003.png',2);
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `order`
+-- Table structure for table `message`
 --
 
-DROP TABLE IF EXISTS `order`;
+DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `order` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+CREATE TABLE `message` (
+  `content` longtext,
   `created_date` datetime DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `total_price` double NOT NULL,
-  `discount` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_order_user` (`user_id`),
-  CONSTRAINT `FK_order_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `usera_id` varchar(255) NOT NULL,
+  `userb_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`userb_id`,`usera_id`),
+  KEY `FK9x3i8ueh8l9bs0a8v9wat1qoq` (`usera_id`),
+  CONSTRAINT `FK58l2h5ehlsb53261i1kri0x0t` FOREIGN KEY (`userb_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK9x3i8ueh8l9bs0a8v9wat1qoq` FOREIGN KEY (`usera_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `order`
+-- Dumping data for table `message`
 --
 
-LOCK TABLES `order` WRITE;
-/*!40000 ALTER TABLE `order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `order` ENABLE KEYS */;
+LOCK TABLES `message` WRITE;
+/*!40000 ALTER TABLE `message` DISABLE KEYS */;
+/*!40000 ALTER TABLE `message` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notification`
+--
+
+DROP TABLE IF EXISTS `notification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notification` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_date` datetime DEFAULT NULL,
+  `description` longtext,
+  `user_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKnk4ftb5am9ubmkv1661h15ds9` (`user_id`),
+  CONSTRAINT `FKnk4ftb5am9ubmkv1661h15ds9` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notification`
+--
+
+LOCK TABLES `notification` WRITE;
+/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -178,17 +184,16 @@ DROP TABLE IF EXISTS `order_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_detail` (
-  `quantity` int DEFAULT NULL,
+  `borrow_date` datetime DEFAULT NULL,
+  `quantity` int NOT NULL,
+  `return_date` datetime DEFAULT NULL,
   `order_id` int NOT NULL,
   `book_id` int NOT NULL,
-  `borrow_date` datetime DEFAULT NULL,
-  `return_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`book_id`,`order_id`),
-  KEY `FKplam7wxc4tjbgex0xyk8f0qxo` (`order_id`),
-  KEY `FKb8bg2bkty0oksa3wiq5mp5qnc` (`book_id`),
-  CONSTRAINT `FKb8bg2bkty0oksa3wiq5mp5qnc` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
-  CONSTRAINT `FKplam7wxc4tjbgex0xyk8f0qxo` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`order_id`,`book_id`),
+  KEY `FKst2ici0tm90wra4ht9ln4x78v` (`book_id`),
+  CONSTRAINT `FKrws2q0si6oyd6il8gqe2aennc` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `FKst2ici0tm90wra4ht9ln4x78v` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,33 +206,124 @@ LOCK TABLES `order_detail` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `book`
+-- Table structure for table `orders`
 --
-DROP TABLE IF EXISTS `book`;
+
+DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `book` (
+CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price` double NOT NULL,
-  `author` nvarchar(255),
-  `category_id` varchar(255) NOT NULL,
-  `quantity` int NOT NULL DEFAULT '1',
+  `created_date` datetime DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `discount` int NOT NULL,
+  `total_price` double DEFAULT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK1mtsbur82frn64de7balymq9s` (`category_id`),
-  CONSTRAINT `FK1mtsbur82frn64de7balymq9s` FOREIGN KEY (`category_id`) REFERENCES `category` (`name_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `FK32ql8ubntj5uh44ph9659tiih` (`user_id`),
+  CONSTRAINT `FK32ql8ubntj5uh44ph9659tiih` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `book`
+-- Dumping data for table `orders`
 --
 
-LOCK TABLES `book` WRITE;
-/*!40000 ALTER TABLE `book` DISABLE KEYS */;
--- INSERT INTO `book` VALUES (1,'Our thinnest, lightest notebook, completely transformed by the Apple M1 chip. CPU speeds up to 3.5x faster. GPU speeds up to 5x faster. ','MacBook Air',999,NULL,1),(2,'Liquid Retina display','IPad Pro 12.9 inch',535,641,2,NULL,NULL,NULL,NULL,1),(3,'','IPhone 12 mini',699,133,3,NULL,NULL,NULL,NULL,1),(4,'Iphone 11','IPhone 11 64Gb',599,194,3,NULL,NULL,NULL,NULL,1),(5,'iPhone SE packs our powerful A13 Bionic chip into our most popular size at our most affordable price. It’s just what you’ve been waiting for.','IPhone SE 64Gb',399,148,3,NULL,NULL,NULL,NULL,1),(6,'this is macbook','MacBook Pro 16\"',2399,2000,3,NULL,NULL,NULL,NULL,1),(7,'','Áo cưới công chua Gwen',0,0,4,NULL,NULL,NULL,NULL,1);
-/*!40000 ALTER TABLE `book` ENABLE KEYS */;
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post`
+--
+
+DROP TABLE IF EXISTS `post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` longtext,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(255) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  `status` int NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `manager_id` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK5ko4exgy0w18vjidsn53yqq6u` (`manager_id`),
+  KEY `FK7ky67sgi7k0ayf22652f7763r` (`user_id`),
+  CONSTRAINT `FK5ko4exgy0w18vjidsn53yqq6u` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK7ky67sgi7k0ayf22652f7763r` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post`
+--
+
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_detail`
+--
+
+DROP TABLE IF EXISTS `post_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post_detail` (
+  `fee` double NOT NULL,
+  `sublet` bit(1) NOT NULL,
+  `post_id` int NOT NULL,
+  `book_id` int NOT NULL,
+  PRIMARY KEY (`post_id`,`book_id`),
+  KEY `FK6li9i4xwinbd19wvh5buy60dh` (`book_id`),
+  CONSTRAINT `FK46mm0e5earch2ws3ffhl533aa` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+  CONSTRAINT `FK6li9i4xwinbd19wvh5buy60dh` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_detail`
+--
+
+LOCK TABLES `post_detail` WRITE;
+/*!40000 ALTER TABLE `post_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report`
+--
+
+DROP TABLE IF EXISTS `report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` longtext,
+  `created_date` datetime DEFAULT NULL,
+  `status` int NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `type_report` int DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKide3gruwmi3na8jjsgfs04din` (`created_by`),
+  CONSTRAINT `FKide3gruwmi3na8jjsgfs04din` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report`
+--
+
+LOCK TABLES `report` WRITE;
+/*!40000 ALTER TABLE `report` DISABLE KEYS */;
+/*!40000 ALTER TABLE `report` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -238,10 +334,10 @@ DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roles` (
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`name`),
-  UNIQUE KEY `UK_ofx66keruapi6vyqpv6f2or37` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,11 +346,34 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES ('ROLE_ADMIN'),('ROLE_USER'),
-    ('ROLE_MANAGER_POST'),
-    ('ROLE_MANAGER_MEMBER'),
-    ('ROLE_MANAGER_REPORT');
+INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER'),(3,'ROLE_MANAGER_POST'),(4,'ROLE_MANAGER_MEMBER'),(5,'ROLE_MANAGER_REPORT');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_role`
+--
+
+DROP TABLE IF EXISTS `user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_role` (
+  `user_id` varchar(255) NOT NULL,
+  `role_id` int NOT NULL,
+  KEY `FKt7e7djp752sqn6w22i6ocqy6q` (`role_id`),
+  KEY `FKj345gk1bovqvfame88rcx7yyx` (`user_id`),
+  CONSTRAINT `FKj345gk1bovqvfame88rcx7yyx` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKt7e7djp752sqn6w22i6ocqy6q` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_role`
+--
+
+LOCK TABLES `user_role` WRITE;
+/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -266,18 +385,18 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` varchar(255) NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modified_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `balance` double NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `modified_by` varchar(255) DEFAULT NULL,
   `modified_date` datetime DEFAULT NULL,
-  `status` int DEFAULT '1',
-  `address` nvarchar(255) DEFAULT NULL,
-  `phone` nvarchar(16) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_6dotkott2kjsp8vw4d0m25fb7` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `password` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `status` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -286,104 +405,25 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES 
-('admin','admin@gmail.com','NGUYEN','SON','$2a$10$rJ9ZDn7tYqI5TkUth8QKFeEucZCP03drJmeSfiOJi5.CW06J3Myoq',NULL,NULL,1,NULL,NULL)
-,('asd','asd.skyer3@gmail.com','Sơn','Nguyễn','$2a$10$KyhH0QQ/sYUl3FFFrGK3FOW5/pRo2iWBBz5akMxJQ2mbDB7WPV3D.',NULL,NULL,1,NULL,NULL)
-,('user','anhsonit1998@gmail.com','Son','Nguyen','$2a$10$0GPewYid8Hsyx.7Y5WVgE.y87B6biEDvy3r1tjyo63GBkS61mydja',NULL,NULL,1,NULL,NULL);
+INSERT INTO `users` VALUES ('admin','Ha noi',10000,'admin@gmail.com','son','nguyen',NULL,NULL,'$2a$10$rJ9ZDn7tYqI5TkUth8QKFeEucZCP03drJmeSfiOJi5.CW06J3Myoq','012345678',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `before_user_delete` BEFORE DELETE ON `users` FOR EACH ROW DELETE FROM `group_user_role` 
-WHERE group_user_role.user_id = OLD.id */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Temporary view structure for view `viewbookdetail`
+-- Dumping events for database 'capstone_demo_db'
 --
 
-DROP TABLE IF EXISTS `viewbookdetail`;
-/*!50001 DROP VIEW IF EXISTS `viewbookdetail`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-SET character_set_client = @saved_cs_client;
-
 --
--- Dumping routines for database 'ligimi_db'
+-- Dumping routines for database 'capstone_demo_db'
 --
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-DROP TABLE IF EXISTS `messager`;
--- /*!40101 SET @saved_cs_client     = @@character_set_client */;
--- /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `message` (
-  `userA_id` varchar(255) NOT NULL,
-  `userB_id` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `created_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`userB_id`, `userA_id`),
-  KEY `FK_orderDetail_user` (`userA_id`),
-  KEY `FK_orderDetail_manager` (`userB_id`),
-  CONSTRAINT `FK_orderDetail_user` FOREIGN KEY (`userA_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_orderDetail_manager` FOREIGN KEY (`userB_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-
-DROP TABLE IF EXISTS `post`;
--- /*!40101 SET @saved_cs_client     = @@character_set_client */;
--- /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `post` (
-  `user_id` varchar(255) NOT NULL,
-  `manager_id` varchar(255) NOT NULL,
-  `title` nvarchar(150) NOT NULL,
-  `content` text,
-  `created_date` datetime DEFAULT NULL,
-  `status` int NOT NULL,
-  PRIMARY KEY (`user_id`, `manager_id`),
-  KEY `FK_post_user` (`user_id`),
-  KEY `FK_post_manager` (`manager_id`),
-  CONSTRAINT `FK_post_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_post_manager` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-
-DROP TABLE IF EXISTS `report`;
--- /*!40101 SET @saved_cs_client     = @@character_set_client */;
--- /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `report` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` nvarchar(150) NOT NULL,
-  `content` text,
-  `created_date` datetime DEFAULT NULL,
-  `created_by` varchar(255) NOT NULL,
-  `type_report` int NOT NULL,
-  `status` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_repost_user` (`created_by`),
-  CONSTRAINT `FK_repost_user` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-/*!40101 SET character_set_client = @saved_cs_client */;
-/* {
-  user: "A",
-  content:"B",
-  time: 17:00,
-  user:"B",
-
-} */
---
--- Final view structure for view `viewbookdetail`
---
-
--- Dump completed on 2023-02-19 16:48:32
+-- Dump completed on 2023-02-22 20:41:08

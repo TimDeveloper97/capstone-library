@@ -47,8 +47,8 @@ public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler 
             user.setEmail(email);
             user.setPassword(bCryptPasswordEncoder.encode("1"));
             List<Role> roles = new ArrayList<>();
-			//TODO
-            roles.add(roleRepository.findById("ROLE_ADMIN").get());
+			//default role of acc is USER
+            roles.add(roleRepository.findById("ROLE_USER").get());
             user.setRoles(roles);
             userRepository.save(user);
         }

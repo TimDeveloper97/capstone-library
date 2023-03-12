@@ -13,7 +13,6 @@ import java.util.Date;
 @NamedQuery(name="Message.findAll", query="SELECT m FROM Message m")
 public class Message implements Serializable {
 	private static final long serialVersionUID = 1L;
-	//private MessagePK id;
 	private String content;
 	private Date createdDate;
 	private User user1;
@@ -21,19 +20,6 @@ public class Message implements Serializable {
 
 	public Message() {
 	}
-
-/*
-
-	@EmbeddedId
-	public MessagePK getId() {
-		return this.id;
-	}
-
-	public void setId(MessagePK id) {
-		this.id = id;
-	}
-*/
-
 
 	@Lob
 	public String getContent() {

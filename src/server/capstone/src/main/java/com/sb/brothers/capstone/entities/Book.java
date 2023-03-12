@@ -1,5 +1,8 @@
 package com.sb.brothers.capstone.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Set;
@@ -12,13 +15,14 @@ import java.util.Set;
 @Entity
 @NamedQuery(name="Book.findAll", query="SELECT b FROM Book b")
 @Table(name = "books")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Book implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String author;
-	private String categoryId;
+	private String publisher;
 	private String description;
-	private String imageName;
+	private Integer publishYear;
 	private String name;
 	private double price;
 	private int quantity;
@@ -50,13 +54,13 @@ public class Book implements Serializable {
 	}
 
 
-	@Column(name="category_id")
-	public String getCategoryId() {
-		return this.categoryId;
+	@Column(name="publisher")
+	public String getPublisher() {
+		return this.publisher;
 	}
 
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
 	}
 
 
@@ -69,13 +73,13 @@ public class Book implements Serializable {
 	}
 
 
-	@Column(name="image_name")
-	public String getImageName() {
-		return this.imageName;
+	@Column(name="publish_year", columnDefinition = "integer default 1925")
+	public Integer getPublishYear() {
+		return this.publishYear;
 	}
 
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
+	public void setPublishYear(Integer publisher) {
+		this.publishYear = publisher;
 	}
 
 
@@ -106,7 +110,7 @@ public class Book implements Serializable {
 	}
 
 	//bi-directional many-to-one association to Image
-	@OneToMany(mappedBy="book")
+	@OneToMany(mappedBy="book", fetch = FetchType.LAZY)
 	public Set<Image> getImages() {
 		return this.images;
 	}
@@ -131,7 +135,7 @@ public class Book implements Serializable {
 
 
 	//bi-directional many-to-one association to OrderDetail
-	@OneToMany(mappedBy="book")
+	@OneToMany(mappedBy="book", fetch = FetchType.LAZY)
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}
@@ -154,7 +158,7 @@ public class Book implements Serializable {
 		return orderDetail;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name="book_category"
 			, joinColumns={
@@ -164,6 +168,7 @@ public class Book implements Serializable {
 			@JoinColumn(name="category_id")
 	}
 	)
+	@JsonManagedReference
 	public Set<Category> getCategories() {
 		return categories;
 	}
