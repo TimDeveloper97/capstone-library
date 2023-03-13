@@ -38,14 +38,17 @@ namespace xfLibrary.Models
         public ObservableCollection<string> Imgs { get; set; }
 
 
+        
+        private int maxLines = 3;
         [JsonIgnore]
-        public int MaxLines { get; set; } = 3;
+        public int TotalCreateDay { get; set; }
         [JsonIgnore]
-        public int Height { get; set; }
+        public int TotalReturnDay { get; set; }
         [JsonIgnore]
         public ImageSource ImageSource { get; set; }
         [JsonIgnore]
         public ObservableCollection<Book> Books { get; set; }
-        
+        [JsonIgnore]
+        public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); } 
     }
 }
