@@ -48,6 +48,7 @@ namespace xfLibrary.Domain
         protected IMessage _message = DependencyService.Get<IMessage>();
         protected IAccountService _accountService = DependencyService.Get<IAccountService>();
         protected IMainService _mainService = DependencyService.Get<IMainService>();
+        protected IPhotoPickerService _photoService = DependencyService.Get<IPhotoPickerService>();
 
         public ICommand BackCommand => new Command(async () => await Shell.Current.GoToAsync(".."));
 
@@ -55,10 +56,10 @@ namespace xfLibrary.Domain
 
         protected async Task MoveToLogin(Action a)
         {
-            IsVisible = true;
+            IsVisible = false;
             if (HasLogin())
             {
-                IsVisible = false;
+                IsVisible = true;
                 a.Invoke();
             }
             else await Login();

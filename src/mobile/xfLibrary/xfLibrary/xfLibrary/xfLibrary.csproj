@@ -30,8 +30,8 @@
     <Compile Update="Pages\AddPostView.xaml.cs">
       <DependentUpon>AddPostView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Pages\AddBookView.xaml.cs">
-      <DependentUpon>AddBookView.xaml</DependentUpon>
+    <Compile Update="Pages\DetailBookView.xaml.cs">
+      <DependentUpon>DetailBookView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\AddReportView.xaml.cs">
       <DependentUpon>AddReportView.xaml</DependentUpon>
@@ -80,7 +80,7 @@
     <EmbeddedResource Update="Pages\AddPostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddBookView.xaml">
+    <EmbeddedResource Update="Pages\DetailBookView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\AddReportView.xaml">
@@ -101,7 +101,13 @@
     <EmbeddedResource Update="Pages\LoginView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\ChangePasswordPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\Popup\DetailPostPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\ForgotPasswordPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\Popup\OrderBookPopup.xaml">
@@ -134,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\FieldLabel.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HeaderView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

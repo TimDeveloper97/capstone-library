@@ -6,8 +6,8 @@
     <ContentView.Content>
         <!--#region Header-->
         <StackLayout Padding="5,5,5,10" VerticalOptions="Start">
-            <Grid HeightRequest="50" ColumnDefinitions="50, *" Padding="5" Style="{StaticResource GridColor}">
-                <Image Source="chotot.jpg" Aspect="AspectFit"/>
+            <Grid HeightRequest="50" ColumnDefinitions="40, *" Padding="5" Style="{StaticResource GridColor}">
+                <Image Source="logoC.png" Aspect="AspectFit" Margin="5"/>
                 <SearchBar Grid.Column="1" Placeholder="Tìm kiếm trên Chợ Tốt..." BackgroundColor="White"
                            Text="{Binding Text, Source={x:Reference seft}}"
                            TextChanged="SearchBar_TextChanged"

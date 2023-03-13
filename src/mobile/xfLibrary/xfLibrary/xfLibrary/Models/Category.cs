@@ -15,6 +15,7 @@ namespace xfLibrary.Models
         [JsonProperty("nameCode")]
         public string Code { get; set; }
 
+        [JsonIgnore]
         public string Image { get; set; }
     }
 

@@ -1,5 +1,7 @@
 package com.sb.brothers.capstone.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Set;
@@ -23,6 +25,7 @@ public class Role implements Serializable {
 
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -41,11 +44,12 @@ public class Role implements Serializable {
 	}
 
 
-	//bi-directional many-to-many association to User
-	@ManyToMany(mappedBy="roles")
+	@ManyToMany(mappedBy="roles", fetch = FetchType.LAZY)
+	@JsonBackReference
 	public Set<User> getUsers() {
 		return this.users;
 	}
+	//bi-directional many-to-many association to User
 
 	public void setUsers(Set<User> users) {
 		this.users = users;

@@ -15,6 +15,10 @@
     <converter:UpperStringConverter x:Key="UpperStringConverter" />
     <converter:LimitNumberConverter x:Key="LimitNumberConverter" />
     <converter:NoneConverter x:Key="NoneConverter" />
+    <converter:MoneyConverter x:Key="MoneyConverter" />
+    <converter:ListStringConverter x:Key="ListStringConverter" />
+    <converter:StreamsToImageConverter x:Key="StreamsToImageConverter" />
+    <converter:Base64ToImageConverter x:Key="Base64ToImageConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
@@ -29,13 +33,14 @@
     <x:Double x:Key="TopNavigator">60</x:Double>
 
     <!--#region Color -->
-    <Color x:Key="AppColor">#ffb900</Color>
-    <Color x:Key="AppColor1">#ffb900</Color>
+    <Color x:Key="AppColor">#152F3E</Color>
+    <Color x:Key="AppColor1">#152F3E</Color>
     
     <Color x:Key="Red">#ff424e</Color>
     <Color x:Key="Blue">#508ce8</Color>
     <Color x:Key="Green">#32CD32</Color>
     <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Yellow">#FFA700</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="Sky">#a699cf</Color>
@@ -555,6 +560,18 @@
     </Style>
     <Style x:Key="SubHeaderLabelStyle" TargetType="Label">
         <Setter Property="FontSize" Value="{StaticResource SubHeader}"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="PoppinsRegular"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+    </Style>
+    <Style x:Key="SubTitleGrayLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="PoppinsRegular"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+    </Style>
+    <Style x:Key="SubTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="PoppinsRegular"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />

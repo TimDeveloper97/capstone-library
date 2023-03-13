@@ -2,63 +2,84 @@
 <xct:Popup xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:xct="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
              xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
              xmlns:page="clr-namespace:xfLibrary.Pages"
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              xmlns:m="clr-namespace:xfLibrary.Models"
-             Size="350,400"
+             xmlns:c="clr-namespace:xfLibrary.Controls"
+             Size="350,350"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              x:TypeArguments="m:ListBook"
              IsLightDismissEnabled="false"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.Popup.OrderBookPopup">
+    <xct:Popup.Resources>
+        <Style x:Key="ChatEntryStyle" TargetType="c:BorderlessEntry">
+            <Setter Property="FontSize" Value="{StaticResource SubTitle}" />
+            <Setter Property="Margin" Value="5,5" />
+        </Style>
+    </xct:Popup.Resources>
     <xct:Popup.Content>
       <Grid>
             <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">
-                <Grid RowSpacing="0" RowDefinitions="auto, *, auto" VerticalOptions="FillAndExpand">
-                    <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
-                        <Label Text="Danh sách truyện" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
-                    </Grid>
+                <ScrollView>
+                    <Grid RowSpacing="0" RowDefinitions="auto, *, auto, auto" VerticalOptions="FillAndExpand">
+                        <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
+                            <Label Text="Danh sách truyện" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                        </Grid>
 
-                    <ListView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" SelectedItem="{Binding SelectItem}" Margin="5,0" ItemTapped="lv_ItemTapped" ItemSelected="lv_ItemSelected">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Grid ColumnDefinitions="auto, *, auto, 60" Padding="5,10" VerticalOptions="Center">
-                                        <CheckBox x:Name="cbItem" IsChecked="{Binding IsChecked}" VerticalOptions="Center" CheckedChanged="cbItem_CheckedChanged" BindingContext="{Binding .}"/>
-                                        <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center"/>
-                                        <Label x:Name="lPrice" Grid.Column="1" Text="{Binding Price}" IsVisible="false" VerticalOptions="Center"/>
-                                        <Label x:Name="lsum" Grid.Column="2" Text="{Binding Source={x:Reference eNumber}, Path=Text, 
+                        <ListView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" HeightRequest="250" SelectedItem="{Binding SelectItem}" Margin="5,0" ItemTapped="lv_ItemTapped" ItemSelected="lv_ItemSelected">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid ColumnDefinitions="auto, *, auto, 60" Padding="5,10" VerticalOptions="Center">
+                                            <CheckBox x:Name="cbItem" IsChecked="{Binding IsChecked}" VerticalOptions="Center" CheckedChanged="cbItem_CheckedChanged" BindingContext="{Binding .}"/>
+                                            <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center"/>
+                                            <Label x:Name="lPrice" Grid.Column="1" Text="{Binding Price}" IsVisible="false" VerticalOptions="Center"/>
+                                            <Label x:Name="lsum" Grid.Column="2" Text="{Binding Source={x:Reference eNumber}, Path=Text, 
                                                Converter={StaticResource StringToMoneyConverter}, ConverterParameter={x:Reference lPrice}}" 
                                                VerticalOptions="Center" Margin="10,0" PropertyChanged="lsum_PropertyChanged" BindingContext="{Binding .}"/>
-                                        <StackLayout Grid.Column="3" Spacing="0" Orientation="Horizontal">
-                                            <Editor x:Name="eNumber" Text="{Binding Source={x:Reference eNumber}, Path=Text, Converter={StaticResource LimitNumberConverter}, ConverterParameter={x:Reference lMax}}" WidthRequest="30"
+                                            <StackLayout Grid.Column="3" Spacing="0" Orientation="Horizontal">
+                                                <Editor x:Name="eNumber" Text="{Binding Source={x:Reference eNumber}, Path=Text, Converter={StaticResource LimitNumberConverter}, ConverterParameter={x:Reference lMax}}" WidthRequest="30"
                                                     MaxLength="3" Keyboard="Numeric" VerticalOptions="Center"/>
-                                            <Label x:Name="lMax" Text="{Binding Quantity, StringFormat='/{0}'}" VerticalOptions="Center" Margin="-4,0,5,0"/>
-                                        </StackLayout>
-                                    </Grid>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                                                <Label x:Name="lMax" Text="{Binding Quantity, StringFormat='/{0}'}" VerticalOptions="Center" Margin="-4,0,5,0"/>
+                                            </StackLayout>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
 
-                    <StackLayout Grid.Row="2" Margin="0,10,0,10" HeightRequest="45" Orientation="Horizontal" HorizontalOptions="End">
-                        <Grid Margin="5,0" VerticalOptions="Center">
-                            <Frame>
-                                <StackLayout Padding="10" Spacing="0">
-                                    <Label x:Name="lSum" Style="{StaticResource TitleLabelStyle}" Text="0VND"
-                                           FontSize="{StaticResource SubTitle}" FontFamily="MuliBold"/>
-                                </StackLayout>
-                            </Frame>
-                            <Label Text="Tổng tiền" Margin="15,-7,0,0" BackgroundColor="White" VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
-                        </Grid>
-                        <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Xong"/>
-                        <mdc:MaterialButton x:Name="cancelBtn" Style="{StaticResource HideButtonStyle}" WidthRequest="100" Clicked="cancelBtn_Clicked" Text="Hủy"/>
-                    </StackLayout>
-                </Grid>
+                        <StackLayout Grid.Row="2" Margin="0,10,10,10" HeightRequest="45" Orientation="Horizontal" HorizontalOptions="End">
+                            <Grid Margin="5,0" VerticalOptions="Center" >
+                                <Frame WidthRequest="120">
+                                    <StackLayout Padding="5,0,0,10" Spacing="0">
+                                        <c:BorderlessEntry x:Name="lDeposit" Keyboard="Numeric" MaxLength="10" TextChanged="lDeposit_TextChanged"
+                                                           Style="{StaticResource ChatEntryStyle}" VerticalOptions="Center"/>
+                                    </StackLayout>
+                                </Frame>
+                                <Label Text="Tiền cọc" Margin="10,-7,0,0" BackgroundColor="White" VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
+                            </Grid>
+                            <Grid Margin="5,0" VerticalOptions="Center">
+                                <Frame>
+                                    <StackLayout Padding="10,15,10,0" Spacing="0">
+                                        <Label x:Name="lSum" Style="{StaticResource TitleLabelStyle}" Text="0VND"
+                                                FontSize="{StaticResource SubTitle}" FontFamily="MuliBold"/>
+                                    </StackLayout>
+                                </Frame>
+                                <Label Text="Tổng tiền" Margin="10,-7,0,0" BackgroundColor="White" VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
+                            </Grid>
+                        </StackLayout>
+
+                        <StackLayout Grid.Row="3" Margin="0,10,0,10" HeightRequest="45" Orientation="Horizontal" HorizontalOptions="End">
+                            <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Xong"/>
+                            <mdc:MaterialButton x:Name="cancelBtn" Style="{StaticResource HideButtonStyle}" WidthRequest="100" Clicked="cancelBtn_Clicked" Text="Hủy"/>
+                        </StackLayout>
+                    </Grid>
+                </ScrollView>
             </Frame>
         </Grid>
   </xct:Popup.Content>

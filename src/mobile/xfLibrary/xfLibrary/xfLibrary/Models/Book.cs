@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Xamarin.Forms;
 using xfLibrary.Domain;
 
 namespace xfLibrary.Models
@@ -25,15 +26,26 @@ namespace xfLibrary.Models
         public string PublishYear { get; set; }
 
         [JsonProperty("categories")]
-        public List<string> Categories { get; set; }
+        public List<string> Categories;
+
+        [JsonProperty("author")]
+        public string Author { get; set; }
 
         [JsonProperty("quantity")]
         public string Quantity { get; set; }
+
+        [JsonProperty("imgs")]
+        public List<string> Imgs { get; set; }
+
 
         [JsonIgnore]
         public bool IsChecked { get; set; } = false;
         [JsonIgnore]
         public double PreTotal { get; set; } = 0;
+        [JsonIgnore]
+        public ImageSource ImageSource { get; set; }
+        [JsonIgnore]
+        public string StringCategories { get; set; }
     }
 
     public class ListBook

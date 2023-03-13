@@ -2,8 +2,10 @@ package com.sb.brothers.capstone.entities;
 
 import com.sb.brothers.capstone.configuration.BeanClass;
 import com.sb.brothers.capstone.services.RoleService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -19,6 +21,15 @@ public class CustomUserDetail extends User implements UserDetails {
         super(user);
     }//ke thua lai model user
 
+    public static User getPrincipal() {
+        Authentication auth = (SecurityContextHolder.getContext()).getAuthentication();
+        User myUser = null;
+        if(auth != null) {
+            myUser = (User) auth.getPrincipal();
+        }
+        return myUser;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
@@ -33,7 +44,7 @@ public class CustomUserDetail extends User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return super.getEmail();
+        return super.getId();
     }
     @Override
     public String getPassword() {

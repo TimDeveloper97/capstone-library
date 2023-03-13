@@ -7,8 +7,11 @@ namespace ChatApp.Models
     public class User : BaseModel
     {
         //message
+        [JsonIgnore]
         public string Name { get; set; }
+        [JsonIgnore]
         public string Image { get; set; }
+        [JsonIgnore]
         public Color Color { get; set; }
 
         //user

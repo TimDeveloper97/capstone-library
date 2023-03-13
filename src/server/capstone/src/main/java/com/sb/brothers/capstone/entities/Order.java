@@ -28,6 +28,7 @@ public class Order implements Serializable {
 
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}

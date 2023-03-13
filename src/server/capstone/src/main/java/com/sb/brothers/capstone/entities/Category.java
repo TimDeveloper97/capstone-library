@@ -1,8 +1,10 @@
 package com.sb.brothers.capstone.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.*;
 
 
 /**
@@ -39,12 +41,13 @@ public class Category implements Serializable {
 	}
 
 	//bi-directional many-to-many association to User
-	@ManyToMany(mappedBy="categories")
-	public Set<Book> getUsers() {
+	@ManyToMany(mappedBy="categories", fetch = FetchType.LAZY)
+	@JsonBackReference
+	public Set<Book> getBooks() {
 		return books;
 	}
 
-	public void setUsers(Set<Book> books) {
+	public void setBooks(Set<Book> books) {
 		this.books = books;
 	}
 }

@@ -15,7 +15,6 @@ namespace xfLibrary.ViewModels
         #region Properties
         private string text;
         private ObservableCollection<A> news;
-        private int maxLines;
 
         public ObservableCollection<A> News { get => news; set => SetProperty(ref news, value); }
         public string Text { get => text; set => SetProperty(ref text, value); }

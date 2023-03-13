@@ -71,28 +71,31 @@ namespace xfLibrary.ViewModels
 
         public ICommand PageAccountAppearingCommand => new Command(() =>
         {
+            MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin());
         });
+       
         #endregion
 
 
         #region MyRegion 
-        public ICommand PageHomeDisappearingCommand => new Command(async () =>
+        public ICommand PageHomeDisappearingCommand => new Command(() =>
         {
             MessagingCenter.Unsubscribe<object, object>(this, "category");
         });
 
-        public ICommand PagePostDisappearingCommand => new Command(async () =>
+        public ICommand PagePostDisappearingCommand => new Command(() =>
         {
         });
 
-        public ICommand PageNotificationDisappearingCommand => new Command(async () =>
+        public ICommand PageNotificationDisappearingCommand => new Command(() =>
         {
             
         });
-
         public ICommand PageAccountDisappearingCommand => new Command(() =>
         {
+            MessagingCenter.Unsubscribe<object, bool>(this, "haslogin");
         });
+
         #endregion
     }
 }

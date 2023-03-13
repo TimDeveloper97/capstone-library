@@ -53,7 +53,6 @@
                             <mdc:MaterialEntry LabelText="Ngày sinh" Text="{Binding DateofBirth}"/>
                             <mdc:MaterialEntry LabelText="Giới tính" Text="{Binding Gender}"/>
                             <mdc:MaterialEntry LabelText="Code" Text="{Binding Code}"/>
-                            <mdc:MaterialEntry LabelText="Mật khẩu *" IsPassword="True" Text="{Binding Password}"/>
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="20,10,0,-10">

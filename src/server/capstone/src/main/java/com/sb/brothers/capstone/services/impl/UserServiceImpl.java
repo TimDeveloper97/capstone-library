@@ -13,7 +13,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Override
-    public List<User> getAllUser() {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
@@ -33,7 +33,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean isUserExist(String id) {
+        return userRepository.existsById(id);
+    }
+
+    @Override
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public Optional<User> getUserByEmailAndId(String email, String id) {
+        return userRepository.findUserByEmailAndId(email, id);
     }
 }

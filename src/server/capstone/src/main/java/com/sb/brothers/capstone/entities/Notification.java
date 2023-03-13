@@ -23,6 +23,7 @@ public class Notification implements Serializable {
 
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}

@@ -2,6 +2,7 @@ package com.sb.brothers.capstone.configuration;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +18,11 @@ public class BeanClass implements ApplicationContextAware {
 
     private static ApplicationContext context;
 
-    @Autowired
-    private Environment env;
+    @Value("${email.password}")
+    private String emailPass;
+
+    @Value("${email.username}")
+    private String emailUser;
 
     /**
      * Config MailSender
@@ -29,16 +33,13 @@ public class BeanClass implements ApplicationContextAware {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-
-        mailSender.setUsername("asd.skyer3@gmail.com");
-        mailSender.setPassword(env.getProperty("email.password"));
-
+        mailSender.setUsername(emailUser);
+        mailSender.setPassword(emailPass);
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "true");
-
         return mailSender;
     }
 

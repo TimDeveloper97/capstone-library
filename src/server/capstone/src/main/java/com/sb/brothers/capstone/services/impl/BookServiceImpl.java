@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class BookServiceImpl implements BookService {
@@ -20,8 +21,18 @@ public class BookServiceImpl implements BookService {
     }//findAll
 
     @Override
+    public boolean isBookExist(int id) {
+        return bookRepository.existsById(id);
+    }
+
+    @Override
+    public Set<Book> getAllBooksByUserId(String id) {
+        return bookRepository.findAllByUserId(id);
+    }
+
+    @Override
 	public void updateBook(Book book) {
-        bookRepository.save(book);
+        bookRepository.saveAndFlush(book);
     }//add or update (tuy vao pri-key)
 
     @Override
@@ -35,8 +46,8 @@ public class BookServiceImpl implements BookService {
     }//search theo id
 
     @Override
-	public List<Book> getAllBookByCategoryId(String id) {
-        return bookRepository.findAllByCategoryId(id);
+	public Set<Book> getAllBooksByCategory(String id) {
+        return bookRepository.findAllByCategory(id);
     }
     //findList theo BookDTO.categoryId
 

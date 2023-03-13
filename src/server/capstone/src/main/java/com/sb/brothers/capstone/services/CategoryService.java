@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public interface CategoryService {
@@ -14,8 +15,11 @@ public interface CategoryService {
 
     void updateCategory(Category category);
 
-    void removeCategoryById(int id);
+    void removeCategoryById(String id);
 
-    Optional<Category> getCategoryById(int id);
+    Optional<Category> getCategoryById(String id);
 
+    boolean isCategoryExist(String nameCode);
+
+    Set<Category> getAllCategoriesByBookId(int id);
 }

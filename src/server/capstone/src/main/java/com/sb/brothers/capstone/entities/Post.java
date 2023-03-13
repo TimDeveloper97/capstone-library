@@ -13,7 +13,7 @@ import java.util.Date;
 @NamedQuery(name="Post.findAll", query="SELECT p FROM Post p")
 public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
-	//private PostPK id;
+	private int id;
 	private String content;
 	private Date createdDate;
 	private String modifiedBy;
@@ -26,17 +26,15 @@ public class Post implements Serializable {
 	public Post() {
 	}
 
-/*
-
-	@EmbeddedId
-	public PostPK getId() {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(PostPK id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-*/
 
 
 	@Lob
@@ -100,7 +98,6 @@ public class Post implements Serializable {
 
 
 	//bi-directional many-to-one association to User
-	@Id
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="manager_id")
 	public User getUser1() {
@@ -113,7 +110,6 @@ public class Post implements Serializable {
 
 
 	//bi-directional many-to-one association to User
-	@Id
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	public User getUser2() {
