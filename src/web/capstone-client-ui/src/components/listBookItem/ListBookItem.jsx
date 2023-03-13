@@ -1,7 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import BookItem from "../bookItem/BookItem";
-import "./listBookItem.css";
 
 export default function ListBookItem(props) {
   return (

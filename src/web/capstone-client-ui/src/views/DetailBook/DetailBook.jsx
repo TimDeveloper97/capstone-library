@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Carousel, Col, Container, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import "./detailbook.css";
 import img_1 from "../../assets/img/img_1.jpeg";
 import img_2 from "../../assets/img/img_2.jpeg";
 import img_3 from "../../assets/img/img_3.jpeg";

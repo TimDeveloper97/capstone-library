@@ -1,6 +1,5 @@
 import React from "react";
 import { Star } from "react-bootstrap-icons";
-import "./bookItem.css";
 import img_book from "../../assets/img/harry-potter-and-the-goblet-of-fire-6.jpg";
 import { Link } from "react-router-dom";
 

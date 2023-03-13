@@ -3,8 +3,6 @@ import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import img from "../../assets/img/skill-book.jpg";
-import "./mybook.css";
-
 export default function MyBook() {
   const [arrangeItem, setArrangeItem] = React.useState("");
 
