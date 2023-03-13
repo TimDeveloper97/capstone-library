@@ -52,9 +52,9 @@ namespace xfLibrary.ViewModels
         #region Appearing
         public ICommand PageHomeAppearingCommand => new Command(async () =>
         {
-            //var category = await _mainService.CategoryAsync();
+            var category = await _mainService.CategoryAsync();
 
-            //MessagingCenter.Send<object, object>(this, "category", category);
+            MessagingCenter.Send<object, object>(this, "category", category);
         });
 
         public ICommand PagePostAppearingCommand => new Command(async () =>

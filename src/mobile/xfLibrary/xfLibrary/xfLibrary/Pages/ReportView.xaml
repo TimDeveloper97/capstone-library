@@ -21,7 +21,7 @@
     <ContentView.Content>
         <Grid HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">
             <RefreshView Command="{Binding ReloadNewsCommand}" IsRefreshing="{Binding IsBusy}">
-                <CollectionView ItemsSource="{Binding News}">
+                <CollectionView ItemsSource="{Binding Posts}">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
                     </CollectionView.ItemsLayout>
@@ -32,7 +32,7 @@
                                     <SwipeView.RightItems>
                                         <SwipeItems SwipeBehaviorOnInvoked="Auto">
                                             <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}"/>
-                                            <SwipeItem Text="Chấp nhận" BackgroundColor="{StaticResource Gray600}"/>
+                                            <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
                                     <!-- Content -->
@@ -48,25 +48,11 @@
                                                     <Label Text="Nguyễn Văn A" Style="{StaticResource TitleLabelStyle}" 
                                                            VerticalOptions="End" HorizontalTextAlignment="Start"/>
 
-                                                    <Label Text="28 ngày trước" Style="{StaticResource MiniLabelStyle}"
+                                                    <Label Text="Trạng thái: " Style="{StaticResource MiniLabelStyle}"
                                                            Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start"/>
                                                 </Grid>
                                             </Grid>
 
-                                            <!--#region Tools -->
-                                            <StackLayout Grid.Column="1" Orientation="Horizontal" Margin="0,0,20,0" VerticalOptions="Center" HorizontalOptions="End">
-                                                <Frame BackgroundColor="{StaticResource Blue}"
-                                                   CornerRadius="30" HeightRequest="35" WidthRequest="35"
-                                                   Style="{StaticResource FrameNoBorder}">
-                                                    <Label Style="{StaticResource IconLabel}" FontSize="23"
-                                                       Text="{Static icon:FontIcons.MessageText}" TextColor="White"
-                                                       VerticalOptions="Center" HorizontalOptions="Center"/>
-                                                    <Frame.GestureRecognizers>
-                                                        <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.MessagerCommand, Source={x:Reference Name=self}}"/>
-                                                    </Frame.GestureRecognizers>
-                                                </Frame>
-                                            </StackLayout>
-                                            <!--#endregion-->
                                         </Grid>
                                         <!--#endregion-->
 

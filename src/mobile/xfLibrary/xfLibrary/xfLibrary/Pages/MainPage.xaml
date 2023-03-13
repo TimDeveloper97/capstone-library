@@ -12,7 +12,7 @@
              x:Name="self"
              x:Class="xfLibrary.Pages.MainPage">
 
-    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#13005A">
+    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#152F3E">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -32,7 +32,7 @@
     </ContentPage>
 
     <!--#region Show only Manager -->
-    <ContentPage Title="Quản lý" Icon="ic_news.png" xf:BottomBarPageExtensions.TabColor="#00337C">
+    <ContentPage Title="Kho sách" Icon="ic_book.png" xf:BottomBarPageExtensions.TabColor="#224c64">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -53,7 +53,7 @@
     </ContentPage>
     <!--#endregion-->
 
-    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#1C82AD">
+    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#1b3d51">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -73,7 +73,7 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#03C988">
+    <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#0f212b">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"

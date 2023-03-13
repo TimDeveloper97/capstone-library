@@ -42,7 +42,6 @@ namespace xfLibrary.Services.Account
         }
         #endregion
 
-
         #region Books
 
         public async Task<Response> AddBookAsync(object obj, string token)
@@ -63,7 +62,7 @@ namespace xfLibrary.Services.Account
 
         public async Task<Response> DeleteBookAsync(string id, string token)
         {
-            var res = await Service.Post(id, Api.DeleteBook, token);
+            var res = await Service.PostPara(id, Api.DeleteBook, token);
             return res;
         }
 
@@ -81,7 +80,6 @@ namespace xfLibrary.Services.Account
             return value;
         }
         #endregion
-
 
     }
 }

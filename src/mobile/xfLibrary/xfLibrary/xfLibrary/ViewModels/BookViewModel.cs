@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using xfLibrary.Domain;
@@ -22,25 +24,22 @@ namespace xfLibrary.ViewModels
         #region Command 
         public ICommand PageAppearingCommand => new Command(async () =>
         {
+            IsBusy = true;
+            ItemsSource.Clear();
+
             var books = await _accountService.GetAllBookAsync(_token);
 
             foreach (var book in books)
             {
-                //format image
-                book.Imgs = new List<string>();
-                book.Imgs.Add(Services.Api.Base64Image);
-
-                book.Categories = new List<string>();
-                book.Categories.Add("thieunhi");
-                book.Categories.Add("truyentranh");
-
                 //format to view
                 book.ImageSource = ImageSource.FromFile("book.png");
-                book.StringCategories = ListToString(book.Categories);
+                book.StringCategories = await ListToString(book.Categories);
 
                 //update view
                 ItemsSource.Add(book);
             }
+
+            IsBusy = false;
         });
 
         public ICommand AddCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(DetailBookView)));
@@ -69,12 +68,14 @@ namespace xfLibrary.ViewModels
             ItemsSource = new ObservableCollection<Book>();
         }
 
-        string ListToString(List<string> categories)
+        async Task<string> ListToString(List<string> categories)
         {
+            var category = await _mainService.CategoryAsync();
             var result = "";
+
             foreach (var c in categories)
             {
-                result += c + ",";
+                result += category.FirstOrDefault(x => x.Code == c).Name + ",";
             }
             return result.Substring(0, result.Length - 1);
         }

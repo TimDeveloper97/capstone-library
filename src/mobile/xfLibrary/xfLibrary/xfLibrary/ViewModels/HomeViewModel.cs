@@ -97,7 +97,7 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Slide = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.jpg" };
+            Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg", "slide5.jpg", "slide6.jpg" };
             _allPosts = new List<Post>();
             Category = new ObservableCollection<Category>();
             Posts = new ObservableCollection<Post>();
@@ -110,11 +110,12 @@ namespace xfLibrary.ViewModels
                           _message.ShortAlert("Mất kết nối internet.");
                       else
                       {
+                          Category.Clear();
                           var category = (IList<Category>)arg;
 
                           foreach (var item in category)
                           {
-                              item.Image = "chotot.jpg";
+                              item.Image = item.Code + ".png";
                               Category.Add(item);
                           }
                       }
@@ -123,14 +124,14 @@ namespace xfLibrary.ViewModels
 
         void FakeData()
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 2; i++)
             {
                 _allPosts.Add(new Post
                 {
                     Title = "[Cho thuê] Truyện tuổi thơ",
                     Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
                     "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
-                    Imgs = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg" },
+                    Imgs = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg" },
                     CreatedDate = new DateTime(2023, 3, 3),
                     ReturnDate = new DateTime(2023, 4, 4),
                     Books = new ObservableCollection<Book>

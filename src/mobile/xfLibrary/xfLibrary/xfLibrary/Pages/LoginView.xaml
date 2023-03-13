@@ -20,7 +20,7 @@
     
     <ContentPage.Content>
         <Grid>
-            <Image Source="background.jpg" Aspect="AspectFill" VerticalOptions="End"/>
+            <Image Source="background.jpg" Aspect="Fill" VerticalOptions="FillAndExpand"/>
 
             <Grid ColumnDefinitions="auto, *" VerticalOptions="Start" Style="{StaticResource GridColor}" HeightRequest="{StaticResource TopNavigator}">
                 <Label Margin="20,0,0,0" Style="{StaticResource IconLabel}" FontSize="35" TextColor="White" Text="{Static icon:FontIcons.ChevronLeft}" VerticalOptions="Center">
@@ -28,7 +28,7 @@
                         <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.HomeCommand, Source={x:Reference Name=self}}"/>
                     </Label.GestureRecognizers>
                 </Label>
-                <Image Grid.Column="1" Source="chotot.jpg" Aspect="AspectFit" HorizontalOptions="Center"/>
+                <Image Grid.Column="1" Source="logo.jpg" Aspect="AspectFit" HorizontalOptions="Center" Margin="13"/>
             </Grid>
             <!--#endregion-->
 
@@ -39,9 +39,19 @@
                         <Grid Padding="20,0" HeightRequest="80" ColumnDefinitions="*, auto">
                             <StackLayout  VerticalOptions="Center">
                                 <Label FontSize="Title" HorizontalOptions="Start" Text="Đăng nhập" Style="{StaticResource TitleColorLabelStyle}"/>
-                                <Label FontSize="Body" Margin="0,-5,0,0" HorizontalOptions="Start" Text="Chào bạn quay lại" Style="{StaticResource TitleLabelStyle}"/>
+                                <StackLayout Orientation="Horizontal"  Margin="0,-5,0,0">
+                                    <Label VerticalOptions="Center" FontSize="Body" HorizontalOptions="Start" Text="Chào mừng quay lại" Style="{StaticResource TitleLabelStyle}"/>
+                                    <Label VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="UVE" />
+                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="NTO" TextColor="{StaticResource Yellow}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
                             </StackLayout>
-                            <Image Grid.Column="1" Source="chototicon.png" Aspect="Fill"  VerticalOptions="Center" HorizontalOptions="Center"
+                            <Image Grid.Column="1" Source="logoicon.png" Aspect="Fill"  VerticalOptions="Center" HorizontalOptions="Center"
                                    HeightRequest="60" WidthRequest="60"/>
                         </Grid>
                         

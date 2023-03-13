@@ -33,13 +33,14 @@
     <x:Double x:Key="TopNavigator">60</x:Double>
 
     <!--#region Color -->
-    <Color x:Key="AppColor">#ffb900</Color>
-    <Color x:Key="AppColor1">#ffb900</Color>
+    <Color x:Key="AppColor">#152F3E</Color>
+    <Color x:Key="AppColor1">#152F3E</Color>
     
     <Color x:Key="Red">#ff424e</Color>
     <Color x:Key="Blue">#508ce8</Color>
     <Color x:Key="Green">#32CD32</Color>
     <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Yellow">#FFA700</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="Sky">#a699cf</Color>

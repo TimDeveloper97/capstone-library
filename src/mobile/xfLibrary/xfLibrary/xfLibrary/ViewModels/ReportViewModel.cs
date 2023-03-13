@@ -14,12 +14,9 @@ namespace xfLibrary.ViewModels
     class ReportViewModel : BaseViewModel
     {
         #region Properties
-        private string text;
-        private ObservableCollection<A> news;
+        private ObservableCollection<Post> posts;
 
-        public ObservableCollection<A> News { get => news; set => SetProperty(ref news, value); }
-        public string Text { get => text; set => SetProperty(ref text, value); }
-
+        public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
         #endregion
 
         #region Command 
@@ -29,7 +26,13 @@ namespace xfLibrary.ViewModels
                 a.MaxLines = 99;
             else
                 a.MaxLines = 3;
+        });
 
+        public ICommand ReloadNewsCommand => new Command(() =>
+        {
+            IsBusy = true;
+
+            IsBusy = false;
         });
 
         public ICommand MessagerCommand => new Command<A>(async (a) =>
@@ -41,47 +44,17 @@ namespace xfLibrary.ViewModels
 
         public ReportViewModel()
         {
-            ExecuteLoadMessagingCenter();
             Init();
-        }
-
-
-        void ExecuteLoadMessagingCenter()
-        {
-            MessagingCenter.Subscribe<object, string>(this, "Hi",
-                  (sender, arg) =>
-                  {
-                      Text = arg;
-                  });
         }
 
         void Init()
         {
-            News = new ObservableCollection<A>
-            {
-                new A
-                {
-                    MaxLines = 3,
-                    Text = "Một hôm Main gặp tai nạn > xuyên không về 1 thế giới Murim và thấy mình được sinh ra với hình hài một đứa bé đạo sĩ! " +
-                "Có một thời tôi ở cửu phái nhất môn, nhưng bây giờ thì ở Chung Nam phái, một môn phái đang dần trở nên yếu thế." +
-                "Tôi được đặt tên là 'Geon Chung', dùng những kiến thức của kiếp để ngộ ra đạo lý võ công và tiến bộ thần tốc.",
-                    Slide = new ObservableCollection<string> (),
-                },
+            Posts = new ObservableCollection<Post>();
 
-                new A
-                {
-                    MaxLines = 3,
-                    Text = "Một hôm Main gặp tai nạn > xuyên không về 1 thế giới Murim và thấy mình được sinh ra với hình hài một đứa bé đạo sĩ! " +
-                "Có một thời tôi ở cửu phái nhất môn, nhưng bây giờ thì ở Chung Nam phái, một môn phái đang dần trở nên yếu thế." +
-                "Tôi được đặt tên là 'Geon Chung', dùng những kiến thức của kiếp để ngộ ra đạo lý võ công và tiến bộ thần tốc.",
-                    Slide = new ObservableCollection<string> { "slide1.jpg", "slide2.jpg", "slide3.png", }
-                },
-            };
-
-            foreach (var item in News)
-            {
-                item.Height = item.Slide.Count == 0 ? 0 : 150;
-            }
+            //foreach (var item in News)
+            //{
+            //    item.Height = item.Slide.Count == 0 ? 0 : 150;
+            //}
             IsBusy = true;
 
         }

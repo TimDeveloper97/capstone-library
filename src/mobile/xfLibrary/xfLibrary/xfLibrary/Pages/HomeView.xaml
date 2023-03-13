@@ -40,10 +40,10 @@
                         <!--#endregion-->
 
                         <!--#region Category -->
-                        <Grid Grid.Row="1" Padding="10" BackgroundColor="White">
+                        <Grid Grid.Row="1" Padding="10" BackgroundColor="White" Margin="0,5,0,0">
                             <StackLayout>
-                                <Label FontSize="Title" Text="Khám phá danh mục" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
-                                        HorizontalOptions="Start"/>
+                                <Label FontSize="Title" Text="Khám phá danh mục" Style="{StaticResource TitleLabelStyle}"
+                                       FontFamily="MuliBold" HorizontalOptions="Start"/>
 
                                 <CollectionView ItemsSource="{Binding Category}" HeightRequest="100" SelectionMode="Single" >
                                     <CollectionView.ItemsLayout>
@@ -52,7 +52,7 @@
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid RowDefinitions="*, 40" Padding="10,0,10,0">
-                                                <Frame HeightRequest="70" WidthRequest="70">
+                                                <Frame HeightRequest="70" WidthRequest="60" Margin="10,0" Padding="2">
                                                     <Image Source="{Binding Image}" Aspect="Fill"/>
                                                 </Frame>
                                                 <Label Grid.Row="1" Text="{Binding Name}" WidthRequest="70"

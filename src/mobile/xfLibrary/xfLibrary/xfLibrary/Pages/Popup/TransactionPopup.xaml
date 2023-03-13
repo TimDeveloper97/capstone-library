@@ -26,7 +26,7 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Chủ tài khoản: " FontSize="Medium"/>
-                                            <Span Text="Đinh Duy Anh" FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text="Huỳnh Phú Quý" FontFamily="MuliBold" FontSize="Medium"/>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>

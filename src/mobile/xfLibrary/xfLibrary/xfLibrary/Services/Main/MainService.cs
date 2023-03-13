@@ -13,8 +13,9 @@ namespace xfLibrary.Services.Main
         public async Task<List<Category>> CategoryAsync()
         {
             var res = await Service.Get(Api.Category);
-            var value = JsonConvert.DeserializeObject<List<Category>>(res.Value.ToString());
+            if (res == null) return null;
 
+            var value = JsonConvert.DeserializeObject<List<Category>>(res.Value.ToString());
             return value;
         }
     }
