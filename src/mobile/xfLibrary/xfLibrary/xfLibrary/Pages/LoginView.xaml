@@ -28,7 +28,7 @@
                         <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.HomeCommand, Source={x:Reference Name=self}}"/>
                     </Label.GestureRecognizers>
                 </Label>
-                <Image Grid.Column="1" Source="logo.jpg" Aspect="AspectFit" HorizontalOptions="Center" Margin="13"/>
+                <Image Grid.Column="1" Source="logoC.png" Aspect="AspectFit" HorizontalOptions="Center" Margin="13"/>
             </Grid>
             <!--#endregion-->
 
@@ -44,8 +44,8 @@
                                     <Label VerticalOptions="Center">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="UVE" />
-                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="NTO" TextColor="{StaticResource Yellow}" />
+                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="CAPS" />
+                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="TONE" TextColor="{StaticResource Yellow}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
