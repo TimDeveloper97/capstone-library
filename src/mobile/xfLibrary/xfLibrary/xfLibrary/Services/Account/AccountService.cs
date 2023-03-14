@@ -23,6 +23,13 @@ namespace xfLibrary.Services.Account
             return res;
         }
 
+        public async Task<Response> UpdateProfileAsync(object obj, string token)
+        {
+            var res = await Service.Put(obj, Api.UpdateProfile, token);
+
+            return res;
+        }
+
         public async Task<Response> ForgotPasswordAsync(object obj)
         {
             var res = await Service.Post(obj, Api.ForgotPassword);

@@ -26,7 +26,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand ReportCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup())));
 
-        public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(ProfileView))));
+        public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.ShowPopupAsync(new ProfilePopup(_user, _token))));
 
         public ICommand BookCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(BookView))));
 

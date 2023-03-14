@@ -21,6 +21,7 @@ namespace xfLibrary.Services
         public const string Register = "register";
         public const string ForgotPassword = "forgotpassword";
         public const string ChangePassword = "change-password";
+        public const string UpdateProfile = "update-profile";
 
         public const string Book = "books";
         public const string AddBook = "books/add";

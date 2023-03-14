@@ -7,19 +7,19 @@
              xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
              xmlns:page="clr-namespace:xfLibrary.Pages"
              xmlns:icon="clr-namespace:xfLibrary.Resources"
-             Size="350,300"
+             Size="350,350"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              x:TypeArguments="x:String"
              IsLightDismissEnabled="True"
              
-             x:Class="xfLibrary.Pages.Popup.FeedbackPopup">
+             x:Class="xfLibrary.Pages.Popup.ProfilePopup">
     <xct:Popup.Content>
         <Grid>
             <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">
                 <ScrollView>
                     <StackLayout Spacing="0" VerticalOptions="FillAndExpand">
                         <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
-                            <Label Text="Đóng góp ý kiến" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                            <Label Text="Thông tin cá nhân" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
                         </Grid>
 
                         <StackLayout VerticalOptions="FillAndExpand">
@@ -27,19 +27,21 @@
                                 <Frame>
                                     <StackLayout Padding="10,5,10,15" Spacing="0">
                                         <StackLayout Margin="20,0">
-                                            <mdc:MaterialEntry x:Name="title" LabelText="Tiêu đề *"/>
-                                            <mdc:MaterialEntry x:Name="description" LabelText="Mô tả *"/>
+                                            <mdc:MaterialEntry x:Name="name" LabelText="Họ và Tên *"/>
+                                            <mdc:MaterialEntry x:Name="email" LabelText="Email *"/>
+                                            <mdc:MaterialEntry x:Name="address" LabelText="Địa chỉ "/>
+                                            <mdc:MaterialEntry x:Name="phone" LabelText="Số điện thoại "/>
                                         </StackLayout>
                                     </StackLayout>
                                 </Frame>
-                                <Label Text="Mẫu đóng góp" Margin="15,-10,0,0" BackgroundColor="White" FontSize="{StaticResource SubTitle}"
+                                <Label Text="Cá nhân" Margin="15,-10,0,0" BackgroundColor="White" FontSize="{StaticResource SubTitle}"
                                                VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
                             </Grid>
                         </StackLayout>
 
                         <Grid VerticalOptions="End">
                             <StackLayout Margin="0,10,0,10" HorizontalOptions="End" VerticalOptions="End" Orientation="Horizontal">
-                                <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Gửi"/>
+                                <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Cập nhật"/>
                                 <mdc:MaterialButton x:Name="cancelBtn" Style="{StaticResource HideButtonStyle}" WidthRequest="100" Clicked="cancelBtn_Clicked" Text="Hủy"/>
                             </StackLayout>
                         </Grid>

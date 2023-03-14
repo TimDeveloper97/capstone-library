@@ -41,8 +41,7 @@ namespace xfLibrary
             Routing.RegisterRoute(nameof(DetailBookView), typeof(DetailBookView));
             Routing.RegisterRoute(nameof(ChatDetailView), typeof(ChatDetailView));
             Routing.RegisterRoute(nameof(RegisterView), typeof(RegisterView));
-            Routing.RegisterRoute(nameof(OrderView), typeof(OrderView));
-            Routing.RegisterRoute(nameof(ProfileView), typeof(ProfileView));
+            Routing.RegisterRoute(nameof(ProfilePopup), typeof(ProfilePopup));
             Routing.RegisterRoute(nameof(TransactionPopup), typeof(TransactionPopup));
             Routing.RegisterRoute(nameof(ForgotPasswordPopup), typeof(ForgotPasswordPopup));
             Routing.RegisterRoute(nameof(ChangePasswordPopup), typeof(ChangePasswordPopup));
