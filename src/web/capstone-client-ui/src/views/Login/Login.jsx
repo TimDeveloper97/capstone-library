@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import "./login.css";
 import axiosIntance from "../../helper/axios";
 import {
   NotificationContainer,
@@ -75,7 +74,7 @@ export default function Login() {
           <Button variant="primary" type="submit">
             Đăng nhập
           </Button>
-          <a href="#">Quên mật khẩu?</a>
+          <a href="./home">Quên mật khẩu?</a>
           <p>
             Chưa có tài khoản?{" "}
             <span>

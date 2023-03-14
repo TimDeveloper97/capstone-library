@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import "./menu.css";
 import { House } from "react-bootstrap-icons";
 
 export default function Menu() {

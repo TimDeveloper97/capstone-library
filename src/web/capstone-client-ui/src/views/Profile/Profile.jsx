@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { PencilSquare } from "react-bootstrap-icons";
-import "./profile.css";
 import img from "../../assets/img/default_user.png";
 import img_dollar from "../../assets/img/dollar-sign-won-and-dollar-signs-comd-19.png";
 
