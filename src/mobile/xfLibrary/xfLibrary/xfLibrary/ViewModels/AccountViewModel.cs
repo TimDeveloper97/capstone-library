@@ -22,19 +22,13 @@ namespace xfLibrary.ViewModels
         #region Command 
         public ICommand LoginCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(LoginView)));
 
-        public ICommand TransactionCommand => new Command(async () =>
-        {
-            var update = await Shell.Current.ShowPopupAsync(new TransactionPopup("duyanh"));
-        });
+        public ICommand TransactionCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new TransactionPopup(_user.FirstName + _user.LastName)));
 
-        public ICommand ReportCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(AddReportView))));
-
-        public ICommand RentCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(RentPostView))));
+        public ICommand ReportCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup())));
 
         public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(ProfileView))));
 
-        //public ICommand BookCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(BookView))));
-        public ICommand BookCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(BookView)));
+        public ICommand BookCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(BookView))));
 
         public ICommand ChangePasswordCommand => new Command(async () =>
         {

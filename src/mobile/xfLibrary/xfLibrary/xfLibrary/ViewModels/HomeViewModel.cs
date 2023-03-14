@@ -41,11 +41,6 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
-        public ICommand AddNewsCommand => new Command(async () =>
-        {
-            await Shell.Current.GoToAsync(nameof(AddPostView));
-        });
-
         public ICommand PreviousCommand => new Command(() =>
         {
             Posts.Clear();

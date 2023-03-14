@@ -33,9 +33,6 @@
     <Compile Update="Pages\DetailBookView.xaml.cs">
       <DependentUpon>DetailBookView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Pages\AddReportView.xaml.cs">
-      <DependentUpon>AddReportView.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Pages\ChatDetailView.xaml.cs">
       <DependentUpon>ChatDetailView.xaml</DependentUpon>
     </Compile>
@@ -47,9 +44,6 @@
     </Compile>
     <Compile Update="Pages\Popup\DetailPostPopup.xaml.cs">
       <DependentUpon>DetailPostPopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\RentPostView.xaml.cs">
-      <DependentUpon>RentPostView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
@@ -83,9 +77,6 @@
     <EmbeddedResource Update="Pages\DetailBookView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddReportView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Pages\BookView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -107,6 +98,9 @@
     <EmbeddedResource Update="Pages\Popup\DetailPostPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\FeedbackPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\Popup\ForgotPasswordPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -114,9 +108,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\ProfileView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Pages\RentPostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\ReportView.xaml">

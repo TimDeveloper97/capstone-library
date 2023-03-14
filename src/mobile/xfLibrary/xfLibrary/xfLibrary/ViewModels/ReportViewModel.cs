@@ -16,7 +16,7 @@ namespace xfLibrary.ViewModels
         #region Properties
         private ObservableCollection<Post> posts;
         private static List<Post> _allPosts;
-        private int numberItemDisplay = 1, currentTab = 1;
+        private int numberItemDisplay = 10, currentTab = 1;
         private bool isPrevious, isNext;
 
         public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
@@ -33,9 +33,9 @@ namespace xfLibrary.ViewModels
                 post.MaxLines = 3;
         });
 
-        public ICommand AddCommand => new Command(() =>
+        public ICommand AddCommand => new Command(async () =>
         {
-            
+            await Shell.Current.GoToAsync(nameof(AddPostView));
         });
 
         public ICommand PreviousCommand => new Command(() =>

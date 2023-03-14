@@ -41,7 +41,7 @@
                 <!--#region Profile -->
                 <Grid ColumnDefinitions="70, *" Padding="10,0" IsVisible="{Binding IsVisible}">
                     <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
-                        <Image Source="emoji6.png"/>
+                        <Image Source="emoji3.png"/>
                     </Frame>
                     <Grid Grid.Column="1" RowDefinitions="*, *">
                         <Label Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start">

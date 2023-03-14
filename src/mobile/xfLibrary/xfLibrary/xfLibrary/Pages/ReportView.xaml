@@ -42,7 +42,7 @@
                                                 <Grid ColumnDefinitions="auto, *" Margin="10,0">
                                                     <Grid ColumnDefinitions="60, *" Margin="0,5">
                                                         <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
-                                                            <Image Source="emoji8.png"/>
+                                                            <Image Source="emoji3.png"/>
                                                         </Frame>
                                                         <Grid Grid.Column="1" RowDefinitions="6*, 4*">
                                                             <Label Text="Quý" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
@@ -74,7 +74,7 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                    <ListView.Footer>
+                    <!--<ListView.Footer>
                         <Grid>
                             <StackLayout  VerticalOptions="Center" HorizontalOptions="Center" Orientation="Horizontal">
                                 <Frame HeightRequest="50" WidthRequest="50" BorderColor="Transparent" IsVisible="{Binding IsPrevious}"
@@ -97,7 +97,7 @@
                                 </Frame>
                             </StackLayout>
                         </Grid>
-                    </ListView.Footer>
+                    </ListView.Footer>-->
                 </ListView>
             </ScrollView>
             
