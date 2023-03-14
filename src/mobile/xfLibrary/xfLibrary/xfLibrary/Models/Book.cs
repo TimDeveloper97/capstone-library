@@ -35,7 +35,7 @@ namespace xfLibrary.Models
         public string Quantity { get; set; }
 
         [JsonProperty("imgs")]
-        public List<string> Imgs { get; set; }
+        public List<Img> Imgs { get; set; }
 
 
         [JsonIgnore]
@@ -51,5 +51,14 @@ namespace xfLibrary.Models
     public class ListBook
     {
         public ObservableCollection<Book> Books { get; set; }
+    }
+
+    public class Img : BaseModel
+    {
+        [JsonProperty("fileName")]
+        public string FileName { get; set; }
+
+        [JsonProperty("data")]
+        public string Data { get; set; }
     }
 }

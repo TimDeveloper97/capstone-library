@@ -161,9 +161,6 @@
     <AndroidResource Include="Resources\mipmap-mdpi\chotot.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-hdpi\chotot.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xhdpi\chotot.jpg" />
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,7 @@
                         <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
                     </Label.GestureRecognizers>
                 </Label>
-                <Image Grid.Column="1" Source="logoC.png" Aspect="AspectFit" HorizontalOptions="Center" Margin="13"/>
+                <Image Grid.Column="1" Source="logoC.png" Aspect="AspectFit" HorizontalOptions="Center" Margin="-30,0,0,0"/>
             </Grid>
             <!--#endregion-->
 
@@ -65,7 +65,7 @@
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="Đồng ý mọi"/>
-                                        <Span Text=" Điều khoản sử dụng" TextColor="{StaticResource Blue}"/>
+                                        <Span Text=" Điều khoản sử dụng" TextColor="{StaticResource Blue}" TextDecorations="Underline"/>
                                         <Span Text=" của Chợ Tốt" />
                                     </FormattedString>
                                 </Label.FormattedText>
@@ -80,7 +80,7 @@
                         <Frame Style="{StaticResource FrameShadow}" HeightRequest="40">
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Margin="13,5,0,10">
                                 <Label Text="Đã có tài khoản? "/>
-                                <Label Text="Đăng nhập ngay" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}">
+                                <Label Text="Đăng nhập ngay" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}" TextDecorations="Underline">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
                                     </Label.GestureRecognizers>

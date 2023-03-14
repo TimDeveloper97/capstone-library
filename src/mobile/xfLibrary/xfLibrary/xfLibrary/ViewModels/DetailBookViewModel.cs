@@ -59,20 +59,20 @@ namespace xfLibrary.ViewModels
                     selects.Add(index);
                 }
                 if (Book.Imgs == null)
-                    Book.Imgs = new List<string>();
+                    Book.Imgs = new List<Img>();
                 OnPropertyChanged("List");
             }
 
-            if(isUpdate)
+            if (isUpdate)
             {
                 Title = "Sửa sách";
                 Upload = "Sửa";
-            }   
+            }
             else
             {
                 Title = "Tạo sách";
                 Upload = "Tạo";
-            }    
+            }
         });
 
         public ICommand BookCommand => new Command(async () =>
@@ -82,7 +82,11 @@ namespace xfLibrary.ViewModels
                 Book.Imgs.Clear();
                 foreach (var item in Slides)
                 {
-                    Book.Imgs.Add(Convert.ToBase64String(item));
+                    Book.Imgs.Add(new Img
+                    {
+                        FileName = "image_" + Guid.NewGuid().ToString().Substring(0, 6) + ".png",
+                        Data = Convert.ToBase64String(item),
+                    });
                 }
             }
 
@@ -93,7 +97,7 @@ namespace xfLibrary.ViewModels
             }
 
             Response res;
-            if(isUpdate) res = await _accountService.UpdateBookAsync(Book, _token);
+            if (isUpdate) res = await _accountService.UpdateBookAsync(Book, _token);
             else res = await _accountService.AddBookAsync(Book, _token);
 
             if (res.Success)

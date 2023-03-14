@@ -24,20 +24,15 @@ namespace xfLibrary.ViewModels
         #region Command 
         public ICommand PageAppearingCommand => new Command(async () =>
         {
+            await AddBook();
+        });
+
+        public ICommand RefreshCommand => new Command(async () =>
+        {
             IsBusy = true;
             ItemsSource.Clear();
 
-            var books = await _accountService.GetAllBookAsync(_token);
-
-            foreach (var book in books)
-            {
-                //format to view
-                book.ImageSource = ImageSource.FromFile("book.png");
-                book.StringCategories = await ListToString(book.Categories);
-
-                //update view
-                ItemsSource.Add(book);
-            }
+            await AddBook();
 
             IsBusy = false;
         });
@@ -78,6 +73,25 @@ namespace xfLibrary.ViewModels
                 result += category.FirstOrDefault(x => x.Code == c).Name + ",";
             }
             return result.Substring(0, result.Length - 1);
+        }
+
+        async Task AddBook()
+        {
+            var books = await _accountService.GetAllBookAsync(_token);
+
+            foreach (var book in books)
+            {
+                if (book.Imgs == null || book.Imgs.Count == 0)
+                    book.ImageSource = ImageSource.FromFile("book.png");
+                else
+                    book.ImageSource = ImageSource.FromUri(new Uri(Services.Api.BaseUrl + book.Imgs[0].FileName));
+
+                //format to view
+                book.StringCategories = await ListToString(book.Categories);
+
+                //update view
+                ItemsSource.Add(book);
+            }
         }
         #endregion
     }

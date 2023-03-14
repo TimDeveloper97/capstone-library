@@ -5,7 +5,7 @@
              x:Class="xfLibrary.Views.SearchBarSuggestionView">
   <ContentView.Content>
         <!--#region Search bar -->
-        <Grid ColumnDefinitions="60, *, 4" 
+        <Grid ColumnDefinitions="52, *, 4" 
               IsVisible="{Binding IsSearching, Source={x:Reference seft}}" 
               BackgroundColor="Transparent" >
             <ListView Grid.Column="1" HasUnevenRows="True" SelectionMode="Single"
