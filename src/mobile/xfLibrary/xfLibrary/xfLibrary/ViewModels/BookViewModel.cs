@@ -17,6 +17,7 @@ namespace xfLibrary.ViewModels
     {
         #region Property
         private ObservableCollection<Book> itemsSource;
+        private List<Category> _categorys;
 
         public ObservableCollection<Book> ItemsSource { get => itemsSource; set => SetProperty(ref itemsSource, value); }
         #endregion
@@ -24,13 +25,13 @@ namespace xfLibrary.ViewModels
         #region Command 
         public ICommand PageAppearingCommand => new Command(async () =>
         {
+            _categorys = await _mainService.CategoryAsync();
             await AddBook();
         });
 
         public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
-            ItemsSource.Clear();
 
             await AddBook();
 
@@ -63,31 +64,34 @@ namespace xfLibrary.ViewModels
             ItemsSource = new ObservableCollection<Book>();
         }
 
-        async Task<string> ListToString(List<string> categories)
+        string ListToString(List<string> categories)
         {
-            var category = await _mainService.CategoryAsync();
             var result = "";
 
             foreach (var c in categories)
             {
-                result += category.FirstOrDefault(x => x.Code == c).Name + ",";
+                result += _categorys.FirstOrDefault(x => x.Code == c).Name + ",";
             }
             return result.Substring(0, result.Length - 1);
         }
 
         async Task AddBook()
         {
+            ItemsSource.Clear();
             var books = await _accountService.GetAllBookAsync(_token);
 
             foreach (var book in books)
             {
                 if (book.Imgs == null || book.Imgs.Count == 0)
-                    book.ImageSource = ImageSource.FromFile("book.png");
+                    book.ImageSource = "book.png";
                 else
-                    book.ImageSource = ImageSource.FromUri(new Uri(Services.Api.BaseUrl + book.Imgs[0].FileName));
+                {
+                    var url = Services.Api.BaseUrl + book.Imgs[0].FileName.Replace("\\", "/");
+                    book.ImageSource = url;
+                }
 
                 //format to view
-                book.StringCategories = await ListToString(book.Categories);
+                book.StringCategories = ListToString(book.Categories);
 
                 //update view
                 ItemsSource.Add(book);

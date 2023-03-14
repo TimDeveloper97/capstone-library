@@ -19,7 +19,7 @@
              x:Class="xfLibrary.Pages.BookView">
     <ContentPage.Resources>
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
-            <Setter Property="Color" Value="White" />
+            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
             <Setter Property="HeightRequest" Value="30" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
@@ -77,43 +77,42 @@
 
             <!--#endregion-->
 
-            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}" Margin="10,-10,10,0">
-                <ListView ItemsSource="{Binding ItemsSource}" CachingStrategy="RecycleElementAndDataTemplate" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="10,-10,10,0">
+                <ListView ItemsSource="{Binding ItemsSource}" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
-                                <SwipeView>
-                                    <SwipeView.RightItems>
-                                        <SwipeItems SwipeBehaviorOnInvoked="Auto">
-                                            <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
-                                            <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
-                                        </SwipeItems>
-                                    </SwipeView.RightItems>
-                                    <!-- Content -->
+                            <ViewCell>
+                                <Grid>
+                                    <SwipeView>
+                                        <SwipeView.RightItems>
+                                            <SwipeItems SwipeBehaviorOnInvoked="Auto">
+                                                <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                                <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            </SwipeItems>
+                                        </SwipeView.RightItems>
+                                        <!-- Content -->
 
-                                    <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                        <Image Source="{Binding ImageSource}"/>
-                                        <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                            <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                        <Grid ColumnDefinitions="50, *" Padding="5,10">
+                                            <Image Source="{Binding ImageSource}"/>
+                                            <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
+                                                <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
                                                        Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
-                                            <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="{Binding Author}"/>
-                                                        <Span Text="{Binding Publisher, StringFormat=' ({0})'}"/>
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                            <Label Grid.Row="2" Text="{Binding StringCategories}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
+                                                <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding Author}"/>
+                                                            <Span Text="{Binding Publisher, StringFormat=' ({0})'}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="2" Text="{Binding StringCategories}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
                                                        TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                        HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation" FontFamily="MuliBold"/>
+                                            </Grid>
                                         </Grid>
-                                        <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectedCommand, Source={x:Reference self}}"/>
-                                        </Grid.GestureRecognizers>
-                                    </Grid>
-                                </SwipeView>
-                            </Grid>
+                                    </SwipeView>
+                                </Grid>
+                            </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
