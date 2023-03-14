@@ -1,7 +1,6 @@
 package com.sb.brothers.capstone.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
@@ -58,6 +57,9 @@ public class User implements Serializable {
 	private Set<Report> reports;
 
 	private List<Role> roles;
+
+	@JsonIgnore
+	private Set<Book> books;
 
 
 	public User() {
@@ -294,7 +296,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-one association to Post
-	@OneToMany(mappedBy="user1", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy= "manager", fetch = FetchType.LAZY)
 	public Set<Post> getPosts1() {
 		return this.posts1;
 	}
@@ -305,21 +307,21 @@ public class User implements Serializable {
 
 	public Post addPosts1(Post posts1) {
 		getPosts1().add(posts1);
-		posts1.setUser1(this);
+		posts1.setManager(this);
 
 		return posts1;
 	}
 
 	public Post removePosts1(Post posts1) {
 		getPosts1().remove(posts1);
-		posts1.setUser1(null);
+		posts1.setManager(null);
 
 		return posts1;
 	}
 
 
 	//bi-directional many-to-one association to Post
-	@OneToMany(mappedBy="user2", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy= "user", fetch = FetchType.LAZY)
 	public Set<Post> getPosts2() {
 		return this.posts2;
 	}
@@ -330,14 +332,14 @@ public class User implements Serializable {
 
 	public Post addPosts2(Post posts2) {
 		getPosts2().add(posts2);
-		posts2.setUser2(this);
+		posts2.setUser(this);
 
 		return posts2;
 	}
 
 	public Post removePosts2(Post posts2) {
 		getPosts2().remove(posts2);
-		posts2.setUser2(null);
+		posts2.setUser(null);
 
 		return posts2;
 	}
@@ -386,6 +388,28 @@ public class User implements Serializable {
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY)
+	public Set<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
+
+
+	public Book addBook(Book book) {
+		getBooks().add(book);
+		book.setUser(this);
+		return book;
+	}
+
+	public Book removeBook(Book book) {
+		getBooks().remove(book);
+		book.setUser(null);
+		return book;
 	}
 
 	public void lazyLoad(){

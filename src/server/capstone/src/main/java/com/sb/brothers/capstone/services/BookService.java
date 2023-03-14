@@ -23,4 +23,15 @@ public interface BookService {
     boolean isBookExist(int id);
 
     Set<Book> getAllBooksByUserId(String id);
+
+    Set<Book> searchBookByName(String name);
+
+	Set<Book> searchBookByAuthor(String author);
+
+	Set<Book> searchBookByPostLocation(String address);
+
+	Set<Book> getListBooksOfUserId(String uId);
+
+	Set<Book> searchBySuggest(String uId);
+
 }

@@ -28,6 +28,10 @@ public class UserDTO {
 
     private List<String> roles;
 
+    /**
+     * Convert User Entity to User DTO
+     * @param user
+     */
     public void convertUser(User user){
         this.id = user.getId();
         this.address = user.getAddress();
@@ -42,6 +46,10 @@ public class UserDTO {
         user.getRoles().stream().forEach(r -> roles.add(r.getName()));
     }
 
+    /**
+     * Convert UserDTO to User Entity
+     * @param user
+     */
     public void convertUserDto(User user){
         user.setId(this.getId());
         user.setFirstName(this.getFirstName());
@@ -52,4 +60,5 @@ public class UserDTO {
         user.setBalance(this.getBalance());
         user.setStatus(this.getStatus());
     }
+
 }

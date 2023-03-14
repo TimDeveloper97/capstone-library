@@ -3,6 +3,7 @@ package com.sb.brothers.capstone.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 
 /**
@@ -20,8 +21,12 @@ public class Post implements Serializable {
 	private Date modifiedDate;
 	private int status;
 	private String title;
-	private User user1;
-	private User user2;
+	private String address;
+	private Set<ManagerPost> managerPosts;
+	private Set<Order> orders;
+	private User manager;
+	private User user;
+	private Set<Report> reports;
 
 	public Post() {
 	}
@@ -96,28 +101,110 @@ public class Post implements Serializable {
 		this.title = title;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	//bi-directional many-to-one association to ManagerPost
+	@OneToMany(mappedBy="post")
+	public Set<ManagerPost> getManagerPosts() {
+		return this.managerPosts;
+	}
+
+	public void setManagerPosts(Set<ManagerPost> managerPosts) {
+		this.managerPosts = managerPosts;
+	}
+
+	public ManagerPost addManagerPost(ManagerPost managerPost) {
+		getManagerPosts().add(managerPost);
+		managerPost.setPost(this);
+
+		return managerPost;
+	}
+
+	public ManagerPost removeManagerPost(ManagerPost managerPost) {
+		getManagerPosts().remove(managerPost);
+		managerPost.setPost(null);
+
+		return managerPost;
+	}
+
+
+	//bi-directional many-to-one association to Order
+	@OneToMany(mappedBy="post")
+	public Set<Order> getOrders() {
+		return this.orders;
+	}
+
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
+	}
+
+	public Order addOrder(Order order) {
+		getOrders().add(order);
+		order.setPost(this);
+
+		return order;
+	}
+
+	public Order removeOrder(Order order) {
+		getOrders().remove(order);
+		order.setPost(null);
+
+		return order;
+	}
+
 
 	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="manager_id")
-	public User getUser1() {
-		return this.user1;
+	public User getManager() {
+		return this.manager;
 	}
 
-	public void setUser1(User user1) {
-		this.user1 = user1;
+	public void setManager(User user1) {
+		this.manager = user1;
 	}
 
 
 	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
-	public User getUser2() {
-		return this.user2;
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setUser2(User user2) {
-		this.user2 = user2;
+	public void setUser(User user2) {
+		this.user = user2;
+	}
+
+
+	//bi-directional many-to-one association to Report
+	@OneToMany(mappedBy="post")
+	public Set<Report> getReports() {
+		return this.reports;
+	}
+
+	public void setReports(Set<Report> reports) {
+		this.reports = reports;
+	}
+
+	public Report addReport(Report report) {
+		getReports().add(report);
+		report.setPost(this);
+
+		return report;
+	}
+
+	public Report removeReport(Report report) {
+		getReports().remove(report);
+		report.setPost(null);
+
+		return report;
 	}
 
 }
