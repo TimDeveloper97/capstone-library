@@ -22,7 +22,7 @@
                 <ScrollView>
                     <StackLayout Spacing="0" VerticalOptions="FillAndExpand">
                         <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
-                            <Label Text="Thông tin sách" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                            <Label Text="Thông tin bài" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
                         </Grid>
 
                         <xct:TabView IsTabStripVisible="False" IsTabTransitionEnabled="False">
@@ -57,7 +57,7 @@
                                                 </Label.GestureRecognizers>
                                             </Label>
 
-                                            <cards:CarouselView x:Name="imgs" Grid.Row="2" Margin="10,0" SlideShowDuration="3500" HeightRequest="150">
+                                            <cards:CarouselView x:Name="imgs" Grid.Row="2" Margin="10,0" SlideShowDuration="3000" HeightRequest="150">
                                                 <cards:CarouselView.ItemTemplate>
                                                     <DataTemplate>
                                                         <ContentView>
@@ -90,14 +90,14 @@
                                                     <Frame>
                                                         <StackLayout Padding="10,5,10,15" Spacing="0">
                                                             <StackLayout Margin="20,0">
-                                                                <view:FieldLabel Text="{Binding Name}" Title="Tên sách *"/>
-                                                                <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Description}"/>
+                                                                <view:FieldLabel Text="{Binding Book.Name}" Title="Tên sách *"/>
+                                                                <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Book.Description}"/>
 
                                                                 <Grid ColumnDefinitions="*,*">
-                                                                    <view:FieldLabel Text="{Binding Quantity}" Title="Số lượng *"/>
-                                                                    <view:FieldLabel Grid.Column="1" Text="{Binding Price, Converter={StaticResource MoneyConverter}, StringFormat='{0}VND'}" Title="Giá *"/>
+                                                                    <view:FieldLabel Text="{Binding Book.Quantity}" Title="Số lượng *"/>
+                                                                    <view:FieldLabel Grid.Column="1" Text="{Binding Book.Price, Converter={StaticResource MoneyConverter}, StringFormat='{0}VND'}" Title="Giá *"/>
                                                                 </Grid>
-                                                                <view:FieldLabel Text="{Binding StringCategories}" Title="Thể loại *"/>
+                                                                <view:FieldLabel Text="{Binding Book.StringCategories}" Title="Thể loại *"/>
                                                             </StackLayout>
                                                         </StackLayout>
                                                     </Frame>

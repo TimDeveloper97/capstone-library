@@ -28,27 +28,44 @@ namespace xfLibrary.Models
         [JsonProperty("status")] 
         public int Status { get; set; }
 
-        [JsonProperty("manager")] 
-        public string Manager { get; set; }
+        [JsonProperty("fee")]
+        public double Fee { get; set; }
+
+        [JsonProperty("noDays")]
+        public int NumberOfRentalDays { get; set; }
 
         [JsonProperty("user")]
         public string User { get; set; }
 
-        [JsonProperty("imgs")]
-        public ObservableCollection<string> Imgs { get; set; }
+        [JsonProperty("postDetailDtos")]
+        public ObservableCollection<Order> Order { get; set; }
 
 
-        
         private int maxLines = 3;
         [JsonIgnore]
         public int TotalCreateDay { get; set; }
         [JsonIgnore]
+        public ObservableCollection<string> Slide { get; set; }
+        [JsonIgnore]
         public int TotalReturnDay { get; set; }
         [JsonIgnore]
-        public ImageSource ImageSource { get; set; }
-        [JsonIgnore]
-        public ObservableCollection<Book> Books { get; set; }
+        public string ImageSource { get; set; }
         [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); } 
+
+        public Post()
+        {
+            Order = new ObservableCollection<Order>();
+            Slide = new ObservableCollection<string>();
+        }
+    }
+
+    public class Order
+    {
+        [JsonProperty("bookDto")]
+        public Book Book { get; set; }
+
+        [JsonProperty("quantity")]
+        public int Quantity { get; set; }
     }
 }

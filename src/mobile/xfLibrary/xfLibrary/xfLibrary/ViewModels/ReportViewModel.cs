@@ -47,7 +47,7 @@ namespace xfLibrary.ViewModels
             for (int i = min; i < r; i++)
             {
                 var item = _allPosts[i];
-                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
+                //item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
                 Posts.Add(item);
             }
 
@@ -64,7 +64,7 @@ namespace xfLibrary.ViewModels
             for (int i = numberItemDisplay * currentTab; i < max; i++)
             {
                 var item = _allPosts[i];
-                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
+                //item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
                 Posts.Add(item);
             }
 
@@ -77,7 +77,7 @@ namespace xfLibrary.ViewModels
             IsBusy = true;
             Posts.Clear();
 
-            FakeData();
+            InitCurrentTab();
             IsBusy = false;
         });
 
@@ -106,24 +106,50 @@ namespace xfLibrary.ViewModels
         {
             for (int i = 0; i < 20; i++)
             {
-                _allPosts.Add(new Post
+                var p = new Post
                 {
                     Title = "[Cho thuê] Truyện tuổi thơ",
                     Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
                     "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
-                    Imgs = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg" },
                     CreatedDate = new DateTime(2023, 3, 3),
                     ReturnDate = new DateTime(2023, 4, 4),
-                    Books = new ObservableCollection<Book>
+                    NumberOfRentalDays = 7,
+                    Status = 4,
+                    Fee = 100000,
+                };
+
+                //update sach
+                p.Order = new ObservableCollection<Order>
+                {
+                    new Order
                     {
-                        new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                        Quantity = 1,
+                        Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
                         "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                        new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                        "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" }
                     },
-                    TotalCreateDay = 28,
-                    TotalReturnDay = 100,
-                });
+                    new Order
+                    {
+                        Quantity = 1,
+                        Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                        "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                    },
+                };
+
+                if (p.Order == null || p.Order.Count == 0)
+                    p.ImageSource = "book.png";
+
+                foreach (var order in p.Order)
+                {
+                    var img = order.Book.Imgs;
+                    if (img != null && img.Count > 0)
+                    {
+                        var url = Services.Api.BaseUrl + img[0].FileName.Replace("\\", "/");
+
+                        p.Slide.Add(url);
+                    }
+                }
+
+                _allPosts.Add(p);
             }
         }
 
@@ -157,7 +183,7 @@ namespace xfLibrary.ViewModels
             for (int i = 0; i < max; i++)
             {
                 var item = _allPosts[i];
-                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
+                //item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
                 Posts.Add(item);
             }
         }

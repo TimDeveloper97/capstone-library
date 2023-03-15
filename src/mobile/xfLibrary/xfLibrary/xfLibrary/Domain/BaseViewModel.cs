@@ -57,9 +57,12 @@ namespace xfLibrary.Domain
         protected async Task MoveToLogin(Action a)
         {
             IsVisible = false;
+            OnPropertyChanged("IsVisible");
+
             if (HasLogin())
             {
                 IsVisible = true;
+                OnPropertyChanged("IsVisible");
                 a.Invoke();
             }
             else await Login();

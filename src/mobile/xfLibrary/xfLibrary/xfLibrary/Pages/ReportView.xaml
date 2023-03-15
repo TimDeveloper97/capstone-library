@@ -26,11 +26,13 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid>
-                                    <SwipeView>
+                                    <SwipeView >
                                         <SwipeView.RightItems>
-                                            <SwipeItems SwipeBehaviorOnInvoked="Auto">
+                                            <SwipeItems>
                                                 <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}"/>
                                                 <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}"/>
+                                                <SwipeItem IsVisible="{Binding IsPrevious}" Text="Chấp thuận" BackgroundColor="{StaticResource Gray600}"/>
+                                                <SwipeItem Text="Từ chối" BackgroundColor="{StaticResource Gray600}"/>
                                             </SwipeItems>
                                         </SwipeView.RightItems>
                                         <!-- Content -->

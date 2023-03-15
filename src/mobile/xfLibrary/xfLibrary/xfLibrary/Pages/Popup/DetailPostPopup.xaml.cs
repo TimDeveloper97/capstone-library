@@ -28,8 +28,8 @@ namespace xfLibrary.Pages.Popup
             lReturnDate.Text = "(Số ngày thuê: " + Math.Round(((_model.ReturnDate ?? DateTime.Now) - DateTime.Now).TotalDays, 2) + " ngày)";
             content.Text = _model.Content;
             content.MaxLines = _model.MaxLines;
-            imgs.ItemsSource = _model.Imgs;
-            books.ItemsSource = _model.Books;
+            imgs.ItemsSource = _model.Slide;
+            books.ItemsSource = _model.Order;
         }
 
         private void okBtn_Clicked(object sender, EventArgs e)
