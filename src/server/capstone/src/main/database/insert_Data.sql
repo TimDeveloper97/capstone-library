@@ -162,12 +162,17 @@ UNLOCK TABLES;
 ALTER TABLE `books`
     CHANGE COLUMN `description` `description` LONGTEXT NULL DEFAULT NULL ;
 
-CREATE DEFINER = CURRENT_USER TRIGGER `capstone_db`.`books_BEFORE_DELETE`
-BEFORE DELETE ON `books` FOR EACH ROW
-BEGIN
-    DELETE FROM `capstone_db`.`book_category`
-    WHERE `book_category`.book_id = OLD.id;
+DROP TRIGGER IF EXISTS `books_BEFORE_DELETE`;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `books_BEFORE_DELETE` BEFORE DELETE ON `books` FOR EACH ROW BEGIN
+	DELETE FROM `capstone_db`.`book_category`
+	WHERE `book_category`.book_id = OLD.id;
     DELETE FROM `capstone_db`.`image`
-    WHERE `image`.book_id = OLD.id;
-END
+	WHERE `image`.book_id = OLD.id;
+END */;;
+DELIMITER ;
 
+ALTER TABLE `capstone_db`.`post`
+    ADD COLUMN `address` VARCHAR(255) NULL AFTER `title`;
+ALTER TABLE `capstone_db`.`image`
+    CHANGE COLUMN `link` `link` LONGTEXT NULL DEFAULT NULL ;

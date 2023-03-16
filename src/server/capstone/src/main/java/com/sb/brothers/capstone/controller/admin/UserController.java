@@ -106,7 +106,7 @@ public class UserController {
         user.setRoles(roles);
         userService.updateUser(user);
         logger.info("Create new user - Success!");
-        return new ResponseEntity(new CustomErrorType("No Error. Create new user - Success"), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Create new user - Success"), HttpStatus.CREATED);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") String id, UriComponentsBuilder ucBuilder){

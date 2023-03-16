@@ -30,7 +30,7 @@ public class Image implements Serializable {
 		this.id = id;
 	}
 
-
+	@Column(name = "link", nullable = true, length = -1)
 	public String getLink() {
 		return this.link;
 	}

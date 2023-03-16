@@ -1,13 +1,26 @@
 package com.sb.brothers.capstone.util;
 
 public class CustomErrorType {
-    private String errorMessage;
 
-    public CustomErrorType(String errorMessage) {
-        this.errorMessage = errorMessage;
+    private boolean isSuccess;
+    private String message;
+
+    public CustomErrorType(boolean isSuccess, String message) {
+        this.isSuccess = isSuccess;
+        this.message = message;
     }
 
-    public String getErrorMessage(){
-        return errorMessage;
+    public CustomErrorType(String message) {
+        this.isSuccess = false;
+        this.message = message;
     }
+
+    public boolean isSuccess() {
+        return isSuccess;
+    }
+
+    public String getMessage(){
+        return message;
+    }
+
 }

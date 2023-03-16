@@ -16,12 +16,13 @@ import java.util.Set;
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private Date createdDate;
+	private Date borrowedDate;
 	private String description;
 	private int discount;
+	private Date returnDate;
 	private double totalPrice;
+	private Post post;
 	private User user;
-	private Set<OrderDetail> orderDetails;
 
 	public Order() {
 	}
@@ -39,13 +40,13 @@ public class Order implements Serializable {
 
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_date")
-	public Date getCreatedDate() {
-		return this.createdDate;
+	@Column(name="borrowed_date")
+	public Date getBorrowedDate() {
+		return this.borrowedDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setBorrowedDate(Date borrowedDate) {
+		this.borrowedDate = borrowedDate;
 	}
 
 
@@ -67,6 +68,17 @@ public class Order implements Serializable {
 	}
 
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="return_date")
+	public Date getReturnDate() {
+		return this.returnDate;
+	}
+
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
+	}
+
+
 	@Column(name="total_price")
 	public double getTotalPrice() {
 		return this.totalPrice;
@@ -74,6 +86,17 @@ public class Order implements Serializable {
 
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+
+	//bi-directional many-to-one association to Post
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Post getPost() {
+		return this.post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 
@@ -85,31 +108,6 @@ public class Order implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-
-	//bi-directional many-to-one association to OrderDetail
-	@OneToMany(mappedBy="order")
-	public Set<OrderDetail> getOrderDetails() {
-		return this.orderDetails;
-	}
-
-	public void setOrderDetails(Set<OrderDetail> orderDetails) {
-		this.orderDetails = orderDetails;
-	}
-
-	public OrderDetail addOrderDetail(OrderDetail orderDetail) {
-		getOrderDetails().add(orderDetail);
-		orderDetail.setOrder(this);
-
-		return orderDetail;
-	}
-
-	public OrderDetail removeOrderDetail(OrderDetail orderDetail) {
-		getOrderDetails().remove(orderDetail);
-		orderDetail.setOrder(null);
-
-		return orderDetail;
 	}
 
 }

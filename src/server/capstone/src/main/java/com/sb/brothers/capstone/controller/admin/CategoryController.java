@@ -5,11 +5,13 @@ import com.sb.brothers.capstone.entities.Category;
 import com.sb.brothers.capstone.entities.User;
 import com.sb.brothers.capstone.services.CategoryService;
 import com.sb.brothers.capstone.util.CustomErrorType;
+import com.sb.brothers.capstone.util.ResData;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,16 +39,11 @@ public class CategoryController {
             return new ResponseEntity(new CustomErrorType("Empty categories."), HttpStatus.NOT_FOUND);
         }
         logger.info("Success - Get All categories");
-        return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
+        return new ResponseEntity<>(new ResData<List<Category>>(0, categories), HttpStatus.OK);
     }//view all categories
 
-    /*@GetMapping("/add")
-    public ResponseEntity<?> createNewCategory(){
-        logger.info("Create the single category");
-        return new ResponseEntity<Category>(new Category(), HttpStatus.CREATED);
-    }//form add new category*/
-
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> postCatAdd(@RequestBody CategoryDTO categoryDto){
         logger.info("Creating new category:" + categoryDto.getNameCode());
         if(categoryService.isCategoryExist(categoryDto.getNameCode())){
@@ -58,11 +55,12 @@ public class CategoryController {
         Category category = new Category();
         categoryDto.convertCategory(category);
         categoryService.updateCategory(category);
-        return new ResponseEntity(new CustomErrorType("NO error. Create Category - SUCCESS"), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Create Category - SUCCESS"), HttpStatus.CREATED);
 
     }//form add new category > do add
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteCat(@PathVariable String id){
         logger.info("Fetching & Deleting Category with name code " + id);
         if(!categoryService.isCategoryExist(id)){
@@ -72,10 +70,11 @@ public class CategoryController {
         }
         categoryService.removeCategoryById(id);
         logger.info("Delete Category - Success!");
-        return new ResponseEntity(new CustomErrorType("No error. Delete category with nameCode:" + id + " - SUCCESS."), HttpStatus.OK);
+        return new ResponseEntity(new CustomErrorType(true, "Delete category with nameCode:" + id + " - SUCCESS."), HttpStatus.OK);
     }//delete 1 category
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateCat(@PathVariable String id, @RequestBody Category category){
         logger.info("Fetching & Updating category with id" + id);
         Category currCategory = categoryService.getCategoryById(id).get();
@@ -88,7 +87,7 @@ public class CategoryController {
         currCategory.setNameCode(category.getNameCode());
         categoryService.updateCategory(currCategory);
         logger.info("Update category - Success");
-        return new ResponseEntity<Category>(currCategory, HttpStatus.OK);
+        return new ResponseEntity<>(new ResData<Category>(0, currCategory), HttpStatus.OK);
     }//form edit category, fill old data into form
 
 }

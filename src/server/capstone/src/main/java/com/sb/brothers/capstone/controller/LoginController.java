@@ -41,25 +41,7 @@ public class LoginController {
     @Autowired
     private EmailService emailService;
 
-    @GetMapping("/login")
-    public ResponseEntity<?> login(@RequestParam("error") boolean error){
-        logger.info("Clear cart.");
-        GlobalData.cart.clear();
-        if(error == true) {
-            logger.info("username or password is wrong.");
-            return new ResponseEntity(new CustomErrorType("username or password is wrong."), HttpStatus.NOT_FOUND);
-        }
-        logger.info("Get login page.");
-        return new ResponseEntity(HttpStatus.OK);
-    }//page login
-
-    /*@GetMapping("/forgotpassword")
-    public ResponseEntity<?> forgotPass(){
-        logger.info("Forgot password the single user");
-        return new ResponseEntity<UserDTO>(new UserDTO(), HttpStatus.BAD_REQUEST);
-    }*/
-
-    @PostMapping("/forgotpassword")
+    @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPass(@RequestBody UserDTO userDTO){
         logger.info("Forgot password the single user");
         Optional<User> userFP = userService.getUserByEmailAndId(userDTO.getEmail(), userDTO.getId());
@@ -70,7 +52,7 @@ public class LoginController {
             emailService.sendMessage(userDTO.getEmail(), GlobalData.getSubject(), GlobalData.getContent("1"), null);
             logger.error("Success. A password of user who has name: "
                     + userDTO.getId() +", Email: "+userDTO.getEmail()+" has been reset.");
-            return new ResponseEntity(new CustomErrorType("No error. A password of user who has name: "
+            return new ResponseEntity(new CustomErrorType(true, "A password of user who has name: "
                     + userDTO.getId() +", Email: "+userDTO.getEmail()+" has been reset."), HttpStatus.OK);
         }
         logger.error("Unable to forgot password. A User with name: "
@@ -79,29 +61,4 @@ public class LoginController {
                 + userDTO.getId() +", Email: "+userDTO.getEmail()+" isn't exist."), HttpStatus.NOT_FOUND);
     }
 
-    /*@GetMapping("/register")
-    public ResponseEntity<UserDTO> registerGet(Model model){
-        logger.info("Register the single user - GET");
-        return new ResponseEntity<UserDTO>(new UserDTO(), HttpStatus.CREATED);
-    } //page register*/
-
-    @PostMapping("/register")
-    public ResponseEntity<?> registerPost(@RequestBody UserDTO userModel){
-        //chuyen password tu form dki thanh dang ma hoa
-        logger.info("Register the single user - POST");
-        if(userService.isUserExist(userModel.getId())){
-            logger.error("Unable to register. User with username:"
-                    +userModel.getId()+" already exist.");
-            return new ResponseEntity(new CustomErrorType("Unable to register. User with username "
-                    +userModel.getId()+" already exist."), HttpStatus.CONFLICT);
-        }
-        User newUser = new User();
-        userModel.convertUserDto(newUser);
-        newUser.setPassword(bCryptPasswordEncoder.encode(userModel.getPassword()));
-        //set mac dinh role user
-        List<Role> roles = new ArrayList<>();
-        roles.add(roleService.findRoleByName("ROLE_USER"));
-        userService.updateUser(newUser);
-        return new ResponseEntity(new CustomErrorType("No error. New account registration - SUCCESS"), HttpStatus.CREATED);
-    }//after register success
 }
