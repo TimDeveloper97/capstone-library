@@ -5,6 +5,7 @@ import Guest from "./Guest";
 import './home.css';
 import Instruct from "./Instruct";
 import Member from "./Member";
+import Quotes from "./Quotes";
 
 export default function Home() {
     const [loading, setLoading] = useState(true);
@@ -77,7 +78,6 @@ export default function Home() {
       <Instruct />
       <Guest />
       <Member />
-      
     </>
   );
 }

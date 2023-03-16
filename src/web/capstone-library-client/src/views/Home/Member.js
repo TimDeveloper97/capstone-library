@@ -61,17 +61,17 @@ export default function Member() {
           </div>
         </div>
       </section>
-      <section class="get-started-area pt-70px pb-70px bg-gray position-relative z-index-1">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-7 py-4">
-              <h2 class="section-title fs-30 lh-40">
+      <section className="get-started-area pt-70px pb-70px bg-gray position-relative z-index-1">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-7 py-4">
+              <h2 className="section-title fs-30 lh-40">
                 Còn chờ gì nữa mà không đăng ký thành viên ngay lúc này
               </h2>
             </div>
-            <div class="col-lg-5 text-right">
-              <a href="free-demo.html" class="btn theme-btn">
-                Đăng ký ngay <i class="la la-arrow-right icon ml-1"></i>
+            <div className="col-lg-5 text-right">
+              <a href="free-demo.html" className="btn theme-btn">
+                Đăng ký ngay <i className="la la-arrow-right icon ml-1"></i>
               </a>
             </div>
           </div>
