@@ -18,6 +18,7 @@ public class PostDetail implements Serializable {
 	private Post post;
 	private boolean sublet;
 	private double fee;
+	private int quantity;
 
 	public PostDetail() {
 	}
@@ -61,5 +62,14 @@ public class PostDetail implements Serializable {
 
 	public void setFee(double fee) {
 		this.fee = fee;
+	}
+
+	@Column(name="quantity", columnDefinition = "integer default 1")
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

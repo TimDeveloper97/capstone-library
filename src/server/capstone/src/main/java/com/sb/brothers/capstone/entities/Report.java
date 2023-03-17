@@ -19,6 +19,7 @@ public class Report implements Serializable {
 	private int status;
 	private String title;
 	private int typeReport;
+	private Post post;
 	private User user;
 
 	public Report() {
@@ -82,6 +83,17 @@ public class Report implements Serializable {
 
 	public void setTypeReport(int typeReport) {
 		this.typeReport = typeReport;
+	}
+
+
+	//bi-directional many-to-one association to Post
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Post getPost() {
+		return this.post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 

@@ -28,7 +28,7 @@ public class Book implements Serializable {
 	private int quantity;
 	private Set<Image> images;
 	private Set<Category> categories;
-	private Set<OrderDetail> orderDetails;
+	private User user;
 
 	public Book() {
 	}
@@ -63,7 +63,7 @@ public class Book implements Serializable {
 		this.publisher = publisher;
 	}
 
-
+	@Column(name = "description", nullable = true, length = -1)
 	public String getDescription() {
 		return this.description;
 	}
@@ -134,30 +134,6 @@ public class Book implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to OrderDetail
-	@OneToMany(mappedBy="book", fetch = FetchType.LAZY)
-	public Set<OrderDetail> getOrderDetails() {
-		return this.orderDetails;
-	}
-
-	public void setOrderDetails(Set<OrderDetail> orderDetails) {
-		this.orderDetails = orderDetails;
-	}
-
-	public OrderDetail addOrderDetail(OrderDetail orderDetail) {
-		getOrderDetails().add(orderDetail);
-		orderDetail.setBook(this);
-
-		return orderDetail;
-	}
-
-	public OrderDetail removeOrderDetail(OrderDetail orderDetail) {
-		getOrderDetails().remove(orderDetail);
-		orderDetail.setBook(null);
-
-		return orderDetail;
-	}
-
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name="book_category"
@@ -175,5 +151,14 @@ public class Book implements Serializable {
 
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

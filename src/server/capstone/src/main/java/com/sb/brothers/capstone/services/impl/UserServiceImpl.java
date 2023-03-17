@@ -6,6 +6,7 @@ import com.sb.brothers.capstone.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Component
@@ -45,5 +46,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByEmailAndId(String email, String id) {
         return userRepository.findUserByEmailAndId(email, id);
+    }
+
+    @Override
+    public void changePassword(String id, String newPass) {
+        userRepository.changePassword(newPass, id);
+    }
+
+    @Override
+    public void updateProfile(String id, String address, String email, String firstName, String lastName, Date modifiedDate, String phone) {
+        userRepository.updateProfile(id, address, email, firstName, lastName, modifiedDate, phone);
     }
 }

@@ -1,8 +1,11 @@
 package com.sb.brothers.capstone.dto;
 
+import java.util.Date;
+
 public class ChatMessage {
     
     private MessageType type;
+    private Date createDate;
     private String content;
     private String sender;
     private String receiver;
@@ -42,5 +45,12 @@ public class ChatMessage {
     public void setSender(String sender) {
         this.sender = sender;
     }
-    
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 }
