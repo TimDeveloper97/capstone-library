@@ -15,6 +15,9 @@ namespace xfLibrary.Converters
             var status = (int)value;
             var para = int.Parse(parameter.ToString());
 
+            if(status == 0)
+                return Resources.ExtentionHelper.StatusToColor(status);
+
             if (para <= status)
                 return Resources.ExtentionHelper.StatusToColor(status);
             else

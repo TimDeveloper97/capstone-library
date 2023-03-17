@@ -67,6 +67,7 @@
                                                         <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=8}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                         <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=16}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                         <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=32}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                        <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=0}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     </StackLayout>
 
                                                     <StackLayout Grid.Row="1" Spacing="0">

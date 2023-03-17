@@ -131,8 +131,10 @@ namespace xfLibrary.ViewModels
 
         void InitCurrentTab()
         {
+            Posts.Clear();
             var r = numberItemDisplay * currentTab;
             var l = _allPosts.Count();
+            
             var max = l > r ? r : l;
             for (int i = 0; i < max; i++)
             {
@@ -145,7 +147,12 @@ namespace xfLibrary.ViewModels
             int maxPage = (_allPosts.Count / numberItemDisplay) + 1;
 
             //show or hide next previous
-            if (current == 1)
+            if(maxPage == 1)
+            {
+                IsNext = false;
+                IsPrevious = false;
+            }
+            else if (current == 1)
             {
                 IsNext = true;
                 IsPrevious = false;
