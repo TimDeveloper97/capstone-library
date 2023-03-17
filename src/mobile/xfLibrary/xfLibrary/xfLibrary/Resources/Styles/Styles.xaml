@@ -158,6 +158,10 @@
     </Style>
 
     <Style TargetType="CollectionView">
+        <Setter Property="SelectionMode" Value="None" />
+        <Setter Property="ItemsUpdatingScrollMode" Value="KeepScrollOffset" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
