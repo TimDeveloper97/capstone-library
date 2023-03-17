@@ -16,28 +16,17 @@ namespace xfLibrary.ViewModels
         #region Properties
         private ObservableCollection<Post> posts;
         private static List<Post> _allPosts;
-        private int numberItemDisplay = 10, currentTab = 1;
+        private bool isAdmin;
+        private int numberItemDisplay = 8, currentTab = 1;
         private bool isPrevious, isNext;
 
         public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
+        public bool IsAdmin { get => isAdmin; set => SetProperty(ref isAdmin, value); }
         public bool IsPrevious { get => isPrevious; set => SetProperty(ref isPrevious, value); }
         public bool IsNext { get => isNext; set => SetProperty(ref isNext, value); }
         #endregion
 
         #region Command 
-        public ICommand ExtendTextCommand => new Command<Post>((post) =>
-        {
-            if (post.MaxLines == 3)
-                post.MaxLines = 99;
-            else
-                post.MaxLines = 3;
-        });
-
-        public ICommand AddCommand => new Command(async () =>
-        {
-            await Shell.Current.GoToAsync(nameof(AddPostView));
-        });
-
         public ICommand PreviousCommand => new Command(() =>
         {
             Posts.Clear();
@@ -46,9 +35,7 @@ namespace xfLibrary.ViewModels
             var min = l < 0 ? 0 : l;
             for (int i = min; i < r; i++)
             {
-                var item = _allPosts[i];
-                //item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
-                Posts.Add(item);
+                Posts.Add(_allPosts[i]);
             }
 
             currentTab--;
@@ -63,21 +50,40 @@ namespace xfLibrary.ViewModels
             var max = l > r ? r : l;
             for (int i = numberItemDisplay * currentTab; i < max; i++)
             {
-                var item = _allPosts[i];
-                //item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
-                Posts.Add(item);
+                Posts.Add(_allPosts[i]);
             }
 
             currentTab++;
             ItemDisplayToView(currentTab);
         });
 
-        public ICommand RefreshCommand => new Command(() =>
+        public ICommand ExtendTextCommand => new Command<Post>((post) =>
+        {
+            if (post.MaxLines == 3)
+                post.MaxLines = 99;
+            else
+                post.MaxLines = 3;
+        });
+
+        public ICommand AddCommand => new Command(async () =>
+        {
+            await Shell.Current.GoToAsync(nameof(AddPostView));
+        });
+
+        public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
-            Posts.Clear();
+            //Posts.Clear();
 
-            InitCurrentTab();
+            //_allPosts = await _mainService.GetAllPostMeAsync(_token);
+            //foreach (var item in postme)
+            //{
+            //    if (item.Order == null)
+            //        item.Order = new ObservableCollection<Order>();
+
+            //    Posts.Add(UpdateImageSource(item));
+            //}
+
             IsBusy = false;
         });
 
@@ -91,66 +97,37 @@ namespace xfLibrary.ViewModels
         public ReportViewModel()
         {
             Init();
-            FakeData();
-            InitCurrentTab();
+            ItemDisplayToView(currentTab);
         }
 
         void Init()
         {
             Posts = new ObservableCollection<Post>();
             _allPosts = new List<Post>();
-            IsBusy = false;
-        }
+            MessagingCenter.Subscribe<object, object>(this, "postme",
+                  (sender, arg) =>
+                  {
+                      if (arg == null)
+                          _message.ShortAlert("Mất kết nối internet.");
+                      else
+                      {
+                          IsBusy = true;
+                          _allPosts.Clear();
 
-        void FakeData()
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                var p = new Post
-                {
-                    Title = "[Cho thuê] Truyện tuổi thơ",
-                    Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                    "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
-                    CreatedDate = new DateTime(2023, 3, 3),
-                    ReturnDate = new DateTime(2023, 4, 4),
-                    NumberOfRentalDays = 7,
-                    Status = 4,
-                    Fee = 100000,
-                };
+                          var postme = (IList<Post>)arg;
 
-                //update sach
-                p.Order = new ObservableCollection<Order>
-                {
-                    new Order
-                    {
-                        Quantity = 1,
-                        Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                        "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                    },
-                    new Order
-                    {
-                        Quantity = 1,
-                        Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                        "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                    },
-                };
+                          foreach (var item in postme)
+                          {
+                              if (item.Order == null)
+                                  item.Order = new ObservableCollection<Order>();
 
-                if (p.Order == null || p.Order.Count == 0)
-                    p.ImageSource = "book.png";
+                              _allPosts.Add(UpdateItemData(item));
+                          }
 
-                foreach (var order in p.Order)
-                {
-                    var img = order.Book.Imgs;
-                    if (img != null && img.Count > 0)
-                    {
-                        var url = Services.Api.BaseUrl + img[0].FileName.Replace("\\", "/");
-
-                        p.Slide.Add(url);
-                    }
-                }
-
-                _allPosts.Add(p);
-            }
+                          InitCurrentTab();
+                          IsBusy = false;
+                      }
+                  });
         }
 
         void ItemDisplayToView(int current)
@@ -182,9 +159,50 @@ namespace xfLibrary.ViewModels
             var max = l > r ? r : l;
             for (int i = 0; i < max; i++)
             {
-                var item = _allPosts[i];
-                //item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
-                Posts.Add(item);
+                Posts.Add(_allPosts[i]);
+            }
+        }
+
+        Post UpdateItemData(Post post)
+        {
+            if (post.Order.Count != 0)
+            {
+                var imgs = post.Order[0].Book.Imgs;
+                if (imgs != null && imgs.Count != 0)
+                {
+                    //update image source
+                    var url = Services.Api.BaseUrl + imgs?[0].FileName.Replace("\\", "/");
+                    post.ImageSource = url;
+
+                    //update slide
+                    post.Slide.Clear();
+                    foreach (var img in imgs)
+                    {
+                        post.Slide.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                    }
+                }
+            }
+
+            //update color status
+            post.Color = Color(post.Status);
+            return post;
+        }
+
+        string Color(int status)
+        {
+            switch (status)
+            {
+                case 0: case 4: return "#32CD32";
+
+                case 2: return "#508ce8";
+
+                case 8: return "#FFA700";
+
+                case 16: return "#512BD4";
+
+                case 32: return "#ff424e";
+
+                default: return "#6E6E6E";
             }
         }
     }

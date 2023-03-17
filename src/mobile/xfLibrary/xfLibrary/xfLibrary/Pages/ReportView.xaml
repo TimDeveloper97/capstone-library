@@ -14,6 +14,7 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material" 
              x:Name="self"
              
              x:Class="xfLibrary.Pages.ReportView">
@@ -21,86 +22,102 @@
     <ContentView.Content>
         <Grid HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">
             <ScrollView>
-                <ListView ItemsSource="{Binding Posts}" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <SwipeView >
-                                        <SwipeView.RightItems>
-                                            <SwipeItems>
-                                                <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}"/>
-                                                <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}"/>
-                                                <SwipeItem IsVisible="{Binding IsPrevious}" Text="Chấp thuận" BackgroundColor="{StaticResource Gray600}"/>
-                                                <SwipeItem Text="Từ chối" BackgroundColor="{StaticResource Gray600}"/>
-                                            </SwipeItems>
-                                        </SwipeView.RightItems>
-                                        <!-- Content -->
+                <Grid RowDefinitions="auto, *">
+                    <!--<material:MaterialMenuButton  ButtonType="Text" CornerRadius="24" Choices="{Binding Actions}" Command="{Binding MenuCommand}" />-->
+                    <ListView Grid.Row="1" ItemsSource="{Binding Posts}" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}" 
+                              Margin="0,0,0,5" IsPullToRefreshEnabled="False">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <SwipeView>
+                                            <SwipeView.RightItems>
+                                                <SwipeItems>
+                                                    <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}"/>
+                                                    <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}"/>
+                                                    <SwipeItem IsVisible="{Binding IsAdmin}" Text="Chấp thuận" BackgroundColor="{StaticResource Gray600}"/>
+                                                    <SwipeItem Text="Từ chối" BackgroundColor="{StaticResource Gray600}"/>
+                                                </SwipeItems>
+                                            </SwipeView.RightItems>
+                                            <!-- Content -->
 
-                                        <Grid ColumnDefinitions="auto, *" ColumnSpacing="0">
-                                            <BoxView WidthRequest="5" Margin="5,10,0,10" CornerRadius="10"/>
-                                            <Grid Grid.Column="1" RowDefinitions="80, auto, *" RowSpacing="0" Padding="-10,0" Margin="0,0,0,10">
-                                                <!--#region User -->
-                                                <Grid ColumnDefinitions="auto, *" Margin="10,0">
-                                                    <Grid ColumnDefinitions="60, *" Margin="0,5">
-                                                        <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
-                                                            <Image Source="emoji3.png"/>
-                                                        </Frame>
-                                                        <Grid Grid.Column="1" RowDefinitions="6*, 4*">
-                                                            <Label Text="Quý" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
-                                                           VerticalOptions="End" HorizontalTextAlignment="Start"/>
+                                            <Grid ColumnDefinitions="auto, *" ColumnSpacing="0">
+                                                <BoxView WidthRequest="5" Margin="5,10,0,10" Color="{Binding Color}" CornerRadius="10"/>
+                                                <Grid Grid.Column="1" RowDefinitions="80, auto, *" RowSpacing="0" Padding="-10,0" Margin="0,0,0,10">
+                                                    <!--#region User -->
+                                                    <Grid ColumnDefinitions="auto, *" Margin="10,0">
+                                                        <Grid ColumnDefinitions="60, *" Margin="0,5">
+                                                            <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
+                                                                <Image Source="emoji3.png"/>
+                                                            </Frame>
+                                                            <Grid Grid.Column="1" RowDefinitions="6*, 4*">
+                                                                <Label Text="{Binding User}" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
+                                                                   VerticalOptions="End" HorizontalTextAlignment="Start" TextTransform="Uppercase"/>
 
-                                                            <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="0,-5,0,0" VerticalOptions="Start" HorizontalOptions="Start">
-                                                                <Label Text="{Binding TotalCreateDay, StringFormat='{0} ngày trước'}" Style="{StaticResource MiniLabelStyle}"/>
-                                                                <Label Text="{Binding TotalReturnDay, StringFormat='(Số ngày thuê: {0})'}" Style="{StaticResource MiniLabelStyle}"/>
-                                                            </StackLayout>
+                                                                <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="0,-5,0,0" VerticalOptions="Start" HorizontalOptions="Start">
+                                                                    <Label Text="{Binding TotalCreateDay, StringFormat='{0} ngày trước'}" Style="{StaticResource MiniLabelStyle}"/>
+                                                                    <Label Text="{Binding TotalReturnDay, StringFormat='(Số ngày thuê: {0})'}" Style="{StaticResource MiniLabelStyle}"/>
+                                                                </StackLayout>
+                                                            </Grid>
                                                         </Grid>
+
                                                     </Grid>
+                                                    <!--#endregion-->
 
+                                                    <!--#region Content -->
+                                                    <Label Grid.Row="1" Margin="10,0" Padding="10,0,15,10" Text="{Binding Content}" MaxLines="{Binding MaxLines}">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.ExtendTextCommand, Source={x:Reference Name=self}}"/>
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+
+                                                    <cards:CarouselView Grid.Row="2" ItemsSource="{Binding Slide}" Margin="15,0" SlideShowDuration="3000" HeightRequest="150">
+                                                        <cards:CarouselView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ContentView>
+                                                                    <Frame Style="{StaticResource FrameShadow}">
+                                                                        <Image Source="{Binding .}" Aspect="AspectFit"/>
+                                                                    </Frame>
+                                                                </ContentView>
+                                                            </DataTemplate>
+                                                        </cards:CarouselView.ItemTemplate>
+
+                                                        <controls:IndicatorsControl/>
+                                                    </cards:CarouselView>
+                                                    <!--#endregion-->
                                                 </Grid>
-                                                <!--#endregion-->
-
-                                                <!--#region Content -->
-                                                <Label Grid.Row="1" Margin="10,0" Padding="10,0,15,10" Text="{Binding Content}" MaxLines="{Binding MaxLines}">
-                                                    <Label.GestureRecognizers>
-                                                        <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.ExtendTextCommand, Source={x:Reference Name=self}}"/>
-                                                    </Label.GestureRecognizers>
-                                                </Label>
-
-                                                <!--<Image Grid.Row="2" Source="{Binding ImageSource}" Margin="15,0"/>-->
-                                                <!--#endregion-->
                                             </Grid>
-                                        </Grid>
-                                    </SwipeView>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <!--<ListView.Footer>
-                        <Grid>
-                            <StackLayout  VerticalOptions="Center" HorizontalOptions="Center" Orientation="Horizontal">
-                                <Frame HeightRequest="50" WidthRequest="50" BorderColor="Transparent" IsVisible="{Binding IsPrevious}"
+                                        </SwipeView>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Footer>
+                            <Grid>
+                                <StackLayout Margin="10" VerticalOptions="Center" HorizontalOptions="Center" Orientation="Horizontal">
+                                    <Frame HeightRequest="50" WidthRequest="50" BorderColor="Transparent" IsVisible="{Binding IsPrevious}"
                                                     Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="5,2"
                                                     VerticalOptions="End" BackgroundColor="{StaticResource AppColor}" >
-                                    <Label Style="{StaticResource IconLabel}" FontSize="25" Text="{Static icon:FontIcons.ChevronLeft}"
+                                        <Label Style="{StaticResource IconLabel}" FontSize="25" Text="{Static icon:FontIcons.ChevronLeft}"
                                                     VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.PreviousCommand, Source={x:Reference Name=self}}"/>
-                                    </Frame.GestureRecognizers>
-                                </Frame>
-                                <Frame HeightRequest="50" WidthRequest="50" BorderColor="Transparent" IsVisible="{Binding IsNext}"
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.PreviousCommand, Source={x:Reference Name=self}}"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                    <Frame HeightRequest="50" WidthRequest="50" BorderColor="Transparent" IsVisible="{Binding IsNext}"
                                                     Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="5,2"
                                                     VerticalOptions="End" BackgroundColor="{StaticResource AppColor}" >
-                                    <Label Style="{StaticResource IconLabel}" FontSize="25" Text="{Static icon:FontIcons.ChevronRight}"
+                                        <Label Style="{StaticResource IconLabel}" FontSize="25" Text="{Static icon:FontIcons.ChevronRight}"
                                                     VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.NextCommand, Source={x:Reference Name=self}}"/>
-                                    </Frame.GestureRecognizers>
-                                </Frame>
-                            </StackLayout>
-                        </Grid>
-                    </ListView.Footer>-->
-                </ListView>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.NextCommand, Source={x:Reference Name=self}}"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </StackLayout>
+                            </Grid>
+                        </ListView.Footer>
+                    </ListView>
+                </Grid>
             </ScrollView>
             
             <mdc:MaterialFloatingButton VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"

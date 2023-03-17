@@ -44,9 +44,7 @@ namespace xfLibrary.ViewModels
             var min = l < 0 ? 0 : l;
             for (int i = min; i < r; i++)
             {
-                var item = _allPosts[i];
-                //item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
-                Posts.Add(item);
+                Posts.Add(_allPosts[i]);
             }
 
             currentTab--;
@@ -61,9 +59,7 @@ namespace xfLibrary.ViewModels
             var max = l > r ? r : l;
             for (int i = numberItemDisplay * currentTab; i < max; i++)
             {
-                var item = _allPosts[i];
-                //item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
-                Posts.Add(item);
+                Posts.Add(_allPosts[i]);
             }
 
             currentTab++;
@@ -79,8 +75,6 @@ namespace xfLibrary.ViewModels
         public HomeViewModel()
         {
             Init();
-            FakeData();
-            InitCurrentTab();
             ItemDisplayToView(currentTab);
         }
 
@@ -111,63 +105,38 @@ namespace xfLibrary.ViewModels
                           }
                       }
                   });
+
+            MessagingCenter.Subscribe<object, object>(this, "post",
+                  (sender, arg) =>
+                  {
+                      if (arg == null)
+                          _message.ShortAlert("Mất kết nối internet.");
+                      else
+                      {
+                          _allPosts.Clear();
+                          var post = (IList<Post>)arg;
+
+                          foreach (var item in post)
+                          {
+                              if (item.Order == null)
+                                  item.Order = new ObservableCollection<Order>();
+
+                              _allPosts.Add(UpdateItemData(item));
+                          }
+
+                          InitCurrentTab();
+                      }
+                  });
         }
 
-        void FakeData()
+        void InitCurrentTab()
         {
-            for (int i = 0; i < 2; i++)
+            var r = numberItemDisplay * currentTab;
+            var l = _allPosts.Count();
+            var max = l > r ? r : l;
+            for (int i = 0; i < max; i++)
             {
-                var p = new Post
-                {
-                    Title = "[Cho thuê] Truyện tuổi thơ",
-                    Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                    "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
-                    CreatedDate = new DateTime(2023, 3, 3),
-                    ReturnDate = new DateTime(2023, 4, 4),
-                    NumberOfRentalDays = 7,
-                    Status = 4,
-                    Fee = 100000,
-                    Slide = new ObservableCollection<string>(),
-                    Order = new ObservableCollection<Order>(),
-                };
-
-                //update sach
-                for (int j = 0; j < 2; j++)
-                {
-                    p.Order.Add(new Order
-                    {
-                        Quantity = 1,
-                        Book = new Book
-                        {
-                            Name = "Dế mèn phiêu lưu ký",
-                            Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                            "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
-                            Quantity = "2",
-                            Price = "1000000",
-                            StringCategories = "Truyện tranh,Văn học,Trinh thám",
-                            Imgs = new List<Img> {
-                                new Img { Data = "", FileName = "" }
-                            }
-                        },
-                    });
-                }
-                
-                if (p.Order == null || p.Order.Count == 0)
-                    p.ImageSource = "book.png";
-
-                foreach (var order in p.Order)
-                {
-                    var img = order.Book.Imgs;
-                    if (img != null && img.Count > 0)
-                    {
-                        //var url = Services.Api.BaseUrl + img[0].FileName.Replace("\\", "/");
-                        var url = "book.png";
-                        p.ImageSource = url;
-                        p.Slide.Add(url);
-                    }
-                }
-
-                _allPosts.Add(p);
+                Posts.Add(_allPosts[i]);
             }
         }
 
@@ -193,16 +162,24 @@ namespace xfLibrary.ViewModels
             }
         }
 
-        void InitCurrentTab()
+        Post UpdateItemData(Post post)
         {
-            var r = numberItemDisplay * currentTab;
-            var l = _allPosts.Count();
-            var max = l > r ? r : l;
-            for (int i = 0; i < max; i++)
+            if (post.Order.Count != 0)
             {
-                var item = _allPosts[i];
-                Posts.Add(item);
+                var imgs = post.Order[0].Book.Imgs;
+                if (imgs != null && imgs.Count != 0)
+                {
+                    var url = Services.Api.BaseUrl + imgs?[0].FileName.Replace("\\", "/");
+                    post.ImageSource = url;
+
+                    post.Slide.Clear();
+                    foreach (var img in imgs)
+                    {
+                        post.Slide.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                    }
+                }
             }
+            return post;
         }
         #endregion
     }

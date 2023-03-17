@@ -7,6 +7,7 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             x:DataType="vm:MainViewModel"
              Shell.NavBarIsVisible="False"
              FixedMode="False"
              x:Name="self"

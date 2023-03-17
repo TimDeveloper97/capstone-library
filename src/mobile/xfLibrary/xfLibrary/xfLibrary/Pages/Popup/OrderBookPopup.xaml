@@ -9,7 +9,7 @@
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              xmlns:m="clr-namespace:xfLibrary.Models"
              xmlns:c="clr-namespace:xfLibrary.Controls"
-             Size="350,350"
+             Size="350,370"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              x:TypeArguments="m:ListBook"
              IsLightDismissEnabled="false"
@@ -31,7 +31,7 @@
                             <Label Text="Kho sách" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
                         </Grid>
 
-                        <ListView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" HeightRequest="250" SelectedItem="{Binding SelectItem}" Margin="5,0" ItemTapped="lv_ItemTapped" ItemSelected="lv_ItemSelected">
+                        <ListView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" HeightRequest="250" SelectedItem="{Binding SelectItem}" Margin="5,0">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -44,7 +44,7 @@
                                                VerticalOptions="Center" Margin="10,0" PropertyChanged="lsum_PropertyChanged" BindingContext="{Binding .}"/>
                                             <StackLayout Grid.Column="3" Spacing="0" Orientation="Horizontal">
                                                 <Editor x:Name="eNumber" Text="{Binding Source={x:Reference eNumber}, Path=Text, Converter={StaticResource LimitNumberConverter}, ConverterParameter={x:Reference lMax}}" WidthRequest="30"
-                                                    MaxLength="3" Keyboard="Numeric" VerticalOptions="Center"/>
+                                                    MaxLength="3" Keyboard="Numeric" VerticalOptions="Center" TextChanged="eNumber_TextChanged" BindingContext="{Binding .}"/>
                                                 <Label x:Name="lMax" Text="{Binding Quantity, StringFormat='/{0}'}" VerticalOptions="Center" Margin="-4,0,5,0"/>
                                             </StackLayout>
                                         </Grid>

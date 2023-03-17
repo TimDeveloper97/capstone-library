@@ -37,7 +37,7 @@
                                                         <Image Source="emoji3.png"/>
                                                     </Frame>
                                                     <Grid Grid.Column="1" RowDefinitions="6*, 4*">
-                                                        <Label Text="Admin" Style="{StaticResource TitleLabelStyle}" 
+                                                        <Label x:Name="lUser" TextTransform="Uppercase" Style="{StaticResource TitleLabelStyle}" 
                                                            VerticalOptions="End" HorizontalTextAlignment="Start"/>
 
                                                         <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="0,-5,0,0" VerticalOptions="Start" HorizontalOptions="Start">
@@ -81,7 +81,7 @@
                                     </StackLayout>
                                 </ScrollView>
                             </xct:TabViewItem>
-                            <xct:TabViewItem>
+                            <xct:TabViewItem x:Name="tvBook">
                                 <ListView x:Name="books" Margin="5,0" SelectionMode="None" IsPullToRefreshEnabled="False">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>

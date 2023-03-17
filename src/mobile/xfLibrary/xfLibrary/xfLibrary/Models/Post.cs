@@ -10,6 +10,8 @@ namespace xfLibrary.Models
 {
     public class Post : BaseModel
     {
+        private string address;
+
         [JsonProperty("title")]
         public string Title { get; set; }
 
@@ -17,28 +19,31 @@ namespace xfLibrary.Models
         public string Content { get; set; }
 
         [JsonProperty("createdDate")]
-        public DateTime? CreatedDate { get; set; }
+        public long? CreatedDate { get; set; }
 
         [JsonProperty("returnDate")]
-        public DateTime? ReturnDate { get; set; }
+        public long? ReturnDate { get; set; }
 
         [JsonProperty("modifiedDate")]
-        public DateTime? ModifiedDate { get; set; }
+        public long? ModifiedDate { get; set; }
 
         [JsonProperty("status")] 
         public int Status { get; set; }
 
         [JsonProperty("fee")]
-        public double Fee { get; set; }
+        public double Fee { get; set; } = 0;
 
         [JsonProperty("noDays")]
-        public int NumberOfRentalDays { get; set; }
+        public int NumberOfRentalDays { get; set; } = 0;
 
         [JsonProperty("user")]
         public string User { get; set; }
 
         [JsonProperty("postDetailDtos")]
         public ObservableCollection<Order> Order { get; set; }
+
+        [JsonProperty("address")]
+        public string Address { get => address; set => SetProperty(ref address, value); }
 
 
         private int maxLines = 3;
@@ -49,14 +54,17 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public int TotalReturnDay { get; set; }
         [JsonIgnore]
-        public string ImageSource { get; set; }
+        public string ImageSource { get; set; } = "book100.png";
+        [JsonIgnore]
+        public string Color { get; set; } = "#00000";
         [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); } 
+        
 
         public Post()
         {
             Order = new ObservableCollection<Order>();
-            Slide = new ObservableCollection<string>();
+            Slide = new ObservableCollection<string>() { "book100.png" };
         }
     }
 

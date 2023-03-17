@@ -18,5 +18,29 @@ namespace xfLibrary.Services.Main
             var value = JsonConvert.DeserializeObject<List<Category>>(res.Value.ToString());
             return value;
         }
+
+        public async Task<List<Post>> GetAllPostAsync()
+        {
+            var res = await Service.Get(Api.Post);
+            if (res == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Post>>(res.Value.ToString());
+            return value;
+        }
+
+        public async Task<List<Post>> GetAllPostMeAsync(string _token)
+        {
+            var res = await Service.Get(Api.GetPostMe, _token);
+            if (res == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Post>>(res.Value.ToString());
+            return value;
+        }
+
+        public async Task<Response> AddPostMeAsync(object obj, string _token)
+        {
+            var res = await Service.Post(obj, Api.AddPost, _token);
+            return res;
+        }
     }
 }

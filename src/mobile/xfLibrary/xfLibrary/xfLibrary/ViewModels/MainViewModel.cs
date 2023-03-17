@@ -48,27 +48,41 @@ namespace xfLibrary.ViewModels
 
         public MainViewModel()
         {
+
         }
 
         #region Appearing
         public ICommand PageHomeAppearingCommand => new Command(async () =>
         {
-            Appearing(async () => {
+            Appearing(async () =>
+            {
                 var category = await _mainService.CategoryAsync();
+                var post = await _mainService.GetAllPostAsync();
 
                 MessagingCenter.Send<object, object>(this, "category", category);
+                MessagingCenter.Send<object, object>(this, "post", post);
             });
 
         });
 
         public ICommand PagePostAppearingCommand => new Command(async () =>
         {
-            Appearing(async () => {
-                await MoveToLogin(() =>
-                { });
+            Appearing(async () =>
+            {
+                await MoveToLogin(async () =>
+                {
+                    var postme = await _mainService.GetAllPostMeAsync(_token);
+                    MessagingCenter.Send<object, object>(this, "postme", postme);
+                    IsVisible = HasLogin();
+                });
             });
 
             IsVisible = HasLogin();
+            if (IsVisible)
+            {
+                var postme = await _mainService.GetAllPostMeAsync(_token);
+                MessagingCenter.Send<object, object>(this, "postme", postme);
+            }
         });
 
         public ICommand PageNotificationAppearingCommand => new Command(async () =>
@@ -89,12 +103,19 @@ namespace xfLibrary.ViewModels
         #region MyRegion 
         public ICommand PageHomeDisappearingCommand => new Command(() =>
         {
-            Disappearing(() => { MessagingCenter.Unsubscribe<object, object>(this, "category"); });
+            Disappearing(() =>
+            {
+                MessagingCenter.Unsubscribe<object, object>(this, "category");
+                MessagingCenter.Unsubscribe<object, object>(this, "post");
+            });
         });
 
         public ICommand PagePostDisappearingCommand => new Command(() =>
         {
-            Disappearing(() => { });
+            Disappearing(() =>
+            {
+                MessagingCenter.Unsubscribe<object, object>(this, "postme");
+            });
         });
 
         public ICommand PageNotificationDisappearingCommand => new Command(() =>
