@@ -1,8 +1,34 @@
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { showUser } from "../../reducers/userSlice";
+import * as yup from "yup";
+
+const schema = yup.object({
+  firstName: yup.string().required("Tên không được để trống"),
+});
 
 export default function Setting() {
+  const dispatch = useDispatch();
+  const [editable, setEditable] = useState(false);
+  useEffect(() => {}, []);
+
+  const userInfo = useSelector(showUser);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const switchEdit = () => {
+    setEditable(!editable);
+  };
   return (
     <>
       <section className="hero-area bg-white shadow-sm overflow-hidden pt-60px">
@@ -28,7 +54,7 @@ export default function Setting() {
                     <path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.09-.16-.26-.25-.44-.25-.06 0-.12.01-.17.03l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.06-.02-.12-.03-.18-.03-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.09.16.26.25.44.25.06 0 .12-.01.17-.03l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.06.02.12.03.18.03.17 0 .34-.09.43-.25l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zm-1.98-1.71c.04.31.05.52.05.73 0 .21-.02.43-.05.73l-.14 1.13.89.7 1.08.84-.7 1.21-1.27-.51-1.04-.42-.9.68c-.43.32-.84.56-1.25.73l-1.06.43-.16 1.13-.2 1.35h-1.4l-.19-1.35-.16-1.13-1.06-.43c-.43-.18-.83-.41-1.23-.71l-.91-.7-1.06.43-1.27.51-.7-1.21 1.08-.84.89-.7-.14-1.13c-.03-.31-.05-.54-.05-.74s.02-.43.05-.73l.14-1.13-.89-.7-1.08-.84.7-1.21 1.27.51 1.04.42.9-.68c.43-.32.84-.56 1.25-.73l1.06-.43.16-1.13.2-1.35h1.39l.19 1.35.16 1.13 1.06.43c.43.18.83.41 1.23.71l.91.7 1.06-.43 1.27-.51.7 1.21-1.07.85-.89.7.14 1.13zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
                   </svg>
                 </div>
-                <h2 className="section-title fs-30">Settings</h2>
+                <h2 className="section-title fs-30">Cài đặt tài khoản</h2>
               </div>
             </div>
             <div className="col-lg-4">
@@ -38,13 +64,19 @@ export default function Setting() {
                     <img src="/images/img4.jpg" alt="avatar" />
                   </div>
                   <div className="media-body">
-                    <h5>Arden Smith</h5>
+                    <h5>{userInfo.lastName + " " + userInfo.firstName}</h5>
                     <small className="meta d-block lh-20 pb-2">
-                      <span>United States, member since 11 years ago</span>
+                      <span>
+                        {userInfo.address}, thành viên từ 1 tháng trước
+                      </span>
                     </small>
                     <div className="stats fs-14 fw-medium d-flex align-items-center lh-18">
                       <span className="text-black pr-2" title="Reputation">
-                        <FontAwesomeIcon icon={faWallet} style={{color: 'green'}} /> 224,110
+                        <FontAwesomeIcon
+                          icon={faWallet}
+                          style={{ color: "green" }}
+                        />{" "}
+                        {userInfo.balance}
                       </span>
                     </div>
                   </div>
@@ -128,7 +160,21 @@ export default function Setting() {
       <section className="user-details-area pt-40px pb-40px">
         <div className="container">
           <div className="row">
-            <div className="col-lg-9">
+            <div className="col-lg-6">
+              <div className="hero-btn-box text-right py-3">
+                <button
+                  onClick={switchEdit}
+                  className="btn theme-btn theme-btn-outline theme-btn-outline-gray"
+                >
+                  {editable ? (
+                    <>Lưu thông tin</>
+                  ) : (
+                    <>
+                      <i className="la la-gear mr-1"></i> Sửa thông tin
+                    </>
+                  )}
+                </button>
+              </div>
               <div className="tab-content mb-50px" id="myTabContent">
                 <div
                   className="tab-pane fade show active"
@@ -145,7 +191,21 @@ export default function Setting() {
                               <p className="mb-0">Họ tên</p>
                             </div>
                             <div className="col-sm-9">
-                              <p className="text-muted mb-0">Johnatan Smith</p>
+                              {editable ? (
+                                <TextField
+                                  autoFocus
+                                  margin="dense"
+                                  label="Tên"
+                                  type="text"
+                                  variant="standard"
+                                  defaultValue={userInfo.firstName}
+                                  {...register("firstName")}
+                                />
+                              ) : (
+                                <p className="text-muted mb-0">
+                                  {userInfo.lastName + " " + userInfo.firstName}
+                                </p>
+                              )}
                             </div>
                           </div>
                           <hr />
@@ -155,7 +215,7 @@ export default function Setting() {
                             </div>
                             <div className="col-sm-9">
                               <p className="text-muted mb-0">
-                                example@example.com
+                                {userInfo.email}
                               </p>
                             </div>
                           </div>
@@ -165,7 +225,9 @@ export default function Setting() {
                               <p className="mb-0">Số điện thoại</p>
                             </div>
                             <div className="col-sm-9">
-                              <p className="text-muted mb-0">(097) 234-5678</p>
+                              <p className="text-muted mb-0">
+                                {userInfo.phone}
+                              </p>
                             </div>
                           </div>
                           <hr />
@@ -174,7 +236,9 @@ export default function Setting() {
                               <p className="mb-0">Số dư tài khoản</p>
                             </div>
                             <div className="col-sm-9">
-                              <p className="text-muted mb-0">(097) 234-5678</p>
+                              <p className="text-muted mb-0">
+                                {userInfo.balance}
+                              </p>
                             </div>
                           </div>
                           <hr />
@@ -184,7 +248,7 @@ export default function Setting() {
                             </div>
                             <div className="col-sm-9">
                               <p className="text-muted mb-0">
-                                Bay Area, San Francisco, CA
+                                {userInfo.address}
                               </p>
                             </div>
                           </div>
@@ -339,7 +403,6 @@ export default function Setting() {
                                     type="radio"
                                     name="options"
                                     id="option12"
-                                    checked
                                   />{" "}
                                   On
                                 </label>
@@ -366,7 +429,6 @@ export default function Setting() {
                                     type="radio"
                                     name="options"
                                     id="option13"
-                                    checked
                                   />{" "}
                                   Off
                                 </label>
@@ -401,7 +463,6 @@ export default function Setting() {
                                     type="radio"
                                     name="options"
                                     id="option15"
-                                    checked
                                   />{" "}
                                   Off
                                 </label>
@@ -435,7 +496,6 @@ export default function Setting() {
                                     type="radio"
                                     name="options"
                                     id="option17"
-                                    checked
                                   />{" "}
                                   Off
                                 </label>
