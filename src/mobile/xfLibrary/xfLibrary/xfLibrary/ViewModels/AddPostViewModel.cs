@@ -73,13 +73,13 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
-            if(NewPost.Content.Length < 500)
+            if (NewPost.Content.Length < 500)
             {
                 _message.ShortAlert("Nội dung tối thiểu 500 chữ");
                 return;
-            }    
+            }
 
-            if(NewPost.Fee > 100)
+            if (NewPost.Fee > 100)
             {
                 _message.ShortAlert("% phí thêm phải thuộc (1,100)%");
                 return;

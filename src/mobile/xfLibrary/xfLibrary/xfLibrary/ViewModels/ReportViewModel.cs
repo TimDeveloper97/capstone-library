@@ -19,11 +19,13 @@ namespace xfLibrary.ViewModels
         private bool isAdmin;
         private int numberItemDisplay = 8, currentTab = 1;
         private bool isPrevious, isNext;
+        private List<string> actions;
 
         public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
         public bool IsAdmin { get => isAdmin; set => SetProperty(ref isAdmin, value); }
         public bool IsPrevious { get => isPrevious; set => SetProperty(ref isPrevious, value); }
         public bool IsNext { get => isNext; set => SetProperty(ref isNext, value); }
+        public List<string> Actions { get => actions; set => SetProperty(ref actions, value); }
         #endregion
 
         #region Command 
@@ -63,11 +65,45 @@ namespace xfLibrary.ViewModels
                 post.MaxLines = 99;
             else
                 post.MaxLines = 3;
-        });
+        }); 
 
         public ICommand AddCommand => new Command(async () =>
         {
             await Shell.Current.GoToAsync(nameof(AddPostView));
+        });
+
+        public ICommand MenuCommand => new Command<XF.Material.Forms.Models.MaterialMenuResult>(async (index) =>
+        {
+            ObservableCollection<Post> lsort = null;
+            var min = DateTime.MinValue.Ticks;
+
+            switch (index.Index)
+            {
+                case 0:
+                    {
+                        lsort = new ObservableCollection<Post>(Posts.OrderBy(x => x.Status));
+                        break;
+                    }
+                case 1:
+                    {
+                        lsort = new ObservableCollection<Post>(Posts.OrderByDescending(x => x.Status));
+                        break;
+                    }
+                case 2:
+                    {
+                        lsort = new ObservableCollection<Post>(Posts.OrderBy(x => x.CreatedDate ?? min));
+                        break;
+                    }
+                case 3:
+                    {
+                        lsort = new ObservableCollection<Post>(Posts.OrderByDescending(x => x.CreatedDate ?? min));
+                        break;
+                    }
+                default:
+                    return;
+            }
+
+            Posts = lsort;
         });
 
         public ICommand RefreshCommand => new Command(async () =>
@@ -97,13 +133,17 @@ namespace xfLibrary.ViewModels
         public ReportViewModel()
         {
             Init();
-            ItemDisplayToView(currentTab);
+            //ItemDisplayToView(currentTab);
         }
 
         void Init()
         {
             Posts = new ObservableCollection<Post>();
             _allPosts = new List<Post>();
+            Actions = new List<string> { 
+                "Trạng thái tăng dần", "Trạng thái giảm dần",
+                "Thời gian tăng dần", "Thời gian giảm dần" };
+
             MessagingCenter.Subscribe<object, object>(this, "postme",
                   (sender, arg) =>
                   {
@@ -113,6 +153,7 @@ namespace xfLibrary.ViewModels
                       {
                           IsBusy = true;
                           _allPosts.Clear();
+                          Posts.Clear();
 
                           var postme = (IList<Post>)arg;
 
@@ -121,10 +162,10 @@ namespace xfLibrary.ViewModels
                               if (item.Order == null)
                                   item.Order = new ObservableCollection<Order>();
 
-                              _allPosts.Add(UpdateItemData(item));
+                              Posts.Add(UpdateItemData(item));
                           }
 
-                          InitCurrentTab();
+                          //InitCurrentTab();
                           IsBusy = false;
                       }
                   });
@@ -165,45 +206,28 @@ namespace xfLibrary.ViewModels
 
         Post UpdateItemData(Post post)
         {
-            if (post.Order.Count != 0)
-            {
-                var imgs = post.Order[0].Book.Imgs;
-                if (imgs != null && imgs.Count != 0)
-                {
-                    //update image source
-                    var url = Services.Api.BaseUrl + imgs?[0].FileName.Replace("\\", "/");
-                    post.ImageSource = url;
+            //update image
+            //if (post.Order.Count != 0)
+            //{
+            //    var imgs = post.Order[0].Book.Imgs;
+            //    if (imgs != null && imgs.Count != 0)
+            //    {
+            //        //update image source
+            //        var url = Services.Api.BaseUrl + imgs?[0].FileName.Replace("\\", "/");
+            //        post.ImageSource = url;
 
-                    //update slide
-                    post.Slide.Clear();
-                    foreach (var img in imgs)
-                    {
-                        post.Slide.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
-                    }
-                }
-            }
+            //        //update slide
+            //        post.Slide.Clear();
+            //        foreach (var img in imgs)
+            //        {
+            //            post.Slide.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+            //        }
+            //    }
+            //}
 
             //update color status
-            post.Color = Color(post.Status);
+            post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
             return post;
-        }
-
-        string Color(int status)
-        {
-            switch (status)
-            {
-                case 0: case 4: return "#32CD32";
-
-                case 2: return "#508ce8";
-
-                case 8: return "#FFA700";
-
-                case 16: return "#512BD4";
-
-                case 32: return "#ff424e";
-
-                default: return "#6E6E6E";
-            }
         }
     }
 }

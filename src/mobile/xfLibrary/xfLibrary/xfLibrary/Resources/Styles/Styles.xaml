@@ -19,6 +19,9 @@
     <converter:ListStringConverter x:Key="ListStringConverter" />
     <converter:StreamsToImageConverter x:Key="StreamsToImageConverter" />
     <converter:Base64ToImageConverter x:Key="Base64ToImageConverter" />
+    <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter" />
+    <converter:StatusToColorConverter x:Key="StatusToColorConverter" />
+    <converter:StatusToStringConverter x:Key="StatusToStringConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>

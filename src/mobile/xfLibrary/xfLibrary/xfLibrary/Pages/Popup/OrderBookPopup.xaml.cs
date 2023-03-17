@@ -77,9 +77,13 @@ namespace xfLibrary.Pages.Popup
 
         private void eNumber_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var num = int.Parse(((Editor)sender).Text);
-            Book b = (Book)((Editor)sender).BindingContext;
-            b.Number = num;
+            var control = (Editor)sender;
+            if(!string.IsNullOrEmpty(control.Text))
+            {
+                var num = int.Parse(control.Text);
+                Book b = (Book)control.BindingContext;
+                b.Number = num;
+            }    
         }
     }
 }

@@ -108,7 +108,7 @@
 
                                         <Grid ColumnDefinitions="*,*">
                                             <mdc:MaterialEntry LabelText="Số ngày cho thuê *" Keyboard="Numeric" Text="{Binding NewPost.NumberOfRentalDays}" MaxLength="50"/>
-                                            <mdc:MaterialEntry Grid.Column="1" LabelText="% Phí thêm *" Keyboard="Numeric" Text="{Binding NewPost.Fee}" MaxLength="3"/>
+                                            <mdc:MaterialEntry Grid.Column="1" LabelText="% Phí thêm *" Keyboard="Numeric" Text="{Binding NewPost.Fee}" MaxLength="2"/>
                                         </Grid>
                                         <Grid ColumnDefinitions="*, auto">
                                             <Grid RowDefinitions="4*,6*" RowSpacing="0" Margin="0,5,0,0">
