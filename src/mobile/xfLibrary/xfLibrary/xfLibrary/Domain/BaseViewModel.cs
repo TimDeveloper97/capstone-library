@@ -44,6 +44,7 @@ namespace xfLibrary.Domain
         #region Extend
         public static ChatApp.Models.User _user { get; set; }
         protected static string _token { get; set; }
+        protected static bool _isAdmin { get; set; } = false;
 
         protected IMessage _message = DependencyService.Get<IMessage>();
         protected IAccountService _accountService = DependencyService.Get<IAccountService>();

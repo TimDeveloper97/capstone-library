@@ -11,7 +11,7 @@ using xfLibrary.Pages;
 
 namespace xfLibrary.ViewModels
 {
-    class ReportViewModel : BaseViewModel
+    class PostViewModel : BaseViewModel
     {
         #region Properties
         private ObservableCollection<Post> posts;
@@ -69,7 +69,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand AddCommand => new Command(async () =>
         {
-            await Shell.Current.GoToAsync(nameof(AddPostView));
+            await Shell.Current.GoToAsync(nameof(DetailPostView));
         });
 
         public ICommand MenuCommand => new Command<XF.Material.Forms.Models.MaterialMenuResult>(async (index) =>
@@ -128,9 +128,29 @@ namespace xfLibrary.ViewModels
             await Shell.Current.GoToAsync(nameof(ChatView));
         });
 
+        public ICommand DeleteCommand => new Command<Post>(async (post) =>
+        {
+            var res = await _mainService.DeletePostAsync(post.Id, _token);
+            if (res.Success)
+                Posts.Remove(post);
+
+            _message.ShortAlert(res.Message);
+        });
+
+        public ICommand UpdateCommand => new Command<Post>(async (post) => await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
+            $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(post)}"));
+
+        public ICommand AcceptCommand => new Command<Post>(async (post) =>
+        {
+        });
+
+        public ICommand RefuseCommand => new Command<Post>(async (post) => {
+        
+        });
+
         #endregion
 
-        public ReportViewModel()
+        public PostViewModel()
         {
             Init();
             //ItemDisplayToView(currentTab);
@@ -224,6 +244,9 @@ namespace xfLibrary.ViewModels
             //        }
             //    }
             //}
+
+            //update admin
+            post.IsAdmin = _isAdmin;
 
             //update color status
             post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using xfLibrary.ViewModels;
@@ -11,12 +10,12 @@ using xfLibrary.ViewModels;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddPostView : ContentPage
+    public partial class PostView : ContentView
     {
-        public AddPostView()
+        public PostView()
         {
             InitializeComponent();
-            BindingContext = new AddPostViewModel();
+            BindingContext = new PostViewModel();
         }
     }
 }

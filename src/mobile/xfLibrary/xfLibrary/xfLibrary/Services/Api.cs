@@ -34,6 +34,11 @@ namespace xfLibrary.Services
         public const string GetPost = "posts";
         public const string GetPostMe = "posts/me";
         public const string AddPost = "posts/add"; 
+        public const string UpdatePost = "posts/update"; 
+        public const string DeletePost = "posts/delete"; 
+
+        public const string Admin = "ROLE_ADMIN"; 
+        public const string User = "ROLE_USER"; 
 
         public static string[] Maps = new string[] {
             "102 P. Phạm Ngọc Thạch, Kim Liên, Đống Đa, Hà Nội",

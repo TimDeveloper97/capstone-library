@@ -42,5 +42,17 @@ namespace xfLibrary.Services.Main
             var res = await Service.Post(obj, Api.AddPost, _token);
             return res;
         }
+
+        public async Task<Response> DeletePostAsync(string id, string token)
+        {
+            var res = await Service.Delete(id, Api.DeletePost, token);
+            return res;
+        }
+
+        public async Task<Response> UpdatePostAsync(object obj, string token)
+        {
+            var res = await Service.Put(obj, Api.UpdatePost, token);
+            return res;
+        }
     }
 }

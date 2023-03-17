@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Extensions;
@@ -59,8 +60,9 @@ namespace xfLibrary.ViewModels
             {
                 _token = res.Token;
                 _user = user;
+                _isAdmin = user.Roles.Any(x => x == Services.Api.Admin);
 
-                if(IsRemember)
+                if (IsRemember)
                 {
                     Preferences.Set("email", Email);
                     Preferences.Set("password", Password);

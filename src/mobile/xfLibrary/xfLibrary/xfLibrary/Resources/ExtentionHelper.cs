@@ -46,13 +46,15 @@ namespace xfLibrary.Resources
         {
             switch (status)
             {
-                case 0: case 4: return "#DF2E38"; 
+                case 0: return "#DF2E38";
 
-                case 2: return "#D27685";
+                case 2: return "#FFB84C";
+                
+                case 4: return "#5D9C59";
 
-                case 8: return "#9E4784";
+                case 8: return "#62CDFF";
 
-                case 16: return "#66347F";
+                case 16: return "#A459D1";
 
                 case 32: return "#37306B";
 

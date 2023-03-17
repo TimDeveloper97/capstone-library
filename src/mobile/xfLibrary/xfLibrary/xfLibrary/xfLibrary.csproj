@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Pages\AddPostView.xaml.cs">
-      <DependentUpon>AddPostView.xaml</DependentUpon>
+    <Compile Update="Pages\DetailPostView.xaml.cs">
+      <DependentUpon>DetailPostView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\DetailBookView.xaml.cs">
       <DependentUpon>DetailBookView.xaml</DependentUpon>
@@ -45,8 +45,8 @@
     <Compile Update="Pages\Popup\DetailPostPopup.xaml.cs">
       <DependentUpon>DetailPostPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Pages\ReportView.xaml.cs">
-      <DependentUpon>ReportView.xaml</DependentUpon>
+    <Compile Update="Pages\PostView.xaml.cs">
+      <DependentUpon>PostView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Resources\Languages\LanguageReource.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -71,7 +71,7 @@
     <EmbeddedResource Update="Pages\AccountView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddPostView.xaml">
+    <EmbeddedResource Update="Pages\DetailPostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\DetailBookView.xaml">
@@ -110,7 +110,7 @@
     <EmbeddedResource Update="Pages\Popup\ProfilePopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\ReportView.xaml">
+    <EmbeddedResource Update="Pages\PostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\NotificationView.xaml">

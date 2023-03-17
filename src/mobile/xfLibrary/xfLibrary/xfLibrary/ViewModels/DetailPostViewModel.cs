@@ -14,21 +14,63 @@ using xfLibrary.Pages.Popup;
 
 namespace xfLibrary.ViewModels
 {
-    class AddPostViewModel : BaseViewModel
+    [QueryProperty(nameof(ParameterPost), nameof(ParameterPost))]
+    class DetailPostViewModel : BaseViewModel
     {
         #region Property
+        private string parameterPost;
         private ObservableCollection<string> slides;
         private List<Book> selectedBooks;
         private Post newPost;
+        private bool isUpdate = false;
         int selected = -1;
 
         public ObservableCollection<string> Slides { get => slides; set => SetProperty(ref slides, value); }
         public Post NewPost { get => newPost; set => SetProperty(ref newPost, value); }
+        public string ParameterPost
+        {
+            get => parameterPost;
+            set
+            {
+                parameterPost = Uri.UnescapeDataString(value ?? string.Empty);
+                SetProperty(ref parameterPost, value);
+
+                NewPost = Newtonsoft.Json.JsonConvert.DeserializeObject<Post>(parameterPost);
+                isUpdate = true;
+            }
+        }
         #endregion
 
         #region Command 
         public ICommand PageAppearingCommand => new Command(async () => {
 
+            if (isUpdate)
+            {
+                Title = "Sửa thông tin bài";
+
+                //slide image
+                var order = NewPost.Order;
+                if (order == null || order.Count == 0) return;
+
+                foreach (var item in order)
+                {
+                    var imgs = item.Book.Imgs;
+
+                    if (imgs != null && imgs.Count != 0)
+                    {
+                        foreach (var img in imgs)
+                        {
+                            Slides.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                        }
+                    }
+                    else
+                        Slides.Add(item.Book.ImageSource);
+                }
+            }
+            else
+            {
+                Title = "Tạo thông tin bài";
+            }
         });
         public ICommand BookCommand => new Command(async () =>
         {
@@ -64,7 +106,6 @@ namespace xfLibrary.ViewModels
                 }
             }
         });
-
         public ICommand PostCommand => new Command(async () => {
             if(string.IsNullOrEmpty(NewPost.Address) || string.IsNullOrEmpty(NewPost.Content) 
             || NewPost.NumberOfRentalDays == 0 || NewPost.Fee == 0)
@@ -85,10 +126,12 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
-            var res = await _mainService.AddPostMeAsync(NewPost, _token);
+            Response res;
+            if (isUpdate) res = await _mainService.UpdatePostAsync(NewPost, _token);
+            else res = await _mainService.AddPostMeAsync(NewPost, _token);
+
             if (res.Success)
                 BackCommand.Execute(null);
-
             _message.ShortAlert(res.Message);
         });
         public ICommand AddressCommand => new Command(async () => {
@@ -99,7 +142,7 @@ namespace xfLibrary.ViewModels
         });
         #endregion
 
-        public AddPostViewModel()
+        public DetailPostViewModel()
         {
             Init();
         }

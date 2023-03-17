@@ -58,6 +58,8 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public string Color { get; set; } = "#00000";
         [JsonIgnore]
+        public bool IsAdmin { get; set; } = false;
+        [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); } 
         
 
