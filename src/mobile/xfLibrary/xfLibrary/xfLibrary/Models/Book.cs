@@ -43,7 +43,9 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public double PreTotal { get; set; } = 0;
         [JsonIgnore]
-        public ImageSource ImageSource { get; set; }
+        public int Number { get; set; } = 0;
+        [JsonIgnore]
+        public string ImageSource { get; set; } = "book100.png";
         [JsonIgnore]
         public string StringCategories { get; set; }
     }

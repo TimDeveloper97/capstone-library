@@ -41,5 +41,41 @@ namespace xfLibrary.Resources
 
             return objImageSource;
         }
+
+        public static string StatusToColor(int status)
+        {
+            switch (status)
+            {
+                case 0: return "#DF2E38";
+
+                case 2: return "#FFB84C";
+                
+                case 4: return "#5D9C59";
+
+                case 8: return "#62CDFF";
+
+                case 16: return "#A459D1";
+
+                case 32: return "#37306B";
+
+                default: return "#4D4D4D";
+            }
+        }
+
+        public static string StatusToString(int status)
+        {
+            switch (status)
+            {
+                case 0: return "Admin";
+                case 2: return "Non Approved";
+                case 4: return "Approved";
+
+                case 8: return "Non Commission";
+                case 16: return "Commission";
+
+                case 32: return "Refuse";
+                default: return "Non";
+            }
+        }
     }
 }

@@ -10,5 +10,10 @@ namespace xfLibrary.Services.Main
     public interface IMainService
     {
         Task<List<Category>> CategoryAsync();
+        Task<List<Post>> GetAllPostAsync();
+        Task<List<Post>> GetAllPostMeAsync(string _token);
+        Task<Response> AddPostMeAsync(object obj, string _token);
+        Task<Response> DeletePostAsync(string id, string token);
+        Task<Response> UpdatePostAsync(object obj, string token);
     }
 }

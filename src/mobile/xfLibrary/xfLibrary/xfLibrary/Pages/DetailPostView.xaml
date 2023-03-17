@@ -16,7 +16,7 @@
              xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.AddPostView">
+             x:Class="xfLibrary.Pages.DetailPostView">
     <ContentPage.Resources>
 
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
@@ -55,7 +55,7 @@
         <ScrollView>
             <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
                 <!--#region Navigator -->
-                <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
+                <Grid ColumnDefinitions="auto, *, auto, 80" BackgroundColor="{StaticResource AppColor}">
                     <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
                            Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="10"
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
@@ -67,7 +67,7 @@
                         </Label>
                     </Frame>
 
-                    <Label Grid.Row="1" Text="Mẫu gửi sách" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                    <Label Grid.Row="1" Text="{Binding Title}" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
                            HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
 
                     <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
@@ -103,18 +103,18 @@
                             <Frame>
                                 <StackLayout Padding="10,5,10,15" Spacing="0">
                                     <StackLayout Margin="20,0">
-                                        <mdc:MaterialEntry LabelText="Tiêu đề *" Text="{Binding Book.Name}"/>
-                                        <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Book.Description}"/>
+                                        <!--<mdc:MaterialEntry LabelText="Tiêu đề *" Text="{Binding NewPost.Title}" IsVisible="false"/>-->
+                                        <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding NewPost.Content}"/>
 
                                         <Grid ColumnDefinitions="*,*">
-                                            <mdc:MaterialEntry LabelText="Số ngày cho thuê *" Keyboard="Numeric" Text="{Binding Book.Quantity}"/>
-                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Phí thêm *" Keyboard="Numeric" Text="{Binding Book.Price}"/>
+                                            <mdc:MaterialEntry LabelText="Số ngày cho thuê *" Keyboard="Numeric" Text="{Binding NewPost.NumberOfRentalDays}" MaxLength="50"/>
+                                            <mdc:MaterialEntry Grid.Column="1" LabelText="% Phí thêm *" Keyboard="Numeric" Text="{Binding NewPost.Fee}" MaxLength="2"/>
                                         </Grid>
                                         <Grid ColumnDefinitions="*, auto">
                                             <Grid RowDefinitions="4*,6*" RowSpacing="0" Margin="0,5,0,0">
                                                 <Label Text="Nơi ký gửi *" Style="{StaticResource SubTitleGrayLabelStyle}" HorizontalOptions="Start"/>
                                                 <Frame Grid.Row="1" HeightRequest="35">
-                                                    <Label Style="{StaticResource SubTitleLabelStyle}" LineBreakMode="TailTruncation" Text="{Binding List, Converter={StaticResource ListStringConverter}}"
+                                                    <Label Style="{StaticResource SubTitleLabelStyle}" LineBreakMode="TailTruncation" Text="{Binding NewPost.Address}"
                                                            VerticalOptions="Center" Margin="10,0" HorizontalTextAlignment="Start"/>
                                                 </Frame>
                                             </Grid>
@@ -122,7 +122,7 @@
                                                     Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="5,2"
                                                     VerticalOptions="End" BackgroundColor="{StaticResource AppColor}" >
                                                 <Label Style="{StaticResource IconLabel}" FontSize="20" Text="{Static icon:FontIcons.MapMarker}"
-                                                    VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                                                        VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
                                                 <Frame.GestureRecognizers>
                                                     <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.AddressCommand, Source={x:Reference Name=self}}"/>
                                                 </Frame.GestureRecognizers>
@@ -140,7 +140,7 @@
                                 <DataTemplate>
                                     <ContentView>
                                         <Frame Style="{StaticResource FrameShadow}">
-                                            <Image Source="{Binding Converter={StaticResource StreamsToImageConverter}}" Aspect="Fill"/>
+                                            <Image Source="{Binding}" Aspect="Fill"/>
                                         </Frame>
                                     </ContentView>
                                 </DataTemplate>

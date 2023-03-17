@@ -58,6 +58,7 @@ namespace xfLibrary.ViewModels
                   (sender, arg) =>
                   {
                       IsVisible = arg;
+                      OnPropertyChanged("IsVisible");
 
                       Profile = _user;
                   });

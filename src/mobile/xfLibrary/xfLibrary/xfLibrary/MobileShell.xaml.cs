@@ -36,7 +36,7 @@ namespace xfLibrary
             Routing.RegisterRoute(nameof(LoginView), typeof(LoginView));
             Routing.RegisterRoute(nameof(ChatView), typeof(ChatView));
             Routing.RegisterRoute(nameof(FeedbackPopup), typeof(FeedbackPopup));
-            Routing.RegisterRoute(nameof(AddPostView), typeof(AddPostView));
+            Routing.RegisterRoute(nameof(DetailPostView), typeof(DetailPostView));
             Routing.RegisterRoute(nameof(BookView), typeof(BookView));
             Routing.RegisterRoute(nameof(DetailBookView), typeof(DetailBookView));
             Routing.RegisterRoute(nameof(ChatDetailView), typeof(ChatDetailView));

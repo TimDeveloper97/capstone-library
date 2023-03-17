@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "e5f4b739-8aca-4690-9ab6-e45442d06b8b",
+		"name": "Post",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8651712"
+	},
+	"item": [
+		{
+			"name": "Get by id - post/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzb24iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjc5MzA1NzYxfQ.TthR5DVUaer8mmsmd8RIUz_DKbJYzuADVTPVDmMnNiVgIhH7G8BH-EtS0uLGy9--y3v7btvekkRKT6vNwr4CCA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8090/api/posts/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update - posts/update/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzb24iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjc5Mjk2MzAwfQ.CcrHOKPh-h9HK2rb7aoA4VooKHERFb32HlkM1YWlCpOQAlB-yTZsjiP7lOXfAUytN-XlpMETPkcvt79CKuzl6A",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 3,\r\n    \"title\": \"[Cho thuê] Truyen\",\r\n    \"address\": \"Ha noi\",\r\n    \"content\": \"Dế mèn phưu lưu ký\",\r\n    \"status\": 4,\r\n    \"manager\": \"admin\",\r\n    \"user\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/api/posts/update",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"posts",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get - All admin posts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8090/api/posts",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get - All user posts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzb24iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjc5NDQ5NjY2fQ.kvW1qpopuhoruT9ji5sJhrbhqr5yEvSgCEa9zCfxZNhYOcjBZsphKITFv7-wpNtm6yCJfuFlOj06ZhWjPFuAJw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8888/api/posts/me",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"api",
+						"posts",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get - All user request",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUixST0xFX01BTkFHRVJfUE9TVCxST0xFX01BTkFHRVJfTUVNQkVSLFJPTEVfTUFOQUdFUl9SRVBPUlQiLCJleHAiOjE2Nzk0NTQ0NjF9.3j-hqJQWkh6lJSIZ4rmmAHIDU8PoGA10i8M0SYPMQj_yymsRhCRCaDmcN9B8_gtuiZyuLZfH5nB6A4TLXcTRRg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8888/api/posts/request",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"api",
+						"posts",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post - Add post",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzb24iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjc5Mjk5NDYxfQ.hoRtWjWFy3dkIK4KYgZKo2363_3FvN6o77GSpsueafSaqv2kRlc_Fs1pDwgYLvYx84o2MoLfOD2y3liH3MiuWQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"[Cho thuê] Sách 3\",\r\n    \"content\": \"Dế mèn phưu lưu ký\",\r\n    \"address\": \"Nha sach Tri Tue\",\r\n    \"noDays\":\"14\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/api/posts/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"posts",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post - Accept post",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "bookImage",
+							"type": "file",
+							"src": "/C:/Users/son-28f/Pictures/demen_phuuluuky.jpeg"
+						},
+						{
+							"key": "publisher",
+							"value": "NXB Kim Đồng",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Truyền thuyết “Thánh Gióng” kể về một cậu bé làng Gióng",
+							"type": "text"
+						},
+						{
+							"key": "publishYear",
+							"value": "2000",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Truyện cổ tích Thánh Gióng",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "10.0",
+							"type": "text"
+						},
+						{
+							"key": "quantity",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "author",
+							"value": "Khuyết danh",
+							"type": "text"
+						},
+						{
+							"key": "categories",
+							"value": "truyen,thieunhi",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8090/api/posts/accept-post/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"posts",
+						"accept-post",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

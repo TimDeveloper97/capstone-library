@@ -7,6 +7,7 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             x:DataType="vm:MainViewModel"
              Shell.NavBarIsVisible="False"
              FixedMode="False"
              x:Name="self"
@@ -44,7 +45,7 @@
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar1" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar1}}"/>
-            <pages:ReportView Margin="0,-7" Grid.Row="1" IsVisible="{Binding IsVisible, Source={x:Reference self}}"/>
+            <pages:PostView Margin="0,-7" Grid.Row="1" IsVisible="{Binding BindingContext.IsVisible, Source={x:Reference self}}"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
                                            IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
@@ -65,7 +66,7 @@
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar3" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar3}}"/>
-            <pages:NotificationView Margin="0,-7" Grid.Row="1"/>
+            <pages:NotificationView Margin="0,-7" Grid.Row="1" IsVisible="{Binding BindingContext.IsVisible, Source={x:Reference self}}"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
                                            IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"

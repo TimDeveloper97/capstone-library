@@ -34,7 +34,8 @@ namespace xfLibrary.Pages.Popup
 
         private void okBtn_Clicked(object sender, EventArgs e)
         {
-            Dismiss(null);
+            var lBookChecked = Books.Where(x => x.IsChecked).ToList();
+            Dismiss(new ListBook { Books = new ObservableCollection<Book>(lBookChecked) });
         }
 
         private void cancelBtn_Clicked(object sender, EventArgs e)
@@ -58,23 +59,13 @@ namespace xfLibrary.Pages.Popup
             }
         }
 
-        private void lv_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-
-        }
-
-        private void lv_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-
-        }
-
         private void lsum_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             var b = (Book)((Label)sender).BindingContext;
             var x = (sender as Label).Text;
 
             if (b != null && !string.IsNullOrEmpty(x))
-                b.PreTotal = double.Parse(x.Replace(".",""));
+                b.PreTotal = double.Parse(x.Replace(".", ""));
         }
 
         private void lDeposit_TextChanged(object sender, TextChangedEventArgs e)
@@ -82,6 +73,17 @@ namespace xfLibrary.Pages.Popup
             var total = _sum + double.Parse(lDeposit.Text);
 
             lSum.Text = total.ToString("#,###", cul.NumberFormat) + "VND";
+        }
+
+        private void eNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var control = (Editor)sender;
+            if(!string.IsNullOrEmpty(control.Text))
+            {
+                var num = int.Parse(control.Text);
+                Book b = (Book)control.BindingContext;
+                b.Number = num;
+            }    
         }
     }
 }

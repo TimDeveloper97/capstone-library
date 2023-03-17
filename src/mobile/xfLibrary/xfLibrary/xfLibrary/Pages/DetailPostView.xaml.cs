@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using xfLibrary.ViewModels;
@@ -10,12 +11,12 @@ using xfLibrary.ViewModels;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ReportView : ContentView
+    public partial class DetailPostView : ContentPage
     {
-        public ReportView()
+        public DetailPostView()
         {
             InitializeComponent();
-            BindingContext = new ReportViewModel();
+            BindingContext = new DetailPostViewModel();
         }
     }
 }

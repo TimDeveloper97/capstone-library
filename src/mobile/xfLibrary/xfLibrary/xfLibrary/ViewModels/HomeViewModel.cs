@@ -35,11 +35,6 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-        public ICommand LoadNewFeedCommand => new Command(() =>
-        {
-            IsBusy = true;
-            IsBusy = false;
-        });
 
         public ICommand PreviousCommand => new Command(() =>
         {
@@ -49,9 +44,7 @@ namespace xfLibrary.ViewModels
             var min = l < 0 ? 0 : l;
             for (int i = min; i < r; i++)
             {
-                var item = _allPosts[i];
-                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
-                Posts.Add(item);
+                Posts.Add(_allPosts[i]);
             }
 
             currentTab--;
@@ -66,16 +59,14 @@ namespace xfLibrary.ViewModels
             var max = l > r ? r : l;
             for (int i = numberItemDisplay * currentTab; i < max; i++)
             {
-                var item = _allPosts[i];
-                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
-                Posts.Add(item);
+                Posts.Add(_allPosts[i]);
             }
 
             currentTab++;
             ItemDisplayToView(currentTab);
         });
 
-        public ICommand SelectedRecentItemCommand => new Command<Post>(async (post) =>
+        public ICommand SelectedCommand => new Command<Post>(async (post) =>
         {
             var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
         });
@@ -84,15 +75,14 @@ namespace xfLibrary.ViewModels
         public HomeViewModel()
         {
             Init();
-            FakeData();
-            InitCurrentTab();
             ItemDisplayToView(currentTab);
         }
 
         #region Method
         void Init()
         {
-            Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg", "slide5.jpg", "slide6.jpg" };
+            Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg", "slide5.jpg", "slide6.jpg",
+            "slide7.jpeg", "slide8.jpg", "slide9.jpg", "slide10.png"};
             _allPosts = new List<Post>();
             Category = new ObservableCollection<Category>();
             Posts = new ObservableCollection<Post>();
@@ -115,28 +105,40 @@ namespace xfLibrary.ViewModels
                           }
                       }
                   });
+
+            MessagingCenter.Subscribe<object, object>(this, "post",
+                  (sender, arg) =>
+                  {
+                      if (arg == null)
+                          _message.ShortAlert("Mất kết nối internet.");
+                      else
+                      {
+                          _allPosts.Clear();
+                          var post = (IList<Post>)arg;
+
+                          foreach (var item in post)
+                          {
+                              if (item.Order == null)
+                                  item.Order = new ObservableCollection<Order>();
+
+                              _allPosts.Add(UpdateItemData(item));
+                          }
+
+                          InitCurrentTab();
+                      }
+                  });
         }
 
-        void FakeData()
+        void InitCurrentTab()
         {
-            for (int i = 0; i < 2; i++)
+            Posts.Clear();
+            var r = numberItemDisplay * currentTab;
+            var l = _allPosts.Count();
+            
+            var max = l > r ? r : l;
+            for (int i = 0; i < max; i++)
             {
-                _allPosts.Add(new Post
-                {
-                    Title = "[Cho thuê] Truyện tuổi thơ",
-                    Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                    "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
-                    Imgs = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg" },
-                    CreatedDate = new DateTime(2023, 3, 3),
-                    ReturnDate = new DateTime(2023, 4, 4),
-                    Books = new ObservableCollection<Book>
-                    {
-                        new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                        "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                        new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                        "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" }
-                    }
-                });
+                Posts.Add(_allPosts[i]);
             }
         }
 
@@ -145,7 +147,12 @@ namespace xfLibrary.ViewModels
             int maxPage = (_allPosts.Count / numberItemDisplay) + 1;
 
             //show or hide next previous
-            if(current == 1)
+            if(maxPage == 1)
+            {
+                IsNext = false;
+                IsPrevious = false;
+            }
+            else if (current == 1)
             {
                 IsNext = true;
                 IsPrevious = false;
@@ -162,17 +169,24 @@ namespace xfLibrary.ViewModels
             }
         }
 
-        void InitCurrentTab()
+        Post UpdateItemData(Post post)
         {
-            var r = numberItemDisplay * currentTab;
-            var l = _allPosts.Count();
-            var max = l > r ? r : l;
-            for (int i = 0; i < max; i++)
+            if (post.Order.Count != 0)
             {
-                var item = _allPosts[i];
-                item.ImageSource = Resources.ExtentionHelper.Base64ToImage(Services.Api.Base64Image);
-                Posts.Add(item);
+                var imgs = post.Order[0].Book.Imgs;
+                if (imgs != null && imgs.Count != 0)
+                {
+                    var url = Services.Api.BaseUrl + imgs?[0].FileName.Replace("\\", "/");
+                    post.ImageSource = url;
+
+                    post.Slide.Clear();
+                    foreach (var img in imgs)
+                    {
+                        post.Slide.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                    }
+                }
             }
+            return post;
         }
         #endregion
     }

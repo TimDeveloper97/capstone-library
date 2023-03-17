@@ -13,6 +13,7 @@ namespace xfLibrary.ViewModels
         #region Properties
         private bool isSearching;
         private ObservableCollection<string> suggests;
+        private bool isExcuteAppearing = true, isExcuteDisappearing = true;
 
         public bool IsSearching { get => isSearching; set => SetProperty(ref isSearching, value); }
         public ObservableCollection<string> Suggests { get => suggests; set => SetProperty(ref suggests, value); }
@@ -47,55 +48,113 @@ namespace xfLibrary.ViewModels
 
         public MainViewModel()
         {
+
         }
 
         #region Appearing
         public ICommand PageHomeAppearingCommand => new Command(async () =>
         {
-            var category = await _mainService.CategoryAsync();
+            Appearing(async () =>
+            {
+                var category = await _mainService.CategoryAsync();
+                var post = await _mainService.GetAllPostAsync();
 
-            MessagingCenter.Send<object, object>(this, "category", category);
+                MessagingCenter.Send<object, object>(this, "category", category);
+                MessagingCenter.Send<object, object>(this, "post", post);
+            });
+
         });
 
         public ICommand PagePostAppearingCommand => new Command(async () =>
         {
-            await MoveToLogin(() =>
-            { });
+            Appearing(async () =>
+            {
+                await MoveToLogin(async () =>
+                {
+                    var postme = await _mainService.GetAllPostMeAsync(_token);
+                    MessagingCenter.Send<object, object>(this, "postme", postme);
+                    IsVisible = HasLogin();
+                });
+            });
+
+            IsVisible = HasLogin();
+            if (IsVisible)
+            {
+                var postme = await _mainService.GetAllPostMeAsync(_token);
+                MessagingCenter.Send<object, object>(this, "postme", postme);
+            }
         });
 
         public ICommand PageNotificationAppearingCommand => new Command(async () =>
         {
-            await MoveToLogin(() =>
-            { MessagingCenter.Send<object, string>(this, "Hi", "Notification View"); });
+            Appearing(() => { });
+
+            IsVisible = HasLogin();
         });
 
         public ICommand PageAccountAppearingCommand => new Command(() =>
         {
-            MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin());
+            Appearing(() =>
+            MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin()));
+
+            if (HasLogin())
+                MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin());
         });
-       
+
         #endregion
 
 
         #region MyRegion 
         public ICommand PageHomeDisappearingCommand => new Command(() =>
         {
-            MessagingCenter.Unsubscribe<object, object>(this, "category");
+            Disappearing(() =>
+            {
+                MessagingCenter.Unsubscribe<object, object>(this, "category");
+                MessagingCenter.Unsubscribe<object, object>(this, "post");
+            });
         });
 
         public ICommand PagePostDisappearingCommand => new Command(() =>
         {
+            Disappearing(() =>
+            {
+                MessagingCenter.Unsubscribe<object, object>(this, "postme");
+            });
         });
 
         public ICommand PageNotificationDisappearingCommand => new Command(() =>
         {
-            
+            Disappearing(() => { });
         });
         public ICommand PageAccountDisappearingCommand => new Command(() =>
         {
-            MessagingCenter.Unsubscribe<object, bool>(this, "haslogin");
+            Disappearing(() => 
+            MessagingCenter.Unsubscribe<object, bool>(this, "haslogin"));
         });
 
+        void Disappearing(Action action)
+        {
+            if (isExcuteDisappearing)
+            {
+                isExcuteDisappearing = !isExcuteDisappearing;
+
+                action.Invoke();
+            }
+            else
+                isExcuteDisappearing = !isExcuteDisappearing;
+        }
+
+        void Appearing(Action action)
+        {
+            if (isExcuteAppearing)
+            {
+                isExcuteAppearing = !isExcuteAppearing;
+
+                action.Invoke();
+            }
+            else
+                isExcuteAppearing = !isExcuteAppearing;
+        }
         #endregion
     }
 }
