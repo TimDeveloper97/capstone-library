@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:xfLibrary.Models"
              x:Name="seft"
              x:Class="xfLibrary.Views.SearchBarSuggestionView">
   <ContentView.Content>
@@ -8,22 +9,28 @@
         <Grid ColumnDefinitions="51, *, 4" Margin="0,-2,0,0"
               IsVisible="{Binding IsSearching, Source={x:Reference seft}}" 
               BackgroundColor="Transparent" >
-            <CollectionView Grid.Column="1" ItemsSource="{Binding ItemsSource, Source={x:Reference seft}}"
-                            SelectedItem="{Binding SelectItem, Source={x:Reference seft}}">
+            <CollectionView x:Name="cv" Grid.Column="1" ItemsSource="{Binding ItemsSource, Source={x:Reference seft}}" SelectedItem="{Binding SelectItem}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="50, *" Padding="5,10">
-                            <Image Source="{Binding}"/>
+                            <Image Source="{Binding ImageSource}"/>
                             <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                <Label Text="{Binding}" Style="{StaticResource SubHeaderLabelStyle}" VerticalOptions="End" Margin="0,0,0,-10"/>
-                                <Label Grid.Row="1" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" 
-                                               HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5"/>
-                                <Label Grid.Row="2" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
-                                               TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
-                                               HorizontalOptions="Start" VerticalOptions="Start" FontFamily="MuliBold"/>
+                                <Label Text="{Binding Title}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                                       Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
+                                <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="2,0,0,-5">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding User}"/>
+                                            <Span Text="{Binding NumberOfRentalDays, StringFormat=' ({0} ngày)'}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="2" Text="{Binding Content}" Style="{StaticResource MiniLabelStyle}" Margin="0,-4,0,0"
+                                                   HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation"/>
                             </Grid>
                             <Grid.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectedCommand, Source={x:Reference seft}}"/>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectedCommand, Source={x:Reference seft}}" 
+                                                      CommandParameter="{Binding .}"/>
                             </Grid.GestureRecognizers>
                         </Grid>
                     </DataTemplate>

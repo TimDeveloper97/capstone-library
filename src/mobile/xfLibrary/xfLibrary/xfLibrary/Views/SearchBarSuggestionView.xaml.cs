@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using xfLibrary.Models;
 
 namespace xfLibrary.Views
 {
@@ -28,20 +29,20 @@ namespace xfLibrary.Views
         }
 
         public static readonly BindableProperty ItemsSourceProperty =
-                BindableProperty.Create("ItemsSource", typeof(ObservableCollection<string>), typeof(SearchBarSuggestionView));
+                BindableProperty.Create("ItemsSource", typeof(ObservableCollection<Post>), typeof(SearchBarSuggestionView));
 
-        public ObservableCollection<string> ItemsSource
+        public ObservableCollection<Post> ItemsSource
         {
-            get { return (ObservableCollection<string>)GetValue(ItemsSourceProperty); }
+            get { return (ObservableCollection<Post>)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
         public static readonly BindableProperty SelectItemProperty =
-        BindableProperty.Create("SelectItem", typeof(string), typeof(SearchBarSuggestionView), default(string));
+        BindableProperty.Create("SelectItem", typeof(Post), typeof(SearchBarSuggestionView), default(Post));
 
-        public string SelectItem
+        public Post SelectItem
         {
-            get { return (string)GetValue(SelectItemProperty); }
+            get { return (Post)GetValue(SelectItemProperty); }
             set { SetValue(SelectItemProperty, value); }
         }
 
@@ -51,6 +52,14 @@ namespace xfLibrary.Views
         {
             get => (ICommand)GetValue(SelectedCommandProperty);
             set => SetValue(SelectedCommandProperty, value);
+        }
+
+        public static readonly BindableProperty SelectedCommandParameterProperty =
+            BindableProperty.Create(nameof(SelectedCommandParameter), typeof(Post), typeof(SearchBarSuggestionView), default(Post));
+        public Post SelectedCommandParameter
+        {
+            get => (Post)GetValue(SelectedCommandParameterProperty);
+            set => SetValue(SelectedCommandParameterProperty, value);
         }
     }
 }
