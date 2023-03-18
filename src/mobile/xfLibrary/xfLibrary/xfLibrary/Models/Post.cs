@@ -27,17 +27,17 @@ namespace xfLibrary.Models
         [JsonProperty("modifiedDate")]
         public long? ModifiedDate { get; set; }
 
-        [JsonProperty("status")] 
+        [JsonProperty("status")]
         public int Status { get; set; }
 
         [JsonProperty("fee")]
-        public double Fee { get; set; } = 0;
+        public int Fee { get; set; } = 0;
 
         [JsonProperty("noDays")]
         public int NumberOfRentalDays { get; set; } = 0;
 
         [JsonProperty("user")]
-        public string User { get; set; }
+        public string User { get; set; } = "Anonymous";
 
         [JsonProperty("postDetailDtos")]
         public ObservableCollection<Order> Order { get; set; }
@@ -45,10 +45,13 @@ namespace xfLibrary.Models
         [JsonProperty("address")]
         public string Address { get => address; set => SetProperty(ref address, value); }
 
+        [JsonProperty("money")]
+        public int Money { get; set; }
+
 
         private int maxLines = 3;
-        [JsonIgnore]
-        public int TotalCreateDay { get; set; }
+        private bool isChecked = false;
+
         [JsonIgnore]
         public ObservableCollection<string> Slide { get; set; }
         [JsonIgnore]
@@ -60,8 +63,13 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public bool IsAdmin { get; set; } = false;
         [JsonIgnore]
-        public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); } 
-        
+        public bool IsChecked
+        {
+            get => isChecked; set => SetProperty(ref isChecked, value);
+        }
+        [JsonIgnore]
+        public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }
+
 
         public Post()
         {

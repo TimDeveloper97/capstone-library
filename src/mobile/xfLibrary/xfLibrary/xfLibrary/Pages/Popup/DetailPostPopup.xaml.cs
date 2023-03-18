@@ -34,7 +34,7 @@ namespace xfLibrary.Pages.Popup
 
             #region infor
             content.Text = "    " + _model.Content + "\n\n🗺 " + _model.Address;
-            lUser.Text = _model.User ?? "Anonymous";
+            lUser.Text = _model.User;
             #endregion
 
             content.MaxLines = _model.MaxLines;
