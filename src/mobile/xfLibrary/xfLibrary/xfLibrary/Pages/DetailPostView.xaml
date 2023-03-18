@@ -18,9 +18,8 @@
              
              x:Class="xfLibrary.Pages.DetailPostView">
     <ContentPage.Resources>
-
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
-            <Setter Property="Color" Value="White" />
+            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
             <Setter Property="HeightRequest" Value="30" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
