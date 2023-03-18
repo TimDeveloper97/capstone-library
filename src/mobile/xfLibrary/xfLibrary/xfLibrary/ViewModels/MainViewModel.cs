@@ -17,7 +17,7 @@ namespace xfLibrary.ViewModels
         private bool isSearching;
         private ObservableCollection<Post> suggests;
         private int height = 70;
-        private bool isExcuteAppearing = true, isExcuteDisappearing = true;
+        private bool isExecuteAppearing = true, isExecuteDisappearing = true, isExecuteOne = true;
 
         public bool IsSearching { get => isSearching; set => SetProperty(ref isSearching, value); }
         public int Height { get => height; set => SetProperty(ref height, value); }
@@ -111,29 +111,17 @@ namespace xfLibrary.ViewModels
                     IsVisible = HasLogin();
                 });
             });
-
-            IsVisible = HasLogin();
-            if (IsVisible)
-            {
-                var postme = await _mainService.GetAllPostMeAsync(_token);
-                MessagingCenter.Send<object, object>(this, "postme", postme);
-            }
         });
 
         public ICommand PageNotificationAppearingCommand => new Command(async () =>
         {
             Appearing(() => { });
-
-            IsVisible = HasLogin();
         });
 
         public ICommand PageAccountAppearingCommand => new Command(() =>
         {
             Appearing(() =>
             MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin()));
-
-            if (HasLogin())
-                MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin());
         });
 
         #endregion
@@ -169,27 +157,32 @@ namespace xfLibrary.ViewModels
 
         void Disappearing(Action action)
         {
-            if (isExcuteDisappearing)
+            if (isExecuteDisappearing)
             {
-                isExcuteDisappearing = !isExcuteDisappearing;
-
+                isExecuteDisappearing = !isExecuteDisappearing;
                 action.Invoke();
             }
             else
-                isExcuteDisappearing = !isExcuteDisappearing;
+                isExecuteDisappearing = !isExecuteDisappearing;
         }
 
         void Appearing(Action action)
         {
             IsSearching = false;
-            if (isExcuteAppearing)
+            
+            if (isExecuteAppearing)
             {
-                isExcuteAppearing = !isExcuteAppearing;
-
+                isExecuteAppearing = !isExecuteAppearing;
                 action.Invoke();
             }
-            else
-                isExcuteAppearing = !isExcuteAppearing;
+            else if (HasLogin() && isExecuteOne)
+            {
+                IsVisible = HasLogin();
+                isExecuteOne = !isExecuteOne;
+                action.Invoke();
+            }
+            else if(!isExecuteAppearing)
+                isExecuteAppearing = !isExecuteAppearing;
         }
         #endregion
     }

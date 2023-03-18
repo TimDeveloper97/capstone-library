@@ -167,13 +167,14 @@ namespace xfLibrary.ViewModels
             MessagingCenter.Subscribe<object, object>(this, "postme",
                   (sender, arg) =>
                   {
+                      _allPosts.Clear();
+                      Posts.Clear();
+
                       if (arg == null)
-                          _message.ShortAlert("Mất kết nối internet.");
+                          _message.ShortAlert("Kết nối bị gián đoạn");
                       else
                       {
                           IsBusy = true;
-                          _allPosts.Clear();
-                          Posts.Clear();
 
                           var postme = (IList<Post>)arg;
 

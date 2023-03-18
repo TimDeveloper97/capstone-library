@@ -93,11 +93,12 @@ namespace xfLibrary.ViewModels
             MessagingCenter.Subscribe<object, object>(this, "category",
                   (sender, arg) =>
                   {
+                      Category.Clear();
+
                       if (arg == null)
-                          _message.ShortAlert("Mất kết nối internet.");
+                          _message.ShortAlert("Kết nối bị gián đoạn");
                       else
                       {
-                          Category.Clear();
                           var category = (IList<Category>)arg;
 
                           foreach (var item in category)
@@ -111,11 +112,12 @@ namespace xfLibrary.ViewModels
             MessagingCenter.Subscribe<object, object>(this, "post",
                   (sender, arg) =>
                   {
+                      _allPosts.Clear();
+
                       if (arg == null)
-                          _message.ShortAlert("Mất kết nối internet.");
+                          _message.ShortAlert("Kết nối bị gián đoạn");
                       else
                       {
-                          _allPosts.Clear();
                           var post = (IList<Post>)arg;
 
                           foreach (var item in post)

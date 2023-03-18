@@ -68,8 +68,8 @@
                                 <SwipeView>
                                     <SwipeView.RightItems>
                                         <SwipeItems SwipeBehaviorOnInvoked="Auto">
-                                            <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
-                                            <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="Xóa" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="Sửa" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
                                     <!-- Content -->

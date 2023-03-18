@@ -26,7 +26,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand TransactionCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new TransactionPopup(_user.FirstName + _user.LastName)));
 
-        public ICommand ReportCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup())));
+        public ICommand ReportCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup()));
 
         public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.ShowPopupAsync(new ProfilePopup(_user, _token))));
 

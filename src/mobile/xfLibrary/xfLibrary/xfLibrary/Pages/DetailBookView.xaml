@@ -24,23 +24,6 @@
             <Setter Property="Margin" Value="0" />
             <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
         </Style>
-
-        <Style x:Key="SenderContainerStyle" TargetType="Grid">
-            <Setter Property="HeightRequest" Value="60" />
-            <Setter Property="WidthRequest" Value="60" />
-            <Setter Property="VerticalOptions" Value="Center" />
-        </Style>
-
-        <Style x:Key="SenderEllipseStyle" TargetType="Ellipse">
-            <Setter Property="HeightRequest" Value="50" />
-            <Setter Property="WidthRequest" Value="50" />
-        </Style>
-
-        <Style x:Key="SenderImageStyle" TargetType="Image">
-            <Setter Property="HorizontalOptions" Value="Center" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="Margin" Value="10" />
-        </Style>
     </ContentPage.Resources>
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
