@@ -162,6 +162,8 @@
         <Setter Property="ItemsUpdatingScrollMode" Value="KeepScrollOffset" />
         <Setter Property="VerticalScrollBarVisibility" Value="Never" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
+        <Setter Property="EmptyView" Value="Không có item nào để hiển thị" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

@@ -5,34 +5,30 @@
              x:Class="xfLibrary.Views.SearchBarSuggestionView">
   <ContentView.Content>
         <!--#region Search bar -->
-        <Grid ColumnDefinitions="52, *, 4" 
+        <Grid ColumnDefinitions="51, *, 4" Margin="0,-2,0,0"
               IsVisible="{Binding IsSearching, Source={x:Reference seft}}" 
               BackgroundColor="Transparent" >
-            <ListView Grid.Column="1" HasUnevenRows="True" SelectionMode="Single"
-                      ItemsSource="{Binding ItemsSource, Source={x:Reference seft}}"
-                      SelectedItem="{Binding SelectItem, Source={x:Reference seft}}">
-                <ListView.ItemTemplate>
+            <CollectionView Grid.Column="1" ItemsSource="{Binding ItemsSource, Source={x:Reference seft}}"
+                            SelectedItem="{Binding SelectItem, Source={x:Reference seft}}">
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                <Image Source="{Binding}"/>
-                                <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                    <Label Text="{Binding}" Style="{StaticResource SubHeaderLabelStyle}" VerticalOptions="End" Margin="0,0,0,-10"/>
-                                    <Label Grid.Row="1" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" 
+                        <Grid ColumnDefinitions="50, *" Padding="5,10">
+                            <Image Source="{Binding}"/>
+                            <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
+                                <Label Text="{Binding}" Style="{StaticResource SubHeaderLabelStyle}" VerticalOptions="End" Margin="0,0,0,-10"/>
+                                <Label Grid.Row="1" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" 
                                                HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5"/>
-                                    <Label Grid.Row="2" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
+                                <Label Grid.Row="2" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
                                                TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                HorizontalOptions="Start" VerticalOptions="Start" FontFamily="MuliBold"/>
-                                </Grid>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" 
-                                                          Command="{Binding SelectedCommand, Source={x:Reference seft}}"/>
-                                </Grid.GestureRecognizers>
                             </Grid>
-                        </ViewCell>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectedCommand, Source={x:Reference seft}}"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
         <!--#endregion-->
     </ContentView.Content>

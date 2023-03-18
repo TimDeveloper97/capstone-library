@@ -146,6 +146,7 @@ namespace xfLibrary.ViewModels
 
         void Appearing(Action action)
         {
+            IsSearching = false;
             if (isExcuteAppearing)
             {
                 isExcuteAppearing = !isExcuteAppearing;

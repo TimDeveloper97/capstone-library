@@ -37,6 +37,12 @@ namespace xfLibrary.ViewModels
 
             IsBusy = false;
         });
+
+        public ICommand DeleteCommand => new Command<Post>(async (post) =>
+        {
+            post.IsChecked = false;
+            Posts.Remove(post);
+        });
         #endregion
 
         public CartViewModel()
