@@ -75,6 +75,8 @@ namespace xfLibrary.ViewModels
         public HomeViewModel()
         {
             Init();
+            FakeData();
+            InitCurrentTab();
             ItemDisplayToView(currentTab);
         }
 
@@ -139,6 +141,38 @@ namespace xfLibrary.ViewModels
             for (int i = 0; i < max; i++)
             {
                 Posts.Add(_allPosts[i]);
+            }
+        }
+
+        void FakeData()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                _allPosts.Add(new Post
+                {
+                    Title = "[Cho thuê] Truyện tuổi thơ",
+                    Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                    "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
+                    Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg" },
+                    CreatedDate = new DateTime(2023, 3, 3).Ticks,
+                    ReturnDate = new DateTime(2023, 4, 4).Ticks,
+                    NumberOfRentalDays = 19,
+                    Order = new ObservableCollection<Order>
+                    {
+                        new Order
+                        {
+                            Quantity = 1,
+                            Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                        },
+                        new Order
+                        {
+                            Quantity = 1,
+                            Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                        }
+                    }
+                });
             }
         }
 

@@ -305,6 +305,8 @@
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="IsPullToRefreshEnabled" Value="True" />
         <Setter Property="HasUnevenRows" Value="True" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
     </Style>
 
     <Style TargetType="Picker">

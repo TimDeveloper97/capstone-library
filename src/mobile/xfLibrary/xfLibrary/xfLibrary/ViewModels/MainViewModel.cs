@@ -59,8 +59,8 @@ namespace xfLibrary.ViewModels
                 var category = await _mainService.CategoryAsync();
                 var post = await _mainService.GetAllPostAsync();
 
-                MessagingCenter.Send<object, object>(this, "category", category);
-                MessagingCenter.Send<object, object>(this, "post", post);
+                //MessagingCenter.Send<object, object>(this, "category", category);
+                //MessagingCenter.Send<object, object>(this, "post", post);
             });
 
         });
