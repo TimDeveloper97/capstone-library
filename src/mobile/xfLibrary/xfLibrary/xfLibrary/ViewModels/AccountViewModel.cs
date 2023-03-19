@@ -15,7 +15,12 @@ namespace xfLibrary.ViewModels
     {
         #region Properties
         private User profile;
-
+        string icon = "emoji3.png";
+        public string Icon
+        {
+            get { return icon; }
+            set { SetProperty(ref icon, value); }
+        }
         public User Profile { get => profile; set => SetProperty(ref profile, value); }
         #endregion
 
@@ -62,6 +67,7 @@ namespace xfLibrary.ViewModels
                       IsVisible = arg;
                       OnPropertyChanged("IsVisible");
 
+                      Icon = LoadIcon();
                       Profile = _user;
                   });
         }

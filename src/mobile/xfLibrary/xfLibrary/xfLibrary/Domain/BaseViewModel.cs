@@ -75,6 +75,11 @@ namespace xfLibrary.Domain
             _token = null;
             _user = null;
         }
+        protected string LoadIcon()
+        {
+            if (_isAdmin) return "emoji4.png";
+            else return "emoji3.png";
+        }
         protected async Task Login() => await Shell.Current.GoToAsync(nameof(LoginView));
         protected async Task TimeoutSession(string message)
         {

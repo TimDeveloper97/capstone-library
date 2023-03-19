@@ -24,6 +24,10 @@ namespace xfLibrary.Pages.Popup
 
         void Init()
         {
+            #region Icon
+            
+            #endregion
+
             #region days
             var c = new DateTime(_model.CreatedDate ?? DateTime.MinValue.Ticks);
             var r = new DateTime(_model.ReturnDate ?? DateTime.MinValue.Ticks);

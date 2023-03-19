@@ -34,7 +34,7 @@
                                             <Grid ColumnDefinitions="auto, *" Margin="5,0">
                                                 <Grid ColumnDefinitions="60, *" Margin="0,5" ColumnSpacing="0">
                                                     <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
-                                                        <Image Source="emoji3.png"/>
+                                                        <Image x:Name="icon" Source="emoji4.png"/>
                                                     </Frame>
                                                     <Grid Grid.Column="1" RowDefinitions="6*, 4*">
                                                         <Label x:Name="lUser" TextTransform="Uppercase" Style="{StaticResource TitleLabelStyle}" 
