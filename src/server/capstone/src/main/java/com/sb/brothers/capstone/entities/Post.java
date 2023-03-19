@@ -17,14 +17,16 @@ public class Post implements Serializable {
 	private int id;
 	private String content;
 	private Date createdDate;
-	private String modifiedBy;
+	//private String modifiedBy;
 	private Date modifiedDate;
+	private double fee;
 	private int status;
+	private int noDays;
 	private String title;
 	private String address;
 	private Set<ManagerPost> managerPosts;
 	private Set<Order> orders;
-	private User manager;
+	//private User manager;
 	private User user;
 	private Set<Report> reports;
 
@@ -43,6 +45,7 @@ public class Post implements Serializable {
 
 
 	@Lob
+	@Column(name = "content", nullable = true, length = 512)
 	public String getContent() {
 		return this.content;
 	}
@@ -63,7 +66,7 @@ public class Post implements Serializable {
 	}
 
 
-	@Column(name="modified_by")
+	/*@Column(name="modified_by")
 	public String getModifiedBy() {
 		return this.modifiedBy;
 	}
@@ -71,7 +74,7 @@ public class Post implements Serializable {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-
+*/
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="modified_date")
@@ -158,6 +161,7 @@ public class Post implements Serializable {
 		return order;
 	}
 
+/*
 
 	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -169,6 +173,7 @@ public class Post implements Serializable {
 	public void setManager(User user1) {
 		this.manager = user1;
 	}
+*/
 
 
 	//bi-directional many-to-one association to User
@@ -207,4 +212,20 @@ public class Post implements Serializable {
 		return report;
 	}
 
+	@Column(name = "no_days", columnDefinition = "integer default 7")
+	public int getNoDays() {
+		return noDays;
+	}
+
+	public void setNoDays(int noDays) {
+		this.noDays = noDays;
+	}
+
+	public double getFee() {
+		return fee;
+	}
+
+	public void setFee(double fee) {
+		this.fee = fee;
+	}
 }

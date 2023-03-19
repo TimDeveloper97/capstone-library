@@ -19,8 +19,12 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             nativeQuery = true)
     void updateStatus(@Param("id") int id, @Param("status") int status);
 
-    @Query(value = "SELECT * FROM post WHERE id = :id",
+    @Query(value = "SELECT * FROM post WHERE user_id = :id",
             nativeQuery = true)
-    Set<Post> findAllByUserId(@Param("id") String id);
+    List<Post> findAllByUserId(@Param("id") String id);
+
+    @Query(value = "SELECT * FROM post WHERE status = 0",
+            nativeQuery = true)
+    List<Post> findAllPosts();
 
 }

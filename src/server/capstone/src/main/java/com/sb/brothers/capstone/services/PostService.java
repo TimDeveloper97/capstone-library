@@ -17,7 +17,7 @@ public interface PostService {
 	List<Post> getAllPostsByStatus(int status);
 	void updateStatus(int postId, int status);
 
-	Set<Post> getAllPostsByUserId(String id);
+	List<Post> getAllPostsByUserId(String id);
 	Optional<Post> getPostById(int id);
 	void removePostById(int id);
 	void updatePost(Post post);

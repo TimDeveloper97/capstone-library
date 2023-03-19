@@ -1,17 +1,21 @@
 package com.sb.brothers.capstone.dto;
 
+import com.sb.brothers.capstone.configuration.BeanClass;
 import com.sb.brothers.capstone.entities.Book;
 import com.sb.brothers.capstone.entities.Category;
+import com.sb.brothers.capstone.services.CategoryService;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
 @Data
 public class BookDTO {
+
+    private static CategoryService categoryService = BeanClass.getBean(CategoryService.class);
+
     private int id;
 
     private String name;
@@ -30,7 +34,7 @@ public class BookDTO {
 
     private String author;
 
-    private List<String> imgs;
+    private List<ImageDto> imgs;
 
     public void convertBook(Book book){
         this.id = book.getId();
@@ -46,7 +50,7 @@ public class BookDTO {
         this.publishYear = book.getPublishYear();
         this.author = book.getAuthor();
         this.imgs = new ArrayList<>();
-        book.getImages().stream().forEach(img -> imgs.add(img.getLink()));
+        book.getImages().stream().forEach(img -> imgs.add(new ImageDto(img.getId(), img.getLink(), null)));
     }
 
     /**
@@ -62,5 +66,16 @@ public class BookDTO {
         book.setQuantity(this.quantity);
         book.setPublishYear(this.publishYear);
         book.setAuthor(this.author);
+    }
+
+    public static List<BookDTO> convertAllBooks(Set<Book> books){
+        List<BookDTO> bookDTOS = new ArrayList<>();
+        for (Book book : books){
+            //book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
+            BookDTO bDto = new BookDTO();
+            bDto.convertBook(book);
+            bookDTOS.add(bDto);
+        }
+        return bookDTOS;
     }
 }

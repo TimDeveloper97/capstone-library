@@ -47,9 +47,9 @@ public class User implements Serializable {
 	@JsonIgnore
 	private Set<Order> orders;
 
-	@JsonIgnore
+	/*@JsonIgnore
 	private Set<Post> posts1;
-
+*/
 	@JsonIgnore
 	private Set<Post> posts2;
 
@@ -84,7 +84,7 @@ public class User implements Serializable {
 		this.messages2 = user.getMessages2();
 		this.notifications = user.getNotifications();
 		this.orders = user.getOrders();
-		this.posts1 = user.getPosts1();
+		//this.posts1 = user.getPosts1();
 		this.posts2 = user.getPosts2();
 		this.reports = user.getReports();
 		this.roles = user.getRoles();
@@ -294,7 +294,7 @@ public class User implements Serializable {
 		return order;
 	}
 
-
+/*
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy= "manager", fetch = FetchType.LAZY)
 	public Set<Post> getPosts1() {
@@ -318,6 +318,7 @@ public class User implements Serializable {
 
 		return posts1;
 	}
+*/
 
 
 	//bi-directional many-to-one association to Post
@@ -371,7 +372,7 @@ public class User implements Serializable {
 
 
 	//bi-directional many-to-many association to Role
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name="user_role"
 		, joinColumns={
@@ -418,7 +419,7 @@ public class User implements Serializable {
 		this.setReports(null);
 		this.setOrders(null);
 		this.setPosts2(null);
-		this.setPosts1(null);
+		//this.setPosts1(null);
 		this.setMessages1(null);
 		this.setMessages2(null);
 	}

@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
     public void updateProfile(String id, String address, String email, String firstName, String lastName, Date modifiedDate, String phone) {
         userRepository.updateProfile(id, address, email, firstName, lastName, modifiedDate, phone);
     }
+
+    @Override
+    public Optional<String> getUserByPostId(int id) {
+        return userRepository.getUserByPostId(id);
+    }
 }

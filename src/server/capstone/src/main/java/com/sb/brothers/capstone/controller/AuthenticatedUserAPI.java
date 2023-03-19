@@ -63,11 +63,11 @@ public class AuthenticatedUserAPI {
                     HttpStatus.NOT_FOUND);
         }
         try {
-            userService.updateProfile(userDto.getId(), userDto.getAddress(), userDto.getEmail(), userDto.getFirstName(), userDto.getLastName(), userDto.getModifiedDate(), userDto.getPhone());
+            userService.updateProfile(userDto.getId(), userDto.getAddress(), userDto.getEmail(), userDto.getFirstName(), userDto.getLastName(), new Date(), userDto.getPhone());
         }catch (Exception ex){
             return new ResponseEntity(new CustomErrorType("Exception: "+ex.getMessage() +".\n"+ex.getCause()), HttpStatus.CONFLICT);
         }
-        logger.info("Fetching & Updating User with id: "+ userDto.getId()+" by " + userDto.getModifiedBy() +" at "+ userDto.getModifiedDate());
+        logger.info("Fetching & Updating User with id: "+ userDto.getId() +" at "+ new Date());
         return new ResponseEntity(new CustomErrorType(true, "Update user profile with id:" + userDto.getId() +" - SUCCESS."), HttpStatus.OK);
 
     }
@@ -132,7 +132,7 @@ public class AuthenticatedUserAPI {
     }
 
     //books session
-    @PreAuthorize("hasRole('ROLE_USER')")
+    //@PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/search-comic")
     public ResponseEntity<?> searchComic(@RequestBody DataDTO dataDto){
         logger.info("Return all books has contains : " + dataDto.getValue());
