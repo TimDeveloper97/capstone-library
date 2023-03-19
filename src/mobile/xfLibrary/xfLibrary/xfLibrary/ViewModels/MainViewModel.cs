@@ -1,9 +1,13 @@
-﻿using System;
+﻿using ChatApp.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Extensions;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Models;
@@ -87,6 +91,32 @@ namespace xfLibrary.ViewModels
         }
 
         #region Appearing
+        public ICommand MainAppearingCommand => new Command(async () =>
+        {
+            //auto login
+            var isRemember = Preferences.Get("isremember", false);
+            if (isRemember)
+            {
+                var Email = Preferences.Get("email", null);
+                var Password = Preferences.Get("password", null);
+
+                if(!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
+                {
+                    var res = await _accountService.LoginAsync(Email, Password);
+                    if (res == null || res.Value == null) return;
+
+                    var user = JsonConvert.DeserializeObject<User>(res.Value?.ToString());
+                    if (user != null)
+                    {
+                        _token = res.Token;
+                        _user = user;
+                        _isAdmin = user.Roles.Any(x => x == Services.Api.Admin);
+                    }
+
+                }    
+            }
+        });
+
         public ICommand PageHomeAppearingCommand => new Command(async () =>
         {
             Appearing(async () =>
@@ -127,7 +157,12 @@ namespace xfLibrary.ViewModels
         #endregion
 
 
-        #region MyRegion 
+        #region Disappearing 
+        public ICommand MainDisappearingCommand => new Command(async () =>
+        {
+
+        });
+
         public ICommand PageHomeDisappearingCommand => new Command(() =>
         {
             Disappearing(() =>
@@ -149,6 +184,7 @@ namespace xfLibrary.ViewModels
         {
             Disappearing(() => { });
         });
+
         public ICommand PageAccountDisappearingCommand => new Command(() =>
         {
             Disappearing(() => 

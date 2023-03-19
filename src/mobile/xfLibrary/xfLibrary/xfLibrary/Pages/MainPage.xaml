@@ -9,10 +9,19 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:DataType="vm:MainViewModel"
              Shell.NavBarIsVisible="False"
-             FixedMode="False"
+             FixedMode="False" 
              x:Name="self"
+             
              x:Class="xfLibrary.Pages.MainPage">
-
+    <xf:BottomBarPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding MainAppearingCommand}" />
+        <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding MainDisappearingCommand}" />
+    </xf:BottomBarPage.Behaviors>
+    
     <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#152F3E">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
