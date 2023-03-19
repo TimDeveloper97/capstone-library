@@ -13,7 +13,7 @@ namespace xfLibrary.Services
     public class Api
     {
         //public const string BaseUrl = "http://192.168.137.206:8888";
-        public const string BaseUrl = "https://4611-14-171-87-174.ap.ngrok.io";
+        public const string BaseUrl = "https://66ee-103-7-37-126.ap.ngrok.io";
         public const string Url = BaseUrl + "/api/";
         public const string IconBook = "book512.png";
         public const string IconCategory = "category512.png";
@@ -142,9 +142,9 @@ namespace xfLibrary.Services
             return default(Response);
         }
 
-        public static async Task<Response> Get(string para, string url, string token = null) => await Get(url + @"/" + para, token);
+        public static async Task<Response> GetParameter(string para, string url, string token = null) => await Get(url + @"/" + para, token);
 
-        public static async Task<Response> Post(object obj, string url, string token = null)
+        public static new async Task<Response> Post(object obj, string url, string token = null)
         {
             var httpClient = new HttpClient();
             var json = JsonConvert.SerializeObject(obj);
@@ -170,7 +170,7 @@ namespace xfLibrary.Services
             return default(Response);
         }
 
-        public static async Task<Response> PostPara(string para, string url, string token = null) => await Post(null, url + @"/" + para, token);
+        public static async Task<Response> PostParameter(string para, string url, string token = null) => await Post(null, url + @"/" + para, token);
 
         public static async Task<Response> Delete(string para, string url, string token = null)
         {
@@ -219,5 +219,8 @@ namespace xfLibrary.Services
 
             return default(Response);
         }
+
+        public static async Task<Response> PutParameter(string para, string url, string token = null) => await Put(null, url + @"/" + para, token);
+
     }
 }

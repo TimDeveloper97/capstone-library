@@ -59,8 +59,8 @@ namespace xfLibrary.Services.Account
 
         public async Task<Book> GetBookAsync(string id, string token)
         {
-            var res = await Service.Get(id, Api.GetBook, token);
-            if (res.Value == null) return null;
+            var res = await Service.GetParameter(id, Api.GetBook, token);
+            if (res.Value == null || res.Value == null) return null;
 
             var value = JsonConvert.DeserializeObject<Book>(res.Value.ToString());
 
@@ -69,7 +69,7 @@ namespace xfLibrary.Services.Account
 
         public async Task<Response> DeleteBookAsync(string id, string token)
         {
-            var res = await Service.PostPara(id, Api.DeleteBook, token);
+            var res = await Service.PostParameter(id, Api.DeleteBook, token);
             return res;
         }
 

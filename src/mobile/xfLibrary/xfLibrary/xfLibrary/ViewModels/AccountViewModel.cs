@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Extensions;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Pages;
@@ -46,8 +47,10 @@ namespace xfLibrary.ViewModels
 
         public ICommand LogoutCommand => new Command(async () =>
         {
-            await TimeoutSession("Đăng xuất thành công");
             Profile = null;
+            Preferences.Remove("isremember");
+            Preferences.Remove("password");
+            await TimeoutSession("Đăng xuất thành công");
         });
         #endregion
 
