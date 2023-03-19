@@ -40,7 +40,7 @@
                                         <SwipeItems>
                                             <SwipeItem Text="Xóa" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                             <SwipeItem Text="Sửa" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
-                                            <SwipeItem Text="Từ chối" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.RefuseCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="Từ chối" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.DenyCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                             <SwipeItem Text="Chấp thuận" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.AcceptCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>

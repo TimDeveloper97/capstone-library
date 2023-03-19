@@ -124,8 +124,8 @@ namespace xfLibrary.ViewModels
                 var category = await _mainService.CategoryAsync();
                 var post = await _mainService.GetAllPostAsync();
 
-                //MessagingCenter.Send<object, object>(this, "category", category);
-                //MessagingCenter.Send<object, object>(this, "post", post);
+                MessagingCenter.Send<object, object>(this, "category", category);
+                MessagingCenter.Send<object, object>(this, "post", post);
             });
 
         });
@@ -136,8 +136,13 @@ namespace xfLibrary.ViewModels
             {
                 await MoveToLogin(async () =>
                 {
-                    var postme = await _mainService.GetAllPostMeAsync(_token);
-                    MessagingCenter.Send<object, object>(this, "postme", postme);
+                    List<Post> posts = null;
+                    if(!_isAdmin)
+                        posts = await _mainService.GetAllPostMeAsync(_token);
+                    else
+                        posts = await _mainService.GetAllPostAdminAsync(_token);
+
+                    MessagingCenter.Send<object, object>(this, "reportpost", posts);
                     IsVisible = HasLogin();
                 });
             });
@@ -176,7 +181,7 @@ namespace xfLibrary.ViewModels
         {
             Disappearing(() =>
             {
-                MessagingCenter.Unsubscribe<object, object>(this, "postme");
+                MessagingCenter.Unsubscribe<object, object>(this, "reportpost");
             });
         });
 

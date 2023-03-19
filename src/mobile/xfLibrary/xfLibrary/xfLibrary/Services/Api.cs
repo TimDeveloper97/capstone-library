@@ -35,9 +35,12 @@ namespace xfLibrary.Services
         public const string Post = "posts";
         public const string GetPost = "posts";
         public const string GetPostMe = "posts/me";
+        public const string GetPostAdmin = "posts/request";
         public const string AddPost = "posts/add"; 
         public const string UpdatePost = "posts/update"; 
         public const string DeletePost = "posts/delete"; 
+        public const string AcceptPost = "posts/accept-post"; 
+        public const string DenyPost = "posts/deny-post"; 
 
         public const string Admin = "ROLE_ADMIN"; 
         public const string User = "ROLE_USER"; 

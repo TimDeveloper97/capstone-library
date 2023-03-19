@@ -54,5 +54,26 @@ namespace xfLibrary.Services.Main
             var res = await Service.Put(obj, Api.UpdatePost, token);
             return res;
         }
+
+        public async Task<Response> AcceptPostAsync(object obj, string token)
+        {
+            var res = await Service.Put(obj, Api.AcceptPost, token);
+            return res;
+        }
+
+        public async Task<Response> DenyPostAsync(object obj, string token)
+        {
+            var res = await Service.Put(obj, Api.DenyPost, token);
+            return res;
+        }
+
+        public async Task<List<Post>> GetAllPostAdminAsync(string _token)
+        {
+            var res = await Service.Get(Api.GetPostAdmin, _token);
+            if (res == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Post>>(res.Value.ToString());
+            return value;
+        }
     }
 }
