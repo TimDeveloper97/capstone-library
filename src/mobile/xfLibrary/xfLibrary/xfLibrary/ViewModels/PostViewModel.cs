@@ -142,10 +142,11 @@ namespace xfLibrary.ViewModels
 
         public ICommand AcceptCommand => new Command<Post>(async (post) =>
         {
+            var res = await _mainService.AcceptPostAsync(post, _token);
         });
 
-        public ICommand RefuseCommand => new Command<Post>(async (post) => {
-        
+        public ICommand DenyCommand => new Command<Post>(async (post) => {
+            var res = await _mainService.DenyPostAsync(post, _token);
         });
 
         #endregion
@@ -164,16 +165,17 @@ namespace xfLibrary.ViewModels
                 "Trạng thái tăng dần", "Trạng thái giảm dần",
                 "Thời gian tăng dần", "Thời gian giảm dần" };
 
-            MessagingCenter.Subscribe<object, object>(this, "postme",
+            MessagingCenter.Subscribe<object, object>(this, "reportpost",
                   (sender, arg) =>
                   {
+                      _allPosts.Clear();
+                      Posts.Clear();
+
                       if (arg == null)
-                          _message.ShortAlert("Mất kết nối internet.");
+                          _message.ShortAlert("Kết nối bị gián đoạn");
                       else
                       {
                           IsBusy = true;
-                          _allPosts.Clear();
-                          Posts.Clear();
 
                           var postme = (IList<Post>)arg;
 

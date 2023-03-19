@@ -10,7 +10,15 @@ namespace xfLibrary.Converters
     {
         public string DatetimeToString(DateTime? dt)
         {
-            return dt == null ? "N/A" : ((DateTime)dt).ToString("dd/MM/yyyy");
+            if (dt == null) return "N/A";
+            var date = ((DateTime)dt).Date;
+
+            if (date == DateTime.Now.Date) 
+                return $"Hôm nay, {date:dd/MM/yyyy}";
+            else if (date == DateTime.Now.Date.AddDays(-1))
+                return $"Hôm qua, {date:dd/MM/yyyy}";
+            else 
+                return date.ToString("dd/MM/yyyy");
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

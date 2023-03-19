@@ -7,7 +7,7 @@
                     xmlns:xct="http://xamarin.com/schemas/2020/toolkit">   
     
     <!--#region Converter -->
-    <converter:DatetimeConverter x:Key="StringToDateTime" />
+    <converter:DatetimeConverter x:Key="DateTimeToStringConverter" />
     <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <converter:HeightConverter x:Key="AutoHeightConverter" />
     <converter:ChangeBoolConverter x:Key="ChangeBoolConverter" />
@@ -22,6 +22,7 @@
     <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter" />
     <converter:StatusToColorConverter x:Key="StatusToColorConverter" />
     <converter:StatusToStringConverter x:Key="StatusToStringConverter" />
+    <converter:UpperOneStringConverter x:Key="UpperOneStringConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
@@ -162,6 +163,8 @@
         <Setter Property="ItemsUpdatingScrollMode" Value="KeepScrollOffset" />
         <Setter Property="VerticalScrollBarVisibility" Value="Never" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
+        <Setter Property="EmptyView" Value="Không có item nào để hiển thị" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -302,9 +305,12 @@
         <Setter Property="RefreshControlColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="RowHeight" Value="70" />
-        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="SelectionMode" Value="None" />
         <Setter Property="IsPullToRefreshEnabled" Value="True" />
         <Setter Property="HasUnevenRows" Value="True" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
+        <Setter Property="SeparatorVisibility" Value="None" />
     </Style>
 
     <Style TargetType="Picker">

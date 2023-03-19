@@ -27,7 +27,7 @@ namespace xfLibrary.Models
         [JsonProperty("modifiedDate")]
         public long? ModifiedDate { get; set; }
 
-        [JsonProperty("status")] 
+        [JsonProperty("status")]
         public int Status { get; set; }
 
         [JsonProperty("fee")]
@@ -37,7 +37,7 @@ namespace xfLibrary.Models
         public int NumberOfRentalDays { get; set; } = 0;
 
         [JsonProperty("user")]
-        public string User { get; set; }
+        public string User { get; set; } = "Anonymous";
 
         [JsonProperty("postDetailDtos")]
         public ObservableCollection<Order> Order { get; set; }
@@ -45,28 +45,36 @@ namespace xfLibrary.Models
         [JsonProperty("address")]
         public string Address { get => address; set => SetProperty(ref address, value); }
 
+        [JsonProperty("money")]
+        public int Money { get; set; }
+
 
         private int maxLines = 3;
-        [JsonIgnore]
-        public int TotalCreateDay { get; set; }
+        private bool isChecked = false;
+
         [JsonIgnore]
         public ObservableCollection<string> Slide { get; set; }
         [JsonIgnore]
         public int TotalReturnDay { get; set; }
         [JsonIgnore]
-        public string ImageSource { get; set; } = "book100.png";
+        public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
         public string Color { get; set; } = "#00000";
         [JsonIgnore]
         public bool IsAdmin { get; set; } = false;
         [JsonIgnore]
-        public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); } 
-        
+        public bool IsChecked
+        {
+            get => isChecked; set => SetProperty(ref isChecked, value);
+        }
+        [JsonIgnore]
+        public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }
+
 
         public Post()
         {
             Order = new ObservableCollection<Order>();
-            Slide = new ObservableCollection<string>() { "book100.png" };
+            Slide = new ObservableCollection<string>() { Services.Api.IconBook };
         }
     }
 

@@ -53,9 +53,9 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Nội dung: " FontSize="Medium"/>
-                                            <Span x:Name="username" FontFamily="MuliBold" FontSize="Medium"/>
-                                            <Span Text=" &lt;Số tiền&gt; " FontFamily="MuliBold" FontSize="Medium"/>
-                                            <Span Text=" &lt;Mã chuyển tiền&gt;" FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text="&lt;Tài khoản&gt; " FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text="&lt;Số tiền&gt; " FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text="&lt;Mã chuyển tiền&gt;" FontFamily="MuliBold" FontSize="Medium"/>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -64,9 +64,9 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Ví dụ: " FontSize="Medium"/>
-                                            <Span Text="nguyenvana" FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span x:Name="username" Text="nguyenvana" FontFamily="MuliBold" FontSize="Medium"/>
                                             <Span Text=" 100000 " FontFamily="MuliBold" FontSize="Medium"/>
-                                            <Span Text=" abcdef" FontFamily="MuliBold" FontSize="Medium"/>
+                                            <Span Text="abcdef" FontFamily="MuliBold" FontSize="Medium"/>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>

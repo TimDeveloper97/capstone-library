@@ -34,7 +34,7 @@
                                             <Grid ColumnDefinitions="auto, *" Margin="5,0">
                                                 <Grid ColumnDefinitions="60, *" Margin="0,5" ColumnSpacing="0">
                                                     <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}">
-                                                        <Image Source="emoji3.png"/>
+                                                        <Image x:Name="icon" Source="emoji4.png"/>
                                                     </Frame>
                                                     <Grid Grid.Column="1" RowDefinitions="6*, 4*">
                                                         <Label x:Name="lUser" TextTransform="Uppercase" Style="{StaticResource TitleLabelStyle}" 
@@ -42,7 +42,7 @@
 
                                                         <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="0,-5,0,0" VerticalOptions="Start" HorizontalOptions="Start">
                                                             <Label x:Name="lCreateDate" Text="28 ngày trước" Style="{StaticResource MiniLabelStyle}"/>
-                                                            <Label x:Name="lReturnDate" IsVisible="false" Text="(Số ngày thuê: 100)" Style="{StaticResource MiniLabelStyle}"/>
+                                                            <Label x:Name="lReturnDate" Style="{StaticResource MiniLabelStyle}"/>
                                                         </StackLayout>
                                                     </Grid>
                                                 </Grid>
@@ -74,7 +74,7 @@
                                         </Grid>
                                         <Grid VerticalOptions="End">
                                             <StackLayout Margin="0,10,0,10" HorizontalOptions="End" VerticalOptions="End" Orientation="Horizontal">
-                                                <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Nhắn tin"/>
+                                                <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Giỏ"/>
                                                 <mdc:MaterialButton x:Name="cancelBtn" Style="{StaticResource HideButtonStyle}" WidthRequest="100" Clicked="cancelBtn_Clicked" Text="Thuê"/>
                                             </StackLayout>
                                         </Grid>
@@ -93,8 +93,8 @@
                                                                 <view:FieldLabel Text="{Binding Book.Name}" Title="Tên sách *"/>
                                                                 <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Book.Description}"/>
 
-                                                                <Grid ColumnDefinitions="*,*">
-                                                                    <view:FieldLabel Text="{Binding Book.Quantity}" Title="Số lượng *"/>
+                                                                <Grid ColumnDefinitions="3*,7*">
+                                                                    <view:FieldLabel Text="{Binding Quantity}" Title="Số lượng *"/>
                                                                     <view:FieldLabel Grid.Column="1" Text="{Binding Book.Price, Converter={StaticResource MoneyConverter}, StringFormat='{0}VND'}" Title="Giá *"/>
                                                                 </Grid>
                                                                 <view:FieldLabel Text="{Binding Book.StringCategories}" Title="Thể loại *"/>

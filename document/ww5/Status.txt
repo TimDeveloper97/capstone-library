@@ -1,0 +1,7 @@
+Mobile
+- Chưa test API: Thuê - Update -> Post
+- API Notification, Suggest, Cart
+doing
+- draff auto login
+- draff accept,deny, get all post admin
+- 

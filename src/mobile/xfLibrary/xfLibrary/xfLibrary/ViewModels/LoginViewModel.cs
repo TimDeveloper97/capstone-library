@@ -48,10 +48,10 @@ namespace xfLibrary.ViewModels
 
             IsBusy = true;
             var res = await _accountService.LoginAsync(Email, Password);
-            if(res.Value == null)
+            if(res == null || res.Value == null)
             {
                 IsBusy = false;
-                _message.ShortAlert(res.Message);
+                _message.ShortAlert(res == null ? "Kết nối bị gián đoạn" : res.Message);
                 return;
             }    
 
@@ -78,9 +78,6 @@ namespace xfLibrary.ViewModels
 
         public LoginViewModel()
         {
-            //Email = "admin";
-            //Password = "2";
-
             IsRemember = Preferences.Get("isremember", false);
             if(IsRemember)
             {

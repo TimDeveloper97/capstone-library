@@ -19,32 +19,40 @@
 
     <ContentView.Content>
         <Grid HorizontalOptions="FillAndExpand">
-            <RefreshView Command="{Binding ReloadNotificationCommand}" IsRefreshing="{Binding IsBusy}">
-                <CollectionView ItemsSource="{Binding Notifications}" HeightRequest="70" SelectionMode="Single">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame CornerRadius="0">
-                                <Grid ColumnDefinitions="auto, *" Margin="0,10">
-                                    <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}" HeightRequest="40" WidthRequest="40">
-                                        <Image Source="chotot.png"/>
-                                    </Frame>
-                                    <Grid Grid.Column="1" RowDefinitions="7*, 3*">
-                                        <Label Text="70 Điểm Tốt của bạn sẽ hết hạn trong 0 ngày nữa. Săn điểm để gia hạn ngay"
-                                               Style="{StaticResource TitleLabelStyle}" VerticalOptions="End"
-                                               MaxLines="2" LineBreakMode="WordWrap" HorizontalTextAlignment="Start"/>
+            <!--<RefreshView Command="{Binding ReloadNotificationCommand}" IsRefreshing="{Binding IsBusy}">
+                
+            </RefreshView>-->
 
-                                        <Label Text="28 ngày trước" Style="{StaticResource MiniLabelStyle}"
-                                           Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start"/>
-                                    </Grid>
+            <ListView GroupDisplayBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}" 
+                      IsGroupingEnabled="True" ItemsSource="{Binding Notifications}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid ColumnDefinitions="auto, *" Padding="10,5">
+                                <Frame BackgroundColor="{Binding Color}" CornerRadius="30" Opacity="0.15"
+                                       Style="{StaticResource FrameNoBorder}" HeightRequest="35" WidthRequest="38"
+                                       VerticalOptions="Start" HorizontalOptions="Start" Margin="0,-5,0,0">
+                                    <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Bell}"
+                                           VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Color}"/>
+                                </Frame>
+                                <Grid Grid.Column="1" Margin="7,0,0,0" RowDefinitions="6*, 4*" RowSpacing="0">
+                                    <Label Text="{Binding Message, Converter={StaticResource UpperOneStringConverter}}" 
+                                           Style="{StaticResource SubTitleLabelStyle}" VerticalOptions="Start"
+                                           MaxLines="{Binding MaxLines}" HorizontalTextAlignment="Start"/>
+
+                                    <Label Grid.Row="1" Text="{Binding Date, StringFormat='{}{0:hh:mm tt}', TargetNullValue='N/A'}"
+                                           Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}"
+                                           VerticalOptions="Start" HorizontalOptions="Start" Margin="0,-2,0,0"/>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
+                                                              Command="{Binding Path=BindingContext.ExtendTextCommand, Source={x:Reference Name=self}}"/>
+                                    </Grid.GestureRecognizers>
                                 </Grid>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </RefreshView>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </ContentView.Content>
 </ContentView>

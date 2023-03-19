@@ -9,10 +9,19 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:DataType="vm:MainViewModel"
              Shell.NavBarIsVisible="False"
-             FixedMode="False"
+             FixedMode="False" 
              x:Name="self"
+             
              x:Class="xfLibrary.Pages.MainPage">
-
+    <xf:BottomBarPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding MainAppearingCommand}" />
+        <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding MainDisappearingCommand}" />
+    </xf:BottomBarPage.Behaviors>
+    
     <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#152F3E">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
@@ -26,9 +35,8 @@
             <view:HeaderView x:Name="searchBar" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
             <pages:HomeView Margin="0,-7" Grid.Row="1"/>
-            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
-                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
-                                           SelectedCommand="{Binding TestCommand}"/>
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="{Binding Height}" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}" SelectedCommand="{Binding SelectedCommand}"/>
         </Grid>
     </ContentPage>
 
@@ -47,9 +55,8 @@
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar1}}"/>
             <pages:PostView Margin="0,-7" Grid.Row="1" IsVisible="{Binding BindingContext.IsVisible, Source={x:Reference self}}"/>
 
-            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
-                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
-                                           SelectedCommand="{Binding TestCommand}"/>
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="{Binding Height}" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}" SelectedCommand="{Binding SelectedCommand}"/>
         </Grid>
     </ContentPage>
     <!--#endregion-->
@@ -68,9 +75,8 @@
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar3}}"/>
             <pages:NotificationView Margin="0,-7" Grid.Row="1" IsVisible="{Binding BindingContext.IsVisible, Source={x:Reference self}}"/>
 
-            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
-                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
-                                           SelectedCommand="{Binding TestCommand}"/>
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="{Binding Height}" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}" SelectedCommand="{Binding SelectedCommand}"/>
         </Grid>
     </ContentPage>
 
@@ -88,9 +94,8 @@
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar4}}"/>
             <pages:AccountView Margin="0,-7" Grid.Row="1"/>
 
-            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="350" Margin="0,-22,0,0"
-                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}"
-                                           SelectedCommand="{Binding TestCommand}"/>
+            <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="{Binding Height}" Margin="0,-22,0,0"
+                                           IsVisible="{Binding IsSearching}" IsSearching="{Binding IsSearching}" ItemsSource="{Binding Suggests}" SelectedCommand="{Binding SelectedCommand}"/>
         </Grid>
     </ContentPage>
 

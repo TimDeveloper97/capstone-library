@@ -24,18 +24,32 @@ namespace xfLibrary.Pages.Popup
 
         void Init()
         {
-            //lCreateDate.Text = Math.Round((DateTime.Now - (_model.CreatedDate ?? DateTime.Now)).TotalDays, 0) + " ngày trước";
-            //lReturnDate.Text = "(Số ngày thuê: " + Math.Round(((_model.ReturnDate ?? DateTime.Now) - DateTime.Now).TotalDays, 2) + " ngày)";
-            content.Text = _model.Content;
-            lUser.Text = _model.User ?? "Anonymous";
+            #region Icon
+            
+            #endregion
+
+            #region days
+            var c = new DateTime(_model.CreatedDate ?? DateTime.MinValue.Ticks);
+            var r = new DateTime(_model.ReturnDate ?? DateTime.MinValue.Ticks);
+
+            lCreateDate.Text = Math.Round((DateTime.Now - c).TotalDays, 0) + " ngày trước";
+            lReturnDate.Text = "(Số ngày thuê: " + _model.NumberOfRentalDays + " ngày)";
+            #endregion
+
+            #region infor
+            content.Text = "    " + _model.Content + "\n\n🗺 " + _model.Address;
+            lUser.Text = _model.User;
+            #endregion
+
             content.MaxLines = _model.MaxLines;
             imgs.ItemsSource = _model.Slide;
 
             if (_model.Order == null)
                 tvBook.IsVisible = false;
             else
+            {
                 books.ItemsSource = _model.Order;
-
+            }    
         }
 
         private void okBtn_Clicked(object sender, EventArgs e)

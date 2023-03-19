@@ -15,16 +15,23 @@ namespace xfLibrary.ViewModels
     {
         #region Properties
         private User profile;
-
+        string icon = "emoji3.png";
+        public string Icon
+        {
+            get { return icon; }
+            set { SetProperty(ref icon, value); }
+        }
         public User Profile { get => profile; set => SetProperty(ref profile, value); }
         #endregion
 
         #region Command 
         public ICommand LoginCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(LoginView)));
 
-        public ICommand TransactionCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new TransactionPopup(_user.FirstName + _user.LastName)));
+        public ICommand CartCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CartView)));
 
-        public ICommand ReportCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup())));
+        public ICommand TransactionCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new TransactionPopup(_user == null ? "anonymous" : _user.FirstName + _user.LastName)));
+
+        public ICommand ReportCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup()));
 
         public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.ShowPopupAsync(new ProfilePopup(_user, _token))));
 
@@ -60,6 +67,7 @@ namespace xfLibrary.ViewModels
                       IsVisible = arg;
                       OnPropertyChanged("IsVisible");
 
+                      Icon = LoadIcon();
                       Profile = _user;
                   });
         }
