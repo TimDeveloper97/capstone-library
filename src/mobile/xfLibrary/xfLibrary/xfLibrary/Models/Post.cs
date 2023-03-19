@@ -57,7 +57,7 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public int TotalReturnDay { get; set; }
         [JsonIgnore]
-        public string ImageSource { get; set; } = "book100.png";
+        public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
         public string Color { get; set; } = "#00000";
         [JsonIgnore]
@@ -74,7 +74,7 @@ namespace xfLibrary.Models
         public Post()
         {
             Order = new ObservableCollection<Order>();
-            Slide = new ObservableCollection<string>() { "book100.png" };
+            Slide = new ObservableCollection<string>() { Services.Api.IconBook };
         }
     }
 

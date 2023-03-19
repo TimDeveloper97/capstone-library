@@ -45,7 +45,7 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public int Number { get; set; } = 0;
         [JsonIgnore]
-        public string ImageSource { get; set; } = "book100.png";
+        public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
         public string StringCategories { get; set; }
     }
