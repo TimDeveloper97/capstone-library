@@ -65,7 +65,7 @@ namespace xfLibrary.ViewModels
                 post.MaxLines = 99;
             else
                 post.MaxLines = 3;
-        }); 
+        });
 
         public ICommand AddCommand => new Command(async () =>
         {
@@ -142,11 +142,26 @@ namespace xfLibrary.ViewModels
 
         public ICommand AcceptCommand => new Command<Post>(async (post) =>
         {
-            var res = await _mainService.AcceptPostAsync(post, _token);
+            var res = await _mainService.AcceptPostAsync(post.Id, _token);
+            if (res.Success)
+            {
+                post.Status = Services.Api.USER_POST_IS_APPROVED;
+                post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
+            }
+
+            _message.ShortAlert(res.Message);
         });
 
-        public ICommand DenyCommand => new Command<Post>(async (post) => {
-            var res = await _mainService.DenyPostAsync(post, _token);
+        public ICommand DenyCommand => new Command<Post>(async (post) =>
+        {
+            var res = await _mainService.DenyPostAsync(post.Id, _token);
+            if (res.Success)
+            {
+                post.Status = Services.Api.USER_POST_IS_NOT_APPROVED;
+                post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
+            }
+
+            _message.ShortAlert(res.Message);
         });
 
         #endregion
@@ -161,10 +176,10 @@ namespace xfLibrary.ViewModels
         {
             Posts = new ObservableCollection<Post>();
             _allPosts = new List<Post>();
-            Actions = new List<string> { 
+            Actions = new List<string> {
                 "Trạng thái tăng dần", "Trạng thái giảm dần",
                 "Thời gian tăng dần", "Thời gian giảm dần" };
-
+            //FakeData();
             MessagingCenter.Subscribe<object, object>(this, "reportpost",
                   (sender, arg) =>
                   {
@@ -191,6 +206,40 @@ namespace xfLibrary.ViewModels
                           IsBusy = false;
                       }
                   });
+        }
+
+        void FakeData()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Posts.Add(UpdateItemData(new Post
+                {
+                    Title = "[Cho thuê] Truyện tuổi thơ",
+                    Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                    "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
+                    Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg" },
+                    CreatedDate = new DateTime(2023, 3, 3).Ticks,
+                    ReturnDate = new DateTime(2023, 4, 4).Ticks,
+                    NumberOfRentalDays = 19,
+                    Order = new ObservableCollection<Order>
+                    {
+                        new Order
+                        {
+                            Quantity = 1,
+                            Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                        },
+                        new Order
+                        {
+                            Quantity = 1,
+                            Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
+                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                        }
+                    },
+                    Address = "Hoàng Mai, Tương Mai, Hà Nội",
+                    Status = 0,
+                }));
+            }
         }
 
         void ItemDisplayToView(int current)
@@ -228,25 +277,6 @@ namespace xfLibrary.ViewModels
 
         Post UpdateItemData(Post post)
         {
-            //update image
-            //if (post.Order.Count != 0)
-            //{
-            //    var imgs = post.Order[0].Book.Imgs;
-            //    if (imgs != null && imgs.Count != 0)
-            //    {
-            //        //update image source
-            //        var url = Services.Api.BaseUrl + imgs?[0].FileName.Replace("\\", "/");
-            //        post.ImageSource = url;
-
-            //        //update slide
-            //        post.Slide.Clear();
-            //        foreach (var img in imgs)
-            //        {
-            //            post.Slide.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
-            //        }
-            //    }
-            //}
-
             //update admin
             post.IsAdmin = _isAdmin;
 

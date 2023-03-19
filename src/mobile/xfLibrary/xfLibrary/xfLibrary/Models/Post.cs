@@ -11,6 +11,7 @@ namespace xfLibrary.Models
     public class Post : BaseModel
     {
         private string address;
+        private int status;
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -28,7 +29,7 @@ namespace xfLibrary.Models
         public long? ModifiedDate { get; set; }
 
         [JsonProperty("status")]
-        public int Status { get; set; }
+        public int Status { get => status; set => SetProperty(ref status, value); }
 
         [JsonProperty("fee")]
         public double Fee { get; set; } = 0;
@@ -51,6 +52,7 @@ namespace xfLibrary.Models
 
         private int maxLines = 3;
         private bool isChecked = false;
+        private string color = "#00000";
 
         [JsonIgnore]
         public ObservableCollection<string> Slide { get; set; }
@@ -59,14 +61,11 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
-        public string Color { get; set; } = "#00000";
+        public string Color { get => color; set => SetProperty(ref color, value); }
         [JsonIgnore]
         public bool IsAdmin { get; set; } = false;
         [JsonIgnore]
-        public bool IsChecked
-        {
-            get => isChecked; set => SetProperty(ref isChecked, value);
-        }
+        public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
         [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }
 

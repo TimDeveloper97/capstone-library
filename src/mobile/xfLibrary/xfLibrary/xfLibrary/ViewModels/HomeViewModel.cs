@@ -75,7 +75,7 @@ namespace xfLibrary.ViewModels
         public HomeViewModel()
         {
             Init();
-            FakeData();
+            //FakeData();
             InitCurrentTab();
             ItemDisplayToView(currentTab);
         }

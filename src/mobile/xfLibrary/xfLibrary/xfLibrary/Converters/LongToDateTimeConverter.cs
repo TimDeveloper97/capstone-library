@@ -12,9 +12,8 @@ namespace xfLibrary.Converters
         {
             if (value == null) return null;
             var span = (long)value;
-            var start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-            var datetime = start.AddMilliseconds(span).ToLocalTime();
+            var datetime = new DateTime(span);
             return datetime;
         }
 

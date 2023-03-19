@@ -23,6 +23,7 @@
     <converter:StatusToColorConverter x:Key="StatusToColorConverter" />
     <converter:StatusToStringConverter x:Key="StatusToStringConverter" />
     <converter:UpperOneStringConverter x:Key="UpperOneStringConverter" />
+    <converter:StatusToBoolConverter x:Key="StatusToBoolConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
