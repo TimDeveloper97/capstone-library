@@ -15,7 +15,7 @@ export default function Header() {
           <div className="col-lg-2">
             <div className="logo-box">
               <a href="index.html" className="logo">
-                <img src="images/logo-white.png" alt="logo" />
+                <img src="/images/logoC.png" alt="logo" />
               </a>
               <div className="user-action">
                 <div
@@ -43,35 +43,25 @@ export default function Header() {
               <nav className="menu-bar mr-auto menu-bar-white">
                 <ul>
                   <li>
-                    <Link to={'/'}>
-                      Trang chủ <i className="la la-angle-down fs-11"></i>
+                    <Link to={"/"}>Trang chủ</Link>
+                  </li>
+                  <li className="is-mega-menu">
+                    <Link to={"/book"}>
+                      Kho sách <i className="la la-angle-down fs-11"></i>
                     </Link>
                     <ul className="dropdown-menu-item">
                       <li>
-                        <a href="index.html">Home - landing</a>
+                        <Link to={"/user/add-book"}>Thêm sách</Link>
                       </li>
                     </ul>
                   </li>
-                  <li className="is-mega-menu">
-                    <a href="#">
-                      Kho sách <i className="la la-angle-down fs-11"></i>
-                    </a>
-                    <div className="dropdown-menu-item mega-menu">
-                      <ul className="row">
-                        <li className="col-lg-3">
-                          <a href="user-profile.html">user profile</a>
-                          <a href="notifications.html">Notifications</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
                   <li>
-                    <a href="#">
+                    <Link to={"/post"}>
                       Post <i className="la la-angle-down fs-11"></i>
-                    </a>
+                    </Link>
                     <ul className="dropdown-menu-item">
                       <li>
-                        <a href="blog-grid-no-sidebar.html">grid no sidebar</a>
+                        <Link to={"/add-post"}>Tạo post</Link>
                       </li>
                     </ul>
                   </li>

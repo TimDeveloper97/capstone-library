@@ -1,6 +1,9 @@
 import { useRoutes } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import MainLayout from "./layout/MainLayout/MainLayout";
+import AddBook from "./views/AddBook/AddBook";
+import BookPage from "./views/BookPage/BookPage";
+import DetailBook from "./views/DetailBook/DetailBook";
 import Error from "./views/Home/Error";
 import Home from "./views/Home/Home";
 import Login from "./views/Login/Login";
@@ -26,12 +29,24 @@ export default function Route() {
           element: <Register />,
         },
         {
+          path: "/book",
+          element: <BookPage />,
+        },
+        {
+          path: "/detail-book",
+          element: <DetailBook />,
+        },
+        {
           path: "/user",
           element: <PrivateRoute />,
           children: [
             {
               path: "profile",
               element: <Setting />,
+            },
+            {
+              path: "add-book",
+              element: <AddBook />,
             },
           ],
         },

@@ -5,8 +5,8 @@ import { TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { showUser } from "../../reducers/userSlice";
 import * as yup from "yup";
+import { updateUser } from "../../actions/user";
 
 const schema = yup.object({
   firstName: yup.string().required("Tên không được để trống"),
@@ -17,7 +17,7 @@ export default function Setting() {
   const [editable, setEditable] = useState(false);
   useEffect(() => {}, []);
 
-  const userInfo = useSelector(showUser);
+  const userInfo = useSelector((state) => state.user);
 
   const {
     register,
@@ -28,6 +28,12 @@ export default function Setting() {
   });
   const switchEdit = () => {
     setEditable(!editable);
+  };
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    dispatch(updateUser(data));
+    switchEdit();
   };
   return (
     <>
@@ -161,20 +167,6 @@ export default function Setting() {
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
-              <div className="hero-btn-box text-right py-3">
-                <button
-                  onClick={switchEdit}
-                  className="btn theme-btn theme-btn-outline theme-btn-outline-gray"
-                >
-                  {editable ? (
-                    <>Lưu thông tin</>
-                  ) : (
-                    <>
-                      <i className="la la-gear mr-1"></i> Sửa thông tin
-                    </>
-                  )}
-                </button>
-              </div>
               <div className="tab-content mb-50px" id="myTabContent">
                 <div
                   className="tab-pane fade show active"
@@ -183,78 +175,145 @@ export default function Setting() {
                   aria-labelledby="edit-profile-tab"
                 >
                   <div className="user-panel-main-bar">
-                    <div className="user-panel">
-                      <div className="card mb-4">
-                        <div className="card-body">
-                          <div className="row">
-                            <div className="col-sm-3">
-                              <p className="mb-0">Họ tên</p>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <div className="user-panel">
+                        <div className="hero-btn-box text-right py-3">
+                          {editable && (
+                            <button
+                              type="submit"
+                              className="btn theme-btn theme-btn-outline theme-btn-outline-gray"
+                            >
+                              <i className="la la-gear mr-1"></i> Lưu thông tin
+                            </button>
+                          )}
+                          {!editable && (
+                            <button
+                              type="button"
+                              onClick={switchEdit}
+                              className="btn theme-btn theme-btn-outline theme-btn-outline-gray"
+                            >
+                              <i className="la la-gear mr-1"></i> Sửa thông tin
+                            </button>
+                          )}
+                        </div>
+                        <div className="card mb-4">
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-sm-3">
+                                <p className="mb-0">Họ tên</p>
+                              </div>
+                              <div className="col-sm-9">
+                                {editable ? (
+                                  <>
+                                    <TextField
+                                      margin="dense"
+                                      label="Họ"
+                                      type="text"
+                                      variant="standard"
+                                      defaultValue={userInfo.lastName}
+                                      {...register("lastName")}
+                                      style={{ marginRight: "30px" }}
+                                    />
+                                    <TextField
+                                      autoFocus
+                                      margin="dense"
+                                      label="Tên"
+                                      type="text"
+                                      variant="standard"
+                                      defaultValue={userInfo.firstName}
+                                      {...register("firstName")}
+                                    />
+                                  </>
+                                ) : (
+                                  <p className="text-muted mb-0">
+                                    {userInfo.lastName +
+                                      " " +
+                                      userInfo.firstName}
+                                  </p>
+                                )}
+                              </div>
                             </div>
-                            <div className="col-sm-9">
-                              {editable ? (
-                                <TextField
-                                  autoFocus
-                                  margin="dense"
-                                  label="Tên"
-                                  type="text"
-                                  variant="standard"
-                                  defaultValue={userInfo.firstName}
-                                  {...register("firstName")}
-                                />
-                              ) : (
+                            <hr />
+                            <div className="row">
+                              <div className="col-sm-3">
+                                <p className="mb-0">Email</p>
+                              </div>
+                              <div className="col-sm-9">
+                                {editable ? (
+                                  <TextField
+                                    margin="dense"
+                                    label="Email"
+                                    type="email"
+                                    variant="standard"
+                                    defaultValue={userInfo.email}
+                                    {...register("email")}
+                                  />
+                                ) : (
+                                  <p className="text-muted mb-0">
+                                    {userInfo.email}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            <hr />
+                            <div className="row">
+                              <div className="col-sm-3">
+                                <p className="mb-0">Số điện thoại</p>
+                              </div>
+                              <div className="col-sm-9">
+                                {editable ? (
+                                  <TextField
+                                    margin="dense"
+                                    label="Số điện thoại"
+                                    type="tel"
+                                    variant="standard"
+                                    defaultValue={userInfo.phone}
+                                    {...register("phone")}
+                                  />
+                                ) : (
+                                  <p className="text-muted mb-0">
+                                    {userInfo.phone}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            <hr />
+                            <div className="row">
+                              <div className="col-sm-3">
+                                <p className="mb-0">Số dư tài khoản</p>
+                              </div>
+                              <div className="col-sm-9">
                                 <p className="text-muted mb-0">
-                                  {userInfo.lastName + " " + userInfo.firstName}
+                                  {userInfo.balance}
                                 </p>
-                              )}
+                              </div>
                             </div>
-                          </div>
-                          <hr />
-                          <div className="row">
-                            <div className="col-sm-3">
-                              <p className="mb-0">Email</p>
-                            </div>
-                            <div className="col-sm-9">
-                              <p className="text-muted mb-0">
-                                {userInfo.email}
-                              </p>
-                            </div>
-                          </div>
-                          <hr />
-                          <div className="row">
-                            <div className="col-sm-3">
-                              <p className="mb-0">Số điện thoại</p>
-                            </div>
-                            <div className="col-sm-9">
-                              <p className="text-muted mb-0">
-                                {userInfo.phone}
-                              </p>
-                            </div>
-                          </div>
-                          <hr />
-                          <div className="row">
-                            <div className="col-sm-3">
-                              <p className="mb-0">Số dư tài khoản</p>
-                            </div>
-                            <div className="col-sm-9">
-                              <p className="text-muted mb-0">
-                                {userInfo.balance}
-                              </p>
-                            </div>
-                          </div>
-                          <hr />
-                          <div className="row">
-                            <div className="col-sm-3">
-                              <p className="mb-0">Địa chỉ</p>
-                            </div>
-                            <div className="col-sm-9">
-                              <p className="text-muted mb-0">
-                                {userInfo.address}
-                              </p>
+                            <hr />
+                            <div className="row">
+                              <div className="col-sm-3">
+                                <p className="mb-0">Địa chỉ</p>
+                              </div>
+                              <div className="col-sm-9">
+                                {editable ? (
+                                  <TextField
+                                    margin="dense"
+                                    label="Địa chỉ"
+                                    type="text"
+                                    variant="standard"
+                                    defaultValue={userInfo.address}
+                                    {...register("address")}
+                                  />
+                                ) : (
+                                  <p className="text-muted mb-0">
+                                    {userInfo.address}
+                                  </p>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
                 <div

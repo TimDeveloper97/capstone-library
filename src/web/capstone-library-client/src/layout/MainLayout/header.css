@@ -44,13 +44,12 @@
   padding: 20px;
 }
 
-
 .detail-item {
   font-weight: 400;
-  font-size: 15px;  
+  font-size: 15px;
 }
-.detail-item svg{
-    margin-right: 15px;
+.detail-item svg {
+  margin-right: 15px;
 }
 .user-fullname {
   cursor: pointer;
@@ -58,4 +57,7 @@
 .user-fullname:hover .detail-account {
   visibility: unset;
   opacity: 100;
+}
+.logo img {
+  width: 100px;
 }
