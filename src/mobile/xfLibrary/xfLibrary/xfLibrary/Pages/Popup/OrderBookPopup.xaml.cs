@@ -22,19 +22,18 @@ namespace xfLibrary.Pages.Popup
         public Book SelectItem { get => selectItem; set => selectItem = value; }
         public double _sum;
 
-        public OrderBookPopup(ListBook lm)
+        public OrderBookPopup(ListBook lm, bool isUpdate)
         {
             InitializeComponent();
             BindingContext = this;
 
             books = lm.Books;
-
             lv.ItemsSource = books;
         }
 
         private void okBtn_Clicked(object sender, EventArgs e)
         {
-            var lBookChecked = Books.Where(x => x.IsChecked).ToList();
+            var lBookChecked = Books.Where(x => x.IsChecked && x.Number != 0).ToList();
             Dismiss(new ListBook { Books = new ObservableCollection<Book>(lBookChecked) });
         }
 
@@ -45,18 +44,11 @@ namespace xfLibrary.Pages.Popup
 
         private void cbItem_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            Book b = (Book)((CheckBox)sender).BindingContext;
-            if (b.PreTotal == 0)
-                ((CheckBox)sender).IsChecked = false;
-            else
-            {
-                if (b.IsChecked)
-                    _sum += double.Parse(b.PreTotal.ToString());
-                else
-                    _sum -= double.Parse(b.PreTotal.ToString());
+            var b = (Book)((CheckBox)sender).BindingContext;
 
-                lSum.Text = _sum.ToString("#,###", cul.NumberFormat) + "VND";
-            }
+            _sum = books.Where(x => x.IsChecked).Sum(x => x.PreTotal);
+
+            lSum.Text = _sum.ToString("#,###", cul.NumberFormat) + "VND";
         }
 
         private void lsum_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -78,12 +70,18 @@ namespace xfLibrary.Pages.Popup
         private void eNumber_TextChanged(object sender, TextChangedEventArgs e)
         {
             var control = (Editor)sender;
-            if(!string.IsNullOrEmpty(control.Text))
+            var b = (Book)control.BindingContext;
+
+            if (!string.IsNullOrEmpty(control.Text))
             {
                 var num = int.Parse(control.Text);
-                Book b = (Book)control.BindingContext;
-                b.Number = num;
-            }    
+
+                if (num > int.Parse(b.Quantity))
+                    control.Text = b.Quantity;
+
+                _sum = books.Where(x => x.IsChecked).Sum(x => x.PreTotal);
+                lSum.Text = _sum.ToString("#,###", cul.NumberFormat) + "VND";
+            }
         }
     }
 }

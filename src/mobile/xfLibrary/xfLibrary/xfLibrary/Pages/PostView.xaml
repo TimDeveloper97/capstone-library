@@ -89,8 +89,8 @@
                                                 </StackLayout>
 
                                                 <StackLayout Grid.Row="1" Spacing="0">
-                                                    <Label Style="{StaticResource TitleLabelStyle}" Text="{Binding User, Converter={StaticResource UpperStringConverter}}"
-                                                                   VerticalOptions="End" HorizontalOptions="Start" FontFamily="MuliBlack"/>
+                                                    <Label Style="{StaticResource TitleLabelStyle}" Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}"
+                                                                   VerticalOptions="End" HorizontalOptions="Start" FontFamily="MuliBold"/>
 
                                                     <Label Text="{Binding Content}" MaxLines="{Binding MaxLines}" Style="{StaticResource SubTitleGrayLabelStyle}"
                                                                    HorizontalTextAlignment="Start">

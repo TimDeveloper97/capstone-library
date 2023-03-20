@@ -12,8 +12,8 @@ namespace xfLibrary.Services
 {
     public class Api
     {
-        //public const string BaseUrl = "http://192.168.137.206:8888";
-        public const string BaseUrl = "https://66ee-103-7-37-126.ap.ngrok.io";
+        public const string BaseUrl = "http://192.168.137.206:8888";
+        //public const string BaseUrl = "https://66ee-103-7-37-126.ap.ngrok.io";
         public const string Url = BaseUrl + "/api/";
         public const string IconBook = "book512.png";
         public const string IconCategory = "category512.png";

@@ -42,7 +42,8 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-        public ICommand PageAppearingCommand => new Command(async () => {
+        public ICommand PageAppearingCommand => new Command(async () =>
+        {
 
             if (isUpdate)
             {
@@ -60,7 +61,8 @@ namespace xfLibrary.ViewModels
                     {
                         foreach (var img in imgs)
                         {
-                            Slides.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                            var url = Services.Api.BaseUrl + img.FileName.Replace("//", "/");
+                            Slides.Add(url);
                         }
                     }
                     else
@@ -75,8 +77,25 @@ namespace xfLibrary.ViewModels
         public ICommand BookCommand => new Command(async () =>
         {
             var books = await _accountService.GetAllBookAsync(_token);
+            if (isUpdate)
+            {
+                if (NewPost.Order != null && NewPost.Order.Count > 0)
+                {
+                    foreach (var book in books)
+                    {
+                        var exist = NewPost.Order.FirstOrDefault(x => x.Book.Id == book.Id);
 
-            var orders = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new ListBook { Books = new ObservableCollection<Book>(books) }));
+                        if(exist != null)
+                        {
+                            book.IsChecked = true;
+                            book.Number = exist.Quantity;
+                            book.PreTotal = exist.Quantity * double.Parse(exist.Book.Price);
+                        }
+                    }
+                }
+            }
+
+            var orders = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new ListBook { Books = new ObservableCollection<Book>(books) }, isUpdate));
 
             if (orders != null)
             {
@@ -93,21 +112,22 @@ namespace xfLibrary.ViewModels
                     });
 
                     //slide image
-                    var imgs = book.Imgs;
-                    if (imgs != null && imgs.Count != 0)
-                    {
-                        foreach (var img in imgs)
-                        {
-                            Slides.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
-                        }
-                    }
-                    else
-                        Slides.Add(book.ImageSource);
+                    //var imgs = book.Imgs;
+                    //if (imgs != null && imgs.Count != 0)
+                    //{
+                    //    foreach (var img in imgs)
+                    //    {
+                    //        Slides.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                    //    }
+                    //}
+                    //else
+                    //    Slides.Add(book.ImageSource);
                 }
             }
         });
-        public ICommand PostCommand => new Command(async () => {
-            if(string.IsNullOrEmpty(NewPost.Address) || string.IsNullOrEmpty(NewPost.Content) 
+        public ICommand PostCommand => new Command(async () =>
+        {
+            if (string.IsNullOrEmpty(NewPost.Address) || string.IsNullOrEmpty(NewPost.Content)
             || NewPost.NumberOfRentalDays == 0 || NewPost.Fee == 0)
             {
                 _message.ShortAlert("Không được để trống");
@@ -127,6 +147,7 @@ namespace xfLibrary.ViewModels
             }
 
             Response res;
+
             if (isUpdate) res = await _mainService.UpdatePostAsync(NewPost, _token);
             else res = await _mainService.AddPostMeAsync(NewPost, _token);
 
@@ -134,7 +155,8 @@ namespace xfLibrary.ViewModels
                 BackCommand.Execute(null);
             _message.ShortAlert(res.Message);
         });
-        public ICommand AddressCommand => new Command(async () => {
+        public ICommand AddressCommand => new Command(async () =>
+        {
             selected = await MaterialDialog.Instance.SelectChoiceAsync(title: "Chọn nơi ký gửi", selectedIndex: selected,
                                                                          choices: Services.Api.Maps, dismissiveText: "Hủy");
             if (selected != -1) NewPost.Address = Services.Api.Maps[selected];

@@ -10,6 +10,7 @@ namespace xfLibrary.Models
 {
     public class Book : BaseModel
     {
+        private string quantity;
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -32,18 +33,21 @@ namespace xfLibrary.Models
         public string Author { get; set; }
 
         [JsonProperty("quantity")]
-        public string Quantity { get; set; }
+        public string Quantity { get => quantity; set => SetProperty(ref quantity, value); }
 
         [JsonProperty("imgs")]
         public List<Img> Imgs { get; set; }
 
 
+
+        private int number = 0;
+        private bool isChecked = false;
         [JsonIgnore]
-        public bool IsChecked { get; set; } = false;
+        public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
         [JsonIgnore]
         public double PreTotal { get; set; } = 0;
         [JsonIgnore]
-        public int Number { get; set; } = 0;
+        public int Number { get => number; set => SetProperty(ref number, value); }
         [JsonIgnore]
         public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]

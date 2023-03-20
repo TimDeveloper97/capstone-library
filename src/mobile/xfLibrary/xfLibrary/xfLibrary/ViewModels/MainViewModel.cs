@@ -132,21 +132,20 @@ namespace xfLibrary.ViewModels
 
         public ICommand PagePostAppearingCommand => new Command(async () =>
         {
-            //Appearing(async () =>
-            //{
-            //    await MoveToLogin(async () =>
-            //    {
-            //        List<Post> posts = null;
-            //        if(!_isAdmin)
-            //            posts = await _mainService.GetAllPostMeAsync(_token);
-            //        else
-            //            posts = await _mainService.GetAllPostAdminAsync(_token);
+            Appearing(async () =>
+            {
+                await MoveToLogin(async () =>
+                {
+                    List<Post> posts = null;
+                    if (!_isAdmin)
+                        posts = await _mainService.GetAllPostMeAsync(_token);
+                    else
+                        posts = await _mainService.GetAllPostAdminAsync(_token);
 
-            //        MessagingCenter.Send<object, object>(this, "reportpost", posts);
-            //        IsVisible = HasLogin();
-            //    });
-            //});
-            IsVisible = true;
+                    MessagingCenter.Send<object, object>(this, "reportpost", posts);
+                    IsVisible = HasLogin();
+                });
+            });
         });
 
         public ICommand PageNotificationAppearingCommand => new Command(async () =>
