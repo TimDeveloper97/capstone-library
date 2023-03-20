@@ -1,6 +1,6 @@
 Mobile
-- Chưa test API: Thuê - Update -> Post
-- API Notification, Suggest
+- Chưa test API: Thuê -> Post
+- API Notification
 doing
 - draff auto login (done)
 - draff accept,deny, get all post admin
@@ -15,6 +15,6 @@ doing
 done update post -> fix order loading (done)
 - draff accept,deny, get all post admin (done)
 cart (done)
-
+search, filter category, suggest (done)
 
 User chỉ có xóa hoặc sửa

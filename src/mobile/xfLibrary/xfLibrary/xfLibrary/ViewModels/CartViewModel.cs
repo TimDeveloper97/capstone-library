@@ -69,7 +69,7 @@ namespace xfLibrary.ViewModels
         {
             IsBusy = true;
 
-            var carts = await _mainService.GetAllCartAsync();
+            var carts = await _mainService.GetAllCartAsync(_token);
             if (carts != null)
             {
                 foreach (var cart in carts)

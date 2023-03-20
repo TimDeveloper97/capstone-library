@@ -96,9 +96,9 @@ namespace xfLibrary.Services.Main
         #endregion
 
         #region Cart
-        public async Task<List<Post>> GetAllCartAsync()
+        public async Task<List<Post>> GetAllCartAsync(string _token)
         {
-            var res = await Service.Get(Api.Cart);
+            var res = await Service.Get(Api.Cart, _token);
             if (res == null || res.Value == null) return null;
 
             var value = JsonConvert.DeserializeObject<List<Post>>(res.Value.ToString());

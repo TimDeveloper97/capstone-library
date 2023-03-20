@@ -88,7 +88,7 @@ namespace xfLibrary.ViewModels
             ItemDisplayToView(currentTab);
         });
 
-        public ICommand SelectedCommand => new Command<Post>(async (post) =>
+        public ICommand SelectedPostCommand => new Command<Post>(async (post) =>
         {
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
 

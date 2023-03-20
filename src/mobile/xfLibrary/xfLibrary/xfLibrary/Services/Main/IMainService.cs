@@ -23,7 +23,7 @@ namespace xfLibrary.Services.Main
         Task<Response> DisablePostAsync(string id, string token);
         Task<List<Post>> GetAllPostAdminAsync(string _token);
 
-        Task<List<Post>> GetAllCartAsync();
+        Task<List<Post>> GetAllCartAsync(string _token);
         Task<Response> DeleteCartAsync(string id, string token);
         Task<Response> OrderCartAsync(string id, string token);
         Task<Response> CheckoutCartAsync(object obj, string token);
