@@ -4,6 +4,7 @@ import MainLayout from "./layout/MainLayout/MainLayout";
 import AddBook from "./views/AddBook/AddBook";
 import BookPage from "./views/BookPage/BookPage";
 import DetailBook from "./views/DetailBook/DetailBook";
+import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import Error from "./views/Home/Error";
 import Home from "./views/Home/Home";
 import Login from "./views/Login/Login";
@@ -35,6 +36,10 @@ export default function Route() {
         {
           path: "/detail-book",
           element: <DetailBook />,
+        },
+        {
+          path: "/forgot-password",
+          element: <ForgotPassword />,
         },
         {
           path: "/user",

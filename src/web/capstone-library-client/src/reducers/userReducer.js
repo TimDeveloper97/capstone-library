@@ -1,7 +1,8 @@
-const curUser = JSON.parse(window.localStorage.getItem("user"));
-
-const user = (state = curUser, action) => {
+const user = (state = {}, action) => {
   switch (action.type) {
+    case "GET_USER": {
+      return action.payload;
+    }
     case "UPDATE_USER": {
       return action.payload;
     }

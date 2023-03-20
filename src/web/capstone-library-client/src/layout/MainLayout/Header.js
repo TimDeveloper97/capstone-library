@@ -1,13 +1,20 @@
 import { faUserCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getUser } from "../../actions/user";
 import DetailAccount from "./DetailAccount";
 import "./header.css";
 
 export default function Header() {
-  const user = JSON.parse(window.localStorage.getItem("user"));
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const curUser = JSON.parse(window.localStorage.getItem("user"));
+    dispatch(getUser(curUser));
+  }, []);
 
+  const user = useSelector((state) => state.user);
   return (
     <header className="header-area bg-dark">
       <div className="container">

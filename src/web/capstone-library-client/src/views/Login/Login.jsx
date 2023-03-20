@@ -28,7 +28,7 @@ export default function Login() {
     resolver: yupResolver(schema),
   });
   const user = window.localStorage.getItem("user");
-  if(user){
+  if (user) {
     window.localStorage.clear();
     window.location.reload();
   }
@@ -62,7 +62,7 @@ export default function Login() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="card-body row p-0">
-          <NotificationContainer />
+            <NotificationContainer />
             <div className="col-lg-6">
               <div className="form-content py-4 pr-60px pl-60px border-right border-right-gray h-100 d-flex align-items-center justify-content-center">
                 <img
@@ -117,7 +117,7 @@ export default function Login() {
                       label="Nhớ mật khẩu"
                     />
                     <span style={{ paddingTop: "5px" }}>
-                      <a href="#">Quên mật khẩu?</a>
+                      <Link to={"/forgot-password"}>Quên mật khẩu?</Link>
                     </span>
                   </div>
                 </div>
