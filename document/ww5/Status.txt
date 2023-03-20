@@ -6,8 +6,13 @@ doing
 - draff accept,deny, get all post admin
 
 
-1, trạng thái mới post bài của user (đang đợi được chấp thuận hoặc từ chối)
-2, trạng thái sau khi đã được chấp thuận bài post của user (đã được chấp thuận)
-3, trạng thái sau khi đã từ chối của bài post
-4, trạng thái tắt bài post của user (khi đã được accept thì không thể tắt - chỉ tắt khi đang đợi chấp thuận hay trạng thái 1)
-5, trạng thái mở bài post của user thì quay về trạng thái 1
+1, trạng thái mới post bài của user (đang đợi được chấp thuận hoặc từ chối)  USER_POST_IS_NOT_APPROVED = 2;
+2, trạng thái sau khi đã được chấp thuận bài post của user (đã được chấp thuận)  USER_POST_IS_APPROVED = 4;
+3, trạng thái sau khi đã từ chối của bài post    USER_REQUEST_IS_DENY = 32; (call api deny)
+4, trạng thái tắt bài post của user (admin - khi bài đã accept trạng thái 4)    ADMIN_DISABLE = 64;
+5, trạng thái mở bài post của user (ADMIN)  USER_POST_IS_APPROVED = 4;
+
+done update post -> fix order loading
+
+
+User chỉ có xóa hoặc sửa

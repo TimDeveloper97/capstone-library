@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using Xamarin.CommunityToolkit.Extensions.Internals;
 using Xamarin.Forms;
 
 namespace xfLibrary.Converters
@@ -46,14 +47,32 @@ namespace xfLibrary.Converters
         }
     }
 
-    class StatusToBoolConverter : IValueConverter
+    class StatusToBoolConverter : ValueConverterExtension, IValueConverter
     {
+        public int Value { get; set; } = 0;
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return false;
             var status = (int)value;
 
-            return status == 0 ? false : true;
+            return status == Value ? false : true;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    class OffToOnConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return "Tắt";
+            var status = (int)value;
+
+            return status != Services.Api.ADMIN_DISABLE ? "Tắt" : "Bật";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

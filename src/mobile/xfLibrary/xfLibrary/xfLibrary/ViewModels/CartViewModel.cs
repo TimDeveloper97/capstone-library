@@ -15,6 +15,7 @@ namespace xfLibrary.ViewModels
         #region Properties
         private ObservableCollection<Post> posts;
         private bool isCheckedAll;
+        private bool isSort = true;
 
         public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
         public bool IsCheckedAll
@@ -34,21 +35,72 @@ namespace xfLibrary.ViewModels
         {
             IsBusy = true;
 
+            var mycart = Posts.Where(x => x.IsChecked).ToList();
+            var res = await _mainService.CheckoutCartAsync(mycart, _token);
+            if (res == null) return;
+
+            if (res.Success)
+            {
+                foreach (var item in mycart)
+                {
+                    Posts.Remove(item);
+                }
+            }
+
+            _message.ShortAlert(res.Message);
+            IsBusy = false;
+        });
+
+        public ICommand FilterCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            ObservableCollection<Post> lsort = null;
+            if (isSort)
+                lsort = new ObservableCollection<Post>(Posts.OrderBy(x => x.Title));
+            else
+                lsort = new ObservableCollection<Post>(Posts.OrderBy(x => x.ReturnDate));
+
+            Posts = lsort;
+            IsBusy = false;
+        });
+
+        public ICommand PageAppearingCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            var carts = await _mainService.GetAllCartAsync();
+            if (carts != null)
+            {
+                foreach (var cart in carts)
+                {
+                    Posts.Add(cart);
+                }
+            }
 
             IsBusy = false;
         });
 
         public ICommand DeleteCommand => new Command<Post>(async (post) =>
         {
-            post.IsChecked = false;
-            Posts.Remove(post);
+            IsBusy = true;
+
+            var res = await _mainService.DeleteCartAsync(post.Id, _token);
+            if (res == null) return;
+
+            if (res.Success)
+            {
+                Posts.Remove(post);
+            }
+
+            _message.ShortAlert(res.Message);
+            IsBusy = false;
         });
         #endregion
 
         public CartViewModel()
         {
             Init();
-            FakeData();
         }
 
         #region Method

@@ -10,6 +10,7 @@ namespace xfLibrary.Services.Main
 {
     class MainService : IMainService
     {
+        #region Category
         public async Task<List<Category>> CategoryAsync()
         {
             var res = await Service.Get(Api.Category);
@@ -18,7 +19,9 @@ namespace xfLibrary.Services.Main
             var value = JsonConvert.DeserializeObject<List<Category>>(res.Value.ToString());
             return value;
         }
+        #endregion
 
+        #region Post
         public async Task<List<Post>> GetAllPostAsync()
         {
             var res = await Service.Get(Api.Post);
@@ -31,6 +34,15 @@ namespace xfLibrary.Services.Main
         public async Task<List<Post>> GetAllPostMeAsync(string _token)
         {
             var res = await Service.Get(Api.GetPostMe, _token);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Post>>(res.Value.ToString());
+            return value;
+        }
+
+        public async Task<List<Post>> GetAllPostAdminAsync(string _token)
+        {
+            var res = await Service.Get(Api.GetPostAdmin, _token);
             if (res == null || res.Value == null) return null;
 
             var value = JsonConvert.DeserializeObject<List<Post>>(res.Value.ToString());
@@ -67,13 +79,41 @@ namespace xfLibrary.Services.Main
             return res;
         }
 
-        public async Task<List<Post>> GetAllPostAdminAsync(string _token)
+        public async Task<Response> DisablePostAsync(string id, string token)
         {
-            var res = await Service.Get(Api.GetPostAdmin, _token);
+            var res = await Service.PutParameter(id, Api.DisablePost, token);
+            return res;
+        }
+        #endregion
+
+        #region Cart
+        public async Task<List<Post>> GetAllCartAsync()
+        {
+            var res = await Service.Get(Api.Cart);
             if (res == null || res.Value == null) return null;
 
             var value = JsonConvert.DeserializeObject<List<Post>>(res.Value.ToString());
             return value;
         }
+
+        public async Task<Response> DeleteCartAsync(string id, string token)
+        {
+            var res = await Service.Delete(id, Api.DeleteCart, token);
+            return res;
+        }
+
+        public async Task<Response> OrderCartAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.OrderBooks, token);
+            return res;
+        }
+
+        public async Task<Response> CheckoutCartAsync(object obj, string token)
+        {
+            var res = await Service.Post(new { orders = obj }, Api.Checkout, token);
+            return res;
+        }
+        #endregion
+
     }
 }

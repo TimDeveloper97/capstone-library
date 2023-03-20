@@ -33,7 +33,6 @@ namespace xfLibrary.Services
         public const string Category = "admin/categories";
 
         public const string Post = "posts";
-        public const string GetPost = "posts";
         public const string GetPostMe = "posts/me";
         public const string GetPostAdmin = "posts/request";
         public const string AddPost = "posts/add"; 
@@ -41,6 +40,21 @@ namespace xfLibrary.Services
         public const string DeletePost = "posts/delete"; 
         public const string AcceptPost = "posts/accept-post"; 
         public const string DenyPost = "posts/deny-post"; 
+        public const string DisablePost = "posts/disable-post"; 
+
+        public const string Cart = "cart"; 
+        /// <summary>
+        /// xóa item trong giỏ
+        /// </summary>
+        public const string DeleteCart = "cart/remove-item"; 
+        /// <summary>
+        /// tiến hành thanh toán
+        /// </summary>
+        public const string Checkout = "checkout"; 
+        /// <summary>
+        /// thêm vào giỏ hàng
+        /// </summary>
+        public const string OrderBooks = "order-book"; 
 
         public const string Admin = "ROLE_ADMIN"; 
         public const string User = "ROLE_USER"; 
@@ -67,11 +81,15 @@ namespace xfLibrary.Services
           */
 
         public const int ADMIN_POST = 0;
+        //KY GUI
         public const int USER_POST_IS_NOT_APPROVED = 2;
         public const int USER_POST_IS_APPROVED = 4;
+        public const int USER_REQUEST_IS_DENY = 32;
+        public const int ADMIN_DISABLE = 64;
+
+        //TRA SACH
         public const int USER_RETURN_IS_NOT_APPROVED = 8;
         public const int USER_RETURN_IS_APPROVED = 16;
-        public const int USER_REQUEST_IS_DENY = 32;
 
         /**
           * USER STATUS
@@ -79,6 +97,7 @@ namespace xfLibrary.Services
           * BIT 6:   1 - BLOCK_POST, 0 - NONE_BLOCK
           */
 
+        //STATUS OF ACCOUNT
         public const int ACTIVATE = 32;
         public const int BLOCK_POST = 64;
     }

@@ -44,7 +44,6 @@ namespace xfLibrary.ViewModels
         #region Command 
         public ICommand PageAppearingCommand => new Command(async () =>
         {
-
             if (isUpdate)
             {
                 Title = "Sửa thông tin bài";
@@ -134,9 +133,9 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
-            if (NewPost.Content.Length < 500)
+            if (NewPost.Content.Length < 100)
             {
-                _message.ShortAlert("Nội dung tối thiểu 500 chữ");
+                _message.ShortAlert("Nội dung tối thiểu 100 chữ");
                 return;
             }
 

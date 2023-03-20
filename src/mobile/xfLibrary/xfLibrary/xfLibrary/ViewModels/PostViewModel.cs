@@ -151,19 +151,54 @@ namespace xfLibrary.ViewModels
 
             _message.ShortAlert(res.Message);
         });
-
+        
         public ICommand DenyCommand => new Command<Post>(async (post) =>
         {
             var res = await _mainService.DenyPostAsync(post.Id, _token);
             if (res.Success)
             {
-                post.Status = Services.Api.USER_POST_IS_NOT_APPROVED;
+                post.Status = Services.Api.USER_REQUEST_IS_DENY;
                 post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
             }
 
             _message.ShortAlert(res.Message);
         });
 
+        public ICommand ActiveDenyCommand => new Command<Post>(async (post) =>
+        {
+            if (post.Status != Services.Api.USER_POST_IS_APPROVED
+            && post.Status != Services.Api.ADMIN_DISABLE)
+            {
+                _message.ShortAlert("Chỉ có thể tắt/bật bài khi đã được chấp thuận");
+                return;
+            }
+
+            #region Test
+            //if (post.Status == Services.Api.USER_POST_IS_APPROVED)
+            //    post.Status = Services.Api.ADMIN_DISABLE;
+            //else
+            //    post.Status = Services.Api.USER_POST_IS_APPROVED;
+            //post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
+            #endregion
+
+            Response res = null;
+            if (post.Status == Services.Api.USER_POST_IS_APPROVED)
+                res = await _mainService.DisablePostAsync(post.Id, _token);
+            else
+                res = await _mainService.AcceptPostAsync(post.Id, _token);
+
+            if (res.Success)
+            {
+                if (post.Status == Services.Api.USER_POST_IS_APPROVED)
+                    post.Status = Services.Api.ADMIN_DISABLE;
+                else
+                    post.Status = Services.Api.USER_POST_IS_APPROVED;
+
+                post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
+            }
+
+            _message.ShortAlert(res.Message);
+        });
         #endregion
 
         public PostViewModel()

@@ -68,14 +68,25 @@ namespace xfLibrary.ViewModels
 
         public ICommand SelectedCommand => new Command<Post>(async (post) =>
         {
-            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
+            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
+
+            Response res = null;
+            //Thêm vào giỏ
+            if(item.IsChecked)
+                res = await _mainService.OrderCartAsync(item.Id, _token);
+            //thanh toán luôn
+            else
+                res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+
+            if (res == null) return;
+
+            _message.ShortAlert(res.Message);
         });
         #endregion
 
         public HomeViewModel()
         {
             Init();
-            //FakeData();
             InitCurrentTab();
             ItemDisplayToView(currentTab);
         }
