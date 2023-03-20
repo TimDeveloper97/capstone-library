@@ -1,6 +1,6 @@
 Mobile
 - Chưa test API: Thuê - Update -> Post
-- API Notification, Suggest, Cart
+- API Notification, Suggest
 doing
 - draff auto login (done)
 - draff accept,deny, get all post admin
@@ -12,7 +12,9 @@ doing
 4, trạng thái tắt bài post của user (admin - khi bài đã accept trạng thái 4)    ADMIN_DISABLE = 64;
 5, trạng thái mở bài post của user (ADMIN)  USER_POST_IS_APPROVED = 4;
 
-done update post -> fix order loading
+done update post -> fix order loading (done)
+- draff accept,deny, get all post admin (done)
+cart (done)
 
 
 User chỉ có xóa hoặc sửa

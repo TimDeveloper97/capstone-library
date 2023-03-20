@@ -83,7 +83,7 @@ namespace xfLibrary.ViewModels
             foreach (var book in books)
             {
                 if (book.Imgs == null || book.Imgs.Count == 0)
-                    book.ImageSource = "book.png";
+                    book.ImageSource = Services.Api.IconBook;
                 else
                 {
                     var url = Services.Api.BaseUrl + book.Imgs[0].FileName.Replace("\\", "/");

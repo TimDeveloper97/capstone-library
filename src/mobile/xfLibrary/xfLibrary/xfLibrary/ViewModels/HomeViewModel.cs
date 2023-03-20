@@ -19,6 +19,7 @@ namespace xfLibrary.ViewModels
         #region Property
         private ObservableCollection<Category> category;
         private ObservableCollection<Post> posts;
+        private ObservableCollection<Book> suggests;
         private ObservableCollection<string> slide;
         private static List<Post> _allPosts;
         private string currentItem;
@@ -27,6 +28,7 @@ namespace xfLibrary.ViewModels
 
         public ObservableCollection<Category> Category { get => category; set => SetProperty(ref category, value); }
         public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
+        public ObservableCollection<Book> Suggests { get => suggests; set => SetProperty(ref suggests, value); }
         public ObservableCollection<string> Slide { get => slide; set => SetProperty(ref slide, value); }
         public string CurrentItem { get => currentItem; set => SetProperty(ref currentItem, value); }
         public bool IsPrevious { get => isPrevious; set => SetProperty(ref isPrevious, value); }
@@ -35,6 +37,26 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
+        public ICommand ReloadCommand => new Command(async() =>
+        {
+            IsBusy = true;
+
+            var posts = await _mainService.GetAllPostAsync();
+            if (posts == null) return;
+
+            _allPosts.Clear();
+            foreach (var post in posts)
+            {
+                if (post.Order == null)
+                    post.Order = new ObservableCollection<Order>();
+
+                _allPosts.Add(UpdateItemData(post));
+            }
+
+            InitCurrentTab();
+
+            IsBusy = false;
+        });
 
         public ICommand PreviousCommand => new Command(() =>
         {
@@ -82,13 +104,36 @@ namespace xfLibrary.ViewModels
 
             _message.ShortAlert(res.Message);
         });
+
+        public ICommand SelectedBookCommand => new Command<Book>(async (book) =>
+        {
+            IsBusy = true;
+
+            _allPosts = _allPosts.Where(x => x.Order?.Any(y => y.Book.Id == book.Id) ?? false).ToList();
+            InitCurrentTab();
+
+            IsBusy = false;
+        });
+
+        public ICommand SelectedCategoryCommand => new Command<Category>(async (category) =>
+        {
+            IsBusy = true;
+            
+            _allPosts = _allPosts.Where(
+                x => x.Order?.Any(
+                    y => y.Book.Categories?.Any(
+                        z => z == category.Code) ?? false) ?? false).ToList();
+            InitCurrentTab();
+
+            IsBusy = false;
+        });
         #endregion
 
         public HomeViewModel()
         {
             Init();
-            InitCurrentTab();
-            ItemDisplayToView(currentTab);
+            //InitCurrentTab();
+            //ItemDisplayToView(currentTab);
         }
 
         #region Method
@@ -99,6 +144,7 @@ namespace xfLibrary.ViewModels
             _allPosts = new List<Post>();
             Category = new ObservableCollection<Category>();
             Posts = new ObservableCollection<Post>();
+            Suggests = new ObservableCollection<Book>();
             IsNext = true; IsPrevious = false;
 
             MessagingCenter.Subscribe<object, object>(this, "category",
@@ -129,17 +175,43 @@ namespace xfLibrary.ViewModels
                           _message.ShortAlert("Kết nối bị gián đoạn");
                       else
                       {
-                          var post = (IList<Post>)arg;
+                          var posts = (IList<Post>)arg;
 
-                          foreach (var item in post)
+                          foreach (var post in posts)
                           {
-                              if (item.Order == null)
-                                  item.Order = new ObservableCollection<Order>();
+                              if (post.Order == null)
+                                  post.Order = new ObservableCollection<Order>();
 
-                              _allPosts.Add(UpdateItemData(item));
+                              _allPosts.Add(UpdateItemData(post));
                           }
 
                           InitCurrentTab();
+                      }
+                  });
+
+            MessagingCenter.Subscribe<object, object>(this, "suggest",
+                  (sender, arg) =>
+                  {
+                      Suggests.Clear();
+
+                      if (arg == null)
+                          _message.ShortAlert("Kết nối bị gián đoạn");
+                      else
+                      {
+                          var books = (IList<Book>)arg;
+
+                          foreach (var book in books)
+                          {
+                              if (book.Imgs == null || book.Imgs.Count == 0)
+                                  book.ImageSource = Services.Api.IconBook;
+                              else
+                              {
+                                  var url = Services.Api.BaseUrl + book.Imgs[0].FileName.Replace("\\", "/");
+                                  book.ImageSource = url;
+                              }
+
+                              Suggests.Add(book);
+                          }
                       }
                   });
         }
@@ -155,6 +227,8 @@ namespace xfLibrary.ViewModels
             {
                 Posts.Add(_allPosts[i]);
             }
+
+            ItemDisplayToView(currentTab);
         }
 
         void FakeData()

@@ -655,6 +655,16 @@
         <Setter Property="BusyColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
     </Style>
 
+    <Style x:Key="IconButtonStyle" TargetType="mdc:MaterialButton">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        <Setter Property="FontSize" Value="{StaticResource Header}"/>
+        <Setter Property="FontFamily" Value="MaterialIcons"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="BorderColor" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="BusyColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+    </Style>
+
     <Style TargetType="mdc:MaterialEntry">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
         <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>

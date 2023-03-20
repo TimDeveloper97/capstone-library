@@ -112,7 +112,6 @@ namespace xfLibrary.ViewModels
                         _user = user;
                         _isAdmin = user.Roles.Any(x => x == Services.Api.Admin);
                     }
-
                 }    
             }
         });
@@ -123,9 +122,11 @@ namespace xfLibrary.ViewModels
             {
                 var category = await _mainService.CategoryAsync();
                 var post = await _mainService.GetAllPostAsync();
+                var suggest = await _mainService.SuggestAsync(_token);
 
                 MessagingCenter.Send<object, object>(this, "category", category);
                 MessagingCenter.Send<object, object>(this, "post", post);
+                MessagingCenter.Send<object, object>(this, "suggest", suggest);
             });
 
         });

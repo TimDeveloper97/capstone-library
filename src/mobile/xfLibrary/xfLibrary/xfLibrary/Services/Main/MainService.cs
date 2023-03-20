@@ -19,6 +19,15 @@ namespace xfLibrary.Services.Main
             var value = JsonConvert.DeserializeObject<List<Category>>(res.Value.ToString());
             return value;
         }
+
+        public async Task<List<Book>> SuggestAsync(string _token)
+        {
+            var res = await Service.Get(Api.SuggestBook, _token);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
+            return value;
+        }
         #endregion
 
         #region Post
