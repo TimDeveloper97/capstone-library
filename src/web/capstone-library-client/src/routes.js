@@ -34,7 +34,7 @@ export default function Route() {
           element: <BookPage />,
         },
         {
-          path: "/detail-book",
+          path: "/detail-book/:id",
           element: <DetailBook />,
         },
         {

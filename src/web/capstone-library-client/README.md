@@ -68,3 +68,40 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### use-case
+
+1. Đăng nhập
+- Tại trang chủ: bấm "Đăng nhập" ở góc trên bên phải -> tại trang đăng nhập, nhập tài khoản, mật khẩu để đăng nhập.
+- Validation: username và password không được để trống.
+- Notification: Tài khoản hoặc mật khẩu không chính xác.
+2. Đăng ký
+- Tại trang chủ: Bấm "Đăng ký" -> tại trang đăng ký, nhập thông tin.
+- Validation: tên, tên đăng nhập, mật khẩu, xác nhận mật khẩu không được để trống. xác nhận mật khẩu phải trùng với mật khẩu
+- Notification: Trùng tên đăng nhập... (message trả về từ server)
+3. Cập nhật thông tin
+- Rê chuột vào tên người dùng ở góc trên phải, chọn "Cài đặt tài khoản". Trang này sẽ hiển thị thông tin người dùng.
+Tại tab "Thông tin của bạn", bấm "Sửa thông tin", Textfield sẽ hiện thị những trường mà có thể thay đổi. Sau đó bấm "Lưu thay đổi"
+- Validation: chưa có
+- Notification: không
+4. Thay đổi mật khẩu
+- Ở trang tài khoản, chọn tab "Đổi mật khẩu". Điền thông tin rồi bấm "Đổi mật khẩu". 
+- Validation: chưa có
+- Notification: message từ server, (success hoặc error)
+5. Đăng xuất
+- Rê chuột vào tên người dùng ở góc trên phải, chọn "Đăng xuất". Web sẽ chuyển đến trang chủ.
+- Hiện đang bị lỗi đăng nhập và đăng xuất, sau khi đăng nhập hoặc đăng xuất thì phải refresh lại trang (f5) --> sẽ fix.
+6. Kho sách
+- Lấy danh sách category từ server, hiển thị lên Sidebar bên trái. Vẫn chưa lấy sách từ server và để data fake.
+7. Chi tiết sách
+- Bấm vào sách sẽ đến trang chi tiết về sách, chưa gắn với api, có thể chọn ảnh để xem, tăng giảm số lượng thuê. Số lượng bằng 1 thì
+không giảm được.
+8. Thêm sách
+- Ở menu kho sách trên header, chọn thêm sách -> chuyển hướng đến trang thêm sách. Chưa có api
+9. Quên mật khẩu.
+- Ở trang đăng nhập, bấm vào "Quên mật khẩu" -> chuyển đến trang quên mật khẩu. Chưa có api
+10. Trang không tìm thấy
+- Khi bấm vào những link chưa có, chưa viết, hoặc nhập đường dẫn không chính xác, sẽ chuyển hướng đến trang không tìm thấy (404 not found)
+- Hầu hết các nút ở trang chủ khi lăn chuột xuống dưới sẽ dẫn đến các trang chưa làm -> đến trang 404 not found.
+

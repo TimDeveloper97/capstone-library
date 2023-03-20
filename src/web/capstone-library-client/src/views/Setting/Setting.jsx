@@ -59,14 +59,15 @@ export default function Setting() {
       })
       .then((response) => {
         NotificationManager.success(response.data.message, "Thông báo", 2000);
+
+        setCfPass("");
+        setNewPass("");
+        setOldPass("");
       })
       .catch((err) => {
         console.log(err);
         NotificationManager.error(err.response.data.message, "Lỗi", 2000);
       });
-    setCfPass("");
-    setNewPass("");
-    setOldPass("");
   };
   return (
     <>
@@ -328,7 +329,7 @@ export default function Setting() {
                             <TextField
                               margin="dense"
                               label="Mật khẩu cũ"
-                              type="text"
+                              type="password"
                               variant="standard"
                               fullWidth
                               value={oldPass}
@@ -339,7 +340,7 @@ export default function Setting() {
                             <TextField
                               margin="dense"
                               label="Mật khẩu mới"
-                              type="text"
+                              type="password"
                               variant="standard"
                               fullWidth
                               value={newPass}
@@ -350,7 +351,7 @@ export default function Setting() {
                             <TextField
                               margin="dense"
                               label="Xác nhận mật khẩu"
-                              type="text"
+                              type="password"
                               variant="standard"
                               fullWidth
                               value={cfPass}
