@@ -11,6 +11,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axiosIntance from "../../helper/axios";
+import { useDispatch } from "react-redux";
+import { getUser } from "../../actions/user";
 
 const schema = yup.object({
   username: yup.string().required("Tên đăng nhập không được để trống"),
@@ -20,6 +22,7 @@ const schema = yup.object({
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -40,6 +43,7 @@ export default function Login() {
         const { value, token } = response.data;
         window.localStorage.setItem("token", token);
         window.localStorage.setItem("user", JSON.stringify(value));
+        dispatch(getUser(value));
         const from = location.state?.from || "/";
         navigate(from, { replace: true });
       })

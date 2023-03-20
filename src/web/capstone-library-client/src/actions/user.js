@@ -10,3 +10,8 @@ export const updateUser = (data) => async (dispatch) => {
 export const getUser = (data) => (dispatch) => {
   dispatch({ type: "GET_USER", payload: data });
 };
+
+export const clearSession = () => (dispatch) => {
+  window.localStorage.clear();
+  dispatch({type: "CLEAR_SESSION", payload: null});
+}
