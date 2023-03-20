@@ -7,12 +7,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { clearSession } from "../../actions/user";
 
 export default function DetailAccount() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const logOut = () => {
-    window.localStorage.clear();
+    dispatch(clearSession());
     navigate("/", { replace: true });
   };
   return (
