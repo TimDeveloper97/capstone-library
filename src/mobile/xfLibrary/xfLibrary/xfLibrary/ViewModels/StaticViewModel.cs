@@ -22,6 +22,20 @@ namespace xfLibrary.ViewModels
         public ICommand ReloadTransactionCommand => new Command(() =>
         {
             IsBusy = true;
+            Transactions.Add(new TransactionGroup(DateTime.Now, new[] { new Transaction
+                {
+                    Date = DateTime.Now,
+                    Money = 1000000,
+                    User = "sơn",
+                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
+                },
+                new Transaction
+                {
+                    Date = DateTime.Now,
+                    Money = 1000000,
+                    User = "sơn",
+                    Message = "ngày hôm nay",
+                }}));
             IsBusy = false;
         });
 
@@ -43,53 +57,6 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Transactions = new ObservableCollection<TransactionGroup>();
-            Transactions = new ObservableCollection<TransactionGroup> {
-                new TransactionGroup(DateTime.Now, new[] { new Transaction
-                {
-                    Date = DateTime.Now,
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                },
-                new Transaction
-                {
-                    Date = DateTime.Now,
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "ngày hôm nay",
-                }}),
-
-                new TransactionGroup(DateTime.Now.AddDays(-1), new[] { new Transaction
-                {
-                    Date = DateTime.Now.AddDays(-1),
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "ngày hôm qua",
-                },
-                new Transaction
-                {
-                    Date = DateTime.Now.AddDays(-1),
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                }}),
-
-                new TransactionGroup(DateTime.Now.AddDays(-2), new[] { new Transaction
-                {
-                    Date = DateTime.Now.AddDays(-2),
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "ngày hôm kia",
-                },
-                new Transaction
-                {
-                    Date = DateTime.Now.AddDays(-2),
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                }}),
-            };
-            IsBusy = false;
         }
         #endregion
     }

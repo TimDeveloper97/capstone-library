@@ -22,6 +22,40 @@ namespace xfLibrary.ViewModels
         public ICommand ReloadNotificationCommand => new Command(() =>
         {
             IsBusy = true;
+            Notifications.Add(
+                new NotificationGroup(DateTime.Now, new[] { new Notification
+                {
+                    Date = DateTime.Now,
+                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
+                },
+                new Notification
+                {
+                    Date = DateTime.Now,
+                    Message = "ngày hôm nay",
+                }}));
+
+            Notifications.Add(new NotificationGroup(DateTime.Now.AddDays(-1), new[] { new Notification
+                {
+                    Date = DateTime.Now.AddDays(-1),
+                    Message = "ngày hôm qua",
+                },
+                new Notification
+                {
+                    Date = DateTime.Now.AddDays(-1),
+                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
+                }}));
+
+            Notifications.Add(new NotificationGroup(DateTime.Now.AddDays(-2), new[] { new Notification
+                {
+                    Date = DateTime.Now.AddDays(-2),
+                    Message = "ngày hôm kia",
+                },
+                new Notification
+                {
+                    Date = DateTime.Now.AddDays(-2),
+                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
+                }}));
+            
             IsBusy = false;
         });
 
@@ -42,40 +76,7 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Notifications = new ObservableCollection<NotificationGroup> {
-                new NotificationGroup(DateTime.Now, new[] { new Notification
-                {
-                    Date = DateTime.Now,
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                },
-                new Notification
-                {
-                    Date = DateTime.Now,
-                    Message = "ngày hôm nay",
-                }}),
-
-                new NotificationGroup(DateTime.Now.AddDays(-1), new[] { new Notification
-                {
-                    Date = DateTime.Now.AddDays(-1),
-                    Message = "ngày hôm qua",
-                },
-                new Notification
-                {
-                    Date = DateTime.Now.AddDays(-1),
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                }}),
-
-                new NotificationGroup(DateTime.Now.AddDays(-2), new[] { new Notification
-                {
-                    Date = DateTime.Now.AddDays(-2),
-                    Message = "ngày hôm kia",
-                },
-                new Notification
-                {
-                    Date = DateTime.Now.AddDays(-2),
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                }}),
-            };
+            Notifications = new ObservableCollection<NotificationGroup>();
         }
         #endregion
     }

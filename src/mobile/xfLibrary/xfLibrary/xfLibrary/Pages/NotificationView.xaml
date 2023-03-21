@@ -13,50 +13,74 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             xmlns:converter="clr-namespace:xfLibrary.Converters"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.NotificationView">
-
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:StatusToBoolConverter x:Key="StatusToBoolZeroConverter" Value="0"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
     <ContentView.Content>
-        <Grid HorizontalOptions="FillAndExpand">
-            <!--<RefreshView Command="{Binding ReloadNotificationCommand}" IsRefreshing="{Binding IsBusy}">
-                
-            </RefreshView>-->
-
-            <ListView GroupDisplayBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}" 
-                      IsGroupingEnabled="True" ItemsSource="{Binding Notifications}" RefreshCommand="{Binding ReloadNotificationCommand}" IsRefreshing="{Binding IsBusy}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid ColumnDefinitions="auto, *" Padding="10,5">
-                                <!--#region Icon -->
-                                <Grid VerticalOptions="Start" HorizontalOptions="Start" HeightRequest="35" WidthRequest="38">
-                                    <Frame BackgroundColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}" CornerRadius="30" Opacity="0.1"
+        <Grid HorizontalOptions="FillAndExpand" Padding="10,0">
+            <RefreshView Command="{Binding ReloadNotificationCommand}" IsRefreshing="{Binding IsBusy}">
+                <ScrollView>
+                    <Grid>
+                        <Label x:Name="label" VerticalOptions="Center" HorizontalOptions="Center" Text="Không có thông báo để hiển thị">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Notifications.Count, Converter={StaticResource StatusToBoolZeroConverter}}" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="true" />
+                                </MultiTrigger>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Notifications.Count, Converter={StaticResource StatusToBoolZeroConverter}}" Value="true"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="false" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <ListView GroupDisplayBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}"
+                                  IsVisible="{Binding Source={Reference label}, Path=IsVisible, Converter={StaticResource ChangeBoolConverter}}"
+                                  IsGroupingEnabled="True" ItemsSource="{Binding Notifications}" IsPullToRefreshEnabled="False">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid ColumnDefinitions="auto, *" Padding="10,5">
+                                            <!--#region Icon -->
+                                            <Grid VerticalOptions="Start" HorizontalOptions="Start" HeightRequest="35" WidthRequest="38">
+                                                <Frame BackgroundColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}" CornerRadius="30" Opacity="0.1"
                                            Style="{StaticResource FrameNoBorder}"/>
-                                    <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Bell}"
+                                                <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Bell}"
                                            VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}"/>
-                                </Grid>
-                                <!--#endregion-->
-                                
-                                
-                                <Grid Grid.Column="1" Margin="7,0,0,0" RowDefinitions="6*, 4*" RowSpacing="0">
-                                    <Label Text="{Binding Message, StringFormat='Nội dung: {0}', Converter={StaticResource UpperOneStringConverter}}" 
+                                            </Grid>
+                                            <!--#endregion-->
+
+
+                                            <Grid Grid.Column="1" Margin="7,0,0,0" RowDefinitions="6*, 4*" RowSpacing="0">
+                                                <Label Text="{Binding Message, StringFormat='Nội dung: {0}', Converter={StaticResource UpperOneStringConverter}}" 
                                                Style="{StaticResource MiniLabelStyle}" VerticalOptions="Start"
                                                MaxLines="{Binding MaxLines}" HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
 
-                                    <Label Grid.Row="1" Text="{Binding Date, StringFormat='{}{0:hh:mm tt}', TargetNullValue='N/A'}"
+                                                <Label Grid.Row="1" Text="{Binding Date, StringFormat='{}{0:hh:mm tt}', TargetNullValue='N/A'}"
                                            Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}"
                                            VerticalOptions="Start" HorizontalOptions="Start" Margin="0,-2,0,0"/>
-                                    <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
                                                               Command="{Binding Path=BindingContext.ExtendTextCommand, Source={x:Reference Name=self}}"/>
-                                    </Grid.GestureRecognizers>
-                                </Grid>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </ScrollView>
+            </RefreshView>
         </Grid>
     </ContentView.Content>
 </ContentView>
