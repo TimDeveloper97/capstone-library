@@ -12,6 +12,7 @@ namespace xfLibrary.Services.Main
         Task<List<Category>> CategoryAsync();
 
         Task<List<Book>> SuggestAsync(string _token);
+        Task<List<Post>> GetSuggestPostAsync(string id);
 
         Task<List<Post>> GetAllPostAsync();
         Task<List<Post>> GetAllPostMeAsync(string _token);

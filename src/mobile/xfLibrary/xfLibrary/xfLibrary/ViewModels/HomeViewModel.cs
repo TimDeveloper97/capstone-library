@@ -37,12 +37,13 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-        public ICommand ReloadCommand => new Command(async() =>
+        public ICommand ReloadCommand => new Command(async () =>
         {
             IsBusy = true;
 
             var posts = await _mainService.GetAllPostAsync();
-            if (posts == null) return;
+            if (posts == null) { IsBusy = false; return; }
+
 
             _allPosts.Clear();
             foreach (var post in posts)
@@ -94,7 +95,7 @@ namespace xfLibrary.ViewModels
 
             Response res = null;
             //Thêm vào giỏ
-            if(item.IsChecked)
+            if (item.IsChecked)
                 res = await _mainService.OrderCartAsync(item.Id, _token);
             //thanh toán luôn
             else
@@ -109,7 +110,11 @@ namespace xfLibrary.ViewModels
         {
             IsBusy = true;
 
-            _allPosts = _allPosts.Where(x => x.Order?.Any(y => y.Book.Id == book.Id) ?? false).ToList();
+            var posts = await _mainService.GetSuggestPostAsync(book.Id);
+            if (posts == null) 
+                _allPosts.Clear();
+            else
+                _allPosts = posts;
             InitCurrentTab();
 
             IsBusy = false;
@@ -118,7 +123,7 @@ namespace xfLibrary.ViewModels
         public ICommand SelectedCategoryCommand => new Command<Category>(async (category) =>
         {
             IsBusy = true;
-            
+
             _allPosts = _allPosts.Where(
                 x => x.Order?.Any(
                     y => y.Book.Categories?.Any(
@@ -221,7 +226,7 @@ namespace xfLibrary.ViewModels
             Posts.Clear();
             var r = numberItemDisplay * currentTab;
             var l = _allPosts.Count();
-            
+
             var max = l > r ? r : l;
             for (int i = 0; i < max; i++)
             {
@@ -268,7 +273,7 @@ namespace xfLibrary.ViewModels
             int maxPage = (_allPosts.Count / numberItemDisplay) + 1;
 
             //show or hide next previous
-            if(maxPage == 1)
+            if (maxPage == 1)
             {
                 IsNext = false;
                 IsPrevious = false;

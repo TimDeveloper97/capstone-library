@@ -32,6 +32,7 @@ namespace xfLibrary.Services
 
         public const string Category = "admin/categories";
         public const string SuggestBook = "books/suggest";
+        public const string GetSuggestPost = "posts/has-book";
 
         public const string Post = "posts";
         public const string GetPostMe = "posts/me";
@@ -143,6 +144,7 @@ namespace xfLibrary.Services
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
             };
             HttpClient httpClient = new HttpClient(clientHandler);
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
             if (token != null)
                 httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Bearer", token);
@@ -169,6 +171,7 @@ namespace xfLibrary.Services
             var httpClient = new HttpClient();
             var json = JsonConvert.SerializeObject(obj);
             HttpContent httpContent = new StringContent(json);
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
             if (token != null)
                 httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Bearer", token);
@@ -195,6 +198,7 @@ namespace xfLibrary.Services
         public static async Task<Response> Delete(string para, string url, string token = null)
         {
             var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
             if (token != null)
                 httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Bearer", token);
@@ -217,6 +221,7 @@ namespace xfLibrary.Services
         public static async Task<Response> Put(object obj, string url, string token = null)
         {
             var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
             var json = JsonConvert.SerializeObject(obj);
             HttpContent httpContent = new StringContent(json);
             if (token != null)
