@@ -75,27 +75,32 @@ namespace xfLibrary.ViewModels
         });
         public ICommand BookCommand => new Command(async () =>
         {
-            var books = await _accountService.GetAllBookAsync(_token);
-            if (isUpdate)
-            {
-                if (NewPost.Order != null && NewPost.Order.Count > 0)
-                {
-                    foreach (var book in books)
-                    {
-                        var exist = NewPost.Order.FirstOrDefault(x => x.Book.Id == book.Id);
+            List<Book> books = null;
+            if (_isAdmin)
+                books = await _accountService.GetAdminBookAsync(_token);
+            else
+                books = await _accountService.GetUserBookAsync(_token);
 
-                        if(exist != null)
-                        {
-                            book.IsChecked = true;
-                            book.Number = exist.Quantity;
-                            book.PreTotal = exist.Quantity * double.Parse(exist.Book.Price);
-                        }
+            //push sach update vao popup
+            if (NewPost.Order != null && NewPost.Order.Count > 0)
+            {
+                foreach (var book in books)
+                {
+                    var exist = NewPost.Order.FirstOrDefault(x => x.Book.Id == book.Id);
+
+                    if (exist != null)
+                    {
+                        book.IsChecked = true;
+                        book.Number = exist.Quantity;
+                        book.PreTotal = exist.Quantity * double.Parse(exist.Book.Price);
                     }
                 }
             }
 
+            //show popup
             var orders = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new ListBook { Books = new ObservableCollection<Book>(books) }, isUpdate));
 
+            //get data show to view
             if (orders != null)
             {
                 Slides.Clear();
@@ -111,16 +116,16 @@ namespace xfLibrary.ViewModels
                     });
 
                     //slide image
-                    //var imgs = book.Imgs;
-                    //if (imgs != null && imgs.Count != 0)
-                    //{
-                    //    foreach (var img in imgs)
-                    //    {
-                    //        Slides.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
-                    //    }
-                    //}
-                    //else
-                    //    Slides.Add(book.ImageSource);
+                    var imgs = book.Imgs;
+                    if (imgs != null && imgs.Count != 0)
+                    {
+                        foreach (var img in imgs)
+                        {
+                            Slides.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                        }
+                    }
+                    else
+                        Slides.Add(book.ImageSource);
                 }
             }
         });

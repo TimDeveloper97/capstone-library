@@ -24,7 +24,8 @@ namespace xfLibrary.Services
         public const string ChangePassword = "change-password";
         public const string UpdateProfile = "update-profile";
 
-        public const string Book = "books";
+        public const string AdminBook = "books";
+        public const string UserBook = "books/me";
         public const string AddBook = "books/add";
         public const string GetBook = "books";
         public const string DeleteBook = "books/delete";

@@ -78,7 +78,11 @@ namespace xfLibrary.ViewModels
         async Task AddBook()
         {
             ItemsSource.Clear();
-            var books = await _accountService.GetAllBookAsync(_token);
+            List<Book> books = null;
+            if (_isAdmin)
+                books = await _accountService.GetAdminBookAsync(_token);
+            else
+                books = await _accountService.GetUserBookAsync(_token);
 
             foreach (var book in books)
             {

@@ -50,14 +50,12 @@ namespace xfLibrary.Models
         public int Money { get; set; }
 
 
-        private int maxLines = 3;
+        private int maxLines = 2;
         private bool isChecked = false;
         private string color = "#00000";
 
         [JsonIgnore]
         public ObservableCollection<string> Slide { get; set; }
-        [JsonIgnore]
-        public int TotalReturnDay { get; set; }
         [JsonIgnore]
         public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
@@ -68,7 +66,8 @@ namespace xfLibrary.Models
         public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
         [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }
-
+        [JsonIgnore]
+        public string MoreDescription { get; set; }
 
         public Post()
         {
@@ -85,4 +84,6 @@ namespace xfLibrary.Models
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
     }
+
+
 }
