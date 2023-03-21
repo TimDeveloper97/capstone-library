@@ -12,8 +12,8 @@ namespace xfLibrary.Services
 {
     public class Api
     {
-        //public const string BaseUrl = "http://192.168.137.206:8888";
-        public const string BaseUrl = "https://66ee-103-7-37-126.ap.ngrok.io";
+        public const string BaseUrl = "http://192.168.137.206:8888";
+        //public const string BaseUrl = "https://66ee-103-7-37-126.ap.ngrok.io";
         public const string Url = BaseUrl + "/api/";
         public const string IconBook = "book512.png";
         public const string IconCategory = "category512.png";
@@ -24,16 +24,18 @@ namespace xfLibrary.Services
         public const string ChangePassword = "change-password";
         public const string UpdateProfile = "update-profile";
 
-        public const string Book = "books";
+        public const string AdminBook = "books";
+        public const string UserBook = "books/me";
         public const string AddBook = "books/add";
         public const string GetBook = "books";
         public const string DeleteBook = "books/delete";
         public const string UpdateBook = "books/update";
 
         public const string Category = "admin/categories";
+        public const string SuggestBook = "books/suggest";
+        public const string GetSuggestPost = "posts/has-book";
 
         public const string Post = "posts";
-        public const string GetPost = "posts";
         public const string GetPostMe = "posts/me";
         public const string GetPostAdmin = "posts/request";
         public const string AddPost = "posts/add"; 
@@ -41,6 +43,21 @@ namespace xfLibrary.Services
         public const string DeletePost = "posts/delete"; 
         public const string AcceptPost = "posts/accept-post"; 
         public const string DenyPost = "posts/deny-post"; 
+        public const string DisablePost = "posts/disable-post"; 
+
+        public const string Cart = "cart"; 
+        /// <summary>
+        /// xóa item trong giỏ
+        /// </summary>
+        public const string DeleteCart = "cart/remove-item"; 
+        /// <summary>
+        /// tiến hành thanh toán
+        /// </summary>
+        public const string Checkout = "checkout"; 
+        /// <summary>
+        /// thêm vào giỏ hàng
+        /// </summary>
+        public const string OrderBooks = "order-book"; 
 
         public const string Admin = "ROLE_ADMIN"; 
         public const string User = "ROLE_USER"; 
@@ -67,11 +84,15 @@ namespace xfLibrary.Services
           */
 
         public const int ADMIN_POST = 0;
+        //KY GUI
         public const int USER_POST_IS_NOT_APPROVED = 2;
         public const int USER_POST_IS_APPROVED = 4;
+        public const int USER_REQUEST_IS_DENY = 32;
+        public const int ADMIN_DISABLE = 64;
+
+        //TRA SACH
         public const int USER_RETURN_IS_NOT_APPROVED = 8;
         public const int USER_RETURN_IS_APPROVED = 16;
-        public const int USER_REQUEST_IS_DENY = 32;
 
         /**
           * USER STATUS
@@ -79,6 +100,7 @@ namespace xfLibrary.Services
           * BIT 6:   1 - BLOCK_POST, 0 - NONE_BLOCK
           */
 
+        //STATUS OF ACCOUNT
         public const int ACTIVATE = 32;
         public const int BLOCK_POST = 64;
     }
@@ -123,6 +145,7 @@ namespace xfLibrary.Services
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
             };
             HttpClient httpClient = new HttpClient(clientHandler);
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
             if (token != null)
                 httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Bearer", token);
@@ -149,6 +172,7 @@ namespace xfLibrary.Services
             var httpClient = new HttpClient();
             var json = JsonConvert.SerializeObject(obj);
             HttpContent httpContent = new StringContent(json);
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
             if (token != null)
                 httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Bearer", token);
@@ -175,6 +199,7 @@ namespace xfLibrary.Services
         public static async Task<Response> Delete(string para, string url, string token = null)
         {
             var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
             if (token != null)
                 httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Bearer", token);
@@ -197,6 +222,7 @@ namespace xfLibrary.Services
         public static async Task<Response> Put(object obj, string url, string token = null)
         {
             var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
             var json = JsonConvert.SerializeObject(obj);
             HttpContent httpContent = new StringContent(json);
             if (token != null)

@@ -7,32 +7,34 @@ using xfLibrary.Domain;
 
 namespace xfLibrary.Models
 {
-    class Notification : BaseModel
+    class Transaction : BaseModel
     {
         [JsonProperty("message")]
         public string Message { get; set; }
+        [JsonProperty("user")]
+        public string User { get; set; }
+        [JsonProperty("money")]
+        public double Money { get; set; }
         [JsonProperty("date")]
         public DateTime Date { get; set; }
 
 
         private int maxLines = 1;
         [JsonIgnore]
-        public int Number { get; set; } = 0;
-        [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }
     }
 
-    class NotificationGroup : ObservableCollection<Notification>
+    class TransactionGroup : ObservableCollection<Transaction>
     {
         public DateTime Date { get; private set; }
 
-        public NotificationGroup(DateTime date)
+        public TransactionGroup(DateTime date)
             : base()
         {
             Date = date;
         }
 
-        public NotificationGroup(DateTime date, IEnumerable<Notification> source)
+        public TransactionGroup(DateTime date, IEnumerable<Transaction> source)
             : base(source)
         {
             Date = date;

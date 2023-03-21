@@ -16,7 +16,7 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.BookView">
+             x:Class="xfLibrary.Pages.OrderView">
     <ContentPage.Resources>
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
             <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>

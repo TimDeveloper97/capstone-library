@@ -17,16 +17,17 @@ namespace xfLibrary.ViewModels
         #region Properties
         private User profile;
         string icon = "emoji3.png";
-        public string Icon
-        {
-            get { return icon; }
-            set { SetProperty(ref icon, value); }
-        }
+        private bool isAdmin = false;
+
+        public string Icon { get => icon; set => SetProperty(ref icon, value); }
         public User Profile { get => profile; set => SetProperty(ref profile, value); }
+        public bool IsAdmin { get => isAdmin; set => SetProperty(ref isAdmin, value); }
         #endregion
 
         #region Command 
         public ICommand LoginCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(LoginView)));
+
+        public ICommand StaticCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(StaticView)));
 
         public ICommand CartCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CartView)));
 
@@ -72,6 +73,7 @@ namespace xfLibrary.ViewModels
 
                       Icon = LoadIcon();
                       Profile = _user;
+                      IsAdmin = _isAdmin;
                   });
         }
         #endregion

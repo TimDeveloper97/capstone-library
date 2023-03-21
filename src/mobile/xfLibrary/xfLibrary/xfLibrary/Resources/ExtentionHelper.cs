@@ -58,6 +58,8 @@ namespace xfLibrary.Resources
 
                 case 32: return "#37306B";
 
+                case 64: return "#8D7B68";
+
                 default: return "#4D4D4D";
             }
         }
@@ -67,14 +69,16 @@ namespace xfLibrary.Resources
             switch (status)
             {
                 case 0: return "Admin";
-                case 2: return "Non Approved";
-                case 4: return "Approved";
+                case 2: return "Đợi chấp thuận";
+                case 4: return "Chấp thuận";
 
-                case 8: return "Non Commission";
-                case 16: return "Commission";
+                case 8: return "Chưa hoàn tiền";
+                case 16: return "Đã hoàn tiền";
 
-                case 32: return "Refuse";
-                default: return "Non";
+                case 32: return "Từ chối";
+                case 64: return "Tắt bài";
+
+                default: return "NA";
             }
         }
     }

@@ -78,12 +78,16 @@ namespace xfLibrary.ViewModels
         async Task AddBook()
         {
             ItemsSource.Clear();
-            var books = await _accountService.GetAllBookAsync(_token);
+            List<Book> books = null;
+            if (_isAdmin)
+                books = await _accountService.GetAdminBookAsync(_token);
+            else
+                books = await _accountService.GetUserBookAsync(_token);
 
             foreach (var book in books)
             {
                 if (book.Imgs == null || book.Imgs.Count == 0)
-                    book.ImageSource = "book.png";
+                    book.ImageSource = Services.Api.IconBook;
                 else
                 {
                     var url = Services.Api.BaseUrl + book.Imgs[0].FileName.Replace("\\", "/");
@@ -91,7 +95,8 @@ namespace xfLibrary.ViewModels
                 }
 
                 //format to view
-                book.StringCategories = ListToString(book.Categories);
+                if (book.Categories != null && book.Categories.Count != 0)
+                    book.StringCategories = ListToString(book.Categories);
 
                 //update view
                 ItemsSource.Add(book);

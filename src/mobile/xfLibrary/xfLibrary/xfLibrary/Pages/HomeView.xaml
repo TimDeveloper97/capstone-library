@@ -20,7 +20,7 @@
         <StackLayout>
             <Grid>
                 <ScrollView>
-                    <Grid RowDefinitions="auto, auto, *" Style="{StaticResource GridBackground}" RowSpacing="0">
+                    <Grid RowDefinitions="auto, auto, auto, *" Style="{StaticResource GridBackground}" RowSpacing="0">
                         <!--#region Live slide -->
                         <StackLayout Grid.Row="0">
                             <cards:CarouselView ItemsSource="{Binding Slide}" SlideShowDuration="3500">
@@ -45,7 +45,7 @@
                                 <Label FontSize="Title" Text="Khám phá danh mục" Style="{StaticResource TitleLabelStyle}"
                                        FontFamily="MuliBold" HorizontalOptions="Start"/>
 
-                                <CollectionView ItemsSource="{Binding Category}" HeightRequest="100" SelectionMode="Single" >
+                                <CollectionView ItemsSource="{Binding Category}" HeightRequest="100" SelectionMode="Single">
                                     <CollectionView.ItemsLayout>
                                         <LinearItemsLayout Orientation="Horizontal" />
                                     </CollectionView.ItemsLayout>
@@ -57,6 +57,10 @@
                                                 </Frame>
                                                 <Label Grid.Row="1" Text="{Binding Name}" WidthRequest="70"
                                                    LineBreakMode="WordWrap" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
+                                                                          Command="{Binding Path=BindingContext.SelectedCategoryCommand, Source={x:Reference Name=self}}"/>
+                                                </Grid.GestureRecognizers>
                                             </Grid>
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
@@ -65,9 +69,44 @@
                         </Grid>
                         <!--#endregion-->
 
-                        <Grid Grid.Row="2" RowDefinitions="auto,*" Padding="15,10" Margin="0,5,0,-50">
-                            <!--#region Recent -->
-                            <Label FontSize="Title" Text="Tin đăng mới" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" HorizontalOptions="Start"/>
+                        <!--#region Suggest To You -->
+                        <Grid Grid.Row="2" Padding="10" Margin="0,5,0,0">
+                            <StackLayout>
+                                <Label FontSize="Title" Text="Gợi ý cho bạn" Style="{StaticResource TitleLabelStyle}"
+                                       FontFamily="MuliBold" HorizontalOptions="Start"/>
+
+                                <CollectionView ItemsSource="{Binding Suggests}" HeightRequest="100" SelectionMode="Single" >
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout Orientation="Horizontal" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid RowDefinitions="*, 40" Padding="10,0,10,0">
+                                                <Frame HeightRequest="70" WidthRequest="60" Margin="10,0" Padding="2">
+                                                    <Image Source="{Binding ImageSource}" Aspect="Fill"/>
+                                                </Frame>
+                                                <Label Grid.Row="1" Text="{Binding Name}" WidthRequest="70"
+                                                       LineBreakMode="WordWrap" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
+                                                                          Command="{Binding Path=BindingContext.SelectedBookCommand, Source={x:Reference Name=self}}"/>
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
+                        </Grid>
+                        <!--#endregion-->
+
+                        <!--#region Recent -->
+                        <Grid Grid.Row="3" RowDefinitions="auto,*" Padding="15,10" Margin="0,5,0,-50">
+                            <Grid ColumnDefinitions="*, 50">
+                                <Label FontSize="Title" Text="Tin đăng mới" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
+                                       HorizontalOptions="Start" VerticalOptions="Center"/>
+                                <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding ReloadCommand}"
+                                                    Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}"/>
+                            </Grid>
 
                             <CollectionView Grid.Row="1" ItemsSource="{Binding Posts}" SelectionMode="Single" ItemsUpdatingScrollMode="KeepScrollOffset" VerticalScrollBarVisibility="Never">
                                 <CollectionView.ItemsLayout>
@@ -82,7 +121,7 @@
                                             <Label Grid.Row="1" Text="{Binding Title}" HorizontalOptions="Center"/>
                                             <Grid.GestureRecognizers>
                                                 <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
-                                                                  Command="{Binding Path=BindingContext.SelectedCommand, Source={x:Reference Name=self}}"/>
+                                                                  Command="{Binding Path=BindingContext.SelectedPostCommand, Source={x:Reference Name=self}}"/>
                                             </Grid.GestureRecognizers>
                                         </Grid>
                                     </DataTemplate>
@@ -112,15 +151,10 @@
                                     </Grid>
                                 </CollectionView.Footer>
                             </CollectionView>
-                            <!--#endregion-->
                         </Grid>
-
-
+                        <!--#endregion-->
                     </Grid>
                 </ScrollView>
-
-                <!--<mdc:MaterialFloatingButton VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"
-                                        Command="{Binding AddNewsCommand}" CommandParameter="{Binding .}"/>-->
             </Grid>
         </StackLayout>
     </ContentView.Content>

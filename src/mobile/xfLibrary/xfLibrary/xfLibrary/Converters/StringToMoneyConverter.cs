@@ -11,8 +11,6 @@ namespace xfLibrary.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
-            
-
             if(value != null && !string.IsNullOrEmpty(value.ToString()))
             {
                 var x = int.Parse(value.ToString());
@@ -22,7 +20,7 @@ namespace xfLibrary.Converters
                 string result = (x * y).ToString("#,###", cul.NumberFormat);
                 return result;
             }
-            return 0;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

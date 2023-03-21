@@ -54,12 +54,14 @@ namespace xfLibrary.Pages.Popup
 
         private void okBtn_Clicked(object sender, EventArgs e)
         {
-            Dismiss(null);
+            _model.IsChecked = true;
+            Dismiss(_model);
         }
 
         private void cancelBtn_Clicked(object sender, EventArgs e)
         {
-            Dismiss(null);
+            _model.IsChecked = false;
+            Dismiss(_model);
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

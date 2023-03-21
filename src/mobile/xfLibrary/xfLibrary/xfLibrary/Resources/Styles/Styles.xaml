@@ -23,7 +23,8 @@
     <converter:StatusToColorConverter x:Key="StatusToColorConverter" />
     <converter:StatusToStringConverter x:Key="StatusToStringConverter" />
     <converter:UpperOneStringConverter x:Key="UpperOneStringConverter" />
-    <converter:StatusToBoolConverter x:Key="StatusToBoolConverter" />
+    <converter:OffToOnConverter x:Key="OffToOnConverter" />
+    <converter:DatetimeToColorConverter x:Key="DatetimeToColorConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
@@ -312,6 +313,11 @@
         <Setter Property="VerticalScrollBarVisibility" Value="Never" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
         <Setter Property="SeparatorVisibility" Value="None" />
+    </Style>
+
+    <Style TargetType="ScrollView">
+        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
     </Style>
 
     <Style TargetType="Picker">
@@ -649,6 +655,16 @@
     <Style x:Key="HideButtonStyle" TargetType="mdc:MaterialButton">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
         <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="BorderColor" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="BusyColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+    </Style>
+
+    <Style x:Key="IconButtonStyle" TargetType="mdc:MaterialButton">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        <Setter Property="FontSize" Value="{StaticResource Header}"/>
+        <Setter Property="FontFamily" Value="MaterialIcons"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="BorderColor" Value="Transparent"/>
         <Setter Property="CornerRadius" Value="0"/>

@@ -44,6 +44,34 @@ namespace xfLibrary.ViewModels
             ItemDisplayToView(currentTab);
         });
 
+        public ICommand ReloadCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            List<Post> posts = null;
+            if (!_isAdmin)
+                posts = await _mainService.GetAllPostMeAsync(_token);
+            else
+                posts = await _mainService.GetAllPostAdminAsync(_token);
+
+            if (posts == null)
+            {
+                IsBusy = false;
+                return;
+            }
+
+            Posts.Clear();
+            foreach (var item in posts)
+            {
+                if (item.Order == null)
+                    item.Order = new ObservableCollection<Order>();
+
+                Posts.Add(UpdateItemData(item));
+            }
+
+            IsBusy = false;
+        });
+
         public ICommand NextCommand => new Command(() =>
         {
             Posts.Clear();
@@ -61,10 +89,10 @@ namespace xfLibrary.ViewModels
 
         public ICommand ExtendTextCommand => new Command<Post>((post) =>
         {
-            if (post.MaxLines == 3)
+            if (post.MaxLines == 2)
                 post.MaxLines = 99;
             else
-                post.MaxLines = 3;
+                post.MaxLines = 2;
         });
 
         public ICommand AddCommand => new Command(async () =>
@@ -123,13 +151,21 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
-        public ICommand MessagerCommand => new Command<A>(async (a) =>
+        public ICommand MessagerCommand => new Command(async () =>
         {
             await Shell.Current.GoToAsync(nameof(ChatView));
         });
-
+        /// <summary>
+        /// status = 2 mới được xóa
+        /// </summary>
         public ICommand DeleteCommand => new Command<Post>(async (post) =>
         {
+            if (post.Status != Services.Api.USER_POST_IS_NOT_APPROVED)
+            {
+                _message.ShortAlert("Chỉ có thể xóa ký gửi khi chưa được chấp thuận");
+                return;
+            }
+
             var res = await _mainService.DeletePostAsync(post.Id, _token);
             if (res.Success)
                 Posts.Remove(post);
@@ -137,8 +173,16 @@ namespace xfLibrary.ViewModels
             _message.ShortAlert(res.Message);
         });
 
-        public ICommand UpdateCommand => new Command<Post>(async (post) => await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
-            $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(post)}"));
+        public ICommand UpdateCommand => new Command<Post>(async (post) => {
+            if (post.Status != Services.Api.USER_POST_IS_NOT_APPROVED)
+            {
+                _message.ShortAlert("Chỉ có thể sửa ký gửi khi chưa được chấp thuận");
+                return;
+            }
+
+            await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
+            $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(post)}");
+        });
 
         public ICommand AcceptCommand => new Command<Post>(async (post) =>
         {
@@ -149,21 +193,56 @@ namespace xfLibrary.ViewModels
                 post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
             }
 
-            _message.ShortAlert(res.Message);
+            _message.ShortAlert(res?.Message ?? "Không có phản hồi");
         });
-
+        
         public ICommand DenyCommand => new Command<Post>(async (post) =>
         {
             var res = await _mainService.DenyPostAsync(post.Id, _token);
             if (res.Success)
             {
-                post.Status = Services.Api.USER_POST_IS_NOT_APPROVED;
+                post.Status = Services.Api.USER_REQUEST_IS_DENY;
+                post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
+            }
+
+            _message.ShortAlert(res?.Message ?? "Không có phản hồi");
+        });
+
+        public ICommand ActiveDenyCommand => new Command<Post>(async (post) =>
+        {
+            if (post.Status != Services.Api.USER_POST_IS_APPROVED
+            && post.Status != Services.Api.ADMIN_DISABLE)
+            {
+                _message.ShortAlert("Chỉ có thể tắt/bật bài khi đã được chấp thuận");
+                return;
+            }
+
+            #region Test
+            //if (post.Status == Services.Api.USER_POST_IS_APPROVED)
+            //    post.Status = Services.Api.ADMIN_DISABLE;
+            //else
+            //    post.Status = Services.Api.USER_POST_IS_APPROVED;
+            //post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
+            #endregion
+
+            Response res = null;
+            if (post.Status == Services.Api.USER_POST_IS_APPROVED)
+                res = await _mainService.DisablePostAsync(post.Id, _token);
+            else
+                res = await _mainService.AcceptPostAsync(post.Id, _token);
+
+            if (res.Success)
+            {
+                if (post.Status == Services.Api.USER_POST_IS_APPROVED)
+                    post.Status = Services.Api.ADMIN_DISABLE;
+                else
+                    post.Status = Services.Api.USER_POST_IS_APPROVED;
+
                 post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
             }
 
             _message.ShortAlert(res.Message);
         });
-
         #endregion
 
         public PostViewModel()
@@ -179,7 +258,7 @@ namespace xfLibrary.ViewModels
             Actions = new List<string> {
                 "Trạng thái tăng dần", "Trạng thái giảm dần",
                 "Thời gian tăng dần", "Thời gian giảm dần" };
-            //FakeData();
+            
             MessagingCenter.Subscribe<object, object>(this, "reportpost",
                   (sender, arg) =>
                   {
@@ -277,6 +356,19 @@ namespace xfLibrary.ViewModels
 
         Post UpdateItemData(Post post)
         {
+            //more description
+            var order = post.Order;
+            if (order != null && order.Count != 0)
+            {
+                foreach (var item in order)
+                {
+                    post.MoreDescription += $"{item.Book.Name}({item.Quantity})" + ",";
+                }
+
+                if (!string.IsNullOrEmpty(post.MoreDescription)) 
+                    post.MoreDescription = post.MoreDescription.Substring(0, post.MoreDescription.Length - 1);
+            } 
+
             //update admin
             post.IsAdmin = _isAdmin;
 

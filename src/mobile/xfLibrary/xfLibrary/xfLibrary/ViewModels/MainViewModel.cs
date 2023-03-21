@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
@@ -19,22 +20,24 @@ namespace xfLibrary.ViewModels
     {
         #region Properties
         private bool isSearching;
-        private ObservableCollection<Post> suggests;
+        private static List<Post> _allDatas;
+        private ObservableCollection<Post> searchDatas;
         private int height = 70;
+        //private Regex _regex = new Regex($"(?<f>{text}(inc\\d+)?)");
         private bool isExecuteAppearing = true, isExecuteDisappearing = true, isExecuteOne = true;
 
         public bool IsSearching { get => isSearching; set => SetProperty(ref isSearching, value); }
         public int Height { get => height; set => SetProperty(ref height, value); }
-        public ObservableCollection<Post> Suggests { get => suggests; set => SetProperty(ref suggests, value); }
+        public ObservableCollection<Post> SearchDatas { get => searchDatas; set => SetProperty(ref searchDatas, value); }
 
         #endregion
 
         #region Search bar
         public ICommand SearchCommand => new Command<string>(async (text) =>
         {
-            if (Suggests.Count == 0) return;
+            if (SearchDatas.Count == 0) return;
 
-            var postOne = Suggests[0];
+            var postOne = SearchDatas[0];
             var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne));
         });
 
@@ -43,51 +46,41 @@ namespace xfLibrary.ViewModels
             if (string.IsNullOrEmpty(text)) IsSearching = false;
             else IsSearching = true;
 
-            Height = Suggests.Count >= 5 ? 350 : (Suggests.Count) * 70;
+            text = text.ToLower();
+            SearchDatas.Clear();
+            
+            foreach (var item in _allDatas)
+            {
+                string title = item.Title.Clone().ToString().ToLower();
+
+                if(title.Contains(text)) SearchDatas.Add(item);
+            }
+
+            Height = SearchDatas.Count >= 5 ? 350 : SearchDatas.Count * 70;
         });
 
         public ICommand SelectedCommand => new Command<Post>(async (post) =>
         {
-            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
+            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
+
+            Response res = null;
+            //Thêm vào giỏ
+            if (item.IsChecked)
+                res = await _mainService.OrderCartAsync(item.Id, _token);
+            //thanh toán luôn
+            else
+                res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+
+            if (res == null) return;
+
+            _message.ShortAlert(res.Message);
         });
         #endregion
 
         public MainViewModel()
         {
-            Suggests = new ObservableCollection<Post>();
-            FakeData();
-        }
-
-        void FakeData()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                Suggests.Add(new Post
-                {
-                    Title = "[Cho thuê] Truyện tuổi thơ",
-                    Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                    "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
-                    Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg" },
-                    CreatedDate = new DateTime(2023, 3, 3).Ticks,
-                    ReturnDate = new DateTime(2023, 4, 4).Ticks,
-                    NumberOfRentalDays = 19,
-                    Order = new ObservableCollection<Order>
-                    {
-                        new Order
-                        {
-                            Quantity = 1,
-                            Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                        },
-                        new Order
-                        {
-                            Quantity = 1,
-                            Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                        }
-                    }
-                });
-            }
+            _allDatas = new List<Post>();
+            SearchDatas = new ObservableCollection<Post>();
         }
 
         #region Appearing
@@ -112,7 +105,6 @@ namespace xfLibrary.ViewModels
                         _user = user;
                         _isAdmin = user.Roles.Any(x => x == Services.Api.Admin);
                     }
-
                 }    
             }
         });
@@ -123,30 +115,36 @@ namespace xfLibrary.ViewModels
             {
                 var category = await _mainService.CategoryAsync();
                 var post = await _mainService.GetAllPostAsync();
+                if (post != null)
+                {
+                    _allDatas = new List<Post>(post);
+                }    
+
+                var suggest = await _mainService.SuggestAsync(_token);
 
                 MessagingCenter.Send<object, object>(this, "category", category);
                 MessagingCenter.Send<object, object>(this, "post", post);
+                MessagingCenter.Send<object, object>(this, "suggest", suggest);
             });
 
         });
 
         public ICommand PagePostAppearingCommand => new Command(async () =>
         {
-            //Appearing(async () =>
-            //{
-            //    await MoveToLogin(async () =>
-            //    {
-            //        List<Post> posts = null;
-            //        if(!_isAdmin)
-            //            posts = await _mainService.GetAllPostMeAsync(_token);
-            //        else
-            //            posts = await _mainService.GetAllPostAdminAsync(_token);
+            Appearing(async () =>
+            {
+                await MoveToLogin(async () =>
+                {
+                    List<Post> posts = null;
+                    if (!_isAdmin)
+                        posts = await _mainService.GetAllPostMeAsync(_token);
+                    else
+                        posts = await _mainService.GetAllPostAdminAsync(_token);
 
-            //        MessagingCenter.Send<object, object>(this, "reportpost", posts);
-            //        IsVisible = HasLogin();
-            //    });
-            //});
-            IsVisible = true;
+                    MessagingCenter.Send<object, object>(this, "reportpost", posts);
+                    IsVisible = HasLogin();
+                });
+            });
         });
 
         public ICommand PageNotificationAppearingCommand => new Command(async () =>

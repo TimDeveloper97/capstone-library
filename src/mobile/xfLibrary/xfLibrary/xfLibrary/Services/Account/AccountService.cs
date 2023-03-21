@@ -79,11 +79,19 @@ namespace xfLibrary.Services.Account
             return res;
         }
 
-        public async Task<List<Book>> GetAllBookAsync(string token)
+        public async Task<List<Book>> GetAdminBookAsync(string token)
         {
-            var res = await Service.Get(Api.Book, token);
+            var res = await Service.Get(Api.AdminBook, token);
             var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
             
+            return value;
+        }
+
+        public async Task<List<Book>> GetUserBookAsync(string token)
+        {
+            var res = await Service.Get(Api.UserBook, token);
+            var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
+
             return value;
         }
         #endregion

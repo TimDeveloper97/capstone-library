@@ -10,7 +10,7 @@ using xfLibrary.Models;
 
 namespace xfLibrary.ViewModels
 {
-    class CartViewModel : BaseViewModel
+    class OrderViewModel : BaseViewModel
     {
         #region Properties
         private ObservableCollection<Post> posts;
@@ -98,7 +98,7 @@ namespace xfLibrary.ViewModels
         });
         #endregion
 
-        public CartViewModel()
+        public OrderViewModel()
         {
             Init();
         }

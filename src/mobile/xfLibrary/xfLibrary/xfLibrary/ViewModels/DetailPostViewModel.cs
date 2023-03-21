@@ -42,8 +42,8 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-        public ICommand PageAppearingCommand => new Command(async () => {
-
+        public ICommand PageAppearingCommand => new Command(async () =>
+        {
             if (isUpdate)
             {
                 Title = "Sửa thông tin bài";
@@ -60,7 +60,8 @@ namespace xfLibrary.ViewModels
                     {
                         foreach (var img in imgs)
                         {
-                            Slides.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                            var url = Services.Api.BaseUrl + img.FileName.Replace("//", "/");
+                            Slides.Add(url);
                         }
                     }
                     else
@@ -74,10 +75,32 @@ namespace xfLibrary.ViewModels
         });
         public ICommand BookCommand => new Command(async () =>
         {
-            var books = await _accountService.GetAllBookAsync(_token);
+            List<Book> books = null;
+            if (_isAdmin)
+                books = await _accountService.GetAdminBookAsync(_token);
+            else
+                books = await _accountService.GetUserBookAsync(_token);
 
-            var orders = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new ListBook { Books = new ObservableCollection<Book>(books) }));
+            //push sach update vao popup
+            if (NewPost.Order != null && NewPost.Order.Count > 0)
+            {
+                foreach (var book in books)
+                {
+                    var exist = NewPost.Order.FirstOrDefault(x => x.Book.Id == book.Id);
 
+                    if (exist != null)
+                    {
+                        book.IsChecked = true;
+                        book.Number = exist.Quantity;
+                        book.PreTotal = exist.Quantity * double.Parse(exist.Book.Price);
+                    }
+                }
+            }
+
+            //show popup
+            var orders = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new ListBook { Books = new ObservableCollection<Book>(books) }, isUpdate));
+
+            //get data show to view
             if (orders != null)
             {
                 Slides.Clear();
@@ -106,17 +129,18 @@ namespace xfLibrary.ViewModels
                 }
             }
         });
-        public ICommand PostCommand => new Command(async () => {
-            if(string.IsNullOrEmpty(NewPost.Address) || string.IsNullOrEmpty(NewPost.Content) 
+        public ICommand PostCommand => new Command(async () =>
+        {
+            if (string.IsNullOrEmpty(NewPost.Address) || string.IsNullOrEmpty(NewPost.Content)
             || NewPost.NumberOfRentalDays == 0 || NewPost.Fee == 0)
             {
                 _message.ShortAlert("Không được để trống");
                 return;
             }
 
-            if (NewPost.Content.Length < 500)
+            if (NewPost.Content.Length < 100)
             {
-                _message.ShortAlert("Nội dung tối thiểu 500 chữ");
+                _message.ShortAlert("Nội dung tối thiểu 100 chữ");
                 return;
             }
 
@@ -127,6 +151,8 @@ namespace xfLibrary.ViewModels
             }
 
             Response res;
+            NewPost.User = _user.Id;
+
             if (isUpdate) res = await _mainService.UpdatePostAsync(NewPost, _token);
             else res = await _mainService.AddPostMeAsync(NewPost, _token);
 
@@ -134,7 +160,8 @@ namespace xfLibrary.ViewModels
                 BackCommand.Execute(null);
             _message.ShortAlert(res.Message);
         });
-        public ICommand AddressCommand => new Command(async () => {
+        public ICommand AddressCommand => new Command(async () =>
+        {
             selected = await MaterialDialog.Instance.SelectChoiceAsync(title: "Chọn nơi ký gửi", selectedIndex: selected,
                                                                          choices: Services.Api.Maps, dismissiveText: "Hủy");
             if (selected != -1) NewPost.Address = Services.Api.Maps[selected];
