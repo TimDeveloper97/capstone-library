@@ -17,10 +17,15 @@ namespace xfLibrary.Pages.Popup
         Post _model;
         CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
 
-        public DetailPostPopup(Post m)
+        public DetailPostPopup(Post m, bool isView)
         {
             InitializeComponent();
             _model = m;
+
+            if (isView)
+                action.IsVisible = false;
+            else
+                action.IsVisible = true;
 
             Init();
         }

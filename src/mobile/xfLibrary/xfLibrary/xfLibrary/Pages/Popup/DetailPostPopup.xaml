@@ -74,7 +74,7 @@
                                             </cards:CarouselView>
                                             <!--#endregion-->
                                         </Grid>
-                                        <Grid VerticalOptions="End">
+                                        <Grid VerticalOptions="End" x:Name="action">
                                             <StackLayout Margin="0,10,0,10" HorizontalOptions="End" VerticalOptions="End" Orientation="Horizontal">
                                                 <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Giỏ"/>
                                                 <mdc:MaterialButton x:Name="cancelBtn" Style="{StaticResource HideButtonStyle}" WidthRequest="100" Clicked="cancelBtn_Clicked" Text="Thuê"/>

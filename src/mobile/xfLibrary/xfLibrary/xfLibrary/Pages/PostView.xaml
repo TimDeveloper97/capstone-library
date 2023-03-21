@@ -36,7 +36,7 @@
 
                 <RefreshView Grid.Row="1" IsRefreshing="{Binding IsBusy}" Command="{Binding ReloadCommand}" >
                     <ScrollView>
-                        <CollectionView ItemsSource="{Binding Posts}" Margin="10,0,10,5" xct:IconTintColorEffect.TintColor="Red" >
+                        <CollectionView ItemsSource="{Binding Posts}" Margin="10,0,10,5">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" Span="1"/>
                             </CollectionView.ItemsLayout>
@@ -56,7 +56,7 @@
                                             <!-- Content -->
 
                                             <Frame CornerRadius="15" Margin="0,3" Style="{StaticResource FrameNoBorder}">
-                                                <Grid ColumnDefinitions="70, *, 13" ColumnSpacing="0" >
+                                                <Grid ColumnDefinitions="70, *, 13" ColumnSpacing="0" Style="{StaticResource GroupGridStyle}">
                                                     <!--#region BoxCard -->
                                                     <BoxView Color="{StaticResource AppColor}" Margin="0" CornerRadius="0,15,0,0"/>
                                                     <Grid RowDefinitions="25, *, *, 25" BackgroundColor="Transparent" RowSpacing="0">
@@ -64,13 +64,13 @@
                                                                Style="{StaticResource MiniLabelStyle}" TextColor="White" VerticalOptions="End"/>
                                                         <Label Grid.Row="1" Text="{Binding NumberOfRentalDays, StringFormat='{0} Ngày'}" Style="{StaticResource MiniLabelStyle}" TextColor="White" Margin="0" VerticalOptions="End"/>
                                                         <Label Grid.Row="2" Text="{Binding Fee, StringFormat='{0}%'}" Style="{StaticResource MiniLabelStyle}" TextColor="White" VerticalOptions="Start"/>
-                                                        <Label Grid.Row="3" Text="{Binding CreatedDate, Converter={StaticResource LongToDateTimeConverter}, StringFormat='{}{0:MM/dd/yy}', TargetNullValue='N/A'}"
+                                                        <Label Grid.Row="3" Text="{Binding CreatedDate, Converter={StaticResource LongToDateTimeConverter}, StringFormat='{}{0:dd/MM/yy}', TargetNullValue='N/A'}"
                                                                Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}" VerticalOptions="Start"/>
                                                     </Grid>
                                                     <!--#endregion-->
 
                                                     <!--#region Content -->
-                                                    <Grid Grid.Column="1" RowDefinitions="auto, *, auto" Margin="10">
+                                                    <Grid Grid.Column="1" RowDefinitions="auto, *, auto" Margin="10" Style="{StaticResource GroupGridStyle}">
                                                         <StackLayout Orientation="Horizontal" HorizontalOptions="End">
                                                             <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=2}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                             <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=4}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
@@ -116,10 +116,10 @@
                                                                    HorizontalTextAlignment="Start"/>
                                                         </StackLayout>
 
-                                                        <Grid Grid.Row="2">
+                                                        <Grid Grid.Row="2" Style="{StaticResource GroupGridStyle}">
                                                             <StackLayout Orientation="Horizontal" HorizontalOptions="End">
                                                                 <Frame Style="{StaticResource FrameNoBorder}" BackgroundColor="{StaticResource AppColor}" CornerRadius="10"
-                                                                   HorizontalOptions="End" >
+                                                                   HorizontalOptions="End" BorderColor="{Binding Color}">
                                                                     <Label Text="Ký gửi" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
                                                                     <Frame.Triggers>
                                                                         <MultiTrigger TargetType="Frame">
@@ -137,7 +137,7 @@
                                                                     </Frame.Triggers>
                                                                 </Frame>
                                                                 <Frame Style="{StaticResource FrameNoBorder}" BackgroundColor="{Binding Color}" CornerRadius="10"
-                                                                   HorizontalOptions="End" >
+                                                                    HorizontalOptions="End" BorderColor="{Binding Color}">
                                                                     <Label Text="{Binding Status, Converter={StaticResource StatusToStringConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
                                                                 </Frame>
                                                             </StackLayout>

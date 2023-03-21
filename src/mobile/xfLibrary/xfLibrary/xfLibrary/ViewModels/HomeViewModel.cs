@@ -91,7 +91,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand SelectedPostCommand => new Command<Post>(async (post) =>
         {
-            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
+            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
             Response res = null;
             //Thêm vào giỏ

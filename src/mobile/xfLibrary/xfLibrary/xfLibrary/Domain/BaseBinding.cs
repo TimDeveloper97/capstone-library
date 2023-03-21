@@ -6,7 +6,7 @@ using System.Text;
 
 namespace xfLibrary.Domain
 {
-    public class BaseBinding : INotifyPropertyChanged
+    public class Basemodel : INotifyPropertyChanged
     {
         //public string Id { get; set; }
 
