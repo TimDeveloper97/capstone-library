@@ -1,6 +1,9 @@
 import { faDongSign, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getBookById } from "../../apis/book";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./detailbook.css";
 
@@ -35,10 +38,23 @@ export default function DetailBook() {
   const [activeLink, setActivelLink] = useState(1);
   const [imgShow, setImgShow] = useState("/images/harry-potter.jpg");
   const [rentNumber, setRentNumber] = useState(1);
+  const [currentBook, setCurrentBook] = useState();
+
+
   const handleImgClick = (id, link) => {
     setActivelLink(id);
     setImgShow(link);
   };
+
+  const {id} = useParams();
+  //const books = useSelector(state => state.book);
+  useEffect(() => {
+    const fetchBook = async () => {
+      const response = await getBookById(id);
+      setCurrentBook(response.data.value);
+    }
+    fetchBook();
+  }, [id])
   return (
     <section className="question-area pb-40px">
       <div className="container">
@@ -107,24 +123,19 @@ export default function DetailBook() {
                             </div>
                             <div className="col-md-6 book-info">
                               <h5 className="book-title">
-                                Harry potter và hoàng tử lai
+                                {currentBook?.name}
                               </h5>
                               <div className="number">
-                                <h6 className="publisher">Tác giả: Tô Hoài</h6>
+                                <h6 className="publisher">Tác giả: {currentBook?.author}</h6>
                                 <h6 className="publisher">
-                                  Nhà xuất bản Kim Đồng
+                                {currentBook?.publisher}
                                 </h6>
                               </div>
                               <p className="price">
-                                100.000 <FontAwesomeIcon icon={faDongSign} />
+                                {currentBook?.price} <FontAwesomeIcon icon={faDongSign} />
                               </p>
                               <p className="description">
-                                Lorem Ipsum is simply dummy text of the printing
-                                and typesetting industry. Lorem Ipsum has been
-                                the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley
-                                of type and scrambled it to make a type specimen
-                                book.
+                                {currentBook?.description}
                               </p>
                               <div className="number">
                                 <label>Số lượng thuê</label>
@@ -147,6 +158,7 @@ export default function DetailBook() {
                                     }
                                   />
                                   <button
+                                    disabled={rentNumber === currentBook.quantity}
                                     onClick={() => {
                                       let value = rentNumber;
                                       setRentNumber(++value);
@@ -160,7 +172,7 @@ export default function DetailBook() {
                                 <label htmlFor="">
                                   <span>Tổng tiền</span>
                                 </label>
-                                <span>100.000 đ</span>
+                                <span>{currentBook?.price * rentNumber} đ</span>
                               </div>
                               <div className="buy">
                                 <button className="btn btn-success">

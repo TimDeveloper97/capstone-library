@@ -3,6 +3,9 @@ const book = (state = null, action) => {
         case "ADD_BOOK":{
             return action.payload;
         }
+        case "GET_BOOKS": {
+            return action.payload;
+        }
         default: return state;
     }
 }

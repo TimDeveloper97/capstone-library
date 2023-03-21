@@ -1,12 +1,25 @@
-import React from "react";
+import { faDongSign } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getBooks } from "../../actions/book";
 import "./listbook.css";
 export default function ListBook() {
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBooks());
+  }, []);
+  const books = useSelector(state => state.book);
+  const getImgUrl = (img) => {
+
+  }
   return (
     <section className="section-products">
       <div className="container">
         <div className="row">
-          {[...Array(12)].map((item, index) => {
+          {books && books.map((item, index) => {
             return (
               <div className="col-md-3 col-lg-3 col-xl-3 book-item" key={index}>
                 <div id="product-1" className="single-product">
@@ -14,12 +27,12 @@ export default function ListBook() {
                     <img src="./images/harry-potter.jpg" alt="thumbnail" />
                   </div>
                   <div className="part-2">
-                    <h3 className="product-title">Here Product Title</h3>
-                    <h4 className="product-price">$49.99</h4>
-                    <p className="available">Còn lại: 10</p>
+                    <h3 className="product-title">{item.name}</h3>
+                    <h4 className="product-price">{item.price} <FontAwesomeIcon icon={faDongSign} /></h4>
+                    <p className="available">Còn lại: {item.quantity}</p>
                   </div>
                 </div>
-                <Link to={`/detail-book/${index}`} />
+                <Link to={`/detail-book/${item.id}`} />
               </div>
             );
           })}

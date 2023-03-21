@@ -8,6 +8,8 @@ import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import Error from "./views/Home/Error";
 import Home from "./views/Home/Home";
 import Login from "./views/Login/Login";
+import Order from "./views/Order/Order";
+import AddPost from "./views/Post/AddPost";
 import Register from "./views/Register/Register";
 import Setting from "./views/Setting/Setting";
 
@@ -53,6 +55,14 @@ export default function Route() {
               path: "add-book",
               element: <AddBook />,
             },
+            {
+              path: "order",
+              element: <Order />,
+            },
+            {
+              path: "add-post",
+              element: <AddPost />
+            }
           ],
         },
         {

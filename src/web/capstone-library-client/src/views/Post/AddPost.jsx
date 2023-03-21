@@ -2,7 +2,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { MenuItem, Select, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import "./addBook.css";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../actions/category";
@@ -16,7 +15,7 @@ const schema = yup.object({
   price: yup.number().required("Giá không được để trống"),
 });
 
-export default function AddBook() {
+export default function AddPost() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCategories());
@@ -80,8 +79,8 @@ export default function AddBook() {
       let data = await toBase64(file);
       // console.log(data);
       // console.log("img" + index);
-      data = data.split(',')[1];
-      imgArr.push({fileName: file.name, data});
+      data = data.split(",")[1];
+      imgArr.push({ fileName: file.name, data });
     });
     setImgs(imgArr);
     const imagesArray = selectedFilesArray.map((file) => {
@@ -97,7 +96,7 @@ export default function AddBook() {
           <h3 className="fs-22 fw-medium mr-0">Thêm mới sách</h3>
         </div>
         <div className="row">
-          <div className="col-lg-8" style={{ position: "relative" }}>
+          <div className="col-lg-6" style={{ position: "relative" }}>
             <form
               noValidate
               onSubmit={handleSubmit(submitForm)}
@@ -197,7 +196,7 @@ export default function AddBook() {
               </div>
             </form>
           </div>
-          <div className="col-lg-4">
+          <div className="col-lg-6">
             <div className="card card-item">
               <div className="card-body">
                 <div
@@ -207,82 +206,75 @@ export default function AddBook() {
                   <label className="fs-14 text-black fw-medium lh-20">
                     Thể loại
                   </label>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value="chinhtri_phapluat"
-                    name="categories"
-                    onChange={handleChangeSelect}
-                  >
-                    {categories &&
-                      categories.map((cate, index) => (
-                        <MenuItem
-                          value={cate.nameCode}
-                          name={cate.nameCode}
-                          key={index}
-                        >
-                          {cate.name}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                  <div className="list-cate-select">
-                    {listCategories.map((lc, index) => {
-                      return (
-                        <div className="cate-select" key={index}>
-                          {lc.name}{" "}
-                          <button onClick={() => handleDeleteCate(lc.nameCode)}>
-                            <FontAwesomeIcon icon={faXmark} size={"xs"} />
-                          </button>
-                        </div>
-                      );
-                    })}
+                  <div class="container">
+                    <div
+                      class="cart-form mb-50px table-responsive px-2"
+                    >
+                      <table class="table generic-table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Remove</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">
+                              <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                <div class="media-body">
+                                  <h5 class="fs-15 fw-medium">
+                                    <a href="#">Chocolate bar</a>
+                                  </h5>
+                                </div>
+                              </div>
+                            </th>
+                            <td>$22</td>
+                            <td>
+                              <div class="quantity-item d-inline-flex align-items-center">
+                                <button class="qtyBtn qtyDec" type="button">
+                                  <i class="la la-minus"></i>
+                                </button>
+                                <input
+                                  class="qtyInput"
+                                  type="text"
+                                  name="qty-input"
+                                  value="1"
+                                />
+                                <button class="qtyBtn qtyInc" type="button">
+                                  <i class="la la-plus"></i>
+                                </button>
+                              </div>
+                            </td>
+                            <td>
+                              
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="6">
+                              <div class="cart-actions d-flex align-items-center justify-content-between">
+                                <div class="input-group my-2 w-auto">
+                                  <div class="input-group-append">
+                                    <button class="btn theme-btn">
+                                      Apply coupon
+                                    </button>
+                                  </div>
+                                </div>
+                                <div class="flex-grow-1 text-right my-2">
+                                  <button class="btn theme-btn">
+                                    Update cart
+                                  </button>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
                 <div className="form-group mb-0"></div>
-              </div>
-            </div>
-            <div className="card card-item">
-              <div className="card-body">
-                <div className="form-group">
-                  <label className="fs-14 text-black fw-medium lh-20">
-                    Chọn ảnh
-                  </label>
-                  <div className="file-upload-wrap file-upload-layout-2">
-                    <input
-                      className="multi file-upload-input"
-                      multiple
-                      type="file"
-                      name="images"
-                      onChange={onSelectFile}
-                      accept="image/png, image/jpeg, image/webp"
-                    />
-                    <span className="file-upload-text d-flex align-items-center justify-content-center">
-                      <i className="la la-cloud-upload mr-2 fs-24"></i>Thả file
-                      hoặc click để đăng ảnh.
-                    </span>
-                  </div>
-                </div>
-                <div className="images">
-                  {selectedImages &&
-                    selectedImages.map((image, index) => {
-                      return (
-                        <div key={index} className="image">
-                          <div style={{margin: '0 auto', width: 'fit-content'}}>
-                          <img src={image} height="200" alt="upload" />
-                          </div>
-                          <button
-                            onClick={() =>
-                              setSelectedImages(
-                                selectedImages.filter((e) => e !== image)
-                              )
-                            }
-                          >
-                            <FontAwesomeIcon icon={faXmark} size={"xs"} />
-                          </button>
-                        </div>
-                      );
-                    })}
-                </div>
               </div>
             </div>
           </div>

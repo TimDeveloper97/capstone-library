@@ -68,7 +68,7 @@ export default function Header() {
                     </Link>
                     <ul className="dropdown-menu-item">
                       <li>
-                        <Link to={"/add-post"}>Tạo post</Link>
+                        <Link to={"/user/add-post"}>Tạo post</Link>
                       </li>
                     </ul>
                   </li>
