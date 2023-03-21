@@ -92,7 +92,7 @@ namespace xfLibrary.ViewModels
                     {
                         book.IsChecked = true;
                         book.Number = exist.Quantity;
-                        book.PreTotal = exist.Quantity * double.Parse(exist.Book.Price);
+                        book.PreTotal = exist.Quantity * exist.Book.Price;
                     }
                 }
             }

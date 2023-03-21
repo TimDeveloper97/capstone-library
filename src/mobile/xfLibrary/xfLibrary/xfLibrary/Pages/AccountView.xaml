@@ -16,13 +16,8 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
             
-             
              x:Class="xfLibrary.Pages.AccountView">
-    <ContentView.Behaviors>
-        <xct:EventToCommandBehavior
-                EventName="MeasureInvalidated"
-                Command="{Binding LayoutChangedCommand}" />
-    </ContentView.Behaviors>
+
     <ContentView.Content>
         <ScrollView>
             <StackLayout>
@@ -65,7 +60,7 @@
                 <StackLayout Spacing="0">
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý" HorizontalOptions="Start" Padding="15,20,10,5"/>
                     <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" IsVisible="{Binding IsVisible}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
-                    <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding IsVisible}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
+                    <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
                 </StackLayout>
 
                 <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">

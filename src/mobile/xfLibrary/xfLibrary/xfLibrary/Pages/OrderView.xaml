@@ -96,9 +96,6 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
-
-            <mdc:MaterialFloatingButton Grid.Row="2" VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"
-                                        Command="{Binding AddCommand}" CommandParameter="{Binding .}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

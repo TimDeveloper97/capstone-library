@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Models;
+using xfLibrary.Pages.Popup;
 
 namespace xfLibrary.ViewModels
 {
@@ -65,6 +67,15 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
+        public ICommand HelpCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            await Shell.Current.ShowPopupAsync(new InformationPaymenPopup());
+
+            IsBusy = false;
+        });
+
         public ICommand PageAppearingCommand => new Command(async () =>
         {
             IsBusy = true;
@@ -107,6 +118,7 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Posts = new ObservableCollection<Post>();
+            FakeData();
             IsCheckedAll = false;
         }
 
@@ -129,16 +141,16 @@ namespace xfLibrary.ViewModels
                         {
                             Quantity = 1,
                             Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = 1000000, StringCategories = "Truyện tranh,Văn học,Trinh thám" },
                         },
                         new Order
                         {
                             Quantity = 1,
                             Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
+                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = 1000000, StringCategories = "Truyện tranh,Văn học,Trinh thám" },
                         }
                     },
-                    Money = 1000000,
+                    Fee = 1000000,
                 });
             }
         }

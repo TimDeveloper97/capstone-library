@@ -27,6 +27,8 @@ namespace xfLibrary.ViewModels
         #region Command 
         public ICommand LoginCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(LoginView)));
 
+        public ICommand OrderCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(OrderView)));
+
         public ICommand StaticCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(StaticView)));
 
         public ICommand CartCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CartView)));

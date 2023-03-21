@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace xfLibrary.Pages.Popup
     public partial class DetailPostPopup : Xamarin.CommunityToolkit.UI.Views.Popup<Post>
     {
         Post _model;
+        CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
+
         public DetailPostPopup(Post m)
         {
             InitializeComponent();
@@ -38,6 +41,8 @@ namespace xfLibrary.Pages.Popup
 
             #region infor
             content.Text = "    " + _model.Content + "\n\n🗺 " + _model.Address;
+            money.Text = "💲 " + _model.Fee.ToString("#,###", cul.NumberFormat) + "VND";
+
             lUser.Text = _model.User;
             #endregion
 

@@ -32,7 +32,7 @@ namespace xfLibrary.Models
         public int Status { get => status; set => SetProperty(ref status, value); }
 
         [JsonProperty("fee")]
-        public double Fee { get; set; } = 0;
+        public int Fee { get; set; } = 0;
 
         [JsonProperty("noDays")]
         public int NumberOfRentalDays { get; set; } = 0;
