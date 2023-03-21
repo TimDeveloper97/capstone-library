@@ -24,25 +24,25 @@
             </RefreshView>-->
 
             <ListView GroupDisplayBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}" 
-                      IsGroupingEnabled="True" ItemsSource="{Binding Notifications}">
+                      IsGroupingEnabled="True" ItemsSource="{Binding Notifications}" RefreshCommand="{Binding ReloadNotificationCommand}" IsRefreshing="{Binding IsBusy}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Grid ColumnDefinitions="auto, *" Padding="10,5">
                                 <!--#region Icon -->
                                 <Grid VerticalOptions="Start" HorizontalOptions="Start" HeightRequest="35" WidthRequest="38">
-                                    <Frame BackgroundColor="{Binding Color}" CornerRadius="30" Opacity="0.1"
+                                    <Frame BackgroundColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}" CornerRadius="30" Opacity="0.1"
                                            Style="{StaticResource FrameNoBorder}"/>
                                     <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Bell}"
-                                           VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Color}"/>
+                                           VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}"/>
                                 </Grid>
                                 <!--#endregion-->
                                 
                                 
                                 <Grid Grid.Column="1" Margin="7,0,0,0" RowDefinitions="6*, 4*" RowSpacing="0">
-                                    <Label Text="{Binding Message, Converter={StaticResource UpperOneStringConverter}}" 
-                                           Style="{StaticResource SubTitleLabelStyle}" VerticalOptions="Start"
-                                           MaxLines="{Binding MaxLines}" HorizontalTextAlignment="Start"/>
+                                    <Label Text="{Binding Message, StringFormat='Nội dung: {0}', Converter={StaticResource UpperOneStringConverter}}" 
+                                               Style="{StaticResource MiniLabelStyle}" VerticalOptions="Start"
+                                               MaxLines="{Binding MaxLines}" HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
 
                                     <Label Grid.Row="1" Text="{Binding Date, StringFormat='{}{0:hh:mm tt}', TargetNullValue='N/A'}"
                                            Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}"

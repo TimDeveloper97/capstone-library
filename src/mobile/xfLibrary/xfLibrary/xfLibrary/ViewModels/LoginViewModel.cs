@@ -79,9 +79,9 @@ namespace xfLibrary.ViewModels
         public LoginViewModel()
         {
             IsRemember = Preferences.Get("isremember", false);
-            if(IsRemember)
+            Email = Preferences.Get("email", null);
+            if (IsRemember)
             {
-                Email = Preferences.Get("email", null);
                 Password = Preferences.Get("password", null);
             }
         }

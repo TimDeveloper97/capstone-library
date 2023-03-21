@@ -24,6 +24,7 @@
     <converter:StatusToStringConverter x:Key="StatusToStringConverter" />
     <converter:UpperOneStringConverter x:Key="UpperOneStringConverter" />
     <converter:OffToOnConverter x:Key="OffToOnConverter" />
+    <converter:DatetimeToColorConverter x:Key="DatetimeToColorConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>

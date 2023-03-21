@@ -9,23 +9,23 @@ using xfLibrary.Models;
 
 namespace xfLibrary.ViewModels
 {
-    class NotificationViewModel : BaseViewModel
+    class StaticViewModel : BaseViewModel
     {
         #region Property
-        private ObservableCollection<NotificationGroup> notifications;
+        private ObservableCollection<TransactionGroup> transactions;
 
-        public ObservableCollection<NotificationGroup> Notifications { get => notifications; set => SetProperty(ref notifications, value); }
+        public ObservableCollection<TransactionGroup> Transactions { get => transactions; set => SetProperty(ref transactions, value); }
 
         #endregion
 
         #region Command 
-        public ICommand ReloadNotificationCommand => new Command(() =>
+        public ICommand ReloadTransactionCommand => new Command(() =>
         {
             IsBusy = true;
             IsBusy = false;
         });
 
-        public ICommand ExtendTextCommand => new Command<Notification>((noti) =>
+        public ICommand ExtendTextCommand => new Command<Transaction>((noti) =>
         {
             if (noti.MaxLines == 1)
                 noti.MaxLines = 99;
@@ -34,7 +34,7 @@ namespace xfLibrary.ViewModels
         });
         #endregion
 
-        public NotificationViewModel()
+        public StaticViewModel()
         {
             Init();
         }
@@ -42,40 +42,54 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Notifications = new ObservableCollection<NotificationGroup> {
-                new NotificationGroup(DateTime.Now, new[] { new Notification
+            Transactions = new ObservableCollection<TransactionGroup>();
+            Transactions = new ObservableCollection<TransactionGroup> {
+                new TransactionGroup(DateTime.Now, new[] { new Transaction
                 {
                     Date = DateTime.Now,
+                    Money = 1000000,
+                    User = "sơn",
                     Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
                 },
-                new Notification
+                new Transaction
                 {
                     Date = DateTime.Now,
+                    Money = 1000000,
+                    User = "sơn",
                     Message = "ngày hôm nay",
                 }}),
 
-                new NotificationGroup(DateTime.Now.AddDays(-1), new[] { new Notification
+                new TransactionGroup(DateTime.Now.AddDays(-1), new[] { new Transaction
                 {
                     Date = DateTime.Now.AddDays(-1),
+                    Money = 1000000,
+                    User = "sơn",
                     Message = "ngày hôm qua",
                 },
-                new Notification
+                new Transaction
                 {
                     Date = DateTime.Now.AddDays(-1),
+                    Money = 1000000,
+                    User = "sơn",
                     Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
                 }}),
 
-                new NotificationGroup(DateTime.Now.AddDays(-2), new[] { new Notification
+                new TransactionGroup(DateTime.Now.AddDays(-2), new[] { new Transaction
                 {
                     Date = DateTime.Now.AddDays(-2),
+                    Money = 1000000,
+                    User = "sơn",
                     Message = "ngày hôm kia",
                 },
-                new Notification
+                new Transaction
                 {
                     Date = DateTime.Now.AddDays(-2),
+                    Money = 1000000,
+                    User = "sơn",
                     Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
                 }}),
             };
+            IsBusy = false;
         }
         #endregion
     }
