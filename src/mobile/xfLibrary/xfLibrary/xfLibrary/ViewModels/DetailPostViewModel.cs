@@ -146,6 +146,7 @@ namespace xfLibrary.ViewModels
             }
 
             Response res;
+            NewPost.User = _user.Id;
 
             if (isUpdate) res = await _mainService.UpdatePostAsync(NewPost, _token);
             else res = await _mainService.AddPostMeAsync(NewPost, _token);

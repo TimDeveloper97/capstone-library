@@ -89,7 +89,7 @@
                                             <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="2,0,0,-5">
                                                 <Label.FormattedText>
                                                     <FormattedString>
-                                                        <Span Text="{Binding User}"/>
+                                                        <Span Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}"/>
                                                         <Span Text="{Binding NumberOfRentalDays, StringFormat=' ({0} ngày)'}"/>
                                                     </FormattedString>
                                                 </Label.FormattedText>

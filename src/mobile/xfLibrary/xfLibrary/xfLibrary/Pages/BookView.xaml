@@ -25,9 +25,7 @@
             <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
         </Style>
     </ContentPage.Resources>
-    <ContentPage.BindingContext>
-        <vm:BookViewModel/>
-    </ContentPage.BindingContext>
+
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -60,7 +58,7 @@
 
             <!--#endregion-->
 
-            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="10,-10,10,0">
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,10,0">
                 <CollectionView ItemsSource="{Binding ItemsSource}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -82,12 +80,12 @@
                                             <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
                                                 <Label.FormattedText>
                                                     <FormattedString>
-                                                        <Span Text="{Binding Author}"/>
+                                                        <Span Text="{Binding Author, Converter={StaticResource UpperOneStringConverter}}"/>
                                                         <Span Text="{Binding Publisher, StringFormat=' ({0})'}"/>
                                                     </FormattedString>
                                                 </Label.FormattedText>
                                             </Label>
-                                            <Label Grid.Row="2" Text="{Binding StringCategories}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
+                                            <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
                                                        TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                        HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation" FontFamily="MuliBold"/>
                                         </Grid>

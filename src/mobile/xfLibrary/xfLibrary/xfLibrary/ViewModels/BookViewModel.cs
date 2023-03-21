@@ -91,7 +91,8 @@ namespace xfLibrary.ViewModels
                 }
 
                 //format to view
-                book.StringCategories = ListToString(book.Categories);
+                if (book.Categories != null && book.Categories.Count != 0)
+                    book.StringCategories = ListToString(book.Categories);
 
                 //update view
                 ItemsSource.Add(book);
