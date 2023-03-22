@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getBookById } from "../../apis/book";
+import Loading from "../../components/Loading/Loading";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./detailbook.css";
 
@@ -40,22 +41,22 @@ export default function DetailBook() {
   const [rentNumber, setRentNumber] = useState(1);
   const [currentBook, setCurrentBook] = useState();
 
-
   const handleImgClick = (id, link) => {
     setActivelLink(id);
     setImgShow(link);
   };
 
-  const {id} = useParams();
+  const { id } = useParams();
   //const books = useSelector(state => state.book);
   useEffect(() => {
     const fetchBook = async () => {
       const response = await getBookById(id);
+      console.log(response);
       setCurrentBook(response.data.value);
-    }
+    };
     fetchBook();
-  }, [id])
-  return (
+  }, [id]);
+  return currentBook ? (
     <section className="question-area pb-40px">
       <div className="container">
         <div className="row">
@@ -102,23 +103,23 @@ export default function DetailBook() {
                                   );
                                 })}
                                 {/* <div className="img-button">
-                                  <img
-                                    src="/images/harry-potter.jpg"
-                                    alt="imgShow"
-                                  />
-                                </div>
-                                <div className="img-button">
-                                  <img src="/images/img1.jpg" alt="imgShow" />
-                                </div>
-                                <div className="img-button">
-                                  <img src="/images/img2.jpg" alt="imgShow" />
-                                </div>
-                                <div className="img-button">
-                                  <img src="/images/img3.jpg" alt="imgShow" />
-                                </div>
-                                <div className="img-button">
-                                  <img src="/images/img4.jpg" alt="imgShow" />
-                                </div> */}
+                                <img
+                                  src="/images/harry-potter.jpg"
+                                  alt="imgShow"
+                                />
+                              </div>
+                              <div className="img-button">
+                                <img src="/images/img1.jpg" alt="imgShow" />
+                              </div>
+                              <div className="img-button">
+                                <img src="/images/img2.jpg" alt="imgShow" />
+                              </div>
+                              <div className="img-button">
+                                <img src="/images/img3.jpg" alt="imgShow" />
+                              </div>
+                              <div className="img-button">
+                                <img src="/images/img4.jpg" alt="imgShow" />
+                              </div> */}
                               </div>
                             </div>
                             <div className="col-md-6 book-info">
@@ -126,13 +127,16 @@ export default function DetailBook() {
                                 {currentBook?.name}
                               </h5>
                               <div className="number">
-                                <h6 className="publisher">Tác giả: {currentBook?.author}</h6>
                                 <h6 className="publisher">
-                                {currentBook?.publisher}
+                                  Tác giả: {currentBook?.author}
+                                </h6>
+                                <h6 className="publisher">
+                                  {currentBook?.publisher}
                                 </h6>
                               </div>
                               <p className="price">
-                                {currentBook?.price} <FontAwesomeIcon icon={faDongSign} />
+                                {currentBook?.price}{" "}
+                                <FontAwesomeIcon icon={faDongSign} />
                               </p>
                               <p className="description">
                                 {currentBook?.description}
@@ -158,7 +162,9 @@ export default function DetailBook() {
                                     }
                                   />
                                   <button
-                                    disabled={rentNumber === currentBook.quantity}
+                                    disabled={
+                                      rentNumber === currentBook.quantity
+                                    }
                                     onClick={() => {
                                       let value = rentNumber;
                                       setRentNumber(++value);
@@ -192,5 +198,5 @@ export default function DetailBook() {
         </div>
       </div>
     </section>
-  );
+  ) : <Loading />;
 }
