@@ -72,6 +72,8 @@ namespace xfLibrary.ViewModels
             {
                 Title = "Tạo thông tin bài";
             }
+
+            NewPost.IsAdmin = _isAdmin;
         });
         public ICommand BookCommand => new Command(async () =>
         {
@@ -92,7 +94,7 @@ namespace xfLibrary.ViewModels
                     {
                         book.IsChecked = true;
                         book.Number = exist.Quantity;
-                        book.PreTotal = exist.Quantity * double.Parse(exist.Book.Price);
+                        book.PreTotal = exist.Quantity * exist.Book.Price;
                     }
                 }
             }
@@ -138,6 +140,18 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
+            if(NewPost.IsAdmin && string.IsNullOrEmpty(NewPost.Title))
+            {
+                _message.ShortAlert("Tiêu đề không được để trống");
+                return;
+            }
+
+            if (NewPost.Title.Length < 10)
+            {
+                _message.ShortAlert("Nội dung tối thiểu 10 chữ");
+                return;
+            }
+
             if (NewPost.Content.Length < 100)
             {
                 _message.ShortAlert("Nội dung tối thiểu 100 chữ");
@@ -150,12 +164,14 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
+            IsBusy = true;
             Response res;
             NewPost.User = _user.Id;
 
             if (isUpdate) res = await _mainService.UpdatePostAsync(NewPost, _token);
             else res = await _mainService.AddPostMeAsync(NewPost, _token);
 
+            IsBusy = false;
             if (res.Success)
                 BackCommand.Execute(null);
             _message.ShortAlert(res.Message);

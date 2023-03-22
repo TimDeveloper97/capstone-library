@@ -18,23 +18,36 @@ namespace xfLibrary.ViewModels
         #region Property
         private ObservableCollection<Book> itemsSource;
         private List<Category> _categorys;
+        private bool isSort = true;
 
         public ObservableCollection<Book> ItemsSource { get => itemsSource; set => SetProperty(ref itemsSource, value); }
         #endregion
 
         #region Command 
-        public ICommand PageAppearingCommand => new Command(async () =>
-        {
-            _categorys = await _mainService.CategoryAsync();
-            await AddBook();
-        });
-
         public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
 
+            if(_categorys == null || _categorys?.Count == 0)
+                _categorys = await _mainService.CategoryAsync();
+
             await AddBook();
 
+            IsBusy = false;
+        });
+
+        public ICommand FilterCommand => new Command(() =>
+        {
+            IsBusy = true;
+
+            ObservableCollection<Book> lsort = null;
+            if (isSort)
+                lsort = new ObservableCollection<Book>(ItemsSource.OrderBy(x => x.Name));
+            else
+                lsort = new ObservableCollection<Book>(ItemsSource.OrderBy(x => x.Price));
+
+            isSort = !isSort;
+            ItemsSource = lsort;
             IsBusy = false;
         });
 
@@ -77,13 +90,14 @@ namespace xfLibrary.ViewModels
 
         async Task AddBook()
         {
-            ItemsSource.Clear();
             List<Book> books = null;
             if (_isAdmin)
                 books = await _accountService.GetAdminBookAsync(_token);
             else
                 books = await _accountService.GetUserBookAsync(_token);
 
+            ItemsSource.Clear();
+            if (books == null) { IsBusy = false; return; }
             foreach (var book in books)
             {
                 if (book.Imgs == null || book.Imgs.Count == 0)

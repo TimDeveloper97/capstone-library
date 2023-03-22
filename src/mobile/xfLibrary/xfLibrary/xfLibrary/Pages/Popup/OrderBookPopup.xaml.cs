@@ -57,7 +57,7 @@ namespace xfLibrary.Pages.Popup
             var x = (sender as Label).Text;
 
             if (b != null && !string.IsNullOrEmpty(x))
-                b.PreTotal = double.Parse(x.Replace(".", ""));
+                b.PreTotal = int.Parse(x.Replace(".", ""));
         }
 
         private void lDeposit_TextChanged(object sender, TextChangedEventArgs e)

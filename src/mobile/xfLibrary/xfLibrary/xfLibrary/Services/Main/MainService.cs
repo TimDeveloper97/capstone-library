@@ -67,6 +67,15 @@ namespace xfLibrary.Services.Main
             return value;
         }
 
+        public async Task<Post> GetPostAsync(string id, string _token)
+        {
+            var res = await Service.GetParameter(id, Api.Post, _token);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<Post>(res.Value.ToString());
+            return value;
+        }
+
         public async Task<Response> AddPostMeAsync(object obj, string _token)
         {
             var res = await Service.Post(obj, Api.AddPost, _token);
@@ -124,6 +133,15 @@ namespace xfLibrary.Services.Main
         {
             var res = await Service.PutParameter(id, Api.OrderBooks, token);
             return res;
+        }
+
+        public async Task<List<Goods>> GetAllGoodsAsync(string token)
+        {
+            var res = await Service.Get(Api.GetOrderRequest, token);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Goods>>(res.Value.ToString());
+            return value;
         }
 
         public async Task<Response> CheckoutCartAsync(object obj, string token)

@@ -16,13 +16,8 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
             
-             
              x:Class="xfLibrary.Pages.AccountView">
-    <ContentView.Behaviors>
-        <xct:EventToCommandBehavior
-                EventName="MeasureInvalidated"
-                Command="{Binding LayoutChangedCommand}" />
-    </ContentView.Behaviors>
+
     <ContentView.Content>
         <ScrollView>
             <StackLayout>
@@ -44,7 +39,7 @@
                         <Image Source="{Binding Icon}"/>
                     </Frame>
                     <Grid Grid.Column="1" RowDefinitions="*, *">
-                        <Label Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start">
+                        <Label Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start" Margin="0,0,0,-3">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="{Binding Profile.FirstName, Converter={StaticResource UpperStringConverter}}"/>
@@ -52,26 +47,25 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start">
-                            <Label Text="Tiền: " Style="{StaticResource TitleLabelStyle}"/>
-                            <Label Text="{Binding Profile.Balance, Converter={StaticResource MoneyConverter}}" Style="{StaticResource TitleLabelStyle}"/>
-                            <Label Style="{StaticResource IconColorLabelStyle}" FontSize="23" Text="{Static icon:FontIcons.CashUsd}"/>
+                        <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start" Margin="0,-2,0,0">
+                            <Label Text="💲" Style="{StaticResource TitleLabelStyle}"/>
+                            <Label Text="{Binding Profile.Balance, StringFormat='{0} VND', Converter={StaticResource MoneyConverter}}" Style="{StaticResource TitleLabelStyle}"/>
                         </StackLayout>
                     </Grid>
                 </Grid>
                 <!--#endregion-->
 
                 <!--#region Items -->
-                <StackLayout Spacing="0">
+                <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý" HorizontalOptions="Start" Padding="15,20,10,5"/>
-                    <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" IsVisible="{Binding IsVisible}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
-                    <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding IsVisible}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
+                    <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
+                    <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
                 </StackLayout>
 
                 <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="15,20,10,5"/>
                     <view:ItemView Text="Thống kê" Icon="{Static icon:FontIcons.Charity}" TabCommand="{Binding StaticCommand}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Tertiary}"/>
-                    <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" IsVisible="{Binding IsVisible}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}"/>
+                    <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}"/>
                     <view:ItemView Text="Nạp tiền" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Cash}" Color="{StaticResource Yellow}"/>
                 </StackLayout>
 

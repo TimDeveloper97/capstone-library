@@ -58,7 +58,11 @@ namespace xfLibrary.Resources
 
                 case 32: return "#37306B";
 
-                case 64: return "#8D7B68";
+                case 64: return "#A4907C";
+
+                case 128: return "#16FF00";
+
+                case 256: return "#C1AEFC";
 
                 default: return "#4D4D4D";
             }
@@ -77,6 +81,9 @@ namespace xfLibrary.Resources
 
                 case 32: return "Từ chối";
                 case 64: return "Tắt bài";
+
+                case 128: return "Đợi lấy sách";
+                case 256: return "Đã lấy sách";
 
                 default: return "NA";
             }

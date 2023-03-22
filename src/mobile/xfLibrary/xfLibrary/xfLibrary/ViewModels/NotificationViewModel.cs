@@ -19,7 +19,7 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-        public ICommand ReloadNotificationCommand => new Command(() =>
+        public ICommand RefreshCommand => new Command(() =>
         {
             IsBusy = true;
             Notifications.Add(

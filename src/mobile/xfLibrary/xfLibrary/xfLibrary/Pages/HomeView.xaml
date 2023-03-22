@@ -108,7 +108,7 @@
                                                     Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}"/>
                             </Grid>
 
-                            <CollectionView Grid.Row="1" ItemsSource="{Binding Posts}" SelectionMode="Single" ItemsUpdatingScrollMode="KeepScrollOffset" VerticalScrollBarVisibility="Never">
+                            <CollectionView Grid.Row="1" ItemsSource="{Binding Posts}">
                                 <CollectionView.ItemsLayout>
                                     <GridItemsLayout Orientation="Vertical" Span="2"/>
                                 </CollectionView.ItemsLayout>

@@ -3,97 +3,58 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Models;
+using xfLibrary.Pages.Popup;
 
 namespace xfLibrary.ViewModels
 {
     class OrderViewModel : BaseViewModel
     {
         #region Properties
-        private ObservableCollection<Post> posts;
-        private bool isCheckedAll;
+        private ObservableCollection<Goods> goodss;
         private bool isSort = true;
 
-        public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
-        public bool IsCheckedAll
-        {
-            get => isCheckedAll; set
-            {
-                SetProperty(ref isCheckedAll, value);
-
-                foreach (var p in Posts)
-                    p.IsChecked = isCheckedAll;
-            }
-        }
+        public ObservableCollection<Goods> Goodss { get => goodss; set => SetProperty(ref goodss, value); }
         #endregion
 
         #region Command 
-        public ICommand BuyCommand => new Command(async () =>
-        {
-            IsBusy = true;
-
-            var mycart = Posts.Where(x => x.IsChecked).ToList();
-            var res = await _mainService.CheckoutCartAsync(mycart, _token);
-            if (res == null) return;
-
-            if (res.Success)
-            {
-                foreach (var item in mycart)
-                {
-                    Posts.Remove(item);
-                }
-            }
-
-            _message.ShortAlert(res.Message);
-            IsBusy = false;
-        });
 
         public ICommand FilterCommand => new Command(async () =>
         {
             IsBusy = true;
 
-            ObservableCollection<Post> lsort = null;
+            ObservableCollection<Goods> lsort = null;
             if (isSort)
-                lsort = new ObservableCollection<Post>(Posts.OrderBy(x => x.Title));
+                lsort = new ObservableCollection<Goods>(Goodss.OrderBy(x => x.Status));
             else
-                lsort = new ObservableCollection<Post>(Posts.OrderBy(x => x.ReturnDate));
+                lsort = new ObservableCollection<Goods>(Goodss.OrderBy(x => x.NumberOfRentalDays));
 
-            Posts = lsort;
+            isSort = !isSort;
+            Goodss = lsort;
             IsBusy = false;
         });
 
-        public ICommand PageAppearingCommand => new Command(async () =>
+        public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
 
-            var carts = await _mainService.GetAllCartAsync(_token);
-            if (carts != null)
-            {
-                foreach (var cart in carts)
-                {
-                    Posts.Add(cart);
-                }
-            }
+            await AddOrder();
 
             IsBusy = false;
         });
 
-        public ICommand DeleteCommand => new Command<Post>(async (post) =>
+        public ICommand ViewCommand => new Command<Goods>(async (good) =>
         {
             IsBusy = true;
 
-            var res = await _mainService.DeleteCartAsync(post.Id, _token);
-            if (res == null) return;
+            var post = await _mainService.GetPostAsync(good.PostId, _token);
+            await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, true));
 
-            if (res.Success)
-            {
-                Posts.Remove(post);
-            }
-
-            _message.ShortAlert(res.Message);
             IsBusy = false;
         });
         #endregion
@@ -106,40 +67,51 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
-            Posts = new ObservableCollection<Post>();
-            IsCheckedAll = false;
+            Goodss = new ObservableCollection<Goods>();
+            //FakeData();
         }
 
         void FakeData()
         {
+            var l = new List<Goods>();
             for (int i = 0; i < 2; i++)
             {
-                Posts.Add(new Post
+                l.Add(new Goods
                 {
-                    Title = "[Cho thuê] Truyện tuổi thơ",
-                    Content = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                    "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.",
-                    Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg" },
-                    CreatedDate = new DateTime(2023, 3, 3).Ticks,
-                    ReturnDate = new DateTime(2023, 4, 4).Ticks,
-                    NumberOfRentalDays = 19,
-                    Order = new ObservableCollection<Order>
-                    {
-                        new Order
-                        {
-                            Quantity = 1,
-                            Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                        },
-                        new Order
-                        {
-                            Quantity = 1,
-                            Book = new Book { Name = "Dế mèn phiêu lưu ký", Description = "Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. " +
-                                "Ban đầu truyện có tên là Con dế mèn (chính là ba chương đầu của truyện) do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941.", Quantity = "2", Price = "1000000", StringCategories = "Truyện tranh,Văn học,Trinh thám" },
-                        }
-                    },
-                    Money = 1000000,
+                    CreateDate = new DateTime(2023, 3, 3).Ticks,
+                    PostId = i.ToString(),
+                    Status = 2 * (i + 1),
+                    Total = 6000000,
+                    User = "Duy Anh"
                 });
+            }
+
+            foreach (var item in l)
+            {
+                Goodss.Add(UpdateItemData(item));
+            }
+        }
+
+        Goods UpdateItemData(Goods good)
+        {
+            //count day remain
+            var s = new DateTime(good.CreateDate ?? DateTime.MinValue.Ticks).AddDays(good.NumberOfRentalDays);
+            good.ReturnDate = s;
+
+            //update color status
+            good.Color = Resources.ExtentionHelper.StatusToColor(good.Status);
+            return good;
+        }
+
+        async Task AddOrder()
+        {
+            var orders = await _mainService.GetAllGoodsAsync(_token);
+
+            Goodss.Clear();
+            if (orders == null) { IsBusy = false; return; }
+            foreach (var order in orders)
+            {
+                Goodss.Add(UpdateItemData(order));
             }
         }
         #endregion

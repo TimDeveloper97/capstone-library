@@ -59,8 +59,8 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
-                    <mdc:MaterialOutlineButton Grid.Column="3" Text="{Binding Upload}" Margin="10" FontSize="20" Command="{Binding BookCommand}"
-                                               FontFamily="MuliBlack" TextColor="White" BorderColor="White"/>
+                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" Command="{Binding BookCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Upload}" WidthRequest="45" Margin="10,0,10,0"/>
                 </Grid>
                 <!--#endregion-->
 
@@ -73,7 +73,6 @@
                 <!--#region Content -->
                 <ScrollView Grid.Row="3" Padding="0,0,0,20">
                     <StackLayout VerticalOptions="FillAndExpand">
-
                         <Grid Margin="20,5,20,5">
                             <Frame>
                                 <StackLayout Padding="10,5,10,15" Spacing="0">

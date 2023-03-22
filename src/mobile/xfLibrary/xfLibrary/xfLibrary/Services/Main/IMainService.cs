@@ -15,6 +15,7 @@ namespace xfLibrary.Services.Main
         Task<List<Post>> GetSuggestPostAsync(string id);
 
         Task<List<Post>> GetAllPostAsync();
+        Task<Post> GetPostAsync(string id, string _token);
         Task<List<Post>> GetAllPostMeAsync(string _token);
         Task<Response> AddPostMeAsync(object obj, string _token);
         Task<Response> DeletePostAsync(string id, string token);
@@ -25,6 +26,7 @@ namespace xfLibrary.Services.Main
         Task<List<Post>> GetAllPostAdminAsync(string _token);
 
         Task<List<Post>> GetAllCartAsync(string _token);
+        Task<List<Goods>> GetAllGoodsAsync(string token);
         Task<Response> DeleteCartAsync(string id, string token);
         Task<Response> OrderCartAsync(string id, string token);
         Task<Response> CheckoutCartAsync(object obj, string token);

@@ -29,7 +29,7 @@
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
                 EventName="Appearing"
-                Command="{Binding PageAppearingCommand}" />
+                Command="{Binding RefreshCommand}" />
     </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
@@ -46,9 +46,20 @@
                     </Label>
                 </Frame>
 
-                <Label Grid.Row="1" Text="Kho sách của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                <Label Grid.Row="1" Text="Hóa đơn của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
                            HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
 
+                <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
+                    <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" VerticalOptions="End" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="45" Margin="0,-5,0,0"/>
+                    <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Filter}"
+                        TextColor="White" Margin="0,0,20,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.FilterCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+                
             </Grid>
             <!--#endregion-->
 
@@ -58,47 +69,75 @@
 
             <!--#endregion-->
 
-            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,10,0">
-                <CollectionView ItemsSource="{Binding ItemsSource}">
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,20,0">
+                <CollectionView ItemsSource="{Binding Goodss}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="1"/>
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <SwipeView>
                                     <SwipeView.RightItems>
-                                        <SwipeItems SwipeBehaviorOnInvoked="Auto">
-                                            <SwipeItem Text="Xóa" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
-                                            <SwipeItem Text="Sửa" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem Text="Xem" Command="{Binding Path=BindingContext.ViewCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
                                     <!-- Content -->
 
-                                    <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                        <Image Source="{Binding ImageSource}"/>
-                                        <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                            <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
-                                                       Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
-                                            <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="{Binding Author, Converter={StaticResource UpperOneStringConverter}}"/>
-                                                        <Span Text="{Binding Quantity, StringFormat=' (Số lượng còn lại: {0})'}"/>
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                            <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
-                                                   TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
-                                                   HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation" FontFamily="MuliBold"/>
+                                    <Frame CornerRadius="15" Margin="0,5" Style="{StaticResource FrameNoBorder}">
+                                        <Grid ColumnDefinitions="70, *, 13" ColumnSpacing="0" Style="{StaticResource GroupGridStyle}">
+                                            <!--#region BoxCard -->
+                                            <BoxView Color="{StaticResource AppColor}" Margin="0" CornerRadius="0,15,0,0"/>
+                                            <Grid RowDefinitions="25, *, 25" BackgroundColor="Transparent" RowSpacing="0">
+                                                <Label Text="{Binding CreateDate, Converter={StaticResource LongToDateTimeConverter}, StringFormat='{}{0:dd/MM/yy}', TargetNullValue='N/A'}"
+                                                               Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}" VerticalOptions="End"/>
+                                                <Label Grid.Row="1" Text="{Binding NumberOfRentalDays, StringFormat='{0} Ngày'}" Style="{StaticResource MiniLabelStyle}" TextColor="White" Margin="0" VerticalOptions="Center"/>
+                                                <Label Grid.Row="2" Text="{Binding ReturnDate, StringFormat='{}{0:dd/MM/yy}', TargetNullValue='N/A'}"
+                                                               Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Red}" VerticalOptions="Start"/>
+                                            </Grid>
+                                            <!--#endregion-->
+
+                                            <!--#region Content -->
+                                            <Grid Grid.Column="1" RowDefinitions="auto, *, auto" Margin="10" Style="{StaticResource GroupGridStyle}">
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=2}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=4}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=8}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=16}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=32}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=64}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                </StackLayout>
+
+                                                <StackLayout Grid.Row="1" Spacing="0">
+                                                    <Label Style="{StaticResource TitleLabelStyle}" Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}"
+                                                       VerticalOptions="End" HorizontalOptions="Start" FontFamily="MuliBold"/>
+
+                                                    <Label Text="{Binding Total, StringFormat='💲Tổng tiền: {0}VND', Converter={StaticResource MoneyConverter}}" Style="{StaticResource MiniLabelStyle}" LineBreakMode="TailTruncation"
+                                                                   HorizontalTextAlignment="Start"/>
+                                                </StackLayout>
+
+                                                <Grid Grid.Row="2" Style="{StaticResource GroupGridStyle}">
+                                                    <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                                        <Frame Style="{StaticResource FrameNoBorder}" BackgroundColor="{Binding Color}" BorderColor="{Binding Color}" CornerRadius="10" HorizontalOptions="End" >
+                                                            <Label Text="{Binding Status, Converter={StaticResource StatusToStringConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </Grid>
+                                            <!--#endregion-->
+
+                                            <!--#region Status -->
+                                            <BoxView Grid.Column="2" Color="{Binding Color}" Margin="0,0,-3,0"/>
+                                            <!--#endregion-->
                                         </Grid>
-                                    </Grid>
+                                    </Frame>
                                 </SwipeView>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
-
-            <mdc:MaterialFloatingButton Grid.Row="2" VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"
-                                        Command="{Binding AddCommand}" CommandParameter="{Binding .}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

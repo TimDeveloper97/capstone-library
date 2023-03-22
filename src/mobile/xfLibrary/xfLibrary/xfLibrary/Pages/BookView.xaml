@@ -29,7 +29,7 @@
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
                 EventName="Appearing"
-                Command="{Binding PageAppearingCommand}" />
+                Command="{Binding RefreshCommand}" />
     </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
@@ -47,8 +47,18 @@
                 </Frame>
 
                 <Label Grid.Row="1" Text="Kho sách của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
-                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
 
+                <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
+                    <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" VerticalOptions="End" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="45" Margin="0,-5,0,0"/>
+                    <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Filter}"
+                        TextColor="White" Margin="0,0,20,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.FilterCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
             </Grid>
             <!--#endregion-->
 
@@ -58,7 +68,7 @@
 
             <!--#endregion-->
 
-            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,10,0">
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,10,10">
                 <CollectionView ItemsSource="{Binding ItemsSource}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -73,7 +83,7 @@
                                     <!-- Content -->
 
                                     <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                        <Image Source="{Binding ImageSource}"/>
+                                        <Image Source="{Binding ImageSource}" HeightRequest="50" WidthRequest="50"/>
                                         <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
                                             <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
                                                        Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>

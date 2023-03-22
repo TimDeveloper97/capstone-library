@@ -13,7 +13,7 @@ using xfLibrary.Services.Main;
 
 namespace xfLibrary.Domain
 {
-    public class BaseViewModel : BaseBinding
+    public class BaseViewModel : Basemodel
     {
         bool isBusy = false;
         public bool IsBusy
@@ -84,8 +84,8 @@ namespace xfLibrary.Domain
         protected async Task TimeoutSession(string message)
         {
             _message.LongAlert(message);
-            Clear();
             await Login();
+            Clear();
         }
         #endregion
     }

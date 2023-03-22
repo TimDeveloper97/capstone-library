@@ -38,7 +38,7 @@ namespace xfLibrary.ViewModels
             if (SearchDatas.Count == 0) return;
 
             var postOne = SearchDatas[0];
-            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne));
+            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
         });
 
         public ICommand TextChangedCommand => new Command<string>((text) =>
@@ -61,7 +61,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand SelectedCommand => new Command<Post>(async (post) =>
         {
-            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post));
+            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
             Response res = null;
             //Thêm vào giỏ

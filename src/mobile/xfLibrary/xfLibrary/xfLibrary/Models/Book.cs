@@ -15,7 +15,7 @@ namespace xfLibrary.Models
         public string Name { get; set; }
 
         [JsonProperty("price")]
-        public string Price { get; set; }
+        public int Price { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -38,6 +38,9 @@ namespace xfLibrary.Models
         [JsonProperty("imgs")]
         public List<Img> Imgs { get; set; }
 
+        [JsonProperty("percent")]
+        public int Percent { get; set; }
+
 
 
         private int number = 0;
@@ -45,7 +48,7 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
         [JsonIgnore]
-        public double PreTotal { get; set; } = 0;
+        public int PreTotal { get; set; } = 0;
         [JsonIgnore]
         public int Number { get => number; set => SetProperty(ref number, value); }
         [JsonIgnore]

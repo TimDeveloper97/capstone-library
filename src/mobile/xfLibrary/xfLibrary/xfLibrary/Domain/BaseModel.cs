@@ -6,7 +6,7 @@ using System.Text;
 
 namespace xfLibrary.Domain
 {
-    public class BaseModel : BaseBinding
+    public class BaseModel : Basemodel
     {
         [JsonProperty("id")]
         public string Id { get; set; }

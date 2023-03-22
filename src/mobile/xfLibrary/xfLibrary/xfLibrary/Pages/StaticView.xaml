@@ -33,7 +33,7 @@
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
                 EventName="Appearing"
-                Command="{Binding PageAppearingCommand}" />
+                Command="{Binding AppearingCommand}" />
     </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid RowDefinitions="auto, auto, *" RowSpacing="0">
@@ -62,7 +62,7 @@
             <!--#endregion-->
 
             <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="10,-10,10,0">
-                <RefreshView Command="{Binding ReloadTransactionCommand}" IsRefreshing="{Binding IsBusy}">
+                <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
                     <ScrollView>
                         <Grid>
                             <Label x:Name="label" VerticalOptions="Center" HorizontalOptions="Center" Text="Không có thông báo để hiển thị">
