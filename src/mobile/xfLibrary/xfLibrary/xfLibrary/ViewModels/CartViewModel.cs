@@ -53,7 +53,7 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
-        public ICommand FilterCommand => new Command(async () =>
+        public ICommand FilterCommand => new Command(() =>
         {
             IsBusy = true;
 
@@ -63,6 +63,7 @@ namespace xfLibrary.ViewModels
             else
                 lsort = new ObservableCollection<Post>(Posts.OrderBy(x => x.ReturnDate));
 
+            isSort = !isSort;
             Posts = lsort;
             IsBusy = false;
         });
@@ -107,6 +108,22 @@ namespace xfLibrary.ViewModels
             _message.ShortAlert(res.Message);
             IsBusy = false;
         });
+
+        public ICommand RefreshCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            var carts = await _mainService.GetAllCartAsync(_token);
+            if (carts != null)
+            {
+                foreach (var cart in carts)
+                {
+                    Posts.Add(cart);
+                }
+            }
+
+            IsBusy = false;
+        });
         #endregion
 
         public CartViewModel()
@@ -118,7 +135,6 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Posts = new ObservableCollection<Post>();
-            FakeData();
             IsCheckedAll = false;
         }
 

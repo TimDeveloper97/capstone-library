@@ -135,6 +135,15 @@ namespace xfLibrary.Services.Main
             return res;
         }
 
+        public async Task<List<Goods>> GetAllGoodsAsync(string token)
+        {
+            var res = await Service.Get(Api.OrderBooks, token);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Goods>>(res.Value.ToString());
+            return value;
+        }
+
         public async Task<Response> CheckoutCartAsync(object obj, string token)
         {
             var res = await Service.Post(new { orders = obj }, Api.Checkout, token);

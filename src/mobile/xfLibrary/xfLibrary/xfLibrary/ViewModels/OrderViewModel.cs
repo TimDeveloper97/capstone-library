@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
@@ -33,6 +34,7 @@ namespace xfLibrary.ViewModels
             else
                 lsort = new ObservableCollection<Goods>(Goodss.OrderBy(x => x.ReturnDate ?? DateTime.MinValue.Ticks));
 
+            isSort = !isSort;
             Goodss = lsort;
             IsBusy = false;
         });
@@ -41,6 +43,16 @@ namespace xfLibrary.ViewModels
         {
             IsBusy = true;
 
+            await AddOrder();
+
+            IsBusy = false;
+        });
+
+        public ICommand RefreshCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            await AddOrder();
 
             IsBusy = false;
         });
@@ -65,7 +77,7 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Goodss = new ObservableCollection<Goods>();
-            FakeData();
+            //FakeData();
         }
 
         void FakeData()
@@ -99,6 +111,18 @@ namespace xfLibrary.ViewModels
             //update color status
             good.Color = Resources.ExtentionHelper.StatusToColor(good.Status);
             return good;
+        }
+
+        async Task AddOrder()
+        {
+            Goodss.Clear();
+            var orders = await _mainService.GetAllGoodsAsync(_token);
+
+            if (orders == null) { IsBusy = false; return; }
+            foreach (var order in orders)
+            {
+                Goodss.Add(UpdateItemData(order));
+            }
         }
         #endregion
     }

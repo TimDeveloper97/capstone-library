@@ -47,8 +47,14 @@
                 </Frame>
 
                 <Label Grid.Row="1" Text="Kho sách của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
-                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
-
+                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+                
+                <Label Grid.Row="1" Grid.Column="2" Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Filter}"
+                       HorizontalOptions="End" VerticalOptions="Center" TextColor="White" Margin="0,0,20,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.FilterCommand, Source={x:Reference Name=self}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </Grid>
             <!--#endregion-->
 

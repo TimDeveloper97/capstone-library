@@ -18,6 +18,7 @@ namespace xfLibrary.ViewModels
         #region Property
         private ObservableCollection<Book> itemsSource;
         private List<Category> _categorys;
+        private bool isSort = true;
 
         public ObservableCollection<Book> ItemsSource { get => itemsSource; set => SetProperty(ref itemsSource, value); }
         #endregion
@@ -25,8 +26,27 @@ namespace xfLibrary.ViewModels
         #region Command 
         public ICommand PageAppearingCommand => new Command(async () =>
         {
+            IsBusy = true;
+
             _categorys = await _mainService.CategoryAsync();
             await AddBook();
+
+            IsBusy = false;
+        });
+
+        public ICommand FilterCommand => new Command(() =>
+        {
+            IsBusy = true;
+
+            ObservableCollection<Book> lsort = null;
+            if (isSort)
+                lsort = new ObservableCollection<Book>(ItemsSource.OrderBy(x => x.Name));
+            else
+                lsort = new ObservableCollection<Book>(ItemsSource.OrderBy(x => x.Price));
+
+            isSort = !isSort;
+            ItemsSource = lsort;
+            IsBusy = false;
         });
 
         public ICommand RefreshCommand => new Command(async () =>
@@ -84,6 +104,7 @@ namespace xfLibrary.ViewModels
             else
                 books = await _accountService.GetUserBookAsync(_token);
 
+            if(books == null) { IsBusy = false; return; }
             foreach (var book in books)
             {
                 if (book.Imgs == null || book.Imgs.Count == 0)
