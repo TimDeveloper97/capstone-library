@@ -9,29 +9,29 @@ namespace xfLibrary.Models
 {
     public class Goods : Basemodel
     {
-        [JsonProperty("createDate")]
+        [JsonProperty("borrowedDate")]
         public long? CreateDate { get; set; }
-
-        [JsonProperty("returnDate")]
-        public long? ReturnDate { get; set; }
 
         [JsonProperty("postId")]
         public string PostId { get; set; }
 
-        [JsonProperty("user")]
+        [JsonProperty("userId")]
         public string User { get; set; }
 
         [JsonProperty("status")]
         public int Status { get; set; }
 
-        [JsonProperty("total")]
+        [JsonProperty("totalPrice")]
         public int Total { get; set; }
+
+        [JsonProperty("noDays")]
+        public int NumberOfRentalDays { get; set; }
 
 
         private string color = "#00000";
         [JsonIgnore]
         public string Color { get => color; set => SetProperty(ref color, value); }
         [JsonIgnore]
-        public int Day { get; set; }
+        public DateTime ReturnDate { get; set; }
     }
 }

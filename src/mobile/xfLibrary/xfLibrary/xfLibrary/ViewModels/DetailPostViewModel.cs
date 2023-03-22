@@ -164,12 +164,14 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
+            IsBusy = true;
             Response res;
             NewPost.User = _user.Id;
 
             if (isUpdate) res = await _mainService.UpdatePostAsync(NewPost, _token);
             else res = await _mainService.AddPostMeAsync(NewPost, _token);
 
+            IsBusy = false;
             if (res.Success)
                 BackCommand.Execute(null);
             _message.ShortAlert(res.Message);

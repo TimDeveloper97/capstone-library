@@ -137,7 +137,7 @@ namespace xfLibrary.Services.Main
 
         public async Task<List<Goods>> GetAllGoodsAsync(string token)
         {
-            var res = await Service.Get(Api.OrderBooks, token);
+            var res = await Service.Get(Api.GetOrderRequest, token);
             if (res == null || res.Value == null) return null;
 
             var value = JsonConvert.DeserializeObject<List<Goods>>(res.Value.ToString());

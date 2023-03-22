@@ -62,16 +62,9 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
-
-                    <Frame Grid.Column="3" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
-                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
-                           HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
-                        <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Upload}"
-                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.PostCommand, Source={x:Reference Name=self}}"/>
-                        </Frame.GestureRecognizers>
-                    </Frame>
+                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" Command="{Binding PostCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Upload}" WidthRequest="45" Margin="0,0,10,0"/>
+                    
                 </Grid>
                 <!--#endregion-->
 

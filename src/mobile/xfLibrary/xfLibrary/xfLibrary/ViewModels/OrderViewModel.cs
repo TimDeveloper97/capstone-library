@@ -32,7 +32,7 @@ namespace xfLibrary.ViewModels
             if (isSort)
                 lsort = new ObservableCollection<Goods>(Goodss.OrderBy(x => x.Status));
             else
-                lsort = new ObservableCollection<Goods>(Goodss.OrderBy(x => x.ReturnDate ?? DateTime.MinValue.Ticks));
+                lsort = new ObservableCollection<Goods>(Goodss.OrderBy(x => x.NumberOfRentalDays));
 
             isSort = !isSort;
             Goodss = lsort;
@@ -79,7 +79,6 @@ namespace xfLibrary.ViewModels
                 l.Add(new Goods
                 {
                     CreateDate = new DateTime(2023, 3, 3).Ticks,
-                    ReturnDate = new DateTime(2023, 3, 21).Ticks,
                     PostId = i.ToString(),
                     Status = 2 * (i + 1),
                     Total = 6000000,
@@ -96,8 +95,8 @@ namespace xfLibrary.ViewModels
         Goods UpdateItemData(Goods good)
         {
             //count day remain
-            var s = new DateTime(good.ReturnDate ?? DateTime.MinValue.Ticks) - new DateTime(good.CreateDate ?? DateTime.MinValue.Ticks);
-            good.Day = (int)s.TotalDays;
+            var s = new DateTime(good.CreateDate ?? DateTime.MinValue.Ticks).AddDays(good.NumberOfRentalDays);
+            good.ReturnDate = s;
 
             //update color status
             good.Color = Resources.ExtentionHelper.StatusToColor(good.Status);

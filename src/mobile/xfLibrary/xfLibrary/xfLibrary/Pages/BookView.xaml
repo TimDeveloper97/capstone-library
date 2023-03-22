@@ -83,7 +83,7 @@
                                     <!-- Content -->
 
                                     <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                        <Image Source="{Binding ImageSource}"/>
+                                        <Image Source="{Binding ImageSource}" HeightRequest="50" WidthRequest="50"/>
                                         <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
                                             <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
                                                        Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>

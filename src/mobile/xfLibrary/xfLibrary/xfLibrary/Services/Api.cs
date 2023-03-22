@@ -12,7 +12,7 @@ namespace xfLibrary.Services
 {
     public class Api
     {
-        public const string BaseUrl = "http://192.168.137.206:8888";
+        public const string BaseUrl = "http://192.168.137.206:8090";
         public const string Url = BaseUrl + "/api/";
         public const string IconBook = "book512.png";
         public const string IconCategory = "category512.png";
@@ -57,6 +57,10 @@ namespace xfLibrary.Services
         /// thêm vào giỏ hàng
         /// </summary>
         public const string OrderBooks = "order-book"; 
+        /// <summary>
+        /// lấy tất cả hóa đơn
+        /// </summary>
+        public const string GetOrderRequest = "order/request"; 
 
         public const string Admin = "ROLE_ADMIN"; 
         public const string User = "ROLE_USER"; 
@@ -82,16 +86,26 @@ namespace xfLibrary.Services
           *			32 - Deny user request
           */
 
+        //ADMIN
         public const int ADMIN_POST = 0;
-        //KY GUI
-        public const int USER_POST_IS_NOT_APPROVED = 2;
-        public const int USER_POST_IS_APPROVED = 4;
+
+        //DISABLE
         public const int USER_REQUEST_IS_DENY = 32;
+
+        //ENABLE
+        public const int USER_POST_IS_NOT_APPROVED = 2;
         public const int ADMIN_DISABLE = 64;
+        public const int USER_POST_IS_APPROVED = 4;
+        
+        //THANH TOAN
+        public const int USER_PAYMENT_SUCCESS = 128;
+        public const int USER_RECEIVE_SUCCESS = 256;
 
         //TRA SACH
         public const int USER_RETURN_IS_NOT_APPROVED = 8;
         public const int USER_RETURN_IS_APPROVED = 16;
+
+
 
         /**
           * USER STATUS

@@ -24,12 +24,10 @@ namespace xfLibrary.ViewModels
         private List<Category> _category;
         private List<int> selects;
         private bool isUpdate = false;
-        private string upload;
 
         public ObservableCollection<byte[]> Slides { get => slides; set => SetProperty(ref slides, value); }
         public ObservableCollection<string> List { get => list; set => SetProperty(ref list, value); }
         public Book Book { get => book; set => SetProperty(ref book, value); }
-        public string Upload { get => upload; set => SetProperty(ref upload, value); }
         public string ParameterBook
         {
             get => parameterBook;
@@ -64,19 +62,15 @@ namespace xfLibrary.ViewModels
             }
 
             if (isUpdate)
-            {
                 Title = "Sửa sách";
-                Upload = "Sửa";
-            }
             else
-            {
                 Title = "Tạo sách";
-                Upload = "Tạo";
-            }
         });
 
         public ICommand BookCommand => new Command(async () =>
         {
+            IsBusy = true;
+
             if (Slides.Count > 0)
             {
                 Book.Imgs.Clear();
@@ -100,6 +94,7 @@ namespace xfLibrary.ViewModels
             if (isUpdate) res = await _accountService.UpdateBookAsync(Book, _token);
             else res = await _accountService.AddBookAsync(Book, _token);
 
+            IsBusy = false;
             if (res.Success)
                 BackCommand.Execute(null);
             _message.ShortAlert(res.Message);
