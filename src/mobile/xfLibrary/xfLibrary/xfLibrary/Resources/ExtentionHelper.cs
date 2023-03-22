@@ -10,8 +10,8 @@ namespace xfLibrary.Resources
 {
     static class ExtentionHelper
     {
-        private static string[] _color = { "", "", "", "", "", "", "", "", "", "", "", "" };
-        private static string[] _status = { "Admin", "", "", "", "", "", "", "", "", "", "", "" };
+        private static string[] _color = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E" };
+        private static string[] _status = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đợi lấy sách", "Mượn thành công", "Chưa trả sách", "Thành công" };
 
         public static byte[] ReadFully(Stream input)
         {
@@ -47,7 +47,7 @@ namespace xfLibrary.Resources
 
         public static string StatusToColor(int status)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < _color.Length; i++)
                 if ((status & (1 << i)) != 0)
                     return _color[i];
             return "#6E6E6E";
@@ -55,27 +55,10 @@ namespace xfLibrary.Resources
 
         public static string StatusToString(int status)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < _status.Length; i++)
                 if ((status & (1 << i)) != 0)
                     return _status[i];
             return "N/A";
-            //switch (status)
-            //{
-            //    case 0: return "Admin";
-            //    case 2: return "Đợi chấp thuận";
-            //    case 4: return "Chấp thuận";
-
-            //    case 8: return "Chưa hoàn tiền";
-            //    case 16: return "Đã hoàn tiền";
-
-            //    case 32: return "Từ chối";
-            //    case 64: return "Tắt bài";
-
-            //    case 128: return "Đợi lấy sách";
-            //    case 256: return "Đã lấy sách";
-
-            //    default: return "NA";
-            //}
         }
     }
 }

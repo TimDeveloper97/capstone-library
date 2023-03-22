@@ -90,22 +90,20 @@ namespace xfLibrary.Services
         public const int ADMIN_POST = 0;
 
         //DISABLE
-        public const int USER_REQUEST_IS_DENY = 32;
+        public const int USER_REQUEST_IS_DENY = 2;
 
         //ENABLE
-        public const int USER_POST_IS_NOT_APPROVED = 2;
-        public const int ADMIN_DISABLE = 64;
-        public const int USER_POST_IS_APPROVED = 4;
+        public const int USER_POST_IS_NOT_APPROVED = 4;
+        public const int ADMIN_DISABLE = 8;
+        public const int USER_POST_IS_APPROVED = 16;
         
         //THANH TOAN
-        public const int USER_PAYMENT_SUCCESS = 128;
-        public const int USER_RECEIVE_SUCCESS = 256;
+        public const int USER_PAYMENT_SUCCESS = 32;
+        public const int USER_RECEIVE_SUCCESS = 64;
 
         //TRA SACH
-        public const int USER_RETURN_IS_NOT_APPROVED = 8;
-        public const int USER_RETURN_IS_APPROVED = 16;
-
-
+        public const int USER_RETURN_IS_NOT_APPROVED = 128;
+        public const int USER_RETURN_IS_APPROVED = 256;
 
         /**
           * USER STATUS
