@@ -77,11 +77,13 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
-        public ICommand PageAppearingCommand => new Command(async () =>
+        public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
 
             var carts = await _mainService.GetAllCartAsync(_token);
+            Posts.Clear();
+
             if (carts != null)
             {
                 foreach (var cart in carts)
@@ -106,22 +108,6 @@ namespace xfLibrary.ViewModels
             }
 
             _message.ShortAlert(res.Message);
-            IsBusy = false;
-        });
-
-        public ICommand RefreshCommand => new Command(async () =>
-        {
-            IsBusy = true;
-
-            var carts = await _mainService.GetAllCartAsync(_token);
-            if (carts != null)
-            {
-                foreach (var cart in carts)
-                {
-                    Posts.Add(cart);
-                }
-            }
-
             IsBusy = false;
         });
         #endregion

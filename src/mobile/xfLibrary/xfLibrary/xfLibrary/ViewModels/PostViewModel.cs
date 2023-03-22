@@ -44,7 +44,7 @@ namespace xfLibrary.ViewModels
             ItemDisplayToView(currentTab);
         });
 
-        public ICommand ReloadCommand => new Command(async () =>
+        public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
 
@@ -132,23 +132,6 @@ namespace xfLibrary.ViewModels
             }
 
             Posts = lsort;
-        });
-
-        public ICommand RefreshCommand => new Command(async () =>
-        {
-            IsBusy = true;
-            //Posts.Clear();
-
-            //_allPosts = await _mainService.GetAllPostMeAsync(_token);
-            //foreach (var item in postme)
-            //{
-            //    if (item.Order == null)
-            //        item.Order = new ObservableCollection<Order>();
-
-            //    Posts.Add(UpdateImageSource(item));
-            //}
-
-            IsBusy = false;
         });
 
         public ICommand MessagerCommand => new Command(async () =>

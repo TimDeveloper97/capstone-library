@@ -73,7 +73,6 @@
                 <!--#region Content -->
                 <ScrollView Grid.Row="3" Padding="0,0,0,20">
                     <StackLayout VerticalOptions="FillAndExpand">
-
                         <Grid Margin="20,5,20,5">
                             <Frame>
                                 <StackLayout Padding="10,5,10,15" Spacing="0">

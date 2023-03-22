@@ -72,6 +72,8 @@ namespace xfLibrary.ViewModels
             {
                 Title = "Tạo thông tin bài";
             }
+
+            NewPost.IsAdmin = _isAdmin;
         });
         public ICommand BookCommand => new Command(async () =>
         {
@@ -135,6 +137,18 @@ namespace xfLibrary.ViewModels
             || NewPost.NumberOfRentalDays == 0 || NewPost.Fee == 0)
             {
                 _message.ShortAlert("Không được để trống");
+                return;
+            }
+
+            if(NewPost.IsAdmin && string.IsNullOrEmpty(NewPost.Title))
+            {
+                _message.ShortAlert("Tiêu đề không được để trống");
+                return;
+            }
+
+            if (NewPost.Title.Length < 10)
+            {
+                _message.ShortAlert("Nội dung tối thiểu 10 chữ");
                 return;
             }
 

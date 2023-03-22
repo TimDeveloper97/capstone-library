@@ -24,11 +24,13 @@ namespace xfLibrary.ViewModels
         #endregion
 
         #region Command 
-        public ICommand PageAppearingCommand => new Command(async () =>
+        public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
 
-            _categorys = await _mainService.CategoryAsync();
+            if(_categorys == null || _categorys?.Count == 0)
+                _categorys = await _mainService.CategoryAsync();
+
             await AddBook();
 
             IsBusy = false;
@@ -46,15 +48,6 @@ namespace xfLibrary.ViewModels
 
             isSort = !isSort;
             ItemsSource = lsort;
-            IsBusy = false;
-        });
-
-        public ICommand RefreshCommand => new Command(async () =>
-        {
-            IsBusy = true;
-
-            await AddBook();
-
             IsBusy = false;
         });
 
@@ -97,14 +90,14 @@ namespace xfLibrary.ViewModels
 
         async Task AddBook()
         {
-            ItemsSource.Clear();
             List<Book> books = null;
             if (_isAdmin)
                 books = await _accountService.GetAdminBookAsync(_token);
             else
                 books = await _accountService.GetUserBookAsync(_token);
 
-            if(books == null) { IsBusy = false; return; }
+            ItemsSource.Clear();
+            if (books == null) { IsBusy = false; return; }
             foreach (var book in books)
             {
                 if (book.Imgs == null || book.Imgs.Count == 0)

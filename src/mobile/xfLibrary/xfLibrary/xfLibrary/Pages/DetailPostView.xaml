@@ -85,7 +85,7 @@
                             <Frame>
                                 <StackLayout Padding="10,5,10,15" Spacing="0">
                                     <StackLayout Margin="20,0">
-                                        <!--<mdc:MaterialEntry LabelText="Tiêu đề *" Text="{Binding NewPost.Title}" IsVisible="false"/>-->
+                                        <mdc:MaterialEntry LabelText="Tiêu đề *" Text="{Binding NewPost.Title}" IsVisible="{Binding NewPost.IsAdmin}"/>
                                         <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding NewPost.Content}"/>
 
                                         <Grid ColumnDefinitions="*,*">

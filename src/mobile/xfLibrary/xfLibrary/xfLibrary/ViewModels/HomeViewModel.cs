@@ -44,7 +44,6 @@ namespace xfLibrary.ViewModels
             var posts = await _mainService.GetAllPostAsync();
             if (posts == null) { IsBusy = false; return; }
 
-
             _allPosts.Clear();
             foreach (var post in posts)
             {
@@ -91,16 +90,19 @@ namespace xfLibrary.ViewModels
 
         public ICommand SelectedPostCommand => new Command<Post>(async (post) =>
         {
+            IsBusy = false;
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
             Response res = null;
             //Thêm vào giỏ
             if (item.IsChecked)
                 res = await _mainService.OrderCartAsync(item.Id, _token);
+
             //thanh toán luôn
             else
                 res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
 
+            IsBusy = false;
             if (res == null) return;
 
             _message.ShortAlert(res.Message);
@@ -144,6 +146,7 @@ namespace xfLibrary.ViewModels
         #region Method
         void Init()
         {
+            IsBusy = true;
             Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg", "slide5.jpg", "slide6.jpg",
             "slide7.jpeg", "slide8.jpg", "slide9.jpg", "slide10.png"};
             _allPosts = new List<Post>();
@@ -155,6 +158,7 @@ namespace xfLibrary.ViewModels
             MessagingCenter.Subscribe<object, object>(this, "category",
                   (sender, arg) =>
                   {
+                      IsBusy = true;
                       Category.Clear();
 
                       if (arg == null)
@@ -169,11 +173,14 @@ namespace xfLibrary.ViewModels
                               Category.Add(item);
                           }
                       }
+
+                      IsBusy = false;
                   });
 
             MessagingCenter.Subscribe<object, object>(this, "post",
                   (sender, arg) =>
                   {
+                      IsBusy = true;
                       _allPosts.Clear();
 
                       if (arg == null)
@@ -189,14 +196,16 @@ namespace xfLibrary.ViewModels
 
                               _allPosts.Add(UpdateItemData(post));
                           }
-
-                          InitCurrentTab();
                       }
+
+                      InitCurrentTab();
+                      IsBusy = false;
                   });
 
             MessagingCenter.Subscribe<object, object>(this, "suggest",
                   (sender, arg) =>
                   {
+                      IsBusy = true;
                       Suggests.Clear();
 
                       if (arg == null)
@@ -218,6 +227,8 @@ namespace xfLibrary.ViewModels
                               Suggests.Add(book);
                           }
                       }
+
+                      IsBusy = false;
                   });
         }
 

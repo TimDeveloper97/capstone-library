@@ -39,15 +39,6 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
-        public ICommand PageAppearingCommand => new Command(async () =>
-        {
-            IsBusy = true;
-
-            await AddOrder();
-
-            IsBusy = false;
-        });
-
         public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
@@ -115,9 +106,9 @@ namespace xfLibrary.ViewModels
 
         async Task AddOrder()
         {
-            Goodss.Clear();
             var orders = await _mainService.GetAllGoodsAsync(_token);
 
+            Goodss.Clear();
             if (orders == null) { IsBusy = false; return; }
             foreach (var order in orders)
             {

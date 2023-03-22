@@ -50,10 +50,11 @@ namespace xfLibrary.ViewModels
 
         public ICommand LogoutCommand => new Command(async () =>
         {
-            Profile = null;
             Preferences.Remove("isremember");
             Preferences.Remove("password");
+
             await TimeoutSession("Đăng xuất thành công");
+            Profile = null;
         });
         #endregion
 

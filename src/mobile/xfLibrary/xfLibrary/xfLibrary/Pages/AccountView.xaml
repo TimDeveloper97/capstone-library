@@ -39,7 +39,7 @@
                         <Image Source="{Binding Icon}"/>
                     </Frame>
                     <Grid Grid.Column="1" RowDefinitions="*, *">
-                        <Label Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start">
+                        <Label Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start" Margin="0,0,0,-3">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="{Binding Profile.FirstName, Converter={StaticResource UpperStringConverter}}"/>
@@ -47,10 +47,9 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start">
-                            <Label Text="Tiền: " Style="{StaticResource TitleLabelStyle}"/>
-                            <Label Text="{Binding Profile.Balance, Converter={StaticResource MoneyConverter}}" Style="{StaticResource TitleLabelStyle}"/>
-                            <Label Style="{StaticResource IconColorLabelStyle}" FontSize="23" Text="{Static icon:FontIcons.CashUsd}"/>
+                        <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start" Margin="0,-2,0,0">
+                            <Label Text="💲" Style="{StaticResource TitleLabelStyle}"/>
+                            <Label Text="{Binding Profile.Balance, StringFormat='{0} VND', Converter={StaticResource MoneyConverter}}" Style="{StaticResource TitleLabelStyle}"/>
                         </StackLayout>
                     </Grid>
                 </Grid>

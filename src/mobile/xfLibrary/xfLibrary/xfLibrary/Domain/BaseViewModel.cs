@@ -84,8 +84,8 @@ namespace xfLibrary.Domain
         protected async Task TimeoutSession(string message)
         {
             _message.LongAlert(message);
-            Clear();
             await Login();
+            Clear();
         }
         #endregion
     }
