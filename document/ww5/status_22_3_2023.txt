@@ -1,0 +1,6 @@
+ok vậy là trong tối nay vs ngày mai là 3 việc:
+1, status
+2, notification
+3, transaction
+4. sửa lại cái API order/request có thêm PostId
+5. Thi thanh toán xong thì loại bỏ post đi
