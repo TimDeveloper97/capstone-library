@@ -72,10 +72,18 @@ export default function Header() {
                       </li>
                     </ul>
                   </li>
+                  <li>
+                      <a href="#">Quản lý <i className="la la-angle-down fs-11"></i></a>
+                    <ul className="dropdown-menu-item">
+                      <li>
+                        <Link to={"/user/category"}>Quản lý thể loại</Link>
+                      </li>
+                    </ul>
+                  </li>
                 </ul>
               </nav>
 
-              <form method="post" className="mr-4">
+              {/* <form method="post" className="mr-4">
                 <div className="form-group mb-0">
                   <input
                     className="form-control form--control form--control-bg-gray text-white"
@@ -87,7 +95,7 @@ export default function Header() {
                     <i className="la la-search"></i>
                   </button>
                 </div>
-              </form>
+              </form> */}
               <div className="nav-right-button">
                 {user?.firstName ? (
                   <span className="user-fullname">

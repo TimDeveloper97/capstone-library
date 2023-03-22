@@ -1,27 +1,42 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { MenuItem, Select, TextField } from "@mui/material";
+import { Checkbox, MenuItem, Select, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../../actions/category";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCross, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { addBook } from "../../actions/book";
+import { getBooks } from "../../actions/book";
+import { Link } from "react-router-dom";
+import { addPost } from "../../actions/post";
 
 const schema = yup.object({
-  name: yup.string().required("Tên sách không được để trống"),
-  author: yup.string().required("Tên tác giả không được để trống"),
-  price: yup.number().required("Giá không được để trống"),
+  title: yup.string().required("Tiêu đề post không được để trống"),
+  noDays: yup.string().required("Số ngày cho thuê không được để trống"),
+  fee: yup.string().required("Phí cho thuê không được để trống"),
 });
 
 export default function AddPost() {
   const dispatch = useDispatch();
+  
+
+  const books = useSelector((state) => state.book);
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(getBooks());
   }, []);
 
-  const categories = useSelector((state) => state.category);
+  useEffect(() => {
+    setListSelectBook(
+      books?.map((book) => {
+        return {
+          id: book.id,
+          quantity: 1,
+          maxQuantity: book.quantity,
+          price: book.price,
+          name: book.name,
+          selected: false,
+        };
+      })
+    );
+  }, [books]);
 
   const {
     register,
@@ -34,66 +49,59 @@ export default function AddPost() {
 
   const submitForm = (data, e) => {
     e.preventDefault();
-    data.categories = listCategories.map((lc) => lc.nameCode);
-    data.imgs = imgs;
-    dispatch(addBook(data));
-    resetData();
+    let postDetails = listSelectBook.filter(lsb => lsb.selected);
+    data.postDetailDtos = postDetails.map(lsb => {
+      return {
+        bookDto: {
+          id: lsb.id,
+        },
+        quantity: lsb.quantity
+      }
+    });
+    console.log(data);
+    dispatch(addPost(data));
   };
 
   const resetData = () => {
     resetField("name");
   };
-  const [listCategories, setListCategories] = useState([]);
 
-  const handleChangeSelect = (event) => {
-    let cateSelected = categories.filter(
-      (cate) => cate.nameCode === event.target.value
-    )[0];
-    if (!listCategories.find((lc) => lc.nameCode === cateSelected.nameCode)) {
-      setListCategories([...listCategories, cateSelected]);
-    }
-  };
+  const [listSelectBook, setListSelectBook] = useState([]);
+  
+  const [total, setTotal] = useState(0);
 
-  const handleDeleteCate = (code) => {
-    let list = listCategories.filter((lc) => lc.nameCode !== code);
-    setListCategories(list);
-  };
+  useEffect(() => {
+    console.log(total);
+  }, [listSelectBook, total]);
 
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [imgs, setImgs] = useState([]);
-
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
+  const sumTotal = (listSelected) => {
+    let total = 0;
+    listSelected.forEach(l => {
+      l.selected && (total += l.quantity * l.price);
     });
-
-  const onSelectFile = (event) => {
-    const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(selectedFiles);
-    let imgArr = [];
-    console.log(selectedFilesArray);
-    selectedFilesArray.forEach(async (file, index) => {
-      let data = await toBase64(file);
-      // console.log(data);
-      // console.log("img" + index);
-      data = data.split(",")[1];
-      imgArr.push({ fileName: file.name, data });
-    });
-    setImgs(imgArr);
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
-    setSelectedImages(imagesArray);
+    setTotal(total);
+  }
+  const handleClickCheckbox = (book, e, index) => {
+    const temp = listSelectBook;
+    temp[index].selected = e.target.checked;
+    setListSelectBook(temp);
+    sumTotal(listSelectBook);
   };
-
+  const handleChangeQuantity = (e, index) => {
+    const temp = listSelectBook;
+    temp[index].quantity = e.target.value;
+    setListSelectBook(temp);
+  };
+  const handleQuantity = (value, index) => {
+    listSelectBook[index].quantity += value;
+    setListSelectBook([...listSelectBook]);
+    sumTotal(listSelectBook);
+  }
   return (
     <section className="question-area pt-40px pb-40px">
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
-          <h3 className="fs-22 fw-medium mr-0">Thêm mới sách</h3>
+          <h3 className="fs-22 fw-medium mr-0">Thêm mới post</h3>
         </div>
         <div className="row">
           <div className="col-lg-6" style={{ position: "relative" }}>
@@ -108,88 +116,72 @@ export default function AddPost() {
                     <TextField
                       required
                       id="filled-basic"
-                      label="Tên sách"
+                      label="Tiêu đề post"
                       variant="filled"
                       fullWidth
-                      {...register("name")}
+                      {...register("title")}
                     />
-                    {errors.name && (
+                    {errors.title && (
                       <span className="error-message" role="alert">
-                        {errors.name?.message}
-                      </span>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <TextField
-                      required
-                      id="filled-basic"
-                      label="Tên tác giả"
-                      variant="filled"
-                      fullWidth
-                      {...register("author")}
-                    />
-                    {errors.author && (
-                      <span className="error-message" role="alert">
-                        {errors.author?.message}
+                        {errors.title?.message}
                       </span>
                     )}
                   </div>
                   <div className="row">
-                    <div className="form-group col-md-3">
+                    <div className="form-group col-md-6">
                       <TextField
-                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                         id="filled-basic"
-                        label="Số lượng"
+                        label="Số ngày cho thuê"
                         variant="filled"
-                        type="number"
+                        type="text"
+                        required
                         defaultValue={1}
-                        {...register("quantity")}
+                        {...register("noDays")}
                       />
+                      {errors.noDays && (
+                      <span className="error-message" role="alert">
+                        {errors.noDays?.message}
+                      </span>
+                    )}
                     </div>
-                    <div className="form-group col-md-3">
-                      <TextField
+                    <div className="col-md-3">
+                    <TextField
                         id="filled-basic"
-                        label="Nhà xuất bản"
-                        variant="filled"
-                        {...register("publisher")}
-                      />
-                    </div>
-                    <div className="form-group col-md-3">
-                      <TextField
-                        id="filled-basic"
-                        label="Năm xuất bản"
-                        variant="filled"
-                        {...register("publishYear")}
-                      />
-                    </div>
-                    <div className="form-group col-md-3">
-                      <TextField
-                        id="filled-basic"
-                        label="Giá"
+                        label="Phí thuê"
                         variant="filled"
                         required
-                        {...register("price")}
+                        {...register("fee")}
                       />
-                      {errors.price && (
-                        <span className="error-message" role="alert">
-                          {errors.price?.message}
-                        </span>
-                      )}
+                      {errors.fee && (
+                      <span className="error-message" role="alert">
+                        {errors.fee?.message}
+                      </span>
+                    )}
+                    </div>
+                    <div className="form-group col-md-3">
+                      <TextField
+                        id="filled-basic"
+                        label="Tổng giá"
+                        variant="filled"
+                        disabled
+                        value={total}
+                      />
                     </div>
                   </div>
                   <div className="form-group">
                     <TextField
                       id="filled-multiline-flexible"
-                      label="Mô tả về sách"
+                      label="Mô tả về post"
                       multiline
                       rows={3}
                       variant="filled"
                       fullWidth
+                      {...register("content")}
                     />
                   </div>
                   <div className="form-group mb-0">
                     <button className="btn theme-btn" type="submit">
-                      Đăng sách
+                      Đăng post
                     </button>
                   </div>
                 </div>
@@ -197,86 +189,93 @@ export default function AddPost() {
             </form>
           </div>
           <div className="col-lg-6">
-            <div className="card card-item">
-              <div className="card-body">
-                <div
-                  className="form-group"
-                  style={{ display: "flex", flexDirection: "column" }}
-                >
-                  <label className="fs-14 text-black fw-medium lh-20">
-                    Thể loại
-                  </label>
-                  <div class="container">
-                    <div
-                      class="cart-form mb-50px table-responsive px-2"
-                    >
-                      <table class="table generic-table">
-                        <thead>
-                          <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Remove</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">
-                              <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
-                                <div class="media-body">
-                                  <h5 class="fs-15 fw-medium">
-                                    <a href="#">Chocolate bar</a>
-                                  </h5>
-                                </div>
-                              </div>
-                            </th>
-                            <td>$22</td>
-                            <td>
-                              <div class="quantity-item d-inline-flex align-items-center">
-                                <button class="qtyBtn qtyDec" type="button">
-                                  <i class="la la-minus"></i>
-                                </button>
-                                <input
-                                  class="qtyInput"
-                                  type="text"
-                                  name="qty-input"
-                                  value="1"
-                                />
-                                <button class="qtyBtn qtyInc" type="button">
-                                  <i class="la la-plus"></i>
-                                </button>
-                              </div>
-                            </td>
-                            <td>
-                              
-                            </td>
-                          </tr>
-                          <tr>
-                            <td colspan="6">
-                              <div class="cart-actions d-flex align-items-center justify-content-between">
-                                <div class="input-group my-2 w-auto">
-                                  <div class="input-group-append">
-                                    <button class="btn theme-btn">
-                                      Apply coupon
-                                    </button>
+            <div
+              className="form-group"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <div className="container">
+                <div className="cart-form mb-50px table-responsive px-2">
+                  <table className="table generic-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Tên sách</th>
+                        <th scope="col">Giá</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Chọn</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {listSelectBook &&
+                        listSelectBook.map((book, index) => {
+                          return (
+                            <tr key={index}>
+                              <th scope="row">
+                                <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                  <div className="media-body">
+                                    <h5 className="fs-15 fw-medium">
+                                      <Link to={`/detail-book/${book.id}`}>
+                                        {book.name}
+                                      </Link>
+                                    </h5>
                                   </div>
                                 </div>
-                                <div class="flex-grow-1 text-right my-2">
-                                  <button class="btn theme-btn">
-                                    Update cart
+                              </th>
+                              <td>{book.price}</td>
+                              <td>
+                                <div className="quantity-item d-inline-flex align-items-center">
+                                  <button
+                                    className="qtyBtn qtyDec"
+                                    type="button"
+                                    onClick={() => handleQuantity(-1, index)}
+                                    disabled={book.quantity === 0}
+                                  >
+                                    <i className="la la-minus"></i>
+                                  </button>
+                                  <input
+                                    className="qtyInput"
+                                    type="text"
+                                    name="qty-input"
+                                    value={book.quantity}
+                                    onChange={(e) => handleChangeQuantity(e, index)}
+                                  />
+                                  <button
+                                    className="qtyBtn qtyInc"
+                                    type="button"
+                                    onClick={() => handleQuantity(1, index)}
+                                    disabled={book.quantity === book.maxQuantity}
+                                  >
+                                    <i className="la la-plus"></i>
                                   </button>
                                 </div>
+                              </td>
+                              <td>
+                                <Checkbox
+                                  onChange={(e) => handleClickCheckbox(book, e, index)}
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      {/* <tr>
+                        <td colspan="6">
+                          <div class="cart-actions d-flex align-items-center justify-content-between">
+                            <div class="input-group my-2 w-auto">
+                              <div class="input-group-append">
+                                
                               </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                            </div>
+                            <div class="flex-grow-1 text-right my-2">
+                              <button class="btn theme-btn">Update cart</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr> */}
+                    </tbody>
+                  </table>
                 </div>
-                <div className="form-group mb-0"></div>
               </div>
             </div>
+            <div className="form-group mb-0"></div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import MainLayout from "./layout/MainLayout/MainLayout";
 import AddBook from "./views/AddBook/AddBook";
 import BookPage from "./views/BookPage/BookPage";
+import Category from "./views/Category/Category";
 import DetailBook from "./views/DetailBook/DetailBook";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import Error from "./views/Home/Error";
@@ -62,6 +63,10 @@ export default function Route() {
             {
               path: "add-post",
               element: <AddPost />
+            },
+            {
+              path: "category",
+              element: <Category />
             }
           ],
         },
