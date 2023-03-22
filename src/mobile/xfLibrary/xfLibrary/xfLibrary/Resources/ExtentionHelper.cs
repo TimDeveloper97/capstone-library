@@ -10,6 +10,9 @@ namespace xfLibrary.Resources
 {
     static class ExtentionHelper
     {
+        private static string[] _color = { "", "", "", "", "", "", "", "", "", "", "", "" };
+        private static string[] _status = { "Admin", "", "", "", "", "", "", "", "", "", "", "" };
+
         public static byte[] ReadFully(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];
@@ -37,56 +40,42 @@ namespace xfLibrary.Resources
                 }
             }
             catch (Exception)
-            {}
+            { }
 
             return objImageSource;
         }
 
         public static string StatusToColor(int status)
         {
-            switch (status)
-            {
-                case 0: return "#DF2E38";
-
-                case 2: return "#FFB84C";
-                
-                case 4: return "#5D9C59";
-
-                case 8: return "#62CDFF";
-
-                case 16: return "#A459D1";
-
-                case 32: return "#37306B";
-
-                case 64: return "#A4907C";
-
-                case 128: return "#16FF00";
-
-                case 256: return "#C1AEFC";
-
-                default: return "#4D4D4D";
-            }
+            for (int i = 0; i < 8; i++)
+                if ((status & (1 << i)) != 0)
+                    return _color[i];
+            return "#6E6E6E";
         }
 
         public static string StatusToString(int status)
         {
-            switch (status)
-            {
-                case 0: return "Admin";
-                case 2: return "Đợi chấp thuận";
-                case 4: return "Chấp thuận";
+            for (int i = 0; i < 8; i++)
+                if ((status & (1 << i)) != 0)
+                    return _status[i];
+            return "N/A";
+            //switch (status)
+            //{
+            //    case 0: return "Admin";
+            //    case 2: return "Đợi chấp thuận";
+            //    case 4: return "Chấp thuận";
 
-                case 8: return "Chưa hoàn tiền";
-                case 16: return "Đã hoàn tiền";
+            //    case 8: return "Chưa hoàn tiền";
+            //    case 16: return "Đã hoàn tiền";
 
-                case 32: return "Từ chối";
-                case 64: return "Tắt bài";
+            //    case 32: return "Từ chối";
+            //    case 64: return "Tắt bài";
 
-                case 128: return "Đợi lấy sách";
-                case 256: return "Đã lấy sách";
+            //    case 128: return "Đợi lấy sách";
+            //    case 256: return "Đã lấy sách";
 
-                default: return "NA";
-            }
+            //    default: return "NA";
+            //}
         }
     }
 }
