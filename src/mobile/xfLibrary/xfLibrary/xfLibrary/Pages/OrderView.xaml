@@ -72,7 +72,7 @@
             <!--#endregion-->
 
             <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,20,0">
-                <CollectionView ItemsSource="{Binding Goodss}">
+                <CollectionView ItemsSource="{Binding Goodss}" SelectionMode="None">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" Span="1"/>
                     </CollectionView.ItemsLayout>

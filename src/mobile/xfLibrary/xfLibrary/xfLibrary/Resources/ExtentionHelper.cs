@@ -10,9 +10,6 @@ namespace xfLibrary.Resources
 {
     static class ExtentionHelper
     {
-        private static string[] _color = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E" };
-        private static string[] _status = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đợi lấy sách", "Mượn thành công", "Chưa trả sách", "Thành công" };
-
         public static byte[] ReadFully(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];
@@ -47,17 +44,19 @@ namespace xfLibrary.Resources
 
         public static string StatusToColor(int status)
         {
-            for (int i = 0; i < _color.Length; i++)
+            var l = Services.Api.COLORS.Length;
+            for (int i = 0; i < l; i++)
                 if ((status & (1 << i)) != 0)
-                    return _color[i];
+                    return Services.Api.COLORS[i];
             return "#6E6E6E";
         }
 
         public static string StatusToString(int status)
         {
-            for (int i = 0; i < _status.Length; i++)
+            var l = Services.Api.STATES.Length;
+            for (int i = 0; i < l; i++)
                 if ((status & (1 << i)) != 0)
-                    return _status[i];
+                    return Services.Api.STATES[i];
             return "N/A";
         }
     }

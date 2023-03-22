@@ -114,6 +114,10 @@ namespace xfLibrary.Services
         //STATUS OF ACCOUNT
         public const int ACTIVATE = 32;
         public const int BLOCK_POST = 64;
+
+        //state of status
+        public static string[] COLORS = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E" };
+        public static string[] STATES = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đợi lấy sách", "Mượn thành công", "Chưa trả sách", "Thành công" };
     }
 
     public class Service : Api
