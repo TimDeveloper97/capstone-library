@@ -81,8 +81,8 @@ namespace xfLibrary.ViewModels
                       IsVisible = arg;
                       OnPropertyChanged("IsVisible");
 
-                      Icon = LoadIcon();
                       Profile = _user;
+                      Icon = LoadIcon();
                       IsAdmin = _isAdmin;
                   });
         }

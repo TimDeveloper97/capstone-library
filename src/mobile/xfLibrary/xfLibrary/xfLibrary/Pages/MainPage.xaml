@@ -41,7 +41,7 @@
     </ContentPage>
 
     <!--#region Show only Manager -->
-    <ContentPage Title="Kho sách" Icon="ic_book.png" xf:BottomBarPageExtensions.TabColor="#224c64">
+    <ContentPage Title="Ký gửi" Icon="ic_book.png" xf:BottomBarPageExtensions.TabColor="#224c64" xf:BottomBarPageExtensions.BadgeCount="{Binding BadgePost}">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -61,7 +61,7 @@
     </ContentPage>
     <!--#endregion-->
 
-    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#1b3d51" xf:BottomBarPageExtensions.BadgeCount="{Binding NotificationUnread}">
+    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#1b3d51" xf:BottomBarPageExtensions.BadgeCount="{Binding BadgeNotification}">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"

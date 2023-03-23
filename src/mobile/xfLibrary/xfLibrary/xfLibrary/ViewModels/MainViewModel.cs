@@ -23,12 +23,13 @@ namespace xfLibrary.ViewModels
         private static List<Post> _allDatas;
         private ObservableCollection<Post> searchDatas;
         private int height = 70;
-        private int notificationUnread;
+        private int badgeNotification, badgePost;
         private bool isExecuteAppearing = true, isExecuteDisappearing = true, isExecuteOne = true;
 
         public bool IsSearching { get => isSearching; set => SetProperty(ref isSearching, value); }
         public int Height { get => height; set => SetProperty(ref height, value); }
-        public int NotificationUnread { get => notificationUnread; set => SetProperty(ref notificationUnread, value); }
+        public int BadgeNotification { get => badgeNotification; set => SetProperty(ref badgeNotification, value); }
+        public int BadgePost { get => badgePost; set => SetProperty(ref badgePost, value); }
         public ObservableCollection<Post> SearchDatas { get => searchDatas; set => SetProperty(ref searchDatas, value); }
 
         #endregion
@@ -101,6 +102,9 @@ namespace xfLibrary.ViewModels
         #region Appearing
         public ICommand MainAppearingCommand => new Command(async () =>
         {
+            // show if logined
+            IsVisible = HasLogin();
+
             //auto login
             var isRemember = Preferences.Get("isremember", false);
             if (isRemember && string.IsNullOrEmpty(_token))
@@ -126,12 +130,24 @@ namespace xfLibrary.ViewModels
             //cập nhật tất cả thông báo
             if (!string.IsNullOrEmpty(_token))
             {
-                // lấy thông báo
+                // lấy số thông báo
                 var notis = await _mainService.NotificationAsync(_token);
                 if (notis != null)
                 {
-                    NotificationUnread = notis.Where(x => x.Status == 0).Count();
+                    BadgeNotification = notis.Where(x => x.Status == 0).Count();
                 }
+
+                // lấy số status status = 4
+                List<Post> posts = null;
+                if (!_isAdmin)
+                    posts = await _mainService.GetAllPostMeAsync(_token);
+                else
+                    posts = await _mainService.GetAllPostAdminAsync(_token);
+                if(posts != null)
+                {
+                    BadgePost = posts.Where(x => x.Status == Services.Api.USER_POST_IS_NOT_APPROVED).Count();
+                }    
+
             }
 
         });
@@ -169,7 +185,6 @@ namespace xfLibrary.ViewModels
                         posts = await _mainService.GetAllPostAdminAsync(_token);
 
                     MessagingCenter.Send<object, object>(this, "reportpost", posts);
-                    IsVisible = HasLogin();
                 });
             });
         });
@@ -180,15 +195,11 @@ namespace xfLibrary.ViewModels
             {
                 MessagingCenter.Send<object, object>(this, "notification", "");
             });
-            IsVisible = HasLogin();
         });
 
         public ICommand PageAccountAppearingCommand => new Command(() =>
         {
-            IsVisible = HasLogin();
-            //Appearing(() =>
-            //    MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin()));
-            MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin());
+            MessagingCenter.Send<object, bool>(this, "haslogin", IsVisible);
         });
 
         #endregion
@@ -254,7 +265,6 @@ namespace xfLibrary.ViewModels
             }
             else if (HasLogin() && isExecuteOne)
             {
-                IsVisible = HasLogin();
                 isExecuteOne = !isExecuteOne;
                 action.Invoke();
             }
