@@ -42,12 +42,11 @@ namespace xfLibrary.Pages.Popup
             }
 
             var res = await _account.UpdateProfileAsync( new { id = _id, address = address, email = email, firstName = name, lastName = "", phone = phone }, _token);
+            if (res != null)
+                _message.ShortAlert(res.Message);
 
-            if(res.Success)
-                Dismiss(null);
-
-            _message.ShortAlert(res.Message);
             okBtn.IsBusy = false;
+            Dismiss(null);
         }
 
         private void cancelBtn_Clicked(object sender, EventArgs e)

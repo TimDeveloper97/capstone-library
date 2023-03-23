@@ -149,6 +149,32 @@ namespace xfLibrary.Services.Main
             var res = await Service.Post(new { orders = obj }, Api.Checkout, token);
             return res;
         }
+
+        public async Task<Response> TakeBookAsync(string token)
+        {
+            var res = await Service.Get(Api.Notification, token);
+            return res;
+        }
+
+        public async Task<Response> ReturnBookAsync(string token)
+        {
+            var res = await Service.Get(Api.Transaction, token);
+            return res;
+        }
+        #endregion
+
+        #region Message
+        public async Task<Response> NotificationAsync(string token)
+        {
+            var res = await Service.Get(Api.Notification, token);
+            return res;
+        }
+
+        public async Task<Response> TransactionAsync(string token)
+        {
+            var res = await Service.Get(Api.Transaction, token);
+            return res;
+        }
         #endregion
 
     }

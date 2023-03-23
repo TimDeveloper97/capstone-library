@@ -8,12 +8,13 @@ namespace xfLibrary.Converters
 {
     class LongToDateTimeConverter : IValueConverter
     {
+        DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return null;
             var span = (long)value;
 
-            var datetime = new DateTime(span);
+            var datetime = start.AddMilliseconds(span).ToLocalTime();
             return datetime;
         }
 

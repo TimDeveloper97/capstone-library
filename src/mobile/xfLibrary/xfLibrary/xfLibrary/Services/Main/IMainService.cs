@@ -30,5 +30,8 @@ namespace xfLibrary.Services.Main
         Task<Response> DeleteCartAsync(string id, string token);
         Task<Response> OrderCartAsync(string id, string token);
         Task<Response> CheckoutCartAsync(object obj, string token);
+
+        Task<Response> NotificationAsync(string token);
+        Task<Response> TransactionAsync(string token);
     }
 }

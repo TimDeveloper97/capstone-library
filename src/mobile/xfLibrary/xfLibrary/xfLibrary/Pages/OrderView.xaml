@@ -81,8 +81,9 @@
                             <Grid>
                                 <SwipeView>
                                     <SwipeView.RightItems>
-                                        <SwipeItems Mode="Execute">
+                                        <SwipeItems SwipeBehaviorOnInvoked="Auto">
                                             <SwipeItem Text="Xem" Command="{Binding Path=BindingContext.ViewCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="Chấp thuận" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.AcceptCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
                                     <!-- Content -->
@@ -135,7 +136,9 @@
                                                        VerticalOptions="End" HorizontalOptions="Start" FontFamily="MuliBold"/>
 
                                                     <Label Text="{Binding Total, StringFormat='💲Tổng tiền: {0}VND', Converter={StaticResource MoneyConverter}}" Style="{StaticResource MiniLabelStyle}" LineBreakMode="TailTruncation"
-                                                                   HorizontalTextAlignment="Start"/>
+                                                                   HorizontalTextAlignment="Start" FontFamily="MuliBold"/>
+                                                    <Label Text="{Binding Message, StringFormat='🔔Thông báo: {0}', TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource MiniLabelStyle}" MaxLines="2" LineBreakMode="TailTruncation"
+                                                                   HorizontalTextAlignment="Start" TextColor="{StaticResource Red}"/>
                                                 </StackLayout>
 
                                                 <Grid Grid.Row="2" Style="{StaticResource GroupGridStyle}">

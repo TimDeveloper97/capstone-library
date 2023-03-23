@@ -22,7 +22,7 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <converter:StatusToBoolConverter x:Key="StatusToBoolZeroConverter" Value="0"/>
-            <converter:StatusToBoolConverter x:Key="StatusToBoolFourConverter" Value="4"/>
+            <converter:StatusToBoolConverter x:Key="StatusToBool16Converter" Value="16"/>
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
@@ -126,13 +126,13 @@
                                                             <Frame.Triggers>
                                                                 <MultiTrigger TargetType="Frame">
                                                                     <MultiTrigger.Conditions>
-                                                                        <BindingCondition Binding="{Binding Status}" Value="4"/>
+                                                                        <BindingCondition Binding="{Binding Status}" Value="16"/>
                                                                     </MultiTrigger.Conditions>
                                                                     <Setter Property="IsVisible" Value="true" />
                                                                 </MultiTrigger>
                                                                 <MultiTrigger TargetType="Frame">
                                                                     <MultiTrigger.Conditions>
-                                                                        <BindingCondition Binding="{Binding Status, Converter={StaticResource StatusToBoolFourConverter}}" Value="true"/>
+                                                                        <BindingCondition Binding="{Binding Status, Converter={StaticResource StatusToBool16Converter}}" Value="true"/>
                                                                     </MultiTrigger.Conditions>
                                                                     <Setter Property="IsVisible" Value="false" />
                                                                 </MultiTrigger>

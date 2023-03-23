@@ -93,6 +93,7 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
+            if (item == null) return;
             Response res = null;
             //Thêm vào giỏ
             if (item.IsChecked)

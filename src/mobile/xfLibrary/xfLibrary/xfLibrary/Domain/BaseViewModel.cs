@@ -74,6 +74,7 @@ namespace xfLibrary.Domain
             IsVisible = false;
             _token = null;
             _user = null;
+            _isAdmin = false;
         }
         protected string LoadIcon()
         {

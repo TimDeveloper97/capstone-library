@@ -33,7 +33,14 @@ namespace xfLibrary.ViewModels
 
         public ICommand CartCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CartView)));
 
-        public ICommand TransactionCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new TransactionPopup(_user == null ? "anonymous" : _user.FirstName + _user.LastName)));
+        public ICommand TransactionCommand => new Command(async () =>
+        {
+            if (_isAdmin)
+                await Shell.Current.ShowPopupAsync(new DepositPopup());
+            else
+                await Shell.Current.ShowPopupAsync(
+                    new TransactionPopup(_user == null ? "anonymous" : _user.FirstName + _user.LastName));
+        });
 
         public ICommand ReportCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup()));
 

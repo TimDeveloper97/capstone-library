@@ -38,7 +38,20 @@ namespace xfLibrary.ViewModels
             if (SearchDatas.Count == 0) return;
 
             var postOne = SearchDatas[0];
-            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
+            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
+
+            if (item == null) return;
+            Response res = null;
+            //Thêm vào giỏ
+            if (item.IsChecked)
+                res = await _mainService.OrderCartAsync(item.Id, _token);
+            //thanh toán luôn
+            else
+                res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+
+            if (res == null) return;
+
+            _message.ShortAlert(res.Message);
         });
 
         public ICommand TextChangedCommand => new Command<string>((text) =>
@@ -63,6 +76,7 @@ namespace xfLibrary.ViewModels
         {
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
+            if (item == null) return;
             Response res = null;
             //Thêm vào giỏ
             if (item.IsChecked)
