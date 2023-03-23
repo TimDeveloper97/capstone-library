@@ -31,7 +31,8 @@ namespace xfLibrary.Services.Main
         Task<Response> OrderCartAsync(string id, string token);
         Task<Response> CheckoutCartAsync(object obj, string token);
 
-        Task<Response> NotificationAsync(string token);
+        Task<List<Notification>> NotificationAsync(string token);
+        Task<Response> ChangeStatusNotificationAsync(string id, string token);
         Task<Response> TransactionAsync(string token);
     }
 }

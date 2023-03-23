@@ -163,7 +163,10 @@ namespace xfLibrary.ViewModels
 
         public ICommand PageNotificationAppearingCommand => new Command(async () =>
         {
-            Appearing(() => { });
+            Appearing(async () => {
+                MessagingCenter.Send<object, object>(this, "notification", "");
+                IsVisible = HasLogin();
+            });
         });
 
         public ICommand PageAccountAppearingCommand => new Command(() =>
@@ -187,6 +190,7 @@ namespace xfLibrary.ViewModels
             {
                 MessagingCenter.Unsubscribe<object, object>(this, "category");
                 MessagingCenter.Unsubscribe<object, object>(this, "post");
+                MessagingCenter.Unsubscribe<object, object>(this, "suggest");
             });
         });
 
@@ -200,7 +204,9 @@ namespace xfLibrary.ViewModels
 
         public ICommand PageNotificationDisappearingCommand => new Command(() =>
         {
-            Disappearing(() => { });
+            Disappearing(() => {
+                MessagingCenter.Unsubscribe<object, object>(this, "notification");
+            });
         });
 
         public ICommand PageAccountDisappearingCommand => new Command(() =>

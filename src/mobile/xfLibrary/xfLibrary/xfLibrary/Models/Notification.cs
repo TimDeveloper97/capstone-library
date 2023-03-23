@@ -7,17 +7,24 @@ using xfLibrary.Domain;
 
 namespace xfLibrary.Models
 {
-    class Notification : BaseModel
+    public class Notification : BaseModel
     {
-        [JsonProperty("message")]
+        private int status = 0;
+        [JsonProperty("description")]
         public string Message { get; set; }
-        [JsonProperty("date")]
-        public DateTime Date { get; set; }
+
+        [JsonProperty("createdDate")]
+        public long CreatedDate { get; set; }
+
+        [JsonProperty("status")]
+        public int Status { get => status; set => SetProperty(ref status, value); }
 
 
         private int maxLines = 1;
         [JsonIgnore]
         public int Number { get; set; } = 0;
+        [JsonIgnore]
+        public DateTime Date { get; set; }
         [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }
     }
