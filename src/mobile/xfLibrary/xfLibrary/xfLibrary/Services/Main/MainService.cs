@@ -179,9 +179,42 @@ namespace xfLibrary.Services.Main
             return res;
         }
 
-        public async Task<Response> TransactionAsync(string token)
+        public async Task<List<Transaction>> TransactionAsync(string token)
         {
-            var res = await Service.Get(Api.Transaction, token);
+            var res = await Service.Get(Api.Notification, token);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Transaction>>(res.Value.ToString());
+            return value;
+        }
+
+        public async Task<Response> DepositAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Cancellation, token);
+            return res;
+        }
+
+        public async Task<Response> CancellationAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Cancellation, token);
+            return res;
+        }
+
+        public async Task<Response> ConfirmationAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Confirmation, token);
+            return res;
+        }
+
+        public async Task<Response> ReceivedAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Received, token);
+            return res;
+        }
+
+        public async Task<Response> SuccessAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Success, token);
             return res;
         }
         #endregion

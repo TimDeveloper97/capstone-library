@@ -47,6 +47,11 @@ namespace xfLibrary.Services
         public const string Notification = "notification"; 
         public const string Transaction = "transaction"; 
 
+        public const string Confirmation = "order/confirmation"; 
+        public const string Cancellation = "order/cancellation"; 
+        public const string Received = "order/received"; 
+        public const string Success = "order/book-return"; 
+
         public const string Cart = "cart"; 
         /// <summary>
         /// xóa item trong giỏ
@@ -90,23 +95,23 @@ namespace xfLibrary.Services
           */
 
         //ADMIN
-        public const int ADMIN_POST = 0;
+        public const int ADMIN_POST = 0; // Admin
 
         //DISABLE
-        public const int USER_REQUEST_IS_DENY = 2;
+        public const int USER_REQUEST_IS_DENY = 2; // Từ chối
 
         //ENABLE
-        public const int USER_POST_IS_NOT_APPROVED = 4;
-        public const int ADMIN_DISABLE = 8;
-        public const int USER_POST_IS_APPROVED = 16;
-        
+        public const int USER_POST_IS_NOT_APPROVED = 4; // Đợi chấp thuận
+        public const int ADMIN_DISABLE = 8; // Tắt bài
+        public const int USER_POST_IS_APPROVED = 16; // Chấp thuận
+
         //THANH TOAN
-        public const int USER_PAYMENT_SUCCESS = 32;
-        public const int USER_RECEIVE_SUCCESS = 64;
+        public const int USER_PAYMENT_SUCCESS = 32; // Đã thanh toán
+        public const int USER_TAKE_BOOK = 64; // Đợi lấy sách
 
         //TRA SACH
-        public const int USER_RETURN_IS_NOT_APPROVED = 128;
-        public const int USER_RETURN_IS_APPROVED = 256;
+        public const int USER_RETURN_IS_NOT_APPROVED = 128; // Chưa trả sách
+        public const int USER_RETURN_IS_APPROVED = 256; // Thành công
 
         /**
           * USER STATUS
@@ -120,7 +125,7 @@ namespace xfLibrary.Services
 
         //state of status
         public static string[] COLORS = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E" };
-        public static string[] STATES = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đợi lấy sách", "Mượn thành công", "Chưa trả sách", "Thành công" };
+        public static string[] STATES = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công" };
     }
 
     public class Service : Api

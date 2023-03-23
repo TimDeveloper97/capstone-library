@@ -33,6 +33,13 @@ namespace xfLibrary.Services.Main
 
         Task<List<Notification>> NotificationAsync(string token);
         Task<Response> ChangeStatusNotificationAsync(string id, string token);
-        Task<Response> TransactionAsync(string token);
+
+        Task<List<Transaction>> TransactionAsync(string token);
+        Task<Response> DepositAsync(string id, string token);
+
+        Task<Response> CancellationAsync(string id, string token);
+        Task<Response> ConfirmationAsync(string id, string token);
+        Task<Response> ReceivedAsync(string id, string token);
+        Task<Response> SuccessAsync(string id, string token);
     }
 }

@@ -64,15 +64,48 @@ namespace xfLibrary.ViewModels
         {
             IsBusy = true;
 
+            Response res = null;
             //lấy sách
+            //=> sang trạng thái chưa trả sách 32 -> 64
             if(good.Status == Services.Api.USER_PAYMENT_SUCCESS)
             {
-
-            }   
-            //trả sách
+                res = await _mainService.ConfirmationAsync(good.Id, _token);
+            }
+            //lấy sách => trả sách 64 -> 128
+            else if (good.Status == Services.Api.USER_TAKE_BOOK)
+            {
+                res = await _mainService.ReceivedAsync(good.Id, _token);
+            }
+            //trả sách => sang trạng thái trả sách thành công 128 -> 256
             else if(good.Status == Services.Api.USER_RETURN_IS_NOT_APPROVED)
             {
+                res = await _mainService.SuccessAsync(good.Id, _token);
+            }    
 
+            if(res != null && !string.IsNullOrEmpty(res.Message))
+            {
+                _message.ShortAlert(res.Message);
+            }    
+
+            IsBusy = false;
+        });
+
+        public ICommand DenyCommand => new Command<Goods>(async (good) =>
+        {
+            IsBusy = true;
+
+            //từ chối cho lấy sách -> return tiền (trở về trạng thái 2) 32 -> 2
+            //=> nếu chấp thuận sang 
+            if (good.Status != Services.Api.USER_PAYMENT_SUCCESS)
+            {
+                IsBusy = false;
+                _message.ShortAlert("Chỉ có thể từ chối khi mới người dùng mới thanh toán.");
+            }
+
+            var res = await _mainService.CancellationAsync(good.Id, _token);
+            if(res != null && !string.IsNullOrEmpty(res.Message))
+            {
+                _message.ShortAlert(res.Message);
             }    
 
             IsBusy = false;

@@ -22,8 +22,6 @@ namespace xfLibrary.Models
 
         private int maxLines = 1;
         [JsonIgnore]
-        public int Number { get; set; } = 0;
-        [JsonIgnore]
         public DateTime Date { get; set; }
         [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }

@@ -7,7 +7,7 @@ using xfLibrary.Domain;
 
 namespace xfLibrary.Models
 {
-    public class Goods : Basemodel
+    public class Goods : BaseModel
     {
         [JsonProperty("borrowedDate")]
         public long? CreateDate { get; set; }

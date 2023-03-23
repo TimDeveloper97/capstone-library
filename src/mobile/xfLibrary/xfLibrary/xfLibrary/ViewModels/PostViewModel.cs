@@ -169,7 +169,7 @@ namespace xfLibrary.ViewModels
             $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(post)}");
         });
         /// <summary>
-        /// 
+        /// chỉ có status = 4 
         /// </summary>
         public ICommand AcceptCommand => new Command<Post>(async (post) =>
         {
@@ -188,7 +188,9 @@ namespace xfLibrary.ViewModels
 
             _message.ShortAlert(res?.Message ?? "Không có phản hồi");
         });
-        
+        /// <summary>
+        /// chỉ có status = 4
+        /// </summary>
         public ICommand DenyCommand => new Command<Post>(async (post) =>
         {
             if (post.Status != Services.Api.USER_POST_IS_NOT_APPROVED)
@@ -206,7 +208,9 @@ namespace xfLibrary.ViewModels
 
             _message.ShortAlert(res?.Message ?? "Không có phản hồi");
         });
-
+        /// <summary>
+        /// chỉ có status = 16, 2
+        /// </summary>
         public ICommand ActiveDenyCommand => new Command<Post>(async (post) =>
         {
             if (post.Status != Services.Api.USER_POST_IS_APPROVED

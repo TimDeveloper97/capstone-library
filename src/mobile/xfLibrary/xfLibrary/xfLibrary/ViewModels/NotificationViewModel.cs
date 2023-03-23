@@ -17,7 +17,6 @@ namespace xfLibrary.ViewModels
         DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public ObservableCollection<NotificationGroup> Notifications { get => notifications; set => SetProperty(ref notifications, value); }
-
         #endregion
 
         #region Command 

@@ -83,6 +83,7 @@
                                     <SwipeView.RightItems>
                                         <SwipeItems SwipeBehaviorOnInvoked="Auto">
                                             <SwipeItem Text="Xem" Command="{Binding Path=BindingContext.ViewCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="Từ chối" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.DenyCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                             <SwipeItem Text="Chấp thuận" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.AcceptCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
