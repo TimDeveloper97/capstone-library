@@ -1,6 +1,6 @@
 # Capstone Library Management
 
-- Build Mobile: [Mobile](https://github.com/TimDeveloper97/capstone-library-management/tree/dev/src/mobile)
-- Build Server: [Server](https://github.com/TimDeveloper97/capstone-library-management/tree/dev/src/server)
-- Build Web: [Website](https://github.com/TimDeveloper97/capstone-library-management/tree/dev/src/web)
+- How to build: [Mobile](https://github.com/TimDeveloper97/capstone-library-management/tree/dev/src/mobile)
+- How to build: [Server](https://github.com/TimDeveloper97/capstone-library-management/tree/dev/src/server)
+- How to build: [Website](https://github.com/TimDeveloper97/capstone-library-management/tree/dev/src/web)
 
