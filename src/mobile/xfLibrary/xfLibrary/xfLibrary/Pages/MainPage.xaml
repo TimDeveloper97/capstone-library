@@ -21,8 +21,8 @@
                 EventName="Disappearing"
                 Command="{Binding MainDisappearingCommand}" />
     </xf:BottomBarPage.Behaviors>
-    
-    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#152F3E">
+
+    <ContentPage Title="Trang chủ" Icon="ic_home.png" xf:BottomBarPageExtensions.TabColor="#0d1d26">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -41,7 +41,7 @@
     </ContentPage>
 
     <!--#region Show only Manager -->
-    <ContentPage Title="Ký gửi" Icon="ic_book.png" xf:BottomBarPageExtensions.TabColor="#224c64" xf:BottomBarPageExtensions.BadgeCount="{Binding BadgePost}">
+    <ContentPage Title="Ký gửi" Icon="ic_pig.png" xf:BottomBarPageExtensions.TabColor="#21485f" xf:BottomBarPageExtensions.BadgeCount="{Binding BadgePost}">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -61,7 +61,7 @@
     </ContentPage>
     <!--#endregion-->
 
-    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#1b3d51" xf:BottomBarPageExtensions.BadgeCount="{Binding BadgeNotification}">
+    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#2e6585" xf:BottomBarPageExtensions.BadgeCount="{Binding BadgeNotification}">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
@@ -80,7 +80,7 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage Title="Tài khoản" Icon="ic_account.png" xf:BottomBarPageExtensions.TabColor="#0f212b">
+    <ContentPage Title="Tài khoản" Icon="ic_setting.png" xf:BottomBarPageExtensions.TabColor="#3b82ab">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"
