@@ -35,7 +35,7 @@ namespace xfLibrary.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return "Non";
+            if (value == null) return "N/A";
             var status = (int)value;
 
             return Resources.ExtentionHelper.StatusToString(status);
@@ -69,10 +69,10 @@ namespace xfLibrary.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return "Tắt";
+            if (value == null) return "Tắt bài";
             var status = (int)value;
 
-            return status != Services.Api.ADMIN_DISABLE ? "Tắt" : "Bật";
+            return status != Services.Api.ADMIN_DISABLE ? "Tắt bài" : "Bật bài";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

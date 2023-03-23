@@ -149,6 +149,74 @@ namespace xfLibrary.Services.Main
             var res = await Service.Post(new { orders = obj }, Api.Checkout, token);
             return res;
         }
+
+        public async Task<Response> TakeBookAsync(string token)
+        {
+            var res = await Service.Get(Api.Notification, token);
+            return res;
+        }
+
+        public async Task<Response> ReturnBookAsync(string token)
+        {
+            var res = await Service.Get(Api.Transaction, token);
+            return res;
+        }
+        #endregion
+
+        #region Message
+        public async Task<List<Notification>> NotificationAsync(string token)
+        {
+            var res = await Service.Get(Api.Notification, token);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Notification>>(res.Value.ToString());
+            return value;
+        }
+
+        public async Task<Response> ChangeStatusNotificationAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Notification, token);
+            return res;
+        }
+
+        public async Task<List<Transaction>> TransactionAsync(string token)
+        {
+            var res = await Service.Get(Api.Notification, token);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Transaction>>(res.Value.ToString());
+            return value;
+        }
+
+        public async Task<Response> DepositAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Cancellation, token);
+            return res;
+        }
+
+        public async Task<Response> CancellationAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Cancellation, token);
+            return res;
+        }
+
+        public async Task<Response> ConfirmationAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Confirmation, token);
+            return res;
+        }
+
+        public async Task<Response> ReceivedAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Received, token);
+            return res;
+        }
+
+        public async Task<Response> SuccessAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.Success, token);
+            return res;
+        }
         #endregion
 
     }

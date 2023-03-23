@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -13,7 +14,7 @@ namespace xfLibrary.ViewModels
     {
         #region Property
         private ObservableCollection<TransactionGroup> transactions;
-        private bool isSort = true;
+        DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public ObservableCollection<TransactionGroup> Transactions { get => transactions; set => SetProperty(ref transactions, value); }
 
@@ -24,42 +25,10 @@ namespace xfLibrary.ViewModels
         {
             IsBusy = true;
 
-            Transactions.Add(new TransactionGroup(DateTime.Now, new[] { new Transaction
-                {
-                    Date = DateTime.Now,
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                },
-                new Transaction
-                {
-                    Date = DateTime.Now,
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "ngày hôm nay",
-                }}));
+            var trans = await _mainService.TransactionAsync(_token);
 
-            IsBusy = false;
-        });
-
-        public ICommand AppearingCommand => new Command(async () =>
-        {
-            IsBusy = true;
-
-            Transactions.Add(new TransactionGroup(DateTime.Now, new[] { new Transaction
-                {
-                    Date = DateTime.Now,
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                },
-                new Transaction
-                {
-                    Date = DateTime.Now,
-                    Money = 1000000,
-                    User = "sơn",
-                    Message = "ngày hôm nay",
-                }}));
+            Transactions.Clear();
+            UpdateDataItem(trans);
 
             IsBusy = false;
         });
@@ -82,6 +51,18 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Transactions = new ObservableCollection<TransactionGroup>();
+            IsBusy = true;
+        }
+        void UpdateDataItem(List<Transaction> trans)
+        {
+            if (trans != null)
+            {
+                trans = trans.Where(x => { x.Date = start.AddMilliseconds(x.CreatedDate).ToLocalTime(); return true; }).ToList();
+                var groups = trans.GroupBy(x => x.Date.Date).OrderByDescending(x => x.Key).ToList();
+
+                foreach (var group in groups)
+                    Transactions.Add(new TransactionGroup(group.Key, group.ToList()));
+            }
         }
         #endregion
     }

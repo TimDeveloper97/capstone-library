@@ -35,8 +35,11 @@ namespace xfLibrary.Pages.Popup
             }
 
             var res = await _accountService.ForgotPasswordAsync(new { id = un, email = em });
+            if (res != null)
+                _message.ShortAlert(res.Message);
+
             okBtn.IsBusy = false;
-            Dismiss(res.Message);
+            Dismiss(null);
         }
 
         private void cancelBtn_Clicked(object sender, EventArgs e)

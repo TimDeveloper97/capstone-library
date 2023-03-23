@@ -155,7 +155,9 @@ namespace xfLibrary.ViewModels
 
             _message.ShortAlert(res.Message);
         });
-
+        /// <summary>
+        /// chỉ status = 2 mới được sửa
+        /// </summary>
         public ICommand UpdateCommand => new Command<Post>(async (post) => {
             if (post.Status != Services.Api.USER_POST_IS_NOT_APPROVED)
             {
@@ -166,9 +168,17 @@ namespace xfLibrary.ViewModels
             await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
             $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(post)}");
         });
-
+        /// <summary>
+        /// chỉ có status = 4 
+        /// </summary>
         public ICommand AcceptCommand => new Command<Post>(async (post) =>
         {
+            if (post.Status != Services.Api.USER_POST_IS_NOT_APPROVED)
+            {
+                _message.ShortAlert("Chỉ có thể chấp thuận khi bài viết đang chờ xử lý");
+                return;
+            }
+
             var res = await _mainService.AcceptPostAsync(post.Id, _token);
             if (res.Success)
             {
@@ -178,9 +188,17 @@ namespace xfLibrary.ViewModels
 
             _message.ShortAlert(res?.Message ?? "Không có phản hồi");
         });
-        
+        /// <summary>
+        /// chỉ có status = 4
+        /// </summary>
         public ICommand DenyCommand => new Command<Post>(async (post) =>
         {
+            if (post.Status != Services.Api.USER_POST_IS_NOT_APPROVED)
+            {
+                _message.ShortAlert("Chỉ có thể từ chối khi bài viết đang chờ xử lý");
+                return;
+            }
+
             var res = await _mainService.DenyPostAsync(post.Id, _token);
             if (res.Success)
             {
@@ -190,7 +208,9 @@ namespace xfLibrary.ViewModels
 
             _message.ShortAlert(res?.Message ?? "Không có phản hồi");
         });
-
+        /// <summary>
+        /// chỉ có status = 16, 2
+        /// </summary>
         public ICommand ActiveDenyCommand => new Command<Post>(async (post) =>
         {
             if (post.Status != Services.Api.USER_POST_IS_APPROVED
@@ -199,14 +219,6 @@ namespace xfLibrary.ViewModels
                 _message.ShortAlert("Chỉ có thể tắt/bật bài khi đã được chấp thuận");
                 return;
             }
-
-            #region Test
-            //if (post.Status == Services.Api.USER_POST_IS_APPROVED)
-            //    post.Status = Services.Api.ADMIN_DISABLE;
-            //else
-            //    post.Status = Services.Api.USER_POST_IS_APPROVED;
-            //post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
-            #endregion
 
             Response res = null;
             if (post.Status == Services.Api.USER_POST_IS_APPROVED)

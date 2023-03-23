@@ -12,44 +12,29 @@ using xfLibrary.Services.Login;
 namespace xfLibrary.Pages.Popup
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ChangePasswordPopup : Xamarin.CommunityToolkit.UI.Views.Popup<string>
+    public partial class DepositPopup : Xamarin.CommunityToolkit.UI.Views.Popup<string>
     {
         protected IMessage _message = DependencyService.Get<IMessage>();
         protected IAccountService _accountService = DependencyService.Get<IAccountService>();
-        string _token;
 
-        public ChangePasswordPopup(string token)
+        public DepositPopup()
         {
             InitializeComponent();
-            _token = token;
         }
 
         private async void okBtn_Clicked(object sender, EventArgs e)
         {
             okBtn.IsBusy = true;
-            var old = oldpassword.Text;
-            var newpass = newpassword.Text;
-            var cf = confirm.Text;
+            var un = username.Text;
+            var m = money.Text;
 
-            if (string.IsNullOrEmpty(old) || string.IsNullOrEmpty(newpass) || string.IsNullOrEmpty(cf))
+            if (string.IsNullOrEmpty(un) || string.IsNullOrEmpty(m))
             {
                 _message.ShortAlert("Không được để trống");
                 return;
             }
 
-            if(newpass != cf)
-            {
-                _message.ShortAlert("Mật khẩu mới và nhập lại mật khẩu phải giống nhau");
-                return;
-            }
-
-            if (old == newpass)
-            {
-                _message.ShortAlert("Mật khẩu mới phải khác mật khẩu cũ");
-                return;
-            }
-
-            var res = await _accountService.ChangePasswordAsync(new { newPass = newpass, oldPass = old }, _token);
+            var res = await _accountService.ForgotPasswordAsync(new { id = un, email = m });
             if (res != null)
                 _message.ShortAlert(res.Message);
 

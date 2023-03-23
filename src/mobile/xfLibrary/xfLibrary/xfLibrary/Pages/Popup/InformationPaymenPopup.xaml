@@ -45,7 +45,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Lưu ý: " FontSize="Medium"/>
-                                <Span Text="Việc khách hàng thanh toán nhưng không nhận sách trong vòng 1 tuần kể từ ngày đặt sách. Thì hóa đơn sẽ bị hủy và không thể hoàn tiền. Quý khách vui lòng đến nhận sách sau khi đặt hàng. Cảm ơn" FontSize="Medium" TextColor="{StaticResource Red}"/>
+                                <Span Text="Việc khách hàng thanh toán nhưng không nhận sách trong vòng 3 ngày kể từ ngày đặt sách. Thì hóa đơn sẽ bị hủy và không thể hoàn tiền. Quý khách vui lòng đến nhận sách sau khi đặt hàng. Cảm ơn" FontSize="Medium" TextColor="{StaticResource Red}"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>

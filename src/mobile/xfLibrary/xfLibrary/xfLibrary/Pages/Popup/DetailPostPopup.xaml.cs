@@ -15,6 +15,7 @@ namespace xfLibrary.Pages.Popup
     public partial class DetailPostPopup : Xamarin.CommunityToolkit.UI.Views.Popup<Post>
     {
         Post _model;
+        DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
 
         public DetailPostPopup(Post m, bool isView)
@@ -37,8 +38,8 @@ namespace xfLibrary.Pages.Popup
             #endregion
 
             #region days
-            var c = new DateTime(_model.CreatedDate ?? DateTime.MinValue.Ticks);
-            var r = new DateTime(_model.ReturnDate ?? DateTime.MinValue.Ticks);
+            var c = start.AddMilliseconds(_model.CreatedDate ?? DateTime.MinValue.Ticks).ToLocalTime();
+            var r = start.AddMilliseconds(_model.ReturnDate ?? DateTime.MinValue.Ticks).ToLocalTime();
 
             lCreateDate.Text = Math.Round((DateTime.Now - c).TotalDays, 0) + " ngày trước";
             lReturnDate.Text = "(Số ngày thuê: " + _model.NumberOfRentalDays + " ngày)";

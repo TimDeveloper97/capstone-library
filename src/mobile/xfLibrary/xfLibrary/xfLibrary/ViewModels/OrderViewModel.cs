@@ -17,6 +17,7 @@ namespace xfLibrary.ViewModels
     {
         #region Properties
         private ObservableCollection<Goods> goodss;
+        DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private bool isSort = true;
 
         public ObservableCollection<Goods> Goodss { get => goodss; set => SetProperty(ref goodss, value); }
@@ -53,7 +54,59 @@ namespace xfLibrary.ViewModels
             IsBusy = true;
 
             var post = await _mainService.GetPostAsync(good.PostId, _token);
-            await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, true));
+            if (post != null)
+                await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, true));
+
+            IsBusy = false;
+        });
+
+        public ICommand AcceptCommand => new Command<Goods>(async (good) =>
+        {
+            IsBusy = true;
+
+            Response res = null;
+            //lấy sách
+            //=> sang trạng thái chưa trả sách 32 -> 64
+            if(good.Status == Services.Api.USER_PAYMENT_SUCCESS)
+            {
+                res = await _mainService.ConfirmationAsync(good.Id, _token);
+            }
+            //lấy sách => trả sách 64 -> 128
+            else if (good.Status == Services.Api.USER_TAKE_BOOK)
+            {
+                res = await _mainService.ReceivedAsync(good.Id, _token);
+            }
+            //trả sách => sang trạng thái trả sách thành công 128 -> 256
+            else if(good.Status == Services.Api.USER_RETURN_IS_NOT_APPROVED)
+            {
+                res = await _mainService.SuccessAsync(good.Id, _token);
+            }    
+
+            if(res != null && !string.IsNullOrEmpty(res.Message))
+            {
+                _message.ShortAlert(res.Message);
+            }    
+
+            IsBusy = false;
+        });
+
+        public ICommand DenyCommand => new Command<Goods>(async (good) =>
+        {
+            IsBusy = true;
+
+            //từ chối cho lấy sách -> return tiền (trở về trạng thái 2) 32 -> 2
+            //=> nếu chấp thuận sang 
+            if (good.Status != Services.Api.USER_PAYMENT_SUCCESS)
+            {
+                IsBusy = false;
+                _message.ShortAlert("Chỉ có thể từ chối khi mới người dùng mới thanh toán.");
+            }
+
+            var res = await _mainService.CancellationAsync(good.Id, _token);
+            if(res != null && !string.IsNullOrEmpty(res.Message))
+            {
+                _message.ShortAlert(res.Message);
+            }    
 
             IsBusy = false;
         });
@@ -95,11 +148,37 @@ namespace xfLibrary.ViewModels
         Goods UpdateItemData(Goods good)
         {
             //count day remain
-            var s = new DateTime(good.CreateDate ?? DateTime.MinValue.Ticks).AddDays(good.NumberOfRentalDays);
+            DateTime date = start.AddMilliseconds(good.CreateDate ?? DateTime.MinValue.Ticks).ToLocalTime();
+
+            var s = date.AddDays(good.NumberOfRentalDays);
             good.ReturnDate = s;
 
             //update color status
             good.Color = Resources.ExtentionHelper.StatusToColor(good.Status);
+
+            //isadmin
+            good.IsAdmin = _isAdmin;
+
+            //takebook
+            var daybuy = (int)(DateTime.Now - date).TotalDays;
+            if (good.Status == Services.Api.USER_PAYMENT_SUCCESS)
+            {
+                if (daybuy >= 0 && daybuy <= 3)
+                    good.Message = $"Bạn còn lại {3 - daybuy} ngày để lấy sách trước khi quá hạn.";
+                else if (daybuy > 3)
+                    good.Message = $"Bạn đã quá hạn lấy sách {3 - daybuy} ngày.";
+            }
+
+            //dayleft
+            var dayleft = (int)(good.ReturnDate - DateTime.Now).TotalDays;
+            if (good.Status == Services.Api.USER_RETURN_IS_NOT_APPROVED)
+            {
+                if (dayleft >= 0 && dayleft <= 7)
+                    good.Message = $"Bạn còn lại {dayleft} ngày để trả sách trước khi quá hạn.";
+                else if (dayleft < 0)
+                    good.Message = $"Bạn đã quá hạn trả sách {dayleft} ngày.";
+            }
+
             return good;
         }
 

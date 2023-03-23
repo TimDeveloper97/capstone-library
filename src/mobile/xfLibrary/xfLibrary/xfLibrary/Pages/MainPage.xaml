@@ -61,7 +61,7 @@
     </ContentPage>
     <!--#endregion-->
 
-    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#1b3d51">
+    <ContentPage Title="Thông báo" Icon="ic_notification.png" xf:BottomBarPageExtensions.TabColor="#1b3d51" xf:BottomBarPageExtensions.BadgeCount="{Binding NotificationUnread}">
         <ContentPage.Behaviors>
             <xct:EventToCommandBehavior
                 EventName="Appearing"

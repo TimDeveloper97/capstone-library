@@ -23,11 +23,12 @@ namespace xfLibrary.ViewModels
         private static List<Post> _allDatas;
         private ObservableCollection<Post> searchDatas;
         private int height = 70;
-        //private Regex _regex = new Regex($"(?<f>{text}(inc\\d+)?)");
+        private int notificationUnread;
         private bool isExecuteAppearing = true, isExecuteDisappearing = true, isExecuteOne = true;
 
         public bool IsSearching { get => isSearching; set => SetProperty(ref isSearching, value); }
         public int Height { get => height; set => SetProperty(ref height, value); }
+        public int NotificationUnread { get => notificationUnread; set => SetProperty(ref notificationUnread, value); }
         public ObservableCollection<Post> SearchDatas { get => searchDatas; set => SetProperty(ref searchDatas, value); }
 
         #endregion
@@ -38,7 +39,20 @@ namespace xfLibrary.ViewModels
             if (SearchDatas.Count == 0) return;
 
             var postOne = SearchDatas[0];
-            var update = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
+            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
+
+            if (item == null) return;
+            Response res = null;
+            //Thêm vào giỏ
+            if (item.IsChecked)
+                res = await _mainService.OrderCartAsync(item.Id, _token);
+            //thanh toán luôn
+            else
+                res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+
+            if (res == null) return;
+
+            _message.ShortAlert(res.Message);
         });
 
         public ICommand TextChangedCommand => new Command<string>((text) =>
@@ -48,12 +62,12 @@ namespace xfLibrary.ViewModels
 
             text = text.ToLower();
             SearchDatas.Clear();
-            
+
             foreach (var item in _allDatas)
             {
                 string title = item.Title.Clone().ToString().ToLower();
 
-                if(title.Contains(text)) SearchDatas.Add(item);
+                if (title.Contains(text)) SearchDatas.Add(item);
             }
 
             Height = SearchDatas.Count >= 5 ? 350 : SearchDatas.Count * 70;
@@ -63,6 +77,7 @@ namespace xfLibrary.ViewModels
         {
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
+            if (item == null) return;
             Response res = null;
             //Thêm vào giỏ
             if (item.IsChecked)
@@ -88,12 +103,12 @@ namespace xfLibrary.ViewModels
         {
             //auto login
             var isRemember = Preferences.Get("isremember", false);
-            if (isRemember)
+            if (isRemember && string.IsNullOrEmpty(_token))
             {
                 var Email = Preferences.Get("email", null);
                 var Password = Preferences.Get("password", null);
 
-                if(!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
+                if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
                 {
                     var res = await _accountService.LoginAsync(Email, Password);
                     if (res == null || res.Value == null) return;
@@ -105,8 +120,20 @@ namespace xfLibrary.ViewModels
                         _user = user;
                         _isAdmin = user.Roles.Any(x => x == Services.Api.Admin);
                     }
-                }    
+                }
             }
+
+            //cập nhật tất cả thông báo
+            if (!string.IsNullOrEmpty(_token))
+            {
+                // lấy thông báo
+                var notis = await _mainService.NotificationAsync(_token);
+                if (notis != null)
+                {
+                    NotificationUnread = notis.Where(x => x.Status == 0).Count();
+                }
+            }
+
         });
 
         public ICommand PageHomeAppearingCommand => new Command(async () =>
@@ -118,7 +145,7 @@ namespace xfLibrary.ViewModels
                 if (post != null)
                 {
                     _allDatas = new List<Post>(post);
-                }    
+                }
 
                 var suggest = await _mainService.SuggestAsync(_token);
 
@@ -149,13 +176,19 @@ namespace xfLibrary.ViewModels
 
         public ICommand PageNotificationAppearingCommand => new Command(async () =>
         {
-            Appearing(() => { });
+            Appearing(async () =>
+            {
+                MessagingCenter.Send<object, object>(this, "notification", "");
+            });
+            IsVisible = HasLogin();
         });
 
         public ICommand PageAccountAppearingCommand => new Command(() =>
         {
-            Appearing(() =>
-            MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin()));
+            IsVisible = HasLogin();
+            //Appearing(() =>
+            //    MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin()));
+            MessagingCenter.Send<object, bool>(this, "haslogin", HasLogin());
         });
 
         #endregion
@@ -173,6 +206,7 @@ namespace xfLibrary.ViewModels
             {
                 MessagingCenter.Unsubscribe<object, object>(this, "category");
                 MessagingCenter.Unsubscribe<object, object>(this, "post");
+                MessagingCenter.Unsubscribe<object, object>(this, "suggest");
             });
         });
 
@@ -186,12 +220,15 @@ namespace xfLibrary.ViewModels
 
         public ICommand PageNotificationDisappearingCommand => new Command(() =>
         {
-            Disappearing(() => { });
+            Disappearing(() =>
+            {
+                MessagingCenter.Unsubscribe<object, object>(this, "notification");
+            });
         });
 
         public ICommand PageAccountDisappearingCommand => new Command(() =>
         {
-            Disappearing(() => 
+            Disappearing(() =>
             MessagingCenter.Unsubscribe<object, bool>(this, "haslogin"));
         });
 
@@ -209,7 +246,7 @@ namespace xfLibrary.ViewModels
         void Appearing(Action action)
         {
             IsSearching = false;
-            
+
             if (isExecuteAppearing)
             {
                 isExecuteAppearing = !isExecuteAppearing;
@@ -221,7 +258,7 @@ namespace xfLibrary.ViewModels
                 isExecuteOne = !isExecuteOne;
                 action.Invoke();
             }
-            else if(!isExecuteAppearing)
+            else if (!isExecuteAppearing)
                 isExecuteAppearing = !isExecuteAppearing;
         }
         #endregion

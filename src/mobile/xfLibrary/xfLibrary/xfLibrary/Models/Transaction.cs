@@ -7,7 +7,7 @@ using xfLibrary.Domain;
 
 namespace xfLibrary.Models
 {
-    class Transaction : BaseModel
+    public class Transaction : BaseModel
     {
         [JsonProperty("message")]
         public string Message { get; set; }
@@ -16,10 +16,12 @@ namespace xfLibrary.Models
         [JsonProperty("money")]
         public double Money { get; set; }
         [JsonProperty("date")]
-        public DateTime Date { get; set; }
+        public long CreatedDate { get; set; }
 
 
         private int maxLines = 1;
+        [JsonIgnore]
+        public DateTime Date { get; set; }
         [JsonIgnore]
         public int MaxLines { get => maxLines; set => SetProperty(ref maxLines, value); }
     }

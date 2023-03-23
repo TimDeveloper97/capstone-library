@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -13,58 +14,36 @@ namespace xfLibrary.ViewModels
     {
         #region Property
         private ObservableCollection<NotificationGroup> notifications;
+        DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public ObservableCollection<NotificationGroup> Notifications { get => notifications; set => SetProperty(ref notifications, value); }
-
         #endregion
 
         #region Command 
-        public ICommand RefreshCommand => new Command(() =>
+        public ICommand RefreshCommand => new Command(async () =>
         {
             IsBusy = true;
-            Notifications.Add(
-                new NotificationGroup(DateTime.Now, new[] { new Notification
-                {
-                    Date = DateTime.Now,
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                },
-                new Notification
-                {
-                    Date = DateTime.Now,
-                    Message = "ngày hôm nay",
-                }}));
 
-            Notifications.Add(new NotificationGroup(DateTime.Now.AddDays(-1), new[] { new Notification
-                {
-                    Date = DateTime.Now.AddDays(-1),
-                    Message = "ngày hôm qua",
-                },
-                new Notification
-                {
-                    Date = DateTime.Now.AddDays(-1),
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                }}));
-
-            Notifications.Add(new NotificationGroup(DateTime.Now.AddDays(-2), new[] { new Notification
-                {
-                    Date = DateTime.Now.AddDays(-2),
-                    Message = "ngày hôm kia",
-                },
-                new Notification
-                {
-                    Date = DateTime.Now.AddDays(-2),
-                    Message = "Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện.Ôn tập đạo hàm 11 là một trong những mục tiêu quan trọng mà các em học sinh cần thực hiện",
-                }}));
+            var notis = await _mainService.NotificationAsync(_token);
             
+            Notifications.Clear();
+            UpdateDataItem(notis);
+
             IsBusy = false;
         });
 
-        public ICommand ExtendTextCommand => new Command<Notification>((noti) =>
+        public ICommand ExtendTextCommand => new Command<Notification>(async (noti) =>
         {
             if (noti.MaxLines == 1)
                 noti.MaxLines = 99;
             else
                 noti.MaxLines = 1;
+
+            if(noti.Status == 0)
+            {
+                await _mainService.ChangeStatusNotificationAsync(noti.Id, _token);
+                noti.Status = 1;
+            }    
         });
         #endregion
 
@@ -77,6 +56,24 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Notifications = new ObservableCollection<NotificationGroup>();
+           
+            MessagingCenter.Subscribe<object, object>(this, "notification",
+                 (sender, arg) =>
+                 {
+                     IsBusy = true;
+                 });
+        }
+
+        void UpdateDataItem(List<Notification> notis)
+        {
+            if (notis != null)
+            {
+                notis = notis.Where(x => { x.Date = start.AddMilliseconds(x.CreatedDate).ToLocalTime(); return true; }).ToList();
+                var groups = notis.GroupBy(x => x.Date.Date).OrderByDescending(x => x.Key).ToList();
+
+                foreach (var group in groups)
+                    Notifications.Add(new NotificationGroup(group.Key, group.ToList()));
+            }
         }
         #endregion
     }
