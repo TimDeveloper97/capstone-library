@@ -7,7 +7,7 @@ import {
 } from "react-notifications";
 
 import "react-notifications/lib/notifications.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, redirect, useLocation, useNavigate, } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axiosIntance from "../../helper/axios";
@@ -35,6 +35,7 @@ export default function Login() {
     window.localStorage.clear();
     window.location.reload();
   }
+  const from = location.state?.from || {pathname: "/"};
   const onSubmit = (data, e) => {
     e.preventDefault();
     axiosIntance
@@ -44,8 +45,7 @@ export default function Login() {
         window.localStorage.setItem("token", token);
         window.localStorage.setItem("user", JSON.stringify(value));
         dispatch(getUser(value));
-        const from = location.state?.from || "/";
-        navigate(from, { replace: true });
+        window.location.href = from.pathname;
       })
       .catch((err) => {
         if (err.response.status === 404) {

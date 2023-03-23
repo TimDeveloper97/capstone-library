@@ -1,6 +1,6 @@
 import { faUserCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUser } from "../../actions/user";
@@ -9,12 +9,15 @@ import "./header.css";
 
 export default function Header() {
   const dispatch = useDispatch();
+  const [roleAdmin, setRoleAdmin] = useState(false);
   useEffect(() => {
     const curUser = JSON.parse(window.localStorage.getItem("user"));
     dispatch(getUser(curUser));
+    setRoleAdmin(curUser?.roles[0] === "ROLE_ADMIN");
   }, []);
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);  
+
   return (
     <header className="header-area bg-dark">
       <div className="container">
@@ -72,14 +75,16 @@ export default function Header() {
                       </li>
                     </ul>
                   </li>
-                  <li>
-                      <a href="#">Quản lý <i className="la la-angle-down fs-11"></i></a>
-                    <ul className="dropdown-menu-item">
-                      <li>
-                        <Link to={"/user/category"}>Quản lý thể loại</Link>
-                      </li>
-                    </ul>
-                  </li>
+                  {
+                    roleAdmin && <li>
+                    <a href="#">Quản lý <i className="la la-angle-down fs-11"></i></a>
+                  <ul className="dropdown-menu-item">
+                    <li>
+                      <Link to={"/user/category"}>Quản lý thể loại</Link>
+                    </li>
+                  </ul>
+                </li>
+                  }
                 </ul>
               </nav>
 

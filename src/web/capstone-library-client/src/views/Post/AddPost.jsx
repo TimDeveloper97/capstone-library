@@ -256,20 +256,6 @@ export default function AddPost() {
                             </tr>
                           );
                         })}
-                      {/* <tr>
-                        <td colspan="6">
-                          <div class="cart-actions d-flex align-items-center justify-content-between">
-                            <div class="input-group my-2 w-auto">
-                              <div class="input-group-append">
-                                
-                              </div>
-                            </div>
-                            <div class="flex-grow-1 text-right my-2">
-                              <button class="btn theme-btn">Update cart</button>
-                            </div>
-                          </div>
-                        </td>
-                      </tr> */}
                     </tbody>
                   </table>
                 </div>

@@ -7,7 +7,6 @@ export const getCategories = () => async (dispatch) => {
 
 export const addCategory = (data) => async (dispatch) => {
   const response = await api.addCategory(data);
-  console.log(data);
   dispatch({type: "ADD_CATEGORY", payload: data});
 }
 

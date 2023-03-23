@@ -17,7 +17,7 @@ export default function DetailAccount() {
   const dispatch = useDispatch();
   const logOut = () => {
     dispatch(clearSession());
-    navigate("/", { replace: true });
+    window.location.href = "/";
   };
   return (
     <div className="detail-account">

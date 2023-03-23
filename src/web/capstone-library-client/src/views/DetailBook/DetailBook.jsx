@@ -1,45 +1,22 @@
 import { faDongSign, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getBookById } from "../../apis/book";
 import Loading from "../../components/Loading/Loading";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import { getImgUrl } from "../../helper/helpFunction";
 import "./detailbook.css";
 
 export default function DetailBook() {
-  const links = [
-    {
-      id: 1,
-      className: "img-button",
-      link: "/images/harry-potter.jpg",
-    },
-    {
-      id: 2,
-      className: "img-button",
-      link: "http://localhost:8888/static/imgs/demen_phuuluuky.jpeg",
-    },
-    {
-      id: 3,
-      className: "img-button",
-      link: "/images/img2.jpg",
-    },
-    {
-      id: 4,
-      className: "img-button",
-      link: "/images/img3.jpg",
-    },
-    {
-      id: 5,
-      className: "img-button",
-      link: "/images/img4.jpg",
-    },
-  ];
-  const [activeLink, setActivelLink] = useState(1);
-  const [imgShow, setImgShow] = useState("/images/harry-potter.jpg");
+
+  const [activeLink, setActivelLink] = useState(0);
+  const [imgShow, setImgShow] = useState("");
   const [rentNumber, setRentNumber] = useState(1);
   const [currentBook, setCurrentBook] = useState();
+  const [links, setLinks] = useState([]);
+  
 
   const handleImgClick = (id, link) => {
     setActivelLink(id);
@@ -50,9 +27,18 @@ export default function DetailBook() {
   //const books = useSelector(state => state.book);
   useEffect(() => {
     const fetchBook = async () => {
-      const response = await getBookById(id);
-      console.log(response);
-      setCurrentBook(response.data.value);
+      const {data} = await getBookById(id);
+      setCurrentBook(data.value);
+      const tempLink = data.value.imgs.map((img, index) => {
+        return {
+          id: index,
+          className: "img-button",
+          link: getImgUrl(img.fileName)
+        }
+      });
+      console.log(tempLink);
+      setLinks(tempLink);
+      setImgShow(getImgUrl(data.value.imgs[0].fileName));
     };
     fetchBook();
   }, [id]);
@@ -84,7 +70,7 @@ export default function DetailBook() {
                                 </div>
                               </div>
                               <div className="img-button-list">
-                                {links.map((li) => {
+                                {links && links.map((li) => {
                                   return (
                                     <div
                                       className={
@@ -102,24 +88,6 @@ export default function DetailBook() {
                                     </div>
                                   );
                                 })}
-                                {/* <div className="img-button">
-                                <img
-                                  src="/images/harry-potter.jpg"
-                                  alt="imgShow"
-                                />
-                              </div>
-                              <div className="img-button">
-                                <img src="/images/img1.jpg" alt="imgShow" />
-                              </div>
-                              <div className="img-button">
-                                <img src="/images/img2.jpg" alt="imgShow" />
-                              </div>
-                              <div className="img-button">
-                                <img src="/images/img3.jpg" alt="imgShow" />
-                              </div>
-                              <div className="img-button">
-                                <img src="/images/img4.jpg" alt="imgShow" />
-                              </div> */}
                               </div>
                             </div>
                             <div className="col-md-6 book-info">

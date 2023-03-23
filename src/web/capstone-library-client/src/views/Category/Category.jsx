@@ -48,8 +48,7 @@ export default function Category() {
 
   const submitForm = (data, e) => {
     e.preventDefault();
-    console.log(data);
-    dispatch(addCategory(data));
+    dispatch(addCategory({name: data.name, nameCode: data.nameCode}));
     resetField("name");
     resetField("nameCode");
     handleClose();

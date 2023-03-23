@@ -11,6 +11,8 @@ import Home from "./views/Home/Home";
 import Login from "./views/Login/Login";
 import Order from "./views/Order/Order";
 import AddPost from "./views/Post/AddPost";
+import Post from "./views/Post/Post";
+import DetailPost from "./views/Post/PostDetail";
 import Register from "./views/Register/Register";
 import Setting from "./views/Setting/Setting";
 
@@ -43,6 +45,14 @@ export default function Route() {
         {
           path: "/forgot-password",
           element: <ForgotPassword />,
+        },
+        {
+          path: "/post",
+          element: <Post />
+        },
+        {
+          path: "/detail-post/:id",
+          element: <DetailPost />,
         },
         {
           path: "/user",
