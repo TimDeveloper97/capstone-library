@@ -12,6 +12,7 @@ namespace xfLibrary.Models
     {
         private string address;
         private int status;
+        private int fee = 0;
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -32,7 +33,7 @@ namespace xfLibrary.Models
         public int Status { get => status; set => SetProperty(ref status, value); }
 
         [JsonProperty("fee")]
-        public int Fee { get; set; } = 0;
+        public int Fee { get => fee; set => SetProperty(ref fee, value); }
 
         [JsonProperty("noDays")]
         public int NumberOfRentalDays { get; set; } = 0;
@@ -46,12 +47,14 @@ namespace xfLibrary.Models
         [JsonProperty("address")]
         public string Address { get => address; set => SetProperty(ref address, value); }
 
-        [JsonProperty("money")]
+        [JsonProperty("money")] 
         public int Money { get; set; }
+        
 
 
         private int maxLines = 2;
         private bool isChecked = false;
+        private bool isAdmin = false;
         private string color = "#00000";
 
         [JsonIgnore]
@@ -61,7 +64,7 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public string Color { get => color; set => SetProperty(ref color, value); }
         [JsonIgnore]
-        public bool IsAdmin { get; set; } = false;
+        public bool IsAdmin { get => isAdmin; set => SetProperty(ref isAdmin, value); }
         [JsonIgnore]
         public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
         [JsonIgnore]

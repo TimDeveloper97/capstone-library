@@ -30,9 +30,6 @@ namespace ChatApp.Models
         [JsonProperty("lastName")]
         public string LastName { get; set; }
 
-        [JsonProperty("password")]
-        public string Password { get; set; }
-
         [JsonProperty("phone")]
         public string Phone { get; set; }
 

@@ -184,6 +184,9 @@ namespace xfLibrary.ViewModels
             {
                 post.Status = Services.Api.USER_POST_IS_APPROVED;
                 post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
+
+                //remove
+                Posts.Remove(post);
             }
 
             _message.ShortAlert(res?.Message ?? "Không có phản hồi");
@@ -204,6 +207,9 @@ namespace xfLibrary.ViewModels
             {
                 post.Status = Services.Api.USER_REQUEST_IS_DENY;
                 post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
+
+                // remove
+                Posts.Remove(post);
             }
 
             _message.ShortAlert(res?.Message ?? "Không có phản hồi");

@@ -8,18 +8,22 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using xfLibrary.Services;
 using xfLibrary.Services.Login;
+using xfLibrary.Services.Main;
 
 namespace xfLibrary.Pages.Popup
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DepositPopup : Xamarin.CommunityToolkit.UI.Views.Popup<string>
     {
-        protected IMessage _message = DependencyService.Get<IMessage>();
-        protected IAccountService _accountService = DependencyService.Get<IAccountService>();
+        IMessage _message = DependencyService.Get<IMessage>();
+        IMainService _mainService = DependencyService.Get<IMainService>();
+        string _token;
 
-        public DepositPopup()
+        public DepositPopup(string token)
         {
             InitializeComponent();
+
+            _token = token;
         }
 
         private async void okBtn_Clicked(object sender, EventArgs e)
@@ -34,7 +38,12 @@ namespace xfLibrary.Pages.Popup
                 return;
             }
 
-            var res = await _accountService.ForgotPasswordAsync(new { id = un, email = m });
+            var res = await _mainService.DepositAsync(
+                new { 
+                    user = un, 
+                    transferAmount = m, 
+                    content = $"Nạp tiền cho {un} với số tiền: +{m}VND"
+                }, _token);
             if (res != null)
                 _message.ShortAlert(res.Message);
 

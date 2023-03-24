@@ -67,25 +67,48 @@ namespace xfLibrary.ViewModels
             Response res = null;
             //lấy sách
             //=> sang trạng thái chưa trả sách 32 -> 64
-            if(good.Status == Services.Api.USER_PAYMENT_SUCCESS)
+            if (good.Status == Services.Api.USER_PAYMENT_SUCCESS)
             {
                 res = await _mainService.ConfirmationAsync(good.Id, _token);
+                if (res != null && res.Success)
+                {
+                    good.Status = Services.Api.USER_TAKE_BOOK;
+
+                    //update swipe
+                    good = UpdateSwipe(good);
+                }    
             }
             //lấy sách => trả sách 64 -> 128
             else if (good.Status == Services.Api.USER_TAKE_BOOK)
             {
                 res = await _mainService.ReceivedAsync(good.Id, _token);
+                if (res != null && res.Success)
+                {
+                    good.Status = Services.Api.USER_RETURN_IS_NOT_APPROVED;
+
+                    //update swipe
+                    good = UpdateSwipe(good);
+                }    
             }
             //trả sách => sang trạng thái trả sách thành công 128 -> 256
-            else if(good.Status == Services.Api.USER_RETURN_IS_NOT_APPROVED)
+            else if (good.Status == Services.Api.USER_RETURN_IS_NOT_APPROVED)
             {
                 res = await _mainService.SuccessAsync(good.Id, _token);
-            }    
+                if (res != null && res.Success)
+                {
+                    good.Status = Services.Api.USER_RETURN_IS_APPROVED;
 
-            if(res != null && !string.IsNullOrEmpty(res.Message))
+                    //update swipe
+                    good = UpdateSwipe(good);
+                }    
+            }
+
+            if (res != null && !string.IsNullOrEmpty(res.Message))
             {
                 _message.ShortAlert(res.Message);
-            }    
+            }
+
+            good = UpdateSwipe(good);
 
             IsBusy = false;
         });
@@ -103,10 +126,18 @@ namespace xfLibrary.ViewModels
             }
 
             var res = await _mainService.CancellationAsync(good.Id, _token);
-            if(res != null && !string.IsNullOrEmpty(res.Message))
+            if (res != null && res.Success)
+            {
+                good.Status = Services.Api.USER_REQUEST_IS_DENY;
+
+                //update swipe
+                good = UpdateSwipe(good);
+            }
+
+            if (res != null && !string.IsNullOrEmpty(res.Message))
             {
                 _message.ShortAlert(res.Message);
-            }    
+            }
 
             IsBusy = false;
         });
@@ -153,11 +184,10 @@ namespace xfLibrary.ViewModels
             var s = date.AddDays(good.NumberOfRentalDays);
             good.ReturnDate = s;
 
-            //update color status
-            good.Color = Resources.ExtentionHelper.StatusToColor(good.Status);
-
             //isadmin
             good.IsAdmin = _isAdmin;
+
+            good = UpdateSwipe(good);
 
             //takebook
             var daybuy = (int)(DateTime.Now - date).TotalDays;
@@ -178,6 +208,30 @@ namespace xfLibrary.ViewModels
                 else if (dayleft < 0)
                     good.Message = $"Bạn đã quá hạn trả sách {dayleft} ngày.";
             }
+
+            return good;
+        }
+
+        Goods UpdateSwipe(Goods good)
+        {
+            
+            if(good.IsAdmin)
+            {
+                //deny
+                if (good.Status == Services.Api.USER_PAYMENT_SUCCESS)
+                    good.IsDeny = true;
+                else
+                    good.IsDeny = false;
+
+                //accept
+                if (good.Status >= Services.Api.USER_PAYMENT_SUCCESS && good.Status < Services.Api.USER_RETURN_IS_APPROVED)
+                    good.IsAccept = true;
+                else 
+                    good.IsAccept = false;
+            }    
+
+            //update color status
+            good.Color = Resources.ExtentionHelper.StatusToColor(good.Status);
 
             return good;
         }

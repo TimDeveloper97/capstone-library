@@ -23,6 +23,16 @@ namespace xfLibrary.Services.Account
             return res;
         }
 
+        public async Task<User> ViewProfileAsync(string id, string token)
+        {
+            var res = await Service.GetParameter(id, Api.ViewProfile, token);
+            if (res.Value == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<User>(res.Value.ToString());
+
+            return value;
+        }
+
         public async Task<Response> UpdateProfileAsync(object obj, string token)
         {
             var res = await Service.Put(obj, Api.UpdateProfile, token);
@@ -82,6 +92,7 @@ namespace xfLibrary.Services.Account
         public async Task<List<Book>> GetAdminBookAsync(string token)
         {
             var res = await Service.Get(Api.AdminBook, token);
+            if (res.Value == null || res.Value == null) return null;
             var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
             
             return value;
@@ -90,6 +101,7 @@ namespace xfLibrary.Services.Account
         public async Task<List<Book>> GetUserBookAsync(string token)
         {
             var res = await Service.Get(Api.UserBook, token);
+            if (res.Value == null || res.Value == null) return null;
             var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
 
             return value;

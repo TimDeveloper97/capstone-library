@@ -100,6 +100,10 @@ namespace xfLibrary.ViewModels
             if (books == null) { IsBusy = false; return; }
             foreach (var book in books)
             {
+                //set fee statis
+                if (_isAdmin)
+                    book.Quantity = book.InStock.ToString();
+
                 if (book.Imgs == null || book.Imgs.Count == 0)
                     book.ImageSource = Services.Api.IconBook;
                 else

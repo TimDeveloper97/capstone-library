@@ -83,7 +83,26 @@
 
                                         <Grid ColumnDefinitions="*,*">
                                             <mdc:MaterialEntry LabelText="Số ngày cho thuê *" Keyboard="Numeric" Text="{Binding NewPost.NumberOfRentalDays}" MaxLength="50"/>
-                                            <mdc:MaterialEntry Grid.Column="1" LabelText="% Phí thêm *" Keyboard="Numeric" Text="{Binding NewPost.Fee}" MaxLength="2"/>
+                                            <mdc:MaterialEntry Grid.Column="1" Keyboard="Numeric" Text="{Binding NewPost.Fee}">
+                                                <mdc:MaterialEntry.Triggers>
+                                                    <MultiTrigger TargetType="mdc:MaterialEntry">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding NewPost.IsAdmin}" Value="false"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="LabelText" Value="% Phí thu (0 - 100%)" />
+                                                        <Setter Property="MaxLength" Value="2" />
+                                                        <Setter Property="IsEnabled" Value="false" />
+                                                    </MultiTrigger>
+                                                    <MultiTrigger TargetType="mdc:MaterialEntry">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding NewPost.IsAdmin}" Value="true"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="LabelText" Value="Tiền phí thuê (VND)" />
+                                                        <Setter Property="MaxLength" Value="10" />
+                                                        <Setter Property="IsEnabled" Value="true" />
+                                                    </MultiTrigger>
+                                                </mdc:MaterialEntry.Triggers>
+                                            </mdc:MaterialEntry>
                                         </Grid>
                                         <Grid ColumnDefinitions="*, auto">
                                             <Grid RowDefinitions="4*,6*" RowSpacing="0" Margin="0,5,0,0">

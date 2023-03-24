@@ -50,7 +50,7 @@
                                             <SwipeItem Text="Sửa" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                             <SwipeItem Text="Từ chối" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.DenyCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                             <SwipeItem Text="Chấp thuận" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.AcceptCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
-                                            <SwipeItem Text="{Binding Status, Converter={StaticResource OffToOnConverter}}" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.ActiveDenyCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <!--<SwipeItem Text="{Binding Status, Converter={StaticResource OffToOnConverter}}" IsVisible="{Binding IsAdmin}" Command="{Binding Path=BindingContext.ActiveDenyCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>-->
                                         </SwipeItems>
                                     </SwipeView.RightItems>
                                     <!-- Content -->
@@ -121,7 +121,7 @@
                                                 <Grid Grid.Row="2" Style="{StaticResource GroupGridStyle}">
                                                     <StackLayout Orientation="Horizontal" HorizontalOptions="End">
                                                         <Frame Style="{StaticResource FrameNoBorder}" BackgroundColor="{StaticResource AppColor}" CornerRadius="10"
-                                                                   HorizontalOptions="End" BorderColor="{Binding Color}">
+                                                                   HorizontalOptions="End" BorderColor="{Binding AppColor}">
                                                             <Label Text="Ký gửi" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
                                                             <Frame.Triggers>
                                                                 <MultiTrigger TargetType="Frame">

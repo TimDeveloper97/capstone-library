@@ -9,6 +9,7 @@ namespace xfLibrary.Models
 {
     public class Goods : BaseModel
     {
+        private int status;
         [JsonProperty("borrowedDate")]
         public long? CreateDate { get; set; }
 
@@ -19,7 +20,7 @@ namespace xfLibrary.Models
         public string User { get; set; }
 
         [JsonProperty("status")]
-        public int Status { get; set; }
+        public int Status { get => status; set => SetProperty(ref status, value); }
 
         [JsonProperty("totalPrice")]
         public int Total { get; set; }
@@ -37,5 +38,9 @@ namespace xfLibrary.Models
         public string Message { get; set; }
         [JsonIgnore]
         public bool IsAdmin { get; set; } = false;
+        [JsonIgnore]
+        public bool IsDeny { get; set; } = false;
+        [JsonIgnore]
+        public bool IsAccept { get; set; } = false;
     }
 }

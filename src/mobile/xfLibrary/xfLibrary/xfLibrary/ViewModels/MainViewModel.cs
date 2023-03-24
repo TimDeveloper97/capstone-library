@@ -102,9 +102,6 @@ namespace xfLibrary.ViewModels
         #region Appearing
         public ICommand MainAppearingCommand => new Command(async () =>
         {
-            // show if logined
-            IsVisible = HasLogin();
-
             //auto login
             var isRemember = Preferences.Get("isremember", false);
             if (isRemember && string.IsNullOrEmpty(_token))
@@ -135,6 +132,7 @@ namespace xfLibrary.ViewModels
                 if (notis != null)
                 {
                     BadgeNotification = notis.Where(x => x.Status == 0).Count();
+                    OnPropertyChanged("BadgeNotification");
                 }
 
                 // lấy số status status = 4
@@ -146,10 +144,13 @@ namespace xfLibrary.ViewModels
                 if(posts != null)
                 {
                     BadgePost = posts.Where(x => x.Status == Services.Api.USER_POST_IS_NOT_APPROVED).Count();
+                    OnPropertyChanged("BadgePost");
                 }    
 
             }
 
+            // show if logined
+            IsVisible = HasLogin();
         });
 
         public ICommand PageHomeAppearingCommand => new Command(async () =>
@@ -239,8 +240,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand PageAccountDisappearingCommand => new Command(() =>
         {
-            Disappearing(() =>
-            MessagingCenter.Unsubscribe<object, bool>(this, "haslogin"));
+            MessagingCenter.Unsubscribe<object, bool>(this, "haslogin");
         });
 
         void Disappearing(Action action)

@@ -12,6 +12,7 @@ namespace xfLibrary.Services.Login
     public interface IAccountService
     {
         Task<Response> LoginAsync(string username, string password);
+        Task<User> ViewProfileAsync(string id, string token);
         Task<Response> RegisterAsync(object obj);
         Task<Response> ForgotPasswordAsync(object obj);
         Task<Response> ChangePasswordAsync(object obj, string token);

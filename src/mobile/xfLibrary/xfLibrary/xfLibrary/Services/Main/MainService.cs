@@ -181,16 +181,16 @@ namespace xfLibrary.Services.Main
 
         public async Task<List<Transaction>> TransactionAsync(string token)
         {
-            var res = await Service.Get(Api.Notification, token);
+            var res = await Service.Get(Api.GetAllTransaction, token);
             if (res == null || res.Value == null) return null;
 
             var value = JsonConvert.DeserializeObject<List<Transaction>>(res.Value.ToString());
             return value;
         }
 
-        public async Task<Response> DepositAsync(string id, string token)
+        public async Task<Response> DepositAsync(object obj, string token)
         {
-            var res = await Service.PutParameter(id, Api.Cancellation, token);
+            var res = await Service.Post(obj, Api.Transaction, token);
             return res;
         }
 
