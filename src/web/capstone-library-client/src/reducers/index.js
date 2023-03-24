@@ -3,12 +3,14 @@ import user from "./userReducer";
 import category from "./categoryReducer";
 import book from "./bookReducer";
 import post from "./postReducer";
+import order from "./orderReducer";
 
 const allReducers = combineReducers({
   user,
   category,
   book,
-  post
+  post,
+  order
 });
 
 export default allReducers;

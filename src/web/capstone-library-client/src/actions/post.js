@@ -8,6 +8,6 @@ export const addPost = (data) => async (dispatch) => {
 
 export const getPosts = () => async (dispatch) => {
     const {data} = await api.getPosts();
-    dispatch({type: "GET_POSTS", payload: data.value});
+    dispatch({type: "GET_POSTS", payload: data.value ? data.value : []});
 }
 

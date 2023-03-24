@@ -1,4 +1,4 @@
-import { faDongSign, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faBagShopping, faCartPlus, faDongSign, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,12 @@ import { orderBook } from "../../actions/order";
 import { getPostById } from "../../apis/post";
 import Carousel from "../../components/Carousel/Carousel";
 import Loading from "../../components/Loading/Loading";
+import {
+    NotificationManager,
+    NotificationContainer,
+  } from "react-notifications";
 import { getImgUrl } from "../../helper/helpFunction";
+import './post.css';
 
 export default function DetailPost() {
   const [currentPost, setCurrentPost] = useState();
@@ -42,14 +47,21 @@ export default function DetailPost() {
     };
     fetchPost();
   }, [id]);
-  const handleRentBook = () => {
-    dispatch(orderBook(currentPost.id));
+  const handleRentBook = async () => {
+    const response = await dispatch(orderBook(currentPost.id));
+    console.log(response);
+    if(response.success){
+        NotificationManager.success(response.message, "Thông báo", 2000);
+    }else{
+        NotificationManager.error(response.message, "Lỗi", 2000);
+    }
   }
   return currentPost ? (
     <section className="question-area pb-40px">
+        <NotificationContainer />
       <div className="container">
         <div className="row">
-          <div className="col-lg-10">
+          <div className="col-lg-12">
             <div className="question-tabs mb-50px">
               <div className="tab-content pt-40px" id="myTabContent">
                 <div
@@ -63,10 +75,10 @@ export default function DetailPost() {
                       <div className="detail-book">
                         <div className="container">
                           <div className="row">
-                            <div className="col-md-7">
+                            <div className="col-md-6">
                               <Carousel images={listImg} />
                             </div>
-                            <div className="col-md-5 book-info">
+                            <div className="col-md-6 book-info">
                               <h5 className="book-title">
                                 {currentPost?.title}
                               </h5>
@@ -86,16 +98,16 @@ export default function DetailPost() {
                                 {currentPost?.content}
                               </p>
                               <div className="cart-form mb-50px table-responsive px-2">
-                                <table className="table generic-table">
+                                <table className="table generic-table custom-table">
                                   <thead>
                                     <tr>
-                                      <th scope="col">Tên sách</th>
-                                      <th scope="col">Giá</th>
-                                      <th scope="col">Số lượng</th>
-                                      <th scope="col">Thành tiền</th>
+                                      <th scope="colSpan">Tên sách</th>
+                                      <th scope="colSpan">Giá</th>
+                                      <th scope="colSpan">Số lượng</th>
+                                      <th scope="colSpan">Thành tiền</th>
                                     </tr>
                                   </thead>
-                                  <tbody>
+                                  <tbody style={{borderBottom: 'none'}}>
                                     {currentPost.postDetailDtos.map(
                                       (post, index) => {
                                         return (
@@ -129,7 +141,12 @@ export default function DetailPost() {
 
                               <div className="buy">
                                 <button className="btn btn-success" onClick={() => handleRentBook()}>
-                                  Thuê sách
+                                <FontAwesomeIcon icon={faCartPlus} />  {"  "}
+                                  Thêm vào giỏ
+                                </button>
+                                <button className="btn btn-info">
+                                    <FontAwesomeIcon icon={faBagShopping} />  {"  "}
+                                    Thuê ngay
                                 </button>
                               </div>
                             </div>

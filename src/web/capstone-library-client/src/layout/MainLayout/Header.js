@@ -82,6 +82,9 @@ export default function Header() {
                     <li>
                       <Link to={"/user/category"}>Quản lý thể loại</Link>
                     </li>
+                    <li>
+                      <Link to={"/user/order-status"}>Quản lý đơn hàng</Link>
+                    </li>
                   </ul>
                 </li>
                   }

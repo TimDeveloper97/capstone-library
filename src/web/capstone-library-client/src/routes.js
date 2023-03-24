@@ -10,6 +10,7 @@ import Error from "./views/Home/Error";
 import Home from "./views/Home/Home";
 import Login from "./views/Login/Login";
 import Order from "./views/Order/Order";
+import OrderStatus from "./views/Order/OrderStatus";
 import AddPost from "./views/Post/AddPost";
 import Post from "./views/Post/Post";
 import DetailPost from "./views/Post/PostDetail";
@@ -77,6 +78,10 @@ export default function Route() {
             {
               path: "category",
               element: <Category />
+            },
+            {
+              path: "order-status",
+              element: <OrderStatus />
             }
           ],
         },

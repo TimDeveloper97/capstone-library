@@ -1,4 +1,4 @@
-const post = (state = null, action) => {
+const post = (state = [], action) => {
     switch(action.type){
         case "GET_POSTS":
             return action.payload;
