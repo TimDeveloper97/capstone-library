@@ -36,15 +36,41 @@ namespace xfLibrary.ViewModels
         public ICommand TransactionCommand => new Command(async () =>
         {
             if (_isAdmin)
-                await Shell.Current.ShowPopupAsync(new DepositPopup());
+                await Shell.Current.ShowPopupAsync(new DepositPopup(_token));
             else
                 await Shell.Current.ShowPopupAsync(
                     new TransactionPopup(_user == null ? "anonymous" : _user.FirstName + _user.LastName));
         });
 
+        public ICommand RefreshProfileCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            if (_user == null) return;
+            var res = await _accountService.ViewProfileAsync(_user.Id, _token);
+            if (res != null)
+            {
+                _user = res;
+                Profile = res;
+            }
+
+            IsBusy = false;
+        });
+
         public ICommand ReportCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup()));
 
-        public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.ShowPopupAsync(new ProfilePopup(_user, _token))));
+        public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () =>
+        {
+            var res = await Shell.Current.ShowPopupAsync(new ProfilePopup(_user, _token));
+            if(res)
+            {
+                var result = await _accountService.ViewProfileAsync(_user.Id, _token);
+                if (result != null)
+                {
+                    _user = result;
+                }
+            }
+        }));
 
         public ICommand BookCommand => new Command(async () => await MoveToLogin(async () => await Shell.Current.GoToAsync(nameof(BookView))));
 
@@ -81,9 +107,13 @@ namespace xfLibrary.ViewModels
                       IsVisible = arg;
                       OnPropertyChanged("IsVisible");
 
-                      Icon = LoadIcon();
+                      ////view
                       Profile = _user;
+                      Icon = LoadIcon();
                       IsAdmin = _isAdmin;
+
+                      ////update profile
+                      RefreshProfileCommand.Execute(null);
                   });
         }
         #endregion

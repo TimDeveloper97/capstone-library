@@ -80,4 +80,20 @@ namespace xfLibrary.Converters
             throw new NotImplementedException();
         }
     }
+
+    class StatusToAcceptConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return "Chấp nhận";
+            var status = (int)value;
+
+            return status == Services.Api.USER_PAYMENT_SUCCESS ? "Chấp nhận" : "Xác nhận";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -25,6 +25,7 @@
     <converter:UpperOneStringConverter x:Key="UpperOneStringConverter" />
     <converter:OffToOnConverter x:Key="OffToOnConverter" />
     <converter:DatetimeToColorConverter x:Key="DatetimeToColorConverter" />
+    <converter:StatusToAcceptConverter x:Key="StatusToAcceptConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
@@ -685,6 +686,7 @@
         <Setter Property="LabelTextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
         <Setter Property="HeightRequest" Value="55"/>
         <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="DisabledTextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
     </Style>
 
     <Style TargetType="mdc:MaterialEditor">

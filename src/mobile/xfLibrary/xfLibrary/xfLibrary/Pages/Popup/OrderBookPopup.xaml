@@ -34,7 +34,7 @@
                         <CollectionView x:Name="lv" Grid.Row="1" ItemsSource="{Binding books}" HeightRequest="250" SelectedItem="{Binding SelectItem}" Margin="5,0" >
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid ColumnDefinitions="auto, *, auto, 60" Padding="5,10" VerticalOptions="Center">
+                                    <Grid ColumnDefinitions="auto, *, auto, 70" Padding="5,10" VerticalOptions="Center">
                                         <CheckBox x:Name="cbItem" IsChecked="{Binding IsChecked}" VerticalOptions="Center" CheckedChanged="cbItem_CheckedChanged" BindingContext="{Binding .}"/>
                                         <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center"/>
                                         <Label x:Name="lPrice" Grid.Column="1" Text="{Binding Price}" IsVisible="false" VerticalOptions="Center"/>

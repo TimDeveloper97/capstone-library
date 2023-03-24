@@ -41,15 +41,17 @@ namespace xfLibrary.ViewModels
             var res = await _mainService.CheckoutCartAsync(mycart, _token);
             if (res == null) return;
 
-            if (res.Success)
+            if (true)
             {
                 foreach (var item in mycart)
                 {
+                    item.IsChecked = false;
                     Posts.Remove(item);
                 }
             }
+            if (!string.IsNullOrEmpty(res.Message))
+                _message.ShortAlert(res.Message);
 
-            _message.ShortAlert(res.Message);
             IsBusy = false;
         });
 

@@ -72,7 +72,7 @@ namespace xfLibrary.ViewModels
                 var groups = notis.GroupBy(x => x.Date.Date).OrderByDescending(x => x.Key).ToList();
 
                 foreach (var group in groups)
-                    Notifications.Add(new NotificationGroup(group.Key, group.ToList()));
+                    Notifications.Add(new NotificationGroup(group.Key, group.OrderByDescending(x => x.Date).ToList()));
             }
         }
         #endregion

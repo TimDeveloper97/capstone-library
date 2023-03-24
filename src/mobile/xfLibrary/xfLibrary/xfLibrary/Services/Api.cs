@@ -12,12 +12,13 @@ namespace xfLibrary.Services
 {
     public class Api
     {
-        public const string BaseUrl = "http://192.168.137.206:8888";
+        public const string BaseUrl = "http://192.168.137.206:8090";
         public const string Url = BaseUrl + "/api/";
         public const string IconBook = "book512.png";
         public const string IconCategory = "category512.png";
 
         public const string Login = "login";
+        public const string ViewProfile = "view-profile";
         public const string Register = "register";
         public const string ForgotPassword = "forgotpassword";
         public const string ChangePassword = "change-password";
@@ -45,12 +46,13 @@ namespace xfLibrary.Services
         public const string DisablePost = "posts/disable-post"; 
 
         public const string Notification = "notification"; 
-        public const string Transaction = "transaction"; 
+        public const string GetAllTransaction = "recharge"; 
+        public const string Transaction = "transfer"; 
 
         public const string Confirmation = "order/confirmation"; 
         public const string Cancellation = "order/cancellation"; 
         public const string Received = "order/received"; 
-        public const string Success = "order/book-return"; 
+        public const string Success = "order/book-returns"; 
 
         public const string Cart = "cart"; 
         /// <summary>
@@ -93,6 +95,8 @@ namespace xfLibrary.Services
           *			16 - Accept request return books
           *			32 - Deny user request
           */
+        public const int FEE = 30; // Fee
+
 
         //ADMIN
         public const int ADMIN_POST = 0; // Admin

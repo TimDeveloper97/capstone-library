@@ -9,7 +9,7 @@
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              Size="350,400"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
-             x:TypeArguments="x:String"
+             x:TypeArguments="x:Boolean"
              IsLightDismissEnabled="True"
              
              x:Class="xfLibrary.Pages.Popup.ProfilePopup">
