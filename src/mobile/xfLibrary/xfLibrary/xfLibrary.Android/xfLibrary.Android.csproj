@@ -290,10 +290,10 @@
     <AndroidResource Include="Resources\drawable\category512.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_pig.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_setting.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_setting.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_pig.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

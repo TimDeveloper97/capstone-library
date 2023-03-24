@@ -29,6 +29,8 @@ namespace xfLibrary.Converters
             if (value == null) return null;
 
             string result = value.ToString().ToLower();
+            if (result.Length == 0) return null;
+
             return result[0].ToString().ToUpper() + result.Substring(1);
         }
 

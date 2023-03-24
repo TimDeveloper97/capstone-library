@@ -35,7 +35,7 @@ namespace xfLibrary.Services.Main
         Task<Response> ChangeStatusNotificationAsync(string id, string token);
 
         Task<List<Transaction>> TransactionAsync(string token);
-        Task<Response> DepositAsync(string id, string token);
+        Task<Response> DepositAsync(object obj, string token);
 
         Task<Response> CancellationAsync(string id, string token);
         Task<Response> ConfirmationAsync(string id, string token);

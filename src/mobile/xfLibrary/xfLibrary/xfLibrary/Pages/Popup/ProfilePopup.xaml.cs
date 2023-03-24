@@ -13,7 +13,7 @@ using xfLibrary.Services.Login;
 namespace xfLibrary.Pages.Popup
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ProfilePopup : Xamarin.CommunityToolkit.UI.Views.Popup<string>
+    public partial class ProfilePopup : Xamarin.CommunityToolkit.UI.Views.Popup<bool>
     {
         protected IMessage _message = DependencyService.Get<IMessage>();
         protected IAccountService _account = DependencyService.Get<IAccountService>();
@@ -23,6 +23,8 @@ namespace xfLibrary.Pages.Popup
             InitializeComponent();
             this.name.Text = user.FirstName + user.LastName;
             this.email.Text = user.Email;
+            this.address.Text = user.Address;
+            this.phone.Text = user.Phone;
             _token = token;
             _id = user.Id;
         }
@@ -46,12 +48,12 @@ namespace xfLibrary.Pages.Popup
                 _message.ShortAlert(res.Message);
 
             okBtn.IsBusy = false;
-            Dismiss(null);
+            Dismiss(true);
         }
 
         private void cancelBtn_Clicked(object sender, EventArgs e)
         {
-            Dismiss(null);
+            Dismiss(false);
         }
     }
 }

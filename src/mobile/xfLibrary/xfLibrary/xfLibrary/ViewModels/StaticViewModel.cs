@@ -61,7 +61,7 @@ namespace xfLibrary.ViewModels
                 var groups = trans.GroupBy(x => x.Date.Date).OrderByDescending(x => x.Key).ToList();
 
                 foreach (var group in groups)
-                    Transactions.Add(new TransactionGroup(group.Key, group.ToList()));
+                    Transactions.Add(new TransactionGroup(group.Key, group.OrderByDescending(x => x.Date).ToList()));
             }
         }
         #endregion

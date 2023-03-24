@@ -40,7 +40,8 @@ namespace xfLibrary.Models
 
         [JsonProperty("percent")]
         public int Percent { get; set; }
-
+        [JsonProperty("inStock")]
+        public int InStock { get; set; }
 
 
         private int number = 0;

@@ -23,7 +23,7 @@ namespace xfLibrary.ViewModels
         private List<Book> selectedBooks;
         private Post newPost;
         private bool isUpdate = false;
-        int selected = -1;
+        private int selected = -1;
 
         public ObservableCollection<string> Slides { get => slides; set => SetProperty(ref slides, value); }
         public Post NewPost { get => newPost; set => SetProperty(ref newPost, value); }
@@ -74,6 +74,10 @@ namespace xfLibrary.ViewModels
             }
 
             NewPost.IsAdmin = _isAdmin;
+
+            //set fee statis
+            if (!NewPost.IsAdmin)
+                NewPost.Fee = Services.Api.FEE;
         });
         public ICommand BookCommand => new Command(async () =>
         {
@@ -97,6 +101,12 @@ namespace xfLibrary.ViewModels
                         book.PreTotal = exist.Quantity * exist.Book.Price;
                     }
                 }
+            }
+
+            foreach (var book in books)
+            {
+                if (_isAdmin)
+                    book.Quantity = book.InStock.ToString();
             }
 
             //show popup
@@ -140,13 +150,13 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
-            if(NewPost.IsAdmin && string.IsNullOrEmpty(NewPost.Title))
+            if (NewPost.IsAdmin && string.IsNullOrEmpty(NewPost.Title))
             {
                 _message.ShortAlert("Tiêu đề không được để trống");
                 return;
             }
 
-            if (NewPost.Title.Length < 10)
+            if (NewPost.Title != null && NewPost.Title.Length < 10)
             {
                 _message.ShortAlert("Nội dung tối thiểu 10 chữ");
                 return;
@@ -158,7 +168,7 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
-            if (NewPost.Fee > 100)
+            if (NewPost.Fee > 100 && NewPost.IsAdmin == false)
             {
                 _message.ShortAlert("% phí thêm phải thuộc (1,100)%");
                 return;
@@ -170,8 +180,9 @@ namespace xfLibrary.ViewModels
 
             if (isUpdate) res = await _mainService.UpdatePostAsync(NewPost, _token);
             else res = await _mainService.AddPostMeAsync(NewPost, _token);
-
             IsBusy = false;
+
+            if (res == null) return;
             if (res.Success)
                 BackCommand.Execute(null);
             _message.ShortAlert(res.Message);
