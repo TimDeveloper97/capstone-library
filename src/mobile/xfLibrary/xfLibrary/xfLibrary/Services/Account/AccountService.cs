@@ -23,6 +23,23 @@ namespace xfLibrary.Services.Account
             return res;
         }
 
+        public async Task<User> ViewProfileAsync(string id, string token)
+        {
+            var res = await Service.GetParameter(id, Api.ViewProfile, token);
+            if (res.Value == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<User>(res.Value.ToString());
+
+            return value;
+        }
+
+        public async Task<Response> UpdateProfileAsync(object obj, string token)
+        {
+            var res = await Service.Put(obj, Api.UpdateProfile, token);
+
+            return res;
+        }
+
         public async Task<Response> ForgotPasswordAsync(object obj)
         {
             var res = await Service.Post(obj, Api.ForgotPassword);
@@ -42,7 +59,6 @@ namespace xfLibrary.Services.Account
         }
         #endregion
 
-
         #region Books
 
         public async Task<Response> AddBookAsync(object obj, string token)
@@ -53,8 +69,8 @@ namespace xfLibrary.Services.Account
 
         public async Task<Book> GetBookAsync(string id, string token)
         {
-            var res = await Service.Get(id, Api.GetBook, token);
-            if (res.Value == null) return null;
+            var res = await Service.GetParameter(id, Api.GetBook, token);
+            if (res.Value == null || res.Value == null) return null;
 
             var value = JsonConvert.DeserializeObject<Book>(res.Value.ToString());
 
@@ -63,25 +79,34 @@ namespace xfLibrary.Services.Account
 
         public async Task<Response> DeleteBookAsync(string id, string token)
         {
-            var res = await Service.Get(id, Api.DeleteBook, token);
+            var res = await Service.PostParameter(id, Api.DeleteBook, token);
             return res;
         }
 
         public async Task<Response> UpdateBookAsync(object obj, string token)
         {
-            var res = await Service.Post(obj, Api.UpdateBook, token);
+            var res = await Service.Put(obj, Api.UpdateBook, token);
             return res;
         }
 
-        public async Task<List<Book>> GetAllBookAsync(string token)
+        public async Task<List<Book>> GetAdminBookAsync(string token)
         {
-            var res = await Service.Get(Api.Book, token);
+            var res = await Service.Get(Api.AdminBook, token);
+            if (res.Value == null || res.Value == null) return null;
             var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
             
             return value;
         }
-        #endregion
 
+        public async Task<List<Book>> GetUserBookAsync(string token)
+        {
+            var res = await Service.Get(Api.UserBook, token);
+            if (res.Value == null || res.Value == null) return null;
+            var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());
+
+            return value;
+        }
+        #endregion
 
     }
 }

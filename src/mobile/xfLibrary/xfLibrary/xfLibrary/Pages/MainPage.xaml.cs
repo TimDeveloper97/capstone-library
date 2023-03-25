@@ -11,7 +11,6 @@ namespace xfLibrary.Pages
         public MainPage()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
             BindingContext = new MainViewModel();
         }
     }

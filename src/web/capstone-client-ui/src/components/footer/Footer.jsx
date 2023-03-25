@@ -1,7 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import { Facebook } from "react-bootstrap-icons";
-import "./footer.css";
 
 export default function Footer() {
   return (

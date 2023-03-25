@@ -20,7 +20,7 @@
     
     <ContentPage.Content>
         <Grid>
-            <Image Source="background.jpg" Aspect="AspectFill" VerticalOptions="End"/>
+            <Image Source="background.jpg" Aspect="Fill" VerticalOptions="FillAndExpand"/>
 
             <Grid ColumnDefinitions="auto, *" VerticalOptions="Start" Style="{StaticResource GridColor}" HeightRequest="{StaticResource TopNavigator}">
                 <Label Margin="20,0,0,0" Style="{StaticResource IconLabel}" FontSize="35" TextColor="White" Text="{Static icon:FontIcons.ChevronLeft}" VerticalOptions="Center">
@@ -28,7 +28,7 @@
                         <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.HomeCommand, Source={x:Reference Name=self}}"/>
                     </Label.GestureRecognizers>
                 </Label>
-                <Image Grid.Column="1" Source="chotot.jpg" Aspect="AspectFit" HorizontalOptions="Center"/>
+                <Image Grid.Column="1" Source="logoC.png" Aspect="AspectFit" HorizontalOptions="Center" Margin="-30,0,0,0"/>
             </Grid>
             <!--#endregion-->
 
@@ -39,23 +39,33 @@
                         <Grid Padding="20,0" HeightRequest="80" ColumnDefinitions="*, auto">
                             <StackLayout  VerticalOptions="Center">
                                 <Label FontSize="Title" HorizontalOptions="Start" Text="Đăng nhập" Style="{StaticResource TitleColorLabelStyle}"/>
-                                <Label FontSize="Body" Margin="0,-5,0,0" HorizontalOptions="Start" Text="Chào bạn quay lại" Style="{StaticResource TitleLabelStyle}"/>
+                                <StackLayout Orientation="Horizontal"  Margin="0,-5,0,0">
+                                    <Label VerticalOptions="Center" FontSize="Body" HorizontalOptions="Start" Text="Chào mừng quay lại" Style="{StaticResource TitleLabelStyle}"/>
+                                    <Label VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="CAPS" />
+                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="TONE" TextColor="{StaticResource Yellow}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
                             </StackLayout>
-                            <Image Grid.Column="1" Source="chototicon.png" Aspect="Fill"  VerticalOptions="Center" HorizontalOptions="Center"
+                            <Image Grid.Column="1" Source="logoicon.png" Aspect="Fill"  VerticalOptions="Center" HorizontalOptions="Center"
                                    HeightRequest="60" WidthRequest="60"/>
                         </Grid>
                         
                         <StackLayout Margin="20,0">
                             <mdc:MaterialEntry LabelText="Tài khoản *" Text="{Binding Email}"/>
                             <mdc:MaterialEntry LabelText="Mật khẩu *" IsPassword="True" Text="{Binding Password}"/>
-                            <Label Text="Quên mật khẩu?" HorizontalOptions="End" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}">
+                            <Label Text="Quên mật khẩu?" TextDecorations="Underline" HorizontalOptions="End" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.ForgotPasswordCommand, Source={x:Reference Name=self}}"/>
                                 </Label.GestureRecognizers>
                             </Label>
                         </StackLayout>
 
-                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="13,5,0,-10">
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="13,0,0,-10">
                             <CheckBox IsChecked="{Binding IsRemember}"/>
                             <Label Text="Nhớ tài khoản mật khẩu" VerticalOptions="Center"/>
                         </StackLayout>
@@ -67,7 +77,7 @@
                         <Frame Style="{StaticResource FrameShadow}" HeightRequest="40">
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Margin="13,5,0,10">
                                 <Label Text="Chưa có tài khoản? "/>
-                                <Label Text="Đăng ký ngay" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}">
+                                <Label Text="Đăng ký ngay" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}" TextDecorations="Underline">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.RegisterCommand, Source={x:Reference Name=self}}"/>
                                     </Label.GestureRecognizers>

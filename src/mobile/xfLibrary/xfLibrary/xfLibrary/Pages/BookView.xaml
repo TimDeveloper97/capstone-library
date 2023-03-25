@@ -19,36 +19,17 @@
              x:Class="xfLibrary.Pages.BookView">
     <ContentPage.Resources>
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
-            <Setter Property="Color" Value="White" />
+            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
             <Setter Property="HeightRequest" Value="30" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
         </Style>
-
-        <Style x:Key="SenderContainerStyle" TargetType="Grid">
-            <Setter Property="HeightRequest" Value="60" />
-            <Setter Property="WidthRequest" Value="60" />
-            <Setter Property="VerticalOptions" Value="Center" />
-        </Style>
-
-        <Style x:Key="SenderEllipseStyle" TargetType="Ellipse">
-            <Setter Property="HeightRequest" Value="50" />
-            <Setter Property="WidthRequest" Value="50" />
-        </Style>
-
-        <Style x:Key="SenderImageStyle" TargetType="Image">
-            <Setter Property="HorizontalOptions" Value="Center" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="Margin" Value="10" />
-        </Style>
     </ContentPage.Resources>
-    <ContentPage.BindingContext>
-        <vm:BookViewModel/>
-    </ContentPage.BindingContext>
+
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
                 EventName="Appearing"
-                Command="{Binding PageAppearingCommand}" />
+                Command="{Binding RefreshCommand}" />
     </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
@@ -65,9 +46,19 @@
                     </Label>
                 </Frame>
 
-                <Label Grid.Row="1" Text="Danh sách truyện" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
-                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+                <Label Grid.Row="1" Text="Kho sách của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
 
+                <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
+                    <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" VerticalOptions="End" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="45" Margin="0,-5,0,0"/>
+                    <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Filter}"
+                        TextColor="White" Margin="0,0,20,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.FilterCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
             </Grid>
             <!--#endregion-->
 
@@ -77,42 +68,43 @@
 
             <!--#endregion-->
 
-            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}" Margin="10,0">
-                <ListView ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectItem}">
-                    <ListView.ItemTemplate>
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,10,10">
+                <CollectionView ItemsSource="{Binding ItemsSource}">
+                    <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <SwipeView>
-                                        <SwipeView.RightItems>
-                                            <SwipeItems SwipeBehaviorOnInvoked="Auto">
-                                                <SwipeItem Text="Xóa" BackgroundColor="{StaticResource Gray600}" Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"/>
-                                                <SwipeItem Text="Sửa" BackgroundColor="{StaticResource Gray600}" Command="{Binding UpdateCommand}" CommandParameter="{Binding .}"/>
-                                            </SwipeItems>
-                                        </SwipeView.RightItems>
-                                        <!-- Content -->
+                            <Grid>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems SwipeBehaviorOnInvoked="Auto">
+                                            <SwipeItem Text="Xóa" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="Sửa" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <!-- Content -->
 
-                                        <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                            <Image Source="{Binding ImageSource}"/>
-                                            <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                                <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End" Margin="0,0,0,-5"/>
-                                                <Label Grid.Row="1" Text="{Binding Author}" Style="{StaticResource MiniLabelStyle}" 
-                                                                               HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5"/>
-                                                <Label Grid.Row="2" Text="{Binding StringCategories}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
-                                                                               TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
-                                                                               HorizontalOptions="Start" VerticalOptions="Start" FontFamily="MuliBold"/>
-                                            </Grid>
-                                            <Grid.GestureRecognizers>
-                                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectedCommand, Source={x:Reference self}}"/>
-                                            </Grid.GestureRecognizers>
+                                    <Grid ColumnDefinitions="50, *" Padding="5,10">
+                                        <Image Source="{Binding ImageSource}" HeightRequest="50" WidthRequest="50"/>
+                                        <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
+                                            <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                                       Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
+                                            <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Author, Converter={StaticResource UpperOneStringConverter}}"/>
+                                                        <Span Text="{Binding Quantity, StringFormat=' (Số lượng còn lại: {0})'}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
+                                                   TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
+                                                   HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation" FontFamily="MuliBold"/>
                                         </Grid>
-                                    </SwipeView>
-                                </Grid>
-
-                            </ViewCell>
+                                    </Grid>
+                                </SwipeView>
+                            </Grid>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </Grid>
 
             <mdc:MaterialFloatingButton Grid.Row="2" VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"

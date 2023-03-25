@@ -13,37 +13,78 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             xmlns:converter="clr-namespace:xfLibrary.Converters"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.NotificationView">
-
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:StatusToBoolConverter x:Key="StatusToBool1Converter" Value="1"/>
+            <converter:StatusToBoolConverter x:Key="StatusToBoolZeroConverter" Value="0"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
     <ContentView.Content>
-        <Grid HorizontalOptions="FillAndExpand">
-            <RefreshView Command="{Binding ReloadNotificationCommand}" IsRefreshing="{Binding IsBusy}">
-                <CollectionView ItemsSource="{Binding Notifications}" HeightRequest="70" SelectionMode="Single">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame CornerRadius="0">
-                                <Grid ColumnDefinitions="auto, *" Margin="0,10">
-                                    <Frame Margin="10,5" CornerRadius="50" Style="{StaticResource FrameNoBorder}" HeightRequest="40" WidthRequest="40">
-                                        <Image Source="chotot.png"/>
-                                    </Frame>
-                                    <Grid Grid.Column="1" RowDefinitions="7*, 3*">
-                                        <Label Text="70 Điểm Tốt của bạn sẽ hết hạn trong 0 ngày nữa. Săn điểm để gia hạn ngay"
-                                               Style="{StaticResource TitleLabelStyle}" VerticalOptions="End"
-                                               MaxLines="2" LineBreakMode="WordWrap" HorizontalTextAlignment="Start"/>
+        <Grid HorizontalOptions="FillAndExpand" Padding="10,0">
+            <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+                <ScrollView>
+                    <Grid>
+                        <Label x:Name="label" VerticalOptions="Center" HorizontalOptions="Center" Text="Không có thông báo để hiển thị">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Notifications.Count, Converter={StaticResource StatusToBoolZeroConverter}}" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="true" />
+                                </MultiTrigger>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Notifications.Count, Converter={StaticResource StatusToBoolZeroConverter}}" Value="true"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="false" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <ListView GroupDisplayBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}"
+                                  IsVisible="{Binding Source={Reference label}, Path=IsVisible, Converter={StaticResource ChangeBoolConverter}}"
+                                  IsGroupingEnabled="True" ItemsSource="{Binding Notifications}" IsPullToRefreshEnabled="False">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid ColumnDefinitions="auto, *" Padding="10,5">
+                                            <!--#region Icon -->
+                                            <Grid VerticalOptions="Start" HorizontalOptions="Start" HeightRequest="35" WidthRequest="38">
+                                                <Frame BackgroundColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}" CornerRadius="30" Opacity="0.1"
+                                                       Style="{StaticResource FrameNoBorder}"/>
+                                                <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Bell}"
+                                                       VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}"/>
+                                            </Grid>
+                                            <!--#endregion-->
 
-                                        <Label Text="28 ngày trước" Style="{StaticResource MiniLabelStyle}"
-                                           Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start"/>
-                                    </Grid>
-                                </Grid>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+
+                                            <Grid Grid.Column="1" Margin="7,0,0,0" RowDefinitions="6*, 4*" RowSpacing="0">
+                                                <Label Text="{Binding Message, StringFormat='Nội dung: {0}', Converter={StaticResource UpperOneStringConverter}}" 
+                                                       Style="{StaticResource MiniLabelStyle}" VerticalOptions="Start"
+                                                       MaxLines="{Binding MaxLines}" HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+
+                                                <StackLayout Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start" Orientation="Horizontal" Margin="0,-2,0,0">
+                                                    <Label Text="{Binding Date, StringFormat='{}{0:hh:mm tt}', TargetNullValue='N/A'}"
+                                                           Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}" />
+                                                    <BoxView Color="{StaticResource Red}" WidthRequest="5" HeightRequest="5" CornerRadius="3"
+                                                             IsVisible="{Binding Status, Converter={StaticResource StatusToBool1Converter}}" VerticalOptions="Center"/>
+                                                </StackLayout>
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
+                                                              Command="{Binding Path=BindingContext.ExtendTextCommand, Source={x:Reference Name=self}}"/>
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </ScrollView>
             </RefreshView>
         </Grid>
     </ContentView.Content>

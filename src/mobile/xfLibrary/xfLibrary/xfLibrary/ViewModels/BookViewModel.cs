@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using xfLibrary.Domain;
@@ -15,24 +17,38 @@ namespace xfLibrary.ViewModels
     {
         #region Property
         private ObservableCollection<Book> itemsSource;
+        private List<Category> _categorys;
+        private bool isSort = true;
 
         public ObservableCollection<Book> ItemsSource { get => itemsSource; set => SetProperty(ref itemsSource, value); }
         #endregion
 
         #region Command 
-        public ICommand PageAppearingCommand => new Command(async () =>
+        public ICommand RefreshCommand => new Command(async () =>
         {
-            var books = await _accountService.GetAllBookAsync(_token);
+            IsBusy = true;
 
-            foreach (var book in books)
-            {
-                //format to view
-                book.ImageSource = ExtentionHelper.Base64ToImage(book.ImageBook);
-                book.StringCategories = ListToString(book.Categories);
+            if(_categorys == null || _categorys?.Count == 0)
+                _categorys = await _mainService.CategoryAsync();
 
-                //update view
-                ItemsSource.Add(book);
-            }
+            await AddBook();
+
+            IsBusy = false;
+        });
+
+        public ICommand FilterCommand => new Command(() =>
+        {
+            IsBusy = true;
+
+            ObservableCollection<Book> lsort = null;
+            if (isSort)
+                lsort = new ObservableCollection<Book>(ItemsSource.OrderBy(x => x.Name));
+            else
+                lsort = new ObservableCollection<Book>(ItemsSource.OrderBy(x => x.Price));
+
+            isSort = !isSort;
+            ItemsSource = lsort;
+            IsBusy = false;
         });
 
         public ICommand AddCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(DetailBookView)));
@@ -61,14 +77,48 @@ namespace xfLibrary.ViewModels
             ItemsSource = new ObservableCollection<Book>();
         }
 
-        string ListToString(List<Category> categories)
+        string ListToString(List<string> categories)
         {
             var result = "";
+
             foreach (var c in categories)
             {
-                result += c.Name + ",";
+                result += _categorys.FirstOrDefault(x => x.Code == c).Name + ",";
             }
             return result.Substring(0, result.Length - 1);
+        }
+
+        async Task AddBook()
+        {
+            List<Book> books = null;
+            if (_isAdmin)
+                books = await _accountService.GetAdminBookAsync(_token);
+            else
+                books = await _accountService.GetUserBookAsync(_token);
+
+            ItemsSource.Clear();
+            if (books == null) { IsBusy = false; return; }
+            foreach (var book in books)
+            {
+                //set fee statis
+                if (_isAdmin)
+                    book.Quantity = book.InStock.ToString();
+
+                if (book.Imgs == null || book.Imgs.Count == 0)
+                    book.ImageSource = Services.Api.IconBook;
+                else
+                {
+                    var url = Services.Api.BaseUrl + book.Imgs[0].FileName.Replace("\\", "/");
+                    book.ImageSource = url;
+                }
+
+                //format to view
+                if (book.Categories != null && book.Categories.Count != 0)
+                    book.StringCategories = ListToString(book.Categories);
+
+                //update view
+                ItemsSource.Add(book);
+            }
         }
         #endregion
     }

@@ -41,10 +41,10 @@ namespace xfLibrary.ViewModels
 
         public RegisterViewModel()
         {
-            UserName = "duyanh";
-            Name = "Duy Anh";
-            Email = "timbkhn@gmail.com";
-            Password = "1";
+            //UserName = "duyanh";
+            //Name = "Duy Anh";
+            //Email = "timbkhn@gmail.com";
+            //Password = "1";
         }
     }
 }

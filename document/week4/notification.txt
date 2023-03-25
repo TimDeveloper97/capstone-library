@@ -1,0 +1,15 @@
+Thay mặt anh em (DEV) mình xin thông báo các bạn 1 số thông tin như sau: 
+1, Việc thay đổi và cập nhật yêu cầu của các bạn bên mình đang tiến hành và dự kiến là sẽ hoàn thành kịp với yêu cầu 
+mới của các bạn. Bên mình vẫn sẽ cập nhật tiến độ hàng tuần và giải đáp bất cứ câu hỏi.
+2, UI của web bên mình clone 1 dạng UI đẹp như các bạn đã gửi nên các bạn yên tâm
+3, UI của mobile mình tiến hành thay đổi logo sao cho phù hợp vs tên Capstone và tiến hành làm UI ở 2 giao diện 
+Dark vs Light và dạng Material
+4, DB bên mình đang tiến hành sửa và xóa dần cho phù hợp.
+5, Về vấn đề mở rộng thêm yêu cầu như đã bàn vì nó ngoài thỏa thuận ban đầu và như trao đổi qua lần họp lần trước
+bên mình ban đầu dự định nhận thêm 30% (Do phải thay đổi UI cả Web vs Mobile và Database) nhưng bọn mình cũng biết
+các bạn vẫn còn đang là sinh viên, hơn thế yêu cầu của các bạn cũng được giảm tải hơn trước, mặc dù bọn mình 
+sẽ phải mất thêm công sức để sửa và update lại. Vì thế bên mình thống nhất chỉ lấy thêm 20% như đã trao đổi
+ở lần họp hôm CN (12/3/2023)
+
+
+

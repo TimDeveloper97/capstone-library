@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Extensions;
@@ -46,11 +47,11 @@ namespace xfLibrary.ViewModels
             }
 
             IsBusy = true;
-            var res = await _accountService.LoginAsync("admin", "2");
-            if(res.Value == null)
+            var res = await _accountService.LoginAsync(Email, Password);
+            if(res == null || res.Value == null)
             {
                 IsBusy = false;
-                _message.ShortAlert(res.Message);
+                _message.ShortAlert(res == null ? "Kết nối bị gián đoạn" : res.Message);
                 return;
             }    
 
@@ -59,8 +60,9 @@ namespace xfLibrary.ViewModels
             {
                 _token = res.Token;
                 _user = user;
+                _isAdmin = user.Roles.Any(x => x == Services.Api.Admin);
 
-                if(IsRemember)
+                if (IsRemember)
                 {
                     Preferences.Set("email", Email);
                     Preferences.Set("password", Password);
@@ -76,13 +78,10 @@ namespace xfLibrary.ViewModels
 
         public LoginViewModel()
         {
-            Email = "admin";
-            Password = "1";
-
-            var isremember = Preferences.Get("isremember", false);
-            if(isremember)
+            IsRemember = Preferences.Get("isremember", false);
+            Email = Preferences.Get("email", null);
+            if (IsRemember)
             {
-                Email = Preferences.Get("email", null);
                 Password = Preferences.Get("password", null);
             }
         }

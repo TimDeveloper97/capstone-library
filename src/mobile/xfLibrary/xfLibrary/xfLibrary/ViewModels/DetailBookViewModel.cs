@@ -13,7 +13,7 @@ using xfLibrary.Models;
 
 namespace xfLibrary.ViewModels
 {
-    [QueryProperty(nameof(Book), nameof(Book))]
+    [QueryProperty(nameof(ParameterBook), nameof(ParameterBook))]
     class DetailBookViewModel : BaseViewModel
     {
         #region Property
@@ -21,7 +21,9 @@ namespace xfLibrary.ViewModels
         private string parameterBook;
         private ObservableCollection<string> list;
         private ObservableCollection<byte[]> slides;
+        private List<Category> _category;
         private List<int> selects;
+        private bool isUpdate = false;
 
         public ObservableCollection<byte[]> Slides { get => slides; set => SetProperty(ref slides, value); }
         public ObservableCollection<string> List { get => list; set => SetProperty(ref list, value); }
@@ -35,29 +37,66 @@ namespace xfLibrary.ViewModels
                 SetProperty(ref parameterBook, value);
 
                 Book = Newtonsoft.Json.JsonConvert.DeserializeObject<Book>(parameterBook);
+                isUpdate = true;
             }
         }
         #endregion
 
         #region Command 
+        public ICommand PageAppearingCommand => new Command(async () =>
+        {
+            //load data
+            _category = await _mainService.CategoryAsync();
+
+            if (Book != null && Book.Categories != null)
+            {
+                foreach (var category in Book.Categories)
+                {
+                    var index = _category.FindIndex(x => x.Code == category);
+                    List.Add(_category[index].Name);
+                    selects.Add(index);
+                }
+                if (Book.Imgs == null)
+                    Book.Imgs = new List<Img>();
+                OnPropertyChanged("List");
+            }
+
+            if (isUpdate)
+                Title = "Sửa sách";
+            else
+                Title = "Tạo sách";
+        });
 
         public ICommand BookCommand => new Command(async () =>
         {
-            if(string.IsNullOrEmpty(Book.Name) || string.IsNullOrEmpty(Book.ImageBook) || Book.Categories.Count == 0)
+            IsBusy = true;
+
+            if (Slides.Count > 0)
+            {
+                Book.Imgs.Clear();
+                foreach (var item in Slides)
+                {
+                    Book.Imgs.Add(new Img
+                    {
+                        FileName = "image_" + Guid.NewGuid().ToString().Substring(0, 6) + ".png",
+                        Data = Convert.ToBase64String(item),
+                    });
+                }
+            }
+
+            if (string.IsNullOrEmpty(Book.Name) || Book.Imgs.Count == 0 || Book.Categories.Count == 0)
             {
                 _message.ShortAlert("Không được để trống");
                 return;
-            }    
+            }
 
-            if(Slides.Count > 1)
-            {
-                Book.ImageBook = Convert.ToBase64String(Slides[0]);
-            }    
-            
-            var res = await _accountService.AddBookAsync(Book, _token);
+            Response res;
+            if (isUpdate) res = await _accountService.UpdateBookAsync(Book, _token);
+            else res = await _accountService.AddBookAsync(Book, _token);
+
+            IsBusy = false;
             if (res.Success)
                 BackCommand.Execute(null);
-
             _message.ShortAlert(res.Message);
         });
 
@@ -71,15 +110,9 @@ namespace xfLibrary.ViewModels
 
         public ICommand CategoryCommand => new Command(async () =>
         {
-            //load data
-            List.Clear();
-            var category = await _mainService.CategoryAsync();
-            foreach (var item in category)
-                List.Add(item.Name);
-
             //popup
             var result = await MaterialDialog.Instance.SelectChoicesAsync(title: "Chọn thể loại sách", selectedIndices: selects,
-                                                                        choices: List, dismissiveText: "Hủy");
+                                                                        choices: _category.Select(x => x.Name).ToList(), dismissiveText: "Hủy");
             //update selection
             if (result == null) return;
             selects.Clear();
@@ -89,8 +122,8 @@ namespace xfLibrary.ViewModels
             List.Clear(); Book.Categories.Clear();
             foreach (var index in result)
             {
-                List.Add(category[index].Name);
-                Book.Categories.Add(category[index]);
+                List.Add(_category[index].Name);
+                Book.Categories.Add(_category[index].Code);
             }
 
             //notification
@@ -109,6 +142,7 @@ namespace xfLibrary.ViewModels
             selects = new List<int>();
             List = new ObservableCollection<string>();
             Slides = new ObservableCollection<byte[]>();
+            Book = new Book { Categories = new List<string>() };
         }
 
         async Task PickImage()

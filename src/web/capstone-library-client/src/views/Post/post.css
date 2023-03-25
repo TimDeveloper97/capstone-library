@@ -1,0 +1,16 @@
+.buy button {
+    margin-right: 15px;
+}
+.custom-table{
+    font-size: 10px !important;
+}
+
+.custom-table td{
+    padding: 8px !important;
+}
+.custom-table tbody{
+    border: none;
+}
+tbody, td, tfoot, th, thead, tr{
+    border: none;
+}

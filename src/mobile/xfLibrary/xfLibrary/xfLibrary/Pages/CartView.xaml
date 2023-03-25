@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
+             xmlns:view="clr-namespace:xfLibrary.Views"
+             xmlns:xf="clr-namespace:BottomBar.XamarinForms"
+             xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             x:Name="self"
+             
+             x:Class="xfLibrary.Pages.CartView">
+    <ContentPage.Resources>
+        <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
+            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+            <Setter Property="HeightRequest" Value="30" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <vm:BookViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding RefreshCommand}" />
+    </ContentPage.Behaviors>
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, auto, *, 70" RowSpacing="0">
+            <!--#region Navigator -->
+            <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
+                <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
+                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="10"
+                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
+                    <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+
+                <Label Grid.Row="1" Text="Giỏ hàng của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+
+                <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
+                    <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" VerticalOptions="End" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="45" Margin="0,-5,0,0"/>
+                    <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Filter}"
+                        TextColor="White" Margin="0,0,20,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.FilterCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+
+                <Label Grid.Column="2" Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.HelpCircleOutline}"
+                       HorizontalOptions="End" VerticalOptions="Center" TextColor="White" Margin="0,0,20,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.HelpCommand, Source={x:Reference Name=self}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Header -->
+            <Grid Grid.Row="1" BackgroundColor="{StaticResource AppColor}"/>
+            <BoxView Grid.Row="1" Style="{StaticResource ChatAdornerStyle}"/>
+
+            <!--#endregion-->
+
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="10,-10,10,0">
+                <CollectionView ItemsSource="{Binding Posts}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem Text="Xóa" Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <!-- Content -->
+
+                                    <Grid ColumnDefinitions="auto, 50, *" Padding="5,10">
+                                        <CheckBox IsChecked="{Binding IsChecked}" CheckedChanged="CheckBox_CheckedChanged" BindingContext="{Binding .}"/>
+                                        <Image Grid.Column="1" Source="{Binding ImageSource}"/>
+                                        <Grid Grid.Column="2" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
+                                            <Label Text="{Binding Title}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                                       Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
+                                            <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="2,0,0,-5">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}"/>
+                                                        <Span Text="{Binding NumberOfRentalDays, StringFormat=' ({0} ngày)'}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <Label Grid.Row="2" Text="{Binding Content}" Style="{StaticResource MiniLabelStyle}" Margin="0,-4,0,0"
+                                                   HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation"/>
+                                        </Grid>
+                                    </Grid>
+                                </SwipeView>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <Grid Grid.Row="3" ColumnDefinitions="auto, *, 100">
+                <StackLayout Orientation="Horizontal" Margin="10,0">
+                    <CheckBox IsChecked="{Binding IsCheckedAll}" />
+                    <Label Style="{StaticResource MiniLabelStyle}" Text="Tất cả" VerticalOptions="Center"/>
+                </StackLayout>
+
+                <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Style="{StaticResource MiniLabelStyle}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Thanh toán: " />
+                            <Span x:Name="sTotalMoney" FontFamily="MuliBold" FontSize="{StaticResource SubTitle}" TextColor="{StaticResource AppColor}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <mdc:MaterialButton Grid.Column="2" Margin="0,0,-3,-3" Text="Mua hàng" FontFamily="MuliBold"
+                                    Command="{Binding BuyCommand}" IsBusy="{Binding IsBusy}"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

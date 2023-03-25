@@ -19,29 +19,17 @@
     <ContentPage.Resources>
 
         <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
-            <Setter Property="Color" Value="White" />
+            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
             <Setter Property="HeightRequest" Value="30" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
         </Style>
-
-        <Style x:Key="SenderContainerStyle" TargetType="Grid">
-            <Setter Property="HeightRequest" Value="60" />
-            <Setter Property="WidthRequest" Value="60" />
-            <Setter Property="VerticalOptions" Value="Center" />
-        </Style>
-
-        <Style x:Key="SenderEllipseStyle" TargetType="Ellipse">
-            <Setter Property="HeightRequest" Value="50" />
-            <Setter Property="WidthRequest" Value="50" />
-        </Style>
-
-        <Style x:Key="SenderImageStyle" TargetType="Image">
-            <Setter Property="HorizontalOptions" Value="Center" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="Margin" Value="10" />
-        </Style>
     </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageAppearingCommand}" />
+    </ContentPage.Behaviors>
     <ContentPage.Content>
         <ScrollView>
             <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
@@ -58,7 +46,7 @@
                         </Label>
                     </Frame>
 
-                    <Label Grid.Row="1" Text="Tạo sách mới" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                    <Label Grid.Row="1" Text="{Binding Title}" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
                            HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
 
                     <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
@@ -71,8 +59,8 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
-                    <mdc:MaterialOutlineButton Grid.Column="3" Text="Đăng sách" Margin="10" FontSize="20" Command="{Binding BookCommand}"
-                                               FontFamily="MuliBlack" TextColor="White" BorderColor="White"/>
+                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" Command="{Binding BookCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Upload}" WidthRequest="45" Margin="10,0,10,0"/>
                 </Grid>
                 <!--#endregion-->
 
@@ -85,7 +73,6 @@
                 <!--#region Content -->
                 <ScrollView Grid.Row="3" Padding="0,0,0,20">
                     <StackLayout VerticalOptions="FillAndExpand">
-
                         <Grid Margin="20,5,20,5">
                             <Frame>
                                 <StackLayout Padding="10,5,10,15" Spacing="0">
@@ -97,8 +84,8 @@
                                             <mdc:MaterialEntry Grid.Column="1" LabelText="Tác giả *" Text="{Binding Book.Author}"/>
                                         </Grid>
                                         <Grid ColumnDefinitions="*,*">
-                                            <mdc:MaterialEntry LabelText="Số lượng *" Text="{Binding Book.Quantity}"/>
-                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Giá *" Text="{Binding Book.Price}"/>
+                                            <mdc:MaterialEntry LabelText="Số lượng *" Keyboard="Numeric" Text="{Binding Book.Quantity}"/>
+                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Giá *" Keyboard="Numeric" Text="{Binding Book.Price}"/>
                                         </Grid>
                                         <Grid ColumnDefinitions="*, auto">
                                             <Grid RowDefinitions="4*,6*" RowSpacing="0" Margin="0,5,0,0">

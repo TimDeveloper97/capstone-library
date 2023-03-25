@@ -7,7 +7,7 @@
                     xmlns:xct="http://xamarin.com/schemas/2020/toolkit">   
     
     <!--#region Converter -->
-    <converter:DatetimeConverter x:Key="StringToDateTime" />
+    <converter:DatetimeConverter x:Key="DateTimeToStringConverter" />
     <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <converter:HeightConverter x:Key="AutoHeightConverter" />
     <converter:ChangeBoolConverter x:Key="ChangeBoolConverter" />
@@ -19,6 +19,13 @@
     <converter:ListStringConverter x:Key="ListStringConverter" />
     <converter:StreamsToImageConverter x:Key="StreamsToImageConverter" />
     <converter:Base64ToImageConverter x:Key="Base64ToImageConverter" />
+    <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter" />
+    <converter:StatusToColorConverter x:Key="StatusToColorConverter" />
+    <converter:StatusToStringConverter x:Key="StatusToStringConverter" />
+    <converter:UpperOneStringConverter x:Key="UpperOneStringConverter" />
+    <converter:OffToOnConverter x:Key="OffToOnConverter" />
+    <converter:DatetimeToColorConverter x:Key="DatetimeToColorConverter" />
+    <converter:StatusToAcceptConverter x:Key="StatusToAcceptConverter" />
     <!--#endregion-->
 
     <x:Double x:Key="Title">20</x:Double>
@@ -33,13 +40,14 @@
     <x:Double x:Key="TopNavigator">60</x:Double>
 
     <!--#region Color -->
-    <Color x:Key="AppColor">#ffb900</Color>
-    <Color x:Key="AppColor1">#ffb900</Color>
+    <Color x:Key="AppColor">#152F3E</Color>
+    <Color x:Key="AppColor1">#152F3E</Color>
     
     <Color x:Key="Red">#ff424e</Color>
     <Color x:Key="Blue">#508ce8</Color>
     <Color x:Key="Green">#32CD32</Color>
     <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Yellow">#FFA700</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="Sky">#a699cf</Color>
@@ -154,6 +162,12 @@
     </Style>
 
     <Style TargetType="CollectionView">
+        <Setter Property="SelectionMode" Value="None" />
+        <Setter Property="ItemsUpdatingScrollMode" Value="KeepScrollOffset" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
+        <Setter Property="EmptyView" Value="Không có item nào để hiển thị" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -294,9 +308,17 @@
         <Setter Property="RefreshControlColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="RowHeight" Value="70" />
-        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="SelectionMode" Value="None" />
         <Setter Property="IsPullToRefreshEnabled" Value="True" />
         <Setter Property="HasUnevenRows" Value="True" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
+        <Setter Property="SeparatorVisibility" Value="None" />
+    </Style>
+
+    <Style TargetType="ScrollView">
+        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
     </Style>
 
     <Style TargetType="Picker">
@@ -619,7 +641,7 @@
     </Style>
 
     <Style x:Key="GroupGridStyle" TargetType="Grid">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray900}}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"/>
     </Style>
 
     <Style TargetType="mdc:MaterialButton">
@@ -640,6 +662,16 @@
         <Setter Property="BusyColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
     </Style>
 
+    <Style x:Key="IconButtonStyle" TargetType="mdc:MaterialButton">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        <Setter Property="FontSize" Value="{StaticResource Header}"/>
+        <Setter Property="FontFamily" Value="MaterialIcons"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="BorderColor" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="BusyColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+    </Style>
+
     <Style TargetType="mdc:MaterialEntry">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
         <Setter Property="FontSize" Value="{StaticResource SubTitle}"/>
@@ -654,6 +686,7 @@
         <Setter Property="LabelTextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
         <Setter Property="HeightRequest" Value="55"/>
         <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="DisabledTextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
     </Style>
 
     <Style TargetType="mdc:MaterialEditor">

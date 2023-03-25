@@ -16,18 +16,13 @@
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
              x:Name="self"
             
-             
              x:Class="xfLibrary.Pages.AccountView">
-    <ContentView.Behaviors>
-        <xct:EventToCommandBehavior
-                EventName="MeasureInvalidated"
-                Command="{Binding LayoutChangedCommand}" />
-    </ContentView.Behaviors>
+
     <ContentView.Content>
         <ScrollView>
             <StackLayout>
                 <!--#region SignIn/SignUp -->
-                <Grid ColumnDefinitions="70, *" Padding="10,0" IsVisible="{Binding IsVisible, Converter={StaticResource ChangeBoolConverter}}">
+                <Grid ColumnDefinitions="70, *" Padding="5,0" IsVisible="{Binding IsVisible, Converter={StaticResource ChangeBoolConverter}}">
                     <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
                         <Image Source="account.png"/>
                     </Frame>
@@ -39,47 +34,49 @@
                 <!--#endregion-->
 
                 <!--#region Profile -->
-                <Grid ColumnDefinitions="70, *" Padding="10,0" IsVisible="{Binding IsVisible}">
+                <Grid ColumnDefinitions="70, *" Padding="5,0" IsVisible="{Binding IsVisible}">
                     <Frame Margin="10" CornerRadius="30" Style="{StaticResource FrameNoBorder}">
-                        <Image Source="emoji6.png"/>
+                        <Image Source="{Binding Icon}"/>
                     </Frame>
                     <Grid Grid.Column="1" RowDefinitions="*, *">
-                        <Label Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start">
+                        <Label Style="{StaticResource TitleLabelStyle}" VerticalOptions="End" HorizontalOptions="Start" Margin="5,0,0,-3">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="{Binding Profile.FirstName, Converter={StaticResource UpperStringConverter}}"/>
-                                    <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="{Binding Profile.LastName, StringFormat=' {0}', Converter={StaticResource UpperStringConverter}}"/>
+                                    <Span FontFamily="MuliBold" FontSize="{StaticResource Title}" Text="{Binding Profile.FirstName, TargetNullValue='N/A', Converter={StaticResource UpperOneStringConverter}}"/>
+                                    <Span FontFamily="MuliBold" FontSize="{StaticResource Title}" Text="{Binding Profile.LastName, TargetNullValue='', StringFormat=' {0}', Converter={StaticResource UpperOneStringConverter}}"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start">
-                            <Label Text="Tiền: " Style="{StaticResource TitleLabelStyle}"/>
-                            <Label Text="{Binding Profile.Balance, Converter={StaticResource MoneyConverter}}" Style="{StaticResource TitleLabelStyle}"/>
-                            <Label Style="{StaticResource IconColorLabelStyle}" FontSize="23" Text="{Static icon:FontIcons.CashUsd}"/>
+                        <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start" Margin="0,-2,0,0">
+                            <Label Text="💲" Style="{StaticResource TitleLabelStyle}"/>
+                            <Label Text="{Binding Profile.Balance, StringFormat='{0} VND', TargetNullValue='N/A', Converter={StaticResource MoneyConverter}}" Style="{StaticResource TitleLabelStyle}"/>
                         </StackLayout>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.RefreshProfileCommand, Source={x:Reference Name=self}}"/>
+                        </Grid.GestureRecognizers>
                     </Grid>
                 </Grid>
                 <!--#endregion-->
 
                 <!--#region Items -->
-                <StackLayout Spacing="0">
-                    <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý đơn hàng" HorizontalOptions="Start" Padding="15,20,10,5"/>
-                    <view:ItemView Text="Đơn thuê" Icon="{Static icon:FontIcons.BagPersonal}" Color="{StaticResource Blue}" TabCommand="{Binding RentCommand}"/>
-                    <view:ItemView Text="Đơn cho thuê" Icon="{Static icon:FontIcons.Post}" Color="{StaticResource Green}" TabCommand="{Binding RentCommand}"/>
-                    <view:ItemView Text="Ví" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Wallet}" Color="{StaticResource Yellow100Accent}"/>
+                <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
+                    <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý" HorizontalOptions="Start" Padding="15,20,10,5"/>
+                    <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
+                    <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
                 </StackLayout>
 
-                <StackLayout Spacing="0">
+                <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="15,20,10,5"/>
-                    <view:ItemView Text="Tin đăng" Icon="{Static icon:FontIcons.Newspaper}" Color="{StaticResource Tertiary}"/>
-                    <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Red}" TabCommand="{Binding BookCommand}"/>
+                    <view:ItemView Text="Thống kê" Icon="{Static icon:FontIcons.Charity}" TabCommand="{Binding StaticCommand}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Tertiary}"/>
+                    <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}"/>
+                    <view:ItemView Text="Nạp tiền" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Cash}" Color="{StaticResource Yellow}"/>
                 </StackLayout>
 
                 <StackLayout Spacing="0">
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Khác" HorizontalOptions="Start" Padding="15,20,10,5"/>
-                    <view:ItemView Text="Cài đặt tài khoản" Icon="{Static icon:FontIcons.Tools}" Color="{StaticResource Gray500}" TabCommand="{Binding ProfileCommand}"/>
+                    <view:ItemView Text="Cài đặt tài khoản" Icon="{Static icon:FontIcons.Tools}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding ProfileCommand}"/>
                     <view:ItemView Text="Đổi mật khẩu" Icon="{Static icon:FontIcons.KeyChange}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding ChangePasswordCommand}"/>
-                    <view:ItemView Text="Đóng góp ý kiến" Icon="{Static icon:FontIcons.Note}" Color="{StaticResource Gray500}" TabCommand="{Binding ReportCommand}"/>
+                    <view:ItemView Text="Đóng góp ý kiến" Icon="{Static icon:FontIcons.Help}" Color="{StaticResource Gray500}" TabCommand="{Binding ReportCommand}"/>
                     <view:ItemView Text="Đăng xuất" Icon="{Static icon:FontIcons.Logout}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding LogoutCommand}"/>
                 </StackLayout>
                 <!--#endregion-->

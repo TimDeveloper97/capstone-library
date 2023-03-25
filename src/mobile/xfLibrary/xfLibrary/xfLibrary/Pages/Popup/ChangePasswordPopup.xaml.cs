@@ -50,9 +50,11 @@ namespace xfLibrary.Pages.Popup
             }
 
             var res = await _accountService.ChangePasswordAsync(new { newPass = newpass, oldPass = old }, _token);
-            okBtn.IsBusy = false;
+            if (res != null)
+                _message.ShortAlert(res.Message);
 
-            Dismiss(res.Message);
+            okBtn.IsBusy = false;
+            Dismiss(null);
         }
 
         private void cancelBtn_Clicked(object sender, EventArgs e)

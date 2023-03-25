@@ -3,7 +3,6 @@ import { Container } from "react-bootstrap";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import BookItem from "../bookItem/BookItem";
-import './slideItem.css';
 
 export default function SlideItem(props) {
   const responsive = {

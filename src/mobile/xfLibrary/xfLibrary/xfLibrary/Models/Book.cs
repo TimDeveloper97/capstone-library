@@ -10,11 +10,12 @@ namespace xfLibrary.Models
 {
     public class Book : BaseModel
     {
+        private string quantity;
         [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("price")]
-        public string Price { get; set; }
+        public int Price { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -26,24 +27,33 @@ namespace xfLibrary.Models
         public string PublishYear { get; set; }
 
         [JsonProperty("categories")]
-        public List<Category> Categories;
+        public List<string> Categories;
 
         [JsonProperty("author")]
         public string Author { get; set; }
 
         [JsonProperty("quantity")]
-        public string Quantity { get; set; }
+        public string Quantity { get => quantity; set => SetProperty(ref quantity, value); }
 
-        [JsonProperty("imageBook")]
-        public string ImageBook { get; set; }
+        [JsonProperty("imgs")]
+        public List<Img> Imgs { get; set; }
+
+        [JsonProperty("percent")]
+        public int Percent { get; set; }
+        [JsonProperty("inStock")]
+        public int InStock { get; set; }
 
 
+        private int number = 0;
+        private bool isChecked = false;
         [JsonIgnore]
-        public bool IsChecked { get; set; } = false;
+        public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
         [JsonIgnore]
-        public double PreTotal { get; set; } = 0;
+        public int PreTotal { get; set; } = 0;
         [JsonIgnore]
-        public ImageSource ImageSource { get; set; }
+        public int Number { get => number; set => SetProperty(ref number, value); }
+        [JsonIgnore]
+        public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
         public string StringCategories { get; set; }
     }
@@ -51,5 +61,14 @@ namespace xfLibrary.Models
     public class ListBook
     {
         public ObservableCollection<Book> Books { get; set; }
+    }
+
+    public class Img : BaseModel
+    {
+        [JsonProperty("fileName")]
+        public string FileName { get; set; }
+
+        [JsonProperty("data")]
+        public string Data { get; set; }
     }
 }

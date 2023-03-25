@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
+             xmlns:view="clr-namespace:xfLibrary.Views"
+             xmlns:xf="clr-namespace:BottomBar.XamarinForms"
+             xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+             x:Name="self"
+             
+             x:Class="xfLibrary.Pages.DetailPostView">
+    <ContentPage.Resources>
+        <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
+            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+            <Setter Property="HeightRequest" Value="30" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageAppearingCommand}" />
+        <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding PageDisappearingCommand}" />
+    </ContentPage.Behaviors>
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
+                <!--#region Navigator -->
+                <Grid ColumnDefinitions="auto, *, auto, 80" BackgroundColor="{StaticResource AppColor}">
+                    <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
+                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="10"
+                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
+                        <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Frame>
+
+                    <Label Grid.Row="1" Text="{Binding Title}" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+
+                    <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
+                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
+                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
+                        <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.BookPlus}"
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BookCommand, Source={x:Reference Name=self}}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" Command="{Binding PostCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Upload}" WidthRequest="45" Margin="0,0,10,0"/>
+                    
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Header -->
+                <Grid Grid.Row="1" BackgroundColor="{StaticResource AppColor}"/>
+                <BoxView Grid.Row="1" Style="{StaticResource ChatAdornerStyle}"/>
+
+                <ScrollView Grid.Row="2" Padding="0,0,0,20">
+                    <StackLayout VerticalOptions="FillAndExpand">
+                        <Grid Margin="20,5,20,5">
+                            <Frame>
+                                <StackLayout Padding="10,5,10,15" Spacing="0">
+                                    <StackLayout Margin="20,0">
+                                        <mdc:MaterialEntry LabelText="Tiêu đề *" Text="{Binding NewPost.Title}" IsVisible="{Binding NewPost.IsAdmin}"/>
+                                        <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding NewPost.Content}"/>
+
+                                        <Grid ColumnDefinitions="*,*">
+                                            <mdc:MaterialEntry LabelText="Số ngày cho thuê *" Keyboard="Numeric" Text="{Binding NewPost.NumberOfRentalDays}" MaxLength="50"/>
+                                            <mdc:MaterialEntry Grid.Column="1" Keyboard="Numeric" Text="{Binding NewPost.Fee}">
+                                                <mdc:MaterialEntry.Triggers>
+                                                    <MultiTrigger TargetType="mdc:MaterialEntry">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding NewPost.IsAdmin}" Value="false"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="LabelText" Value="% Phí thu (0 - 100%)" />
+                                                        <Setter Property="MaxLength" Value="2" />
+                                                        <Setter Property="IsEnabled" Value="false" />
+                                                    </MultiTrigger>
+                                                    <MultiTrigger TargetType="mdc:MaterialEntry">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding NewPost.IsAdmin}" Value="true"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="LabelText" Value="Tiền phí thuê (VND)" />
+                                                        <Setter Property="MaxLength" Value="10" />
+                                                        <Setter Property="IsEnabled" Value="true" />
+                                                    </MultiTrigger>
+                                                </mdc:MaterialEntry.Triggers>
+                                            </mdc:MaterialEntry>
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*, auto">
+                                            <Grid RowDefinitions="4*,6*" RowSpacing="0" Margin="0,5,0,0">
+                                                <Label Text="Địa chỉ *" Style="{StaticResource SubTitleGrayLabelStyle}" HorizontalOptions="Start"/>
+                                                <Frame Grid.Row="1" HeightRequest="35">
+                                                    <Label Style="{StaticResource SubTitleLabelStyle}" LineBreakMode="TailTruncation" Text="{Binding NewPost.Address}"
+                                                           VerticalOptions="Center" Margin="10,0" HorizontalTextAlignment="Start"/>
+                                                </Frame>
+                                            </Grid>
+                                            <Frame Grid.Column="1" HeightRequest="30" WidthRequest="30" BorderColor="Transparent" 
+                                                    Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="5,2"
+                                                    VerticalOptions="End" BackgroundColor="{StaticResource AppColor}" >
+                                                <Label Style="{StaticResource IconLabel}" FontSize="20" Text="{Static icon:FontIcons.MapMarker}"
+                                                        VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.AddressCommand, Source={x:Reference Name=self}}"/>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </Grid>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                            <Label Text="Thông tin bài" Margin="15,-10,0,0" BackgroundColor="White" FontSize="{StaticResource SubTitle}"
+                                   VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
+                        </Grid>
+                        
+                        <cards:CarouselView Margin="20,5" ItemsSource="{Binding Slides}" SlideShowDuration="3500" HeightRequest="150">
+                            <cards:CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentView>
+                                        <Frame Style="{StaticResource FrameShadow}">
+                                            <Image Source="{Binding}" Aspect="Fill"/>
+                                        </Frame>
+                                    </ContentView>
+                                </DataTemplate>
+                            </cards:CarouselView.ItemTemplate>
+
+                            <controls:IndicatorsControl/>
+                        </cards:CarouselView>
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

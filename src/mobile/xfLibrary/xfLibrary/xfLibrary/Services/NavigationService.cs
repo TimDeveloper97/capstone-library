@@ -108,14 +108,13 @@ namespace ChatApp.Services
 
         void CreatePageViewModelMappings()
         {
-            _mappings.Add(typeof(MainViewModel), typeof(MainPage));
-            _mappings.Add(typeof(ChatDetailViewModel), typeof(ChatDetailView));
-            _mappings.Add(typeof(HomeViewModel), typeof(HomeView));
-            _mappings.Add(typeof(AddReportViewModel), typeof(AddReportView));
-            _mappings.Add(typeof(ReportViewModel), typeof(ReportView));
-            _mappings.Add(typeof(NotificationViewModel), typeof(NotificationView));
-            _mappings.Add(typeof(AccountViewModel), typeof(AccountView));
-            _mappings.Add(typeof(ChatViewModel), typeof(ChatView));
+            //_mappings.Add(typeof(MainViewModel), typeof(MainPage));
+            //_mappings.Add(typeof(ChatDetailViewModel), typeof(ChatDetailView));
+            //_mappings.Add(typeof(HomeViewModel), typeof(HomeView));
+            //_mappings.Add(typeof(ReportViewModel), typeof(ReportView));
+            //_mappings.Add(typeof(NotificationViewModel), typeof(NotificationView));
+            //_mappings.Add(typeof(AccountViewModel), typeof(AccountView));
+            //_mappings.Add(typeof(ChatViewModel), typeof(ChatView));
         }
     }
 }

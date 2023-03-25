@@ -1,38 +1,41 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:xfLibrary.Models"
              x:Name="seft"
              x:Class="xfLibrary.Views.SearchBarSuggestionView">
   <ContentView.Content>
         <!--#region Search bar -->
-        <Grid ColumnDefinitions="60, *, 4" 
+        <Grid ColumnDefinitions="51, *, 4" Margin="0,-2,0,0"
               IsVisible="{Binding IsSearching, Source={x:Reference seft}}" 
               BackgroundColor="Transparent" >
-            <ListView Grid.Column="1" HasUnevenRows="True" SelectionMode="Single"
-                      ItemsSource="{Binding ItemsSource, Source={x:Reference seft}}"
-                      SelectedItem="{Binding SelectItem, Source={x:Reference seft}}">
-                <ListView.ItemTemplate>
+            <CollectionView x:Name="cv" Grid.Column="1" ItemsSource="{Binding ItemsSource, Source={x:Reference seft}}" SelectedItem="{Binding SelectItem}">
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <Grid ColumnDefinitions="50, *" Padding="5,10">
-                                <Image Source="{Binding}"/>
-                                <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                    <Label Text="{Binding}" Style="{StaticResource SubHeaderLabelStyle}" VerticalOptions="End" Margin="0,0,0,-10"/>
-                                    <Label Grid.Row="1" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" 
-                                               HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5"/>
-                                    <Label Grid.Row="2" Text="{Binding}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
-                                               TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
-                                               HorizontalOptions="Start" VerticalOptions="Start" FontFamily="MuliBold"/>
-                                </Grid>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" 
-                                                          Command="{Binding SelectedCommand, Source={x:Reference seft}}"/>
-                                </Grid.GestureRecognizers>
+                        <Grid ColumnDefinitions="50, *" Padding="5,10">
+                            <Image Source="{Binding ImageSource}"/>
+                            <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
+                                <Label Text="{Binding Title}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                                       Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
+                                <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}"/>
+                                            <Span Text="{Binding NumberOfRentalDays, StringFormat=' ({0} ngày)'}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="2" Text="{Binding Content, TargetNullValue='Không có mô tả', FallbackValue='Không có mô tả'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-4,0,0"
+                                                   HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation"/>
                             </Grid>
-                        </ViewCell>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectedCommand, Source={x:Reference seft}}" 
+                                                      CommandParameter="{Binding .}"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
         <!--#endregion-->
     </ContentView.Content>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             xmlns:xct="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             Size="350,300"
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             x:TypeArguments="x:String"
+             IsLightDismissEnabled="True"
+             
+             x:Class="xfLibrary.Pages.Popup.FeedbackPopup">
+    <xct:Popup.Content>
+        <Grid>
+            <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">
+                <ScrollView>
+                    <StackLayout Spacing="0" VerticalOptions="FillAndExpand">
+                        <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
+                            <Label Text="Đóng góp ý kiến" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <StackLayout VerticalOptions="FillAndExpand">
+                            <Grid Margin="20,15,20,5">
+                                <Frame>
+                                    <StackLayout Padding="10,5,10,15" Spacing="0">
+                                        <StackLayout Margin="20,0">
+                                            <mdc:MaterialEntry x:Name="title" LabelText="Tiêu đề *"/>
+                                            <mdc:MaterialEntry x:Name="description" LabelText="Mô tả *"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                                <Label Text="Mẫu đóng góp" Margin="15,-10,0,0" BackgroundColor="White" FontSize="{StaticResource SubTitle}"
+                                               VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
+                            </Grid>
+                        </StackLayout>
+
+                        <Grid VerticalOptions="End">
+                            <StackLayout Margin="0,10,0,10" HorizontalOptions="End" VerticalOptions="End" Orientation="Horizontal">
+                                <mdc:MaterialButton x:Name="okBtn" WidthRequest="100" Clicked="okBtn_Clicked" Text="Gửi"/>
+                                <mdc:MaterialButton x:Name="cancelBtn" Style="{StaticResource HideButtonStyle}" WidthRequest="100" Clicked="cancelBtn_Clicked" Text="Hủy"/>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
+            </Frame>
+        </Grid>
+    </xct:Popup.Content>
+</xct:Popup>

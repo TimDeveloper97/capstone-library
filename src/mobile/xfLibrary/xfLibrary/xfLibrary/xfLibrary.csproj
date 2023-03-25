@@ -27,14 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Pages\AddPostView.xaml.cs">
-      <DependentUpon>AddPostView.xaml</DependentUpon>
+    <Compile Update="Pages\DetailPostView.xaml.cs">
+      <DependentUpon>DetailPostView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\DetailBookView.xaml.cs">
       <DependentUpon>DetailBookView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\AddReportView.xaml.cs">
-      <DependentUpon>AddReportView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\ChatDetailView.xaml.cs">
       <DependentUpon>ChatDetailView.xaml</DependentUpon>
@@ -48,11 +45,8 @@
     <Compile Update="Pages\Popup\DetailPostPopup.xaml.cs">
       <DependentUpon>DetailPostPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Pages\RentPostView.xaml.cs">
-      <DependentUpon>RentPostView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\ReportView.xaml.cs">
-      <DependentUpon>ReportView.xaml</DependentUpon>
+    <Compile Update="Pages\PostView.xaml.cs">
+      <DependentUpon>PostView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Resources\Languages\LanguageReource.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -77,13 +71,13 @@
     <EmbeddedResource Update="Pages\AccountView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddPostView.xaml">
+    <EmbeddedResource Update="Pages\CartView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\DetailPostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\DetailBookView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Pages\AddReportView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\BookView.xaml">
@@ -101,31 +95,37 @@
     <EmbeddedResource Update="Pages\LoginView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\OrderView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\Popup\ChangePasswordPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\DepositPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\Popup\DetailPostPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\FeedbackPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\Popup\ForgotPasswordPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\InformationPaymenPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\Popup\OrderBookPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\ProfileView.xaml">
+    <EmbeddedResource Update="Pages\Popup\ProfilePopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\RentPostView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Pages\ReportView.xaml">
+    <EmbeddedResource Update="Pages\PostView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\NotificationView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Pages\OrderView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\Popup\TransactionPopup.xaml">
@@ -134,12 +134,18 @@
     <EmbeddedResource Update="Pages\RegisterView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\StaticView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Languages\LanguageReource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageReource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\FieldLabel.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HeaderView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

@@ -11,7 +11,7 @@ using xfLibrary.ViewModels;
 namespace xfLibrary.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class OrderView : ContentView
+    public partial class OrderView : ContentPage
     {
         public OrderView()
         {

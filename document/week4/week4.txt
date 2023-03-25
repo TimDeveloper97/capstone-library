@@ -1,0 +1,3 @@
+- loại bỏ tất cả chức năng khác
+- giờ chức năng chính: chỉ thuê sách, với ký gửi, thông báo
+- UI phải đẹp hơn

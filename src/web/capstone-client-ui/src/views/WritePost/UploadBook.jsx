@@ -2,7 +2,6 @@ import { Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { XCircleFill } from "react-bootstrap-icons";
-import "./uploadbook.css";
 
 export default function UploadBook() {
   const [selectedImages, setSelectedImages] = useState([]);

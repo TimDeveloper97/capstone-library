@@ -26,16 +26,38 @@ namespace xfLibrary.Resources
 
         public static ImageSource Base64ToImage(string encode)
         {
-            ImageSource objImageSource;
-            if (string.IsNullOrEmpty(encode))
+            ImageSource objImageSource = null;
+            try
             {
-                byte[] imageBytes = System.Convert.FromBase64String(encode);
-                var ms = new MemoryStream(imageBytes);
-                objImageSource = ImageSource.FromStream(() => ms);
+                if (!string.IsNullOrEmpty(encode))
+                {
+                    byte[] imageBytes = System.Convert.FromBase64String(encode);
+                    var ms = new MemoryStream(imageBytes);
+                    objImageSource = ImageSource.FromStream(() => ms);
+                }
             }
-            else
-                objImageSource = null;
+            catch (Exception)
+            { }
+
             return objImageSource;
+        }
+
+        public static string StatusToColor(int status)
+        {
+            var l = Services.Api.COLORS.Length;
+            for (int i = 0; i < l; i++)
+                if ((status & (1 << i)) != 0)
+                    return Services.Api.COLORS[i];
+            return "#6E6E6E";
+        }
+
+        public static string StatusToString(int status)
+        {
+            var l = Services.Api.STATES.Length;
+            for (int i = 0; i < l; i++)
+                if ((status & (1 << i)) != 0)
+                    return Services.Api.STATES[i];
+            return "N/A";
         }
     }
 }

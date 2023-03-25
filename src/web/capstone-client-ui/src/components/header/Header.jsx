@@ -9,7 +9,6 @@ import {
   Navbar,
   Row,
 } from "react-bootstrap";
-import "./header.css";
 import {
   HouseDoor,
   Search,
@@ -46,8 +45,10 @@ export default function Header() {
                     </Link>
                   </div>
                   <div className="header-item" href="#action2">
+                    <a href="./">
                     <FilePerson size={iconSize} />
                     Quản lí tin
+                    </a>
                   </div>
                   <div className="header-item" href="#action3">
                     <BagCheckFill size={iconSize} />

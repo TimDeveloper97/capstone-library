@@ -1,8 +1,9 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              
              Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
@@ -13,12 +14,155 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             xmlns:converter="clr-namespace:xfLibrary.Converters"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.OrderView">
-  <ContentView.Content>
-      <StackLayout>
-          <Label Text="Hello Xamarin.Forms!" />
-      </StackLayout>
-  </ContentView.Content>
-</ContentView>
+    <ContentPage.Resources>
+        <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
+            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+            <Setter Property="HeightRequest" Value="30" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
+        </Style>
+        <converter:StatusToBoolConverter x:Key="StatusToBoolZeroConverter" Value="0"/>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding RefreshCommand}" />
+    </ContentPage.Behaviors>
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
+            <!--#region Navigator -->
+            <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
+                <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
+                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="10"
+                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
+                    <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+
+                <Label Grid.Row="1" Text="Hóa đơn của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+
+                <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
+                    <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" VerticalOptions="End" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="45" Margin="0,-5,0,0"/>
+                    <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Filter}"
+                        TextColor="White" Margin="0,0,20,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.FilterCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+                
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Header -->
+            <Grid Grid.Row="1" BackgroundColor="{StaticResource AppColor}"/>
+            <BoxView Grid.Row="1" Style="{StaticResource ChatAdornerStyle}"/>
+
+            <!--#endregion-->
+
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,20,0">
+                <CollectionView ItemsSource="{Binding Goodss}" SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="1"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems SwipeBehaviorOnInvoked="Auto">
+                                            <SwipeItem Text="Xem" Command="{Binding Path=BindingContext.ViewCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="Từ chối" IsVisible="{Binding IsDeny}" Command="{Binding Path=BindingContext.DenyCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="{Binding Status, Converter={StaticResource StatusToAcceptConverter}}" IsVisible="{Binding IsAccept}" Command="{Binding Path=BindingContext.AcceptCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <!-- Content -->
+
+                                    <Frame CornerRadius="15" Margin="0,5" Style="{StaticResource FrameNoBorder}">
+                                        <Grid ColumnDefinitions="70, *, 13" ColumnSpacing="0" Style="{StaticResource GroupGridStyle}">
+                                            <!--#region BoxCard -->
+                                            <BoxView Color="{StaticResource AppColor}" Margin="0" CornerRadius="0,15,0,0"/>
+                                            <Grid RowDefinitions="25, *, 25" BackgroundColor="Transparent" RowSpacing="0">
+                                                <Label Text="{Binding CreateDate, Converter={StaticResource LongToDateTimeConverter}, StringFormat='{}{0:dd/MM/yy}', TargetNullValue='N/A'}"
+                                                               Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}" VerticalOptions="End"/>
+                                                <Label Grid.Row="1" Text="{Binding NumberOfRentalDays, StringFormat='{0} Ngày'}" Style="{StaticResource MiniLabelStyle}" TextColor="White" Margin="0" VerticalOptions="Center"/>
+                                                <Label Grid.Row="2" Text="{Binding ReturnDate, StringFormat='{}{0:dd/MM/yy}', TargetNullValue='N/A'}"
+                                                               Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Red}" VerticalOptions="Start"/>
+                                            </Grid>
+                                            <!--#endregion-->
+
+                                            <!--#region Content -->
+                                            <Grid Grid.Column="1" RowDefinitions="auto, *, auto" Margin="10" Style="{StaticResource GroupGridStyle}">
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=2}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=4}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=8}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=16}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=32}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=64}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=128}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=256}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=0}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}" Margin="15,0,0,0">
+                                                        <BoxView.Triggers>
+                                                            <MultiTrigger TargetType="BoxView">
+                                                                <MultiTrigger.Conditions>
+                                                                    <BindingCondition Binding="{Binding Status}" Value="0"/>
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="IsVisible" Value="true" />
+                                                            </MultiTrigger>
+                                                            <MultiTrigger TargetType="BoxView">
+                                                                <MultiTrigger.Conditions>
+                                                                    <BindingCondition Binding="{Binding Status, Converter={StaticResource StatusToBoolZeroConverter}}" Value="true"/>
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="IsVisible" Value="false" />
+                                                            </MultiTrigger>
+                                                        </BoxView.Triggers>
+                                                    </BoxView>
+                                                </StackLayout>
+
+                                                <StackLayout Grid.Row="1" Spacing="0">
+                                                    <Label Style="{StaticResource TitleLabelStyle}" Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}"
+                                                       VerticalOptions="End" HorizontalOptions="Start" FontFamily="MuliBold"/>
+
+                                                    <Label Text="{Binding Total, StringFormat='💲Tổng tiền: {0}VND', Converter={StaticResource MoneyConverter}}" Style="{StaticResource MiniLabelStyle}" LineBreakMode="TailTruncation"
+                                                                   HorizontalTextAlignment="Start" FontFamily="MuliBold"/>
+                                                    <Label Text="{Binding Message, StringFormat='🔔Thông báo: {0}', TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource MiniLabelStyle}" MaxLines="2" LineBreakMode="TailTruncation"
+                                                                   HorizontalTextAlignment="Start" TextColor="{StaticResource Red}"/>
+                                                </StackLayout>
+
+                                                <Grid Grid.Row="2" Style="{StaticResource GroupGridStyle}">
+                                                    <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                                        <Frame Style="{StaticResource FrameNoBorder}" BackgroundColor="{Binding Color}" BorderColor="{Binding Color}" CornerRadius="10" HorizontalOptions="End" >
+                                                            <Label Text="{Binding Status, Converter={StaticResource StatusToStringConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </Grid>
+                                            <!--#endregion-->
+
+                                            <!--#region Status -->
+                                            <BoxView Grid.Column="2" Color="{Binding Color}" Margin="0,0,-3,0"/>
+                                            <!--#endregion-->
+                                        </Grid>
+                                    </Frame>
+                                </SwipeView>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -13,7 +13,7 @@ using xfLibrary.Services.Main;
 
 namespace xfLibrary.Domain
 {
-    public class BaseViewModel : BaseBinding
+    public class BaseViewModel : Basemodel
     {
         bool isBusy = false;
         public bool IsBusy
@@ -44,6 +44,7 @@ namespace xfLibrary.Domain
         #region Extend
         public static ChatApp.Models.User _user { get; set; }
         protected static string _token { get; set; }
+        protected static bool _isAdmin { get; set; } = false;
 
         protected IMessage _message = DependencyService.Get<IMessage>();
         protected IAccountService _accountService = DependencyService.Get<IAccountService>();
@@ -57,9 +58,12 @@ namespace xfLibrary.Domain
         protected async Task MoveToLogin(Action a)
         {
             IsVisible = false;
+            OnPropertyChanged("IsVisible");
+
             if (HasLogin())
             {
                 IsVisible = true;
+                OnPropertyChanged("IsVisible");
                 a.Invoke();
             }
             else await Login();
@@ -70,13 +74,19 @@ namespace xfLibrary.Domain
             IsVisible = false;
             _token = null;
             _user = null;
+            _isAdmin = false;
+        }
+        protected string LoadIcon()
+        {
+            if (_isAdmin) return "emoji4.png";
+            else return "emoji3.png";
         }
         protected async Task Login() => await Shell.Current.GoToAsync(nameof(LoginView));
         protected async Task TimeoutSession(string message)
         {
             _message.LongAlert(message);
-            Clear();
             await Login();
+            Clear();
         }
         #endregion
     }

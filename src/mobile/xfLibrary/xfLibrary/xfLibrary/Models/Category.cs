@@ -16,7 +16,7 @@ namespace xfLibrary.Models
         public string Code { get; set; }
 
         [JsonIgnore]
-        public string Image { get; set; }
+        public string Image { get; set; } = Services.Api.IconCategory;
     }
 
 }
