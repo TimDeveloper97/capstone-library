@@ -1,5 +1,6 @@
 package com.sb.brothers.capstone.controller;
 
+import com.sb.brothers.capstone.configuration.jwt.TokenProvider;
 import com.sb.brothers.capstone.dto.BookDTO;
 import com.sb.brothers.capstone.dto.ImageDto;
 import com.sb.brothers.capstone.entities.Book;
@@ -10,23 +11,21 @@ import com.sb.brothers.capstone.services.CategoryService;
 import com.sb.brothers.capstone.services.ImageService;
 import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -38,16 +37,19 @@ public class BookController {
     public static final Logger logger = Logger.getLogger(BookController.class);
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    BookService bookService;
+    private BookService bookService;
 
     @Autowired
-    ImageService imageService;
+    private ImageService imageService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     /*@PostMapping("/add")
     public ResponseEntity<?> createNewBook(
@@ -138,7 +140,7 @@ public class BookController {
         }
         book.setCategories(categorySet);
         book.setUser(userService.getUserById(auth.getName()).get());
-        if(auth.getAuthorities().contains("ROLE_ADMIN")){
+        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN")){
             book.setInStock(book.getQuantity());
             book.setQuantity(0);
         }
@@ -246,10 +248,13 @@ public class BookController {
                 Image image = new Image();
                 try {
                     byte[] decodedBytes = Base64.getDecoder().decode(img.getData());
-                    Path fileNameAndPath = Paths.get(uploadDir, ( new Date().getTime() + img.getFileName()));
+                    Date d = new Date();
+                    String link[] = img.getFileName().split("\\.");
+                    uploadDir = new File(".").getCanonicalPath() + "/images";
+                    Path fileNameAndPath = Paths.get(uploadDir, ( d.getTime() +"." + link[link.length - 1]));
                     Files.write(fileNameAndPath, decodedBytes);
                     image.setBook(currBook);
-                    image.setLink("/static/imgs/"+img.getFileName());
+                    image.setLink("/images/"+(d.getTime() +"." + link[link.length - 1]));
                     imageService.update(image);
                 }
                 catch (Exception e){

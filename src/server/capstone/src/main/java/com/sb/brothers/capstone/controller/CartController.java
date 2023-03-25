@@ -1,9 +1,16 @@
 package com.sb.brothers.capstone.controller;
 
+import com.sb.brothers.capstone.dto.OrderDto;
 import com.sb.brothers.capstone.dto.PostDto;
+import com.sb.brothers.capstone.entities.Order;
+import com.sb.brothers.capstone.entities.Post;
 import com.sb.brothers.capstone.global.GlobalData;
 import com.sb.brothers.capstone.services.BookService;
+import com.sb.brothers.capstone.services.OrderService;
+import com.sb.brothers.capstone.services.PostService;
 import com.sb.brothers.capstone.util.CustomErrorType;
+import com.sb.brothers.capstone.util.CustomStatus;
+import com.sb.brothers.capstone.util.ResData;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +29,10 @@ public class CartController {
     private Logger logger = Logger.getLogger(CartController.class);
 
     @Autowired
-    BookService bookService;
+    private PostService postService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/cart")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -31,27 +41,33 @@ public class CartController {
         if(list == null || list.isEmpty()){
             return new ResponseEntity<>(new CustomErrorType("Cart of user with id:" + auth.getName() +" is empty."), HttpStatus.OK);
         }
-        return new ResponseEntity<>(GlobalData.cart.get(auth.getName()), HttpStatus.OK);
+        return new ResponseEntity<>(new ResData<List<PostDto>>(0,list), HttpStatus.OK);
     }//page cart
 
-    @PutMapping("/order-books")
+    @PutMapping("/order-book/{postId}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> addToCart(Authentication auth, @RequestBody PostDto orderDto){
+    public ResponseEntity<?> addToCart(Authentication auth, @PathVariable("postId") int postId){
         List<PostDto> list = GlobalData.cart.get(auth.getName());
         if(list == null)
             list = new ArrayList<>();
-        list.add(orderDto);
+        PostDto postDto = new PostDto();
+        Post post = postService.getPostById(postId).get();
+        if(post == null || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED){
+            return new ResponseEntity(new CustomErrorType("Post with id:" + postId + " not found."), HttpStatus.OK);
+        }
+        postDto.convertPost(post);
+        list.add(postDto);
         GlobalData.cart.put(auth.getName(), list);
         return new ResponseEntity(new CustomErrorType(true, "Add to cart - SUCCESS."), HttpStatus.CREATED);
     }//click add from page viewProduct
 
-    @DeleteMapping("/cart/remove-item/")
+    @DeleteMapping("/cart/remove-item/{postId}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> cartItemRemove(Authentication auth, @RequestBody PostDto postDto){
+    public ResponseEntity<?> cartItemRemove(Authentication auth, @PathVariable("postId") int postId){
         List<PostDto> list = GlobalData.cart.get(auth.getName());
         if(list != null) {
             try {
-                GlobalData.cart.get(auth.getName()).removeIf(n -> (n.getId() == postDto.getId()));
+                GlobalData.cart.get(auth.getName()).removeIf(n -> (n.getId() == postId));
             }catch (Exception ex){
                 logger.error("This item not exists in your cart.");
                 return new ResponseEntity<>(new CustomErrorType("This item not exists in your cart."), HttpStatus.OK);
@@ -60,4 +76,28 @@ public class CartController {
         }
         return new ResponseEntity<>(new CustomErrorType("No item in your cart."), HttpStatus.OK);
     } // delete 1 product
+
+    //Get All Order session
+    @GetMapping("/order/request")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> getAllOrderRequest(){
+        logger.info("Return all admin posts");
+        List<Order> orders = null;
+        List<OrderDto> orderDtos = new ArrayList<>();
+        try{
+            orders = orderService.getOrderByStatus();
+            for (Order order: orders){
+                OrderDto orderDto = new OrderDto(order);
+                orderDtos.add(orderDto);
+            }
+        }catch (Exception ex){
+            logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            return new ResponseEntity<>(new CustomErrorType("Get all posts with exception. No content to return."), HttpStatus.OK);
+        }
+        if(orders.isEmpty()){
+            logger.warn("There are no orders.");
+            return new ResponseEntity<>(new CustomErrorType("There are no posts."), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ResData<>(0, orderDtos), HttpStatus.OK);
+    }//view all posts
 }

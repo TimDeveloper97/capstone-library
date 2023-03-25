@@ -76,22 +76,22 @@ public class AuthenticatedUserAPI {
 
     /**
      * View User Profile
-     * @param dataDto must have user Id
+     * @param userId must have user Id
      * @return
      */
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/view-profile")
-    public ResponseEntity<?> viewProfile(@RequestBody DataDTO dataDto){
-        logger.info("Return user profile has id:" + dataDto.getValue());
-        if(!userService.isUserExist(dataDto.getValue())){
-            logger.error("User with id: " + dataDto.getValue() + " not found.");
+    @GetMapping("/view-profile/{userId}")
+    public ResponseEntity<?> viewProfile(@PathVariable("userId") String userId){
+        logger.info("Return user profile has id:" + userId);
+        if(!userService.isUserExist(userId)){
+            logger.error("User with id: " + userId + " not found.");
             return new ResponseEntity(new CustomErrorType("Unable to get. A User with id:"
-                    + dataDto.getValue() +" not exist."),HttpStatus.NOT_FOUND);
+                    + userId +" not exist."),HttpStatus.NOT_FOUND);
         }
         User user = null;
         UserDTO userDto = new UserDTO();
         try {
-            user = userService.getUserById(dataDto.getValue()).get();
+            user = userService.getUserById(userId).get();
             user.setRoles(roleService.getAllByUserId(user.getId()));
             userDto.convertUser(user);
         }catch (Exception ex){

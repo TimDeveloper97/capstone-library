@@ -1,5 +1,7 @@
 package com.sb.brothers.capstone.controller;
 
+import com.sb.brothers.capstone.configuration.jwt.TokenProvider;
+import com.sb.brothers.capstone.dto.OrderDto;
 import com.sb.brothers.capstone.dto.PostDetailDto;
 import com.sb.brothers.capstone.dto.PostDto;
 import com.sb.brothers.capstone.entities.*;
@@ -39,6 +41,12 @@ public class PostController {
 
     @Autowired
     private PostDetailService postDetailService;
+
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    @Autowired
+    private RoleService roleService;
 
     //posts session
     @GetMapping("")
@@ -80,6 +88,25 @@ public class PostController {
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
             return new ResponseEntity<>(new CustomErrorType("Get all user posts with exception. No content to return."), HttpStatus.OK);
+        }
+        if(posts.isEmpty()){
+            logger.warn("There are no posts.");
+            return new ResponseEntity<>(new CustomErrorType("There are no posts."), HttpStatus.OK);
+        }
+        return getResponseEntity(posts);
+    }//view all posts
+
+    //posts session
+    //@PreAuthorize("hasAnyRole('ROLE_USER')")
+    @GetMapping("/has-book/{bookId}")
+    public ResponseEntity<?> getAllPostByBookId(@PathVariable int bookId){
+        logger.info("Return all posts contain book");
+        List<Post> posts = null;
+        try{
+            posts = postService.getAllPostHasBookId(bookId);
+        }catch (Exception ex){
+            logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            return new ResponseEntity<>(new CustomErrorType("Get all posts has book id with exception. No content to return."), HttpStatus.OK);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
@@ -133,7 +160,7 @@ public class PostController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
     public ResponseEntity<?> createNewPost(Authentication auth, @RequestBody PostDto postDto) {
-        if(auth.getAuthorities().contains("ROLE_ADMIN"))
+        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN"))
             postDto.setStatus(CustomStatus.ADMIN_POST);
         else postDto.setStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
         try{
@@ -144,20 +171,7 @@ public class PostController {
                 p.setUser(user);
                 p.setCreatedDate(new Date());
                 postService.updatePost(p);
-
-                for (PostDetailDto pdDto : postDto.getPostDetailDtos()) {
-                    PostDetail postDetail = new PostDetail();
-                    postDetail.setPost(p);
-                    Book book = bookService.getBookById(pdDto.getBookDto().getId()).get();
-                    if(book.getUser().getId().equals(auth.getName())){
-                        postDetail.setBook(book);
-                        postDetail.setSublet(0);
-                        postDetail.setQuantity(pdDto.getQuantity());
-                        //postDetail.setFee(pdDto.getFee());
-                        postDetailService.save(postDetail);
-                    }
-                    else throw new Exception("User: " + auth.getName() +" does not own this book.");
-                }
+                setPostDetail(auth, postDto, p);
             }
             else{
                 logger.warn("Unable to create new post. User has been blocked from posting.");
@@ -166,7 +180,7 @@ public class PostController {
         }
         catch (Exception ex){
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
-            return new ResponseEntity(new CustomErrorType("Unable to create new post. User not found."), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType(ex.getMessage()), HttpStatus.OK);
         }
         logger.info("Create new post - SUCCESS");
         return new ResponseEntity(new CustomErrorType(true,"Create new post - SUCCESS."), HttpStatus.CREATED);
@@ -174,7 +188,7 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteUser(Authentication auth, @PathVariable("id") int id){
+    public ResponseEntity<?> deletePost(Authentication auth, @PathVariable("id") int id){
         logger.info("Fetching & Deleting post with id" + id);
         try{
             Post post = postService.getPostById(id).get();
@@ -183,7 +197,7 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Post with id:"+ id +" not found. Unable to delete."),
                         HttpStatus.OK);
             }
-            if(post.getUser().getId().equals(auth.getName()) || auth.getAuthorities().contains("ROLE_MANAGER_POST")) {
+            if(post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN")) {
                 postService.removePostById(id);
             }
             else throw new Exception("The user is not a posted user or a posting manage.");
@@ -199,8 +213,8 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/update")
-    public ResponseEntity<?> updatePost(Authentication auth, @RequestBody PostDto postDto){
-        if(auth.getName().equals(postDto.getUser())){
+    public ResponseEntity<?> updatePost(Authentication auth, @RequestBody PostDto postDto) throws Exception {
+        if(auth.getName() == postDto.getUser()){
             return new ResponseEntity<>(new CustomErrorType("Request user not correct."), HttpStatus.UNAUTHORIZED);
         }
         if(postDto.getId() != 0) {
@@ -210,14 +224,13 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Post with id:" + postDto.getId() + " not found. Unable to update."),
                         HttpStatus.NOT_FOUND);
             }
-            currPost.setContent(postDto.getContent());
-            currPost.setModifiedDate(new Date());
-            currPost.setStatus(postDto.getStatus());   //show/hide or delete post
-            currPost.setTitle(postDto.getTitle());
-            currPost.setAddress(postDto.getAddress());
             logger.info("Fetching & Updating Post with id: " + postDto.getId());
             try{
+                postDto.convertPostDto(currPost);
+                currPost.setModifiedDate(new Date());
                 postService.updatePost(currPost);
+                postDetailService.deleteAllByPostId(postDto.getId());
+                setPostDetail(auth, postDto, currPost);
             }
             catch (Exception ex){
                 logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
@@ -227,6 +240,41 @@ public class PostController {
         }
         return new ResponseEntity<>(new CustomErrorType("Request data not correct."), HttpStatus.OK);
     }//form edit post, fill old data into form
+
+    public void setPostDetail(Authentication auth, PostDto postDto, Post currPost) throws Exception {
+        for (PostDetailDto pdDto : postDto.getPostDetailDtos()) {
+            PostDetail postDetail = new PostDetail();
+            postDetail.setPost(currPost);
+            Book book = bookService.getBookById(pdDto.getBookDto().getId()).get();
+            Book b = new Book(book);
+            if(book == null){
+                throw new Exception("Book with id:" + pdDto.getBookDto().getId() + " not found.");
+            }
+            if(book.getUser().getId().compareTo(auth.getName()) == 0 || book.getInStock() > 0){
+                postDetail.setBook(book);
+                postDetail.setSublet(0);
+                postDetail.setQuantity(pdDto.getQuantity());
+                if(currPost.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED) {
+                    book.setQuantity(book.getQuantity() - postDetail.getQuantity());
+                    b.setPercent(postDto.getFee());
+                    b.setQuantity(0);
+                    b.setInStock(postDetail.getQuantity());
+                    bookService.updateBook(b);
+                    bookService.updateBook(book);
+                }
+                else if(currPost.getStatus() == CustomStatus.ADMIN_POST){
+                    //@TODO - check qua han
+                    if(checkBookNotExpired(book, postDto) == false){
+                        throw new Exception("The number of rental days exceeds the number of book deposit days.");
+                    }
+                    book.setInStock(book.getInStock() - postDetail.getQuantity());
+                    bookService.updateBook(book);
+                }
+                postDetailService.save(postDetail);
+            }
+            else throw new Exception("User: " + auth.getName() +" does not own this book.");
+        }
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
     @PutMapping("/accept-post/{id}")
@@ -247,13 +295,35 @@ public class PostController {
                 throw new Exception("Post with id:" + id + " not found. Unable to update.");
             }
             currPost = postService.getPostById(id).get();
-            if (currPost.getStatus() == status){
-                throw new Exception("Post status has been no change.");
+            if(status == CustomStatus.USER_POST_IS_APPROVED) {
+                List<PostDetail> postDetailList = postDetailService.findAllByPostId(id);
+                for (PostDetail pd : postDetailList) {
+                    if (pd.getQuantity() > pd.getBook().getQuantity()) {
+                        return new ResponseEntity(new CustomErrorType("The quantity of book in this post not enough."), HttpStatus.OK);
+                    }
+                   /* Book book = pd.getBook();
+                    User bookOwner = book.getUser();
+                    List<Role> roles = roleService.getAllByUserId(bookOwner.getId());
+                    boolean checkAdmin = false;
+                    for(Role role : roles) {
+                        if(role.getName().compareTo("ROLE_ADMIN") == 0){
+                            checkAdmin = true;
+                        }
+                    }
+                    if(checkAdmin) {
+                        book.setPercent(currPost.getFee());
+                        bookService.updateBook(book);
+                    }*/
+                }
             }
+            if (currPost.getStatus() == status){
+                return new ResponseEntity<>(new CustomErrorType("Post status has been no change."), HttpStatus.OK);
+            }
+            else postService.updateStatus(id , status);
         }
         catch (Exception ex){
-            logger.warn("Exception: " + ex.getMessage());
-            return new ResponseEntity(new CustomErrorType(ex.getMessage()), HttpStatus.OK);
+            logger.warn("Exception: " + ex.getMessage() + (ex.getCause() != null ? ". " + ex.getCause() : "" ));
+            return new ResponseEntity(new CustomErrorType(ex.getMessage() +".\n" + ex.getCause()), HttpStatus.OK);
         }
         currPost.setStatus(status);   //set status post
         ManagerPost managerPost = new ManagerPost();
@@ -267,5 +337,20 @@ public class PostController {
         postService.updatePost(currPost);
         logger.info("Change post status with post id:"+ id +" - SUCCESS.");
         return new ResponseEntity<>(new CustomErrorType(true, "Post Status are changed."), HttpStatus.OK);
+    }
+
+    boolean checkBookNotExpired(Book book, PostDto p){
+        User owner = book.getUser();
+        for(Role role : owner.getRoles()){
+            if(role.getName().compareTo("ROLE_ADMIN") == 0){
+                return true;
+            }
+        }
+        long expiredTime = new Date().getTime() + p.getNoDays();
+        long rentTime = new Date().getTime() + OrderDto.milisecondsPerDay*p.getNoDays();
+        if(rentTime > expiredTime){
+            return false;
+        }
+        return true;
     }
 }
