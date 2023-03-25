@@ -16,7 +16,7 @@ public interface PostService {
 	List<Post> getAllPosts();
 	List<Post> getAllPostsByStatus(int status);
 	void updateStatus(int postId, int status);
-
+	List<Post> getAllPostHasBookId(int id);
 	List<Post> getAllPostsByUserId(String id);
 	Optional<Post> getPostById(int id);
 	void removePostById(int id);

@@ -2,9 +2,11 @@ package com.sb.brothers.capstone.repositories;
 
 import com.sb.brothers.capstone.entities.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -15,7 +17,9 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             nativeQuery = true)
     List<Post> findAllPostsByStatus(@Param("status") int status);
 
-    @Query(value = "UPDATE post SET status = :status  WHERE id = :id",
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE post SET post.`status` = :status  WHERE id = :id",
             nativeQuery = true)
     void updateStatus(@Param("id") int id, @Param("status") int status);
 
@@ -27,4 +31,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             nativeQuery = true)
     List<Post> findAllPosts();
 
+    @Query(value = "SELECT * FROM post WHERE id IN (SELECT post_id FROM post_detail WHERE book_id = :bId) and post.status = 0",
+            nativeQuery = true)
+    List<Post> getAllPostHasBookId(@Param("bId") int id);
 }

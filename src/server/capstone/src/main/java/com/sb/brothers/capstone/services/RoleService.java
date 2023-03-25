@@ -11,4 +11,5 @@ public interface RoleService  {
     List<Role> getAllRole();
     Role findRoleByName(String name);
     List<Role> getAllByUserId(String id);
+    List<Role> getAllRoleByBookId(int id);
 }

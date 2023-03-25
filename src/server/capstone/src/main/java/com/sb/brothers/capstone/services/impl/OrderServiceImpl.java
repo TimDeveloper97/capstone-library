@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class OrderServiceImpl implements OrderService {
@@ -25,5 +26,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAllByUser(String uId) {
         return orderRepository.findAllByUser(uId);
+    }
+
+    @Override
+    public List<Order> getOrderByStatus() {
+        return orderRepository.findAllOrdersByRequestStatus();
+    }
+
+    @Override
+    public Optional<Order> getOrderById(int oId) {
+        return orderRepository.findById(oId);
     }
 }

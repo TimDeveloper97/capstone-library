@@ -30,4 +30,10 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "SELECT user_id FROM post as p WHERE p.id = :id",
             nativeQuery = true)
     Optional<String> getUserByPostId(@Param("id") int id);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE users SET `balance` = :balance WHERE id = :id",
+            nativeQuery = true)
+    void updateBalance(@Param("id") String id, @Param("balance") int balance);
 }

@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService {
     public Optional<String> getUserByPostId(int id) {
         return userRepository.getUserByPostId(id);
     }
+
+    @Override
+    public void updateBalance(String id, int balance) {
+        userRepository.updateBalance(id, balance);
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -38,5 +39,5 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @Query(value = "Select * from books where in_stock > 0",
             nativeQuery = true)
-    Set<Book> findAllBooksInStock();
+    List<Book> findAllBooksInStock();
 }

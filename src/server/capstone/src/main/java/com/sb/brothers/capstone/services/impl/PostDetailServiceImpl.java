@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PostDetailServiceImpl implements PostDetailService {
@@ -22,5 +23,15 @@ public class PostDetailServiceImpl implements PostDetailService {
     @Override
     public List<PostDetail> findAllByPostId(int id) {
         return postDetailRepository.findAllByPostId(id);
+    }
+
+    @Override
+    public void deleteAllByPostId(int postId) {
+        postDetailRepository.deleteAllByPostId(postId);
+    }
+
+    @Override
+    public Optional<PostDetail> findByBookId(int id) {
+        return postDetailRepository.findAllByBookId(id);
     }
 }
