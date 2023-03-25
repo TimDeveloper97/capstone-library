@@ -13,7 +13,7 @@ public class BookPostDto {
 
     private String name;
 
-    private double price;
+    private int price;
 
     private String description;
 

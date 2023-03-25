@@ -20,7 +20,7 @@ public class BookDTO {
 
     private String name;
 
-    private double price;
+    private int price;
 
     private String description;
 
@@ -36,6 +36,10 @@ public class BookDTO {
 
     private List<ImageDto> imgs;
 
+    private int percent;
+
+    private int inStock;
+
     public void convertBook(Book book){
         this.id = book.getId();
         this.name = book.getName();
@@ -50,6 +54,8 @@ public class BookDTO {
         this.publishYear = book.getPublishYear();
         this.author = book.getAuthor();
         this.imgs = new ArrayList<>();
+        this.percent = book.getPercent();
+        this.inStock = book.getInStock();
         book.getImages().stream().forEach(img -> imgs.add(new ImageDto(img.getId(), img.getLink(), null)));
     }
 
@@ -66,6 +72,8 @@ public class BookDTO {
         book.setQuantity(this.quantity);
         book.setPublishYear(this.publishYear);
         book.setAuthor(this.author);
+        book.setPercent(this.percent);
+        book.setInStock(this.inStock);
     }
 
     public static List<BookDTO> convertAllBooks(Set<Book> books){

@@ -31,7 +31,7 @@ public class PostDto {
     //private String modifiedBy;
     private int status;
     private int noDays;
-    private double fee;
+    private int fee;
     //private String manager;
     private String user;
     private List<PostDetailDto> postDetailDtos;
