@@ -24,9 +24,10 @@ public class Book implements Serializable {
 	private String description;
 	private Integer publishYear;
 	private String name;
-	private double price;
+	private int price;
 	private int quantity;
 	private int inStock;
+	private int percent;
 	private Set<Image> images;
 	private Set<Category> categories;
 	private Set<PostDetail> postDetails;
@@ -95,11 +96,11 @@ public class Book implements Serializable {
 	}
 
 
-	public double getPrice() {
+	public int getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -136,6 +137,14 @@ public class Book implements Serializable {
 		return image;
 	}
 
+	public int getPercent() {
+		return percent;
+	}
+
+	public void setPercent(int percent) {
+		this.percent = percent;
+	}
+
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -166,7 +175,7 @@ public class Book implements Serializable {
 	}
 
 	//bi-directional many-to-one association to Image
-	@OneToMany(mappedBy="book", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="book", fetch = FetchType.EAGER)
 	public Set<PostDetail> getPostDetails() {
 		return this.postDetails;
 	}
@@ -196,5 +205,20 @@ public class Book implements Serializable {
 
 	public void setInStock(int inStock) {
 		this.inStock = inStock;
+	}
+
+	public Book(Book book) {
+		this.author = book.getAuthor();
+		this.publisher = book.getPublisher();
+		this.description = book.getDescription() + "[Ký gửi]";
+		this.publishYear = book.getPublishYear();
+		this.name = book.getName();
+		this.price = book.getPrice();
+		this.quantity = book.getQuantity();
+		this.inStock = book.getInStock();
+		this.percent = book.getPercent();
+		this.images = book.getImages();
+		this.categories = book.getCategories();
+		this.user = book.getUser();
 	}
 }

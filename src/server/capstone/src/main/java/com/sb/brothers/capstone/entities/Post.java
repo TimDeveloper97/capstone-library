@@ -19,7 +19,7 @@ public class Post implements Serializable {
 	private Date createdDate;
 	//private String modifiedBy;
 	private Date modifiedDate;
-	private double fee;
+	private int fee;
 	private int status;
 	private int noDays;
 	private String title;
@@ -221,11 +221,11 @@ public class Post implements Serializable {
 		this.noDays = noDays;
 	}
 
-	public double getFee() {
+	public int getFee() {
 		return fee;
 	}
 
-	public void setFee(double fee) {
+	public void setFee(int fee) {
 		this.fee = fee;
 	}
 }

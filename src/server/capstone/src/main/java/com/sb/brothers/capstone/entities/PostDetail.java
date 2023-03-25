@@ -35,7 +35,7 @@ public class PostDetail implements Serializable {
 
 	//bi-directional many-to-one association to Book
 	//@Id
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	public Book getBook() {
 		return this.book;
 	}
@@ -47,7 +47,7 @@ public class PostDetail implements Serializable {
 
 	//bi-directional many-to-one association to Order
 	//@Id
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@NotNull
 	public Post getPost() {
 		return this.post;

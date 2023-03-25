@@ -22,7 +22,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String address;
-	private double balance;
+	private int balance;
 	private String email;
 	private String firstName;
 	private String lastName;
@@ -109,11 +109,11 @@ public class User implements Serializable {
 	}
 
 
-	public double getBalance() {
+	public int getBalance() {
 		return this.balance;
 	}
 
-	public void setBalance(double balance) {
+	public void setBalance(int balance) {
 		this.balance = balance;
 	}
 
