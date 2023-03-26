@@ -140,6 +140,8 @@ namespace xfLibrary.ViewModels
         public HomeViewModel()
         {
             Init();
+            //FakeData();
+
             //InitCurrentTab();
             //ItemDisplayToView(currentTab);
         }
@@ -155,7 +157,6 @@ namespace xfLibrary.ViewModels
             Posts = new ObservableCollection<Post>();
             Suggests = new ObservableCollection<Book>();
             IsNext = true; IsPrevious = false;
-
             MessagingCenter.Subscribe<object, object>(this, "category",
                   (sender, arg) =>
                   {

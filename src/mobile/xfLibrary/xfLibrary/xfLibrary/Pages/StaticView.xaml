@@ -95,12 +95,18 @@
 
 
                                                 <Grid Grid.Column="1" Margin="7,0,0,0" RowDefinitions="auto, auto, *" RowSpacing="0">
-                                                    <Label Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}" 
-                                                            Style="{StaticResource SubTitleLabelStyle}" VerticalOptions="Start"
-                                                            MaxLines="{Binding MaxLines}" HorizontalTextAlignment="Start"/> 
+                                                    <Label Style="{StaticResource SubTitleLabelStyle}" VerticalOptions="Start"
+                                                           MaxLines="{Binding MaxLines}" HorizontalTextAlignment="Start">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="MuliBold" Text="{Binding Manager, TargetNullValue='N/A', Converter={StaticResource UpperOneStringConverter}}"/>
+                                                                <Span FontFamily="MuliBold" Text="{Binding User, TargetNullValue='N/A', StringFormat='nạp tiền cho {0}', Converter={StaticResource UpperOneStringConverter}}"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
 
                                                     <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start" Margin="0,-2,0,0">
-                                                        <Label Text="{Binding Money, StringFormat='Số tiền nạp: +{0}VND', Converter={StaticResource MoneyConverter}}" MaxLines="{Binding MaxLines}"
+                                                        <Label Text="{Binding Money, StringFormat='Số tiền nạp: {0}VND', Converter={StaticResource MoneyConverter}}" MaxLines="{Binding MaxLines}"
                                                                Style="{StaticResource MiniLabelStyle}"/>
                                                         <Label Grid.Row="2" Text="{Binding Date, StringFormat='({0:hh:mm tt})', TargetNullValue='N/A'}"
                                                                Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}"/>

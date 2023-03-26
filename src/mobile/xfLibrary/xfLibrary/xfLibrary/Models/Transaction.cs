@@ -9,13 +9,15 @@ namespace xfLibrary.Models
 {
     public class Transaction : BaseModel
     {
-        [JsonProperty("message")]
+        [JsonProperty("content")]
         public string Message { get; set; }
         [JsonProperty("user")]
         public string User { get; set; }
-        [JsonProperty("money")]
-        public double Money { get; set; }
-        [JsonProperty("date")]
+        [JsonProperty("manager")]
+        public string Manager { get; set; }
+        [JsonProperty("transferAmount")]
+        public int Money { get; set; }
+        [JsonProperty("createdDate")]
         public long CreatedDate { get; set; }
 
 

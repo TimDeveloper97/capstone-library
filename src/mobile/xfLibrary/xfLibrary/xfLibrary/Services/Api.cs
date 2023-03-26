@@ -12,8 +12,8 @@ namespace xfLibrary.Services
 {
     public class Api
     {
-        public const string BaseUrl = "http://192.168.137.206:8090";
-        public const string Url = BaseUrl + "/api/";
+        public const string BaseUrl = "http://192.168.37.24:8090";
+        public static string Url = BaseUrl + "/api/";
         public const string IconBook = "book512.png";
         public const string IconCategory = "category512.png";
 
