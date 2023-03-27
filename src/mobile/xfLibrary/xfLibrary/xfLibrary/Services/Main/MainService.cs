@@ -175,7 +175,7 @@ namespace xfLibrary.Services.Main
 
         public async Task<Response> ReadAllNotificationAsync(string token)
         {
-            var res = await Service.Get(Api.Notification, token);
+            var res = await Service.Put(null, Api.ReadAllNotification, token);
             return res;
         }
 
