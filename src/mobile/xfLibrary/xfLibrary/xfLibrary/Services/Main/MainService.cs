@@ -173,6 +173,12 @@ namespace xfLibrary.Services.Main
             return value;
         }
 
+        public async Task<Response> ReadAllNotificationAsync(string token)
+        {
+            var res = await Service.Put(null, Api.ReadAllNotification, token);
+            return res;
+        }
+
         public async Task<Response> ChangeStatusNotificationAsync(string id, string token)
         {
             var res = await Service.PutParameter(id, Api.Notification, token);

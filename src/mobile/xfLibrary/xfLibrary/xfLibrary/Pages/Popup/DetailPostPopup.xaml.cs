@@ -34,7 +34,7 @@ namespace xfLibrary.Pages.Popup
         void Init()
         {
             #region Icon
-            
+
             #endregion
 
             #region days

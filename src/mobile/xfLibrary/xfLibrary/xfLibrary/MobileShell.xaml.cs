@@ -42,6 +42,7 @@ namespace xfLibrary
             Routing.RegisterRoute(nameof(RegisterView), typeof(RegisterView));
             Routing.RegisterRoute(nameof(CartView), typeof(CartView));
             Routing.RegisterRoute(nameof(OrderView), typeof(OrderView));
+            Routing.RegisterRoute(nameof(IpPopup), typeof(IpPopup));
             Routing.RegisterRoute(nameof(StaticView), typeof(StaticView));
             Routing.RegisterRoute(nameof(ProfilePopup), typeof(ProfilePopup));
             Routing.RegisterRoute(nameof(TransactionPopup), typeof(TransactionPopup));

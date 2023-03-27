@@ -99,7 +99,7 @@ namespace xfLibrary.ViewModels
             SearchDatas = new ObservableCollection<Post>();
         }
 
-        #region Appearing
+        #region Appearing 
         public ICommand MainAppearingCommand => new Command(async () =>
         {
             //auto login
@@ -192,7 +192,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand PageNotificationAppearingCommand => new Command(async () =>
         {
-            Appearing(async () =>
+            Appearing(() =>
             {
                 MessagingCenter.Send<object, object>(this, "notification", "");
             });

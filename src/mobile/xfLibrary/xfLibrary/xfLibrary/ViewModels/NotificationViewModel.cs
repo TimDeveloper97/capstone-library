@@ -25,9 +25,30 @@ namespace xfLibrary.ViewModels
             IsBusy = true;
 
             var notis = await _mainService.NotificationAsync(_token);
-            
+
             Notifications.Clear();
             UpdateDataItem(notis);
+
+            IsBusy = false;
+        });
+
+        public ICommand ReadAllCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            var res = await _mainService.ReadAllNotificationAsync(_token);
+            if (res != null)
+            {
+                if(res.Success)
+                {
+                    foreach (var groups in Notifications)
+                        foreach (var noti in groups)
+                            noti.Status = 1;
+                }
+
+                if (!string.IsNullOrEmpty(res.Message))
+                    _message.ShortAlert(res.Message);
+            }
 
             IsBusy = false;
         });
@@ -39,11 +60,11 @@ namespace xfLibrary.ViewModels
             else
                 noti.MaxLines = 1;
 
-            if(noti.Status == 0)
+            if (noti.Status == 0)
             {
                 await _mainService.ChangeStatusNotificationAsync(noti.Id, _token);
                 noti.Status = 1;
-            }    
+            }
         });
         #endregion
 
@@ -56,7 +77,7 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Notifications = new ObservableCollection<NotificationGroup>();
-           
+
             MessagingCenter.Subscribe<object, object>(this, "notification",
                  (sender, arg) =>
                  {

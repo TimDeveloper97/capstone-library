@@ -32,6 +32,7 @@ namespace xfLibrary.Services.Main
         Task<Response> CheckoutCartAsync(object obj, string token);
 
         Task<List<Notification>> NotificationAsync(string token);
+        Task<Response> ReadAllNotificationAsync(string token);
         Task<Response> ChangeStatusNotificationAsync(string id, string token);
 
         Task<List<Transaction>> TransactionAsync(string token);

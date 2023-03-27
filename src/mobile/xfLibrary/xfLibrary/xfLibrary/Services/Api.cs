@@ -12,8 +12,8 @@ namespace xfLibrary.Services
 {
     public class Api
     {
-        public const string BaseUrl = "http://192.168.137.206:8090";
-        public const string Url = BaseUrl + "/api/";
+        public const string BaseUrl = "http://192.168.137.206:8888";
+        public static string Url = BaseUrl + "/api/";
         public const string IconBook = "book512.png";
         public const string IconCategory = "category512.png";
 
@@ -46,6 +46,7 @@ namespace xfLibrary.Services
         public const string DisablePost = "posts/disable-post"; 
 
         public const string Notification = "notification"; 
+        public const string ReadAllNotification = "notification/read-all"; 
         public const string GetAllTransaction = "recharge"; 
         public const string Transaction = "transfer"; 
 
