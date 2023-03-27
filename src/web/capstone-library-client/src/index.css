@@ -1,27 +1,28 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #efefef;
 }
 
-.body-content{
+.body-content {
   min-height: 400px;
 }
-.error-message{
+.error-message {
   font-size: 0.7rem;
   color: red;
 }
-.notification-container{
+.notification-container {
   top: 80px !important;
 }
-.user-fullname{
+.user-fullname {
   color: #fff;
   font-size: 1.25rem;
 }
-.fname{
+.fname {
   display: flex;
   flex-direction: column;
 }

@@ -1,26 +1,37 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Checkbox, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { getBooks } from "../../actions/book";
+import { getBooks, getUserBooks } from "../../actions/book";
 import { Link } from "react-router-dom";
 import { addPost } from "../../actions/post";
+import {
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
 
 const schema = yup.object({
-  title: yup.string().required("Tiêu đề post không được để trống"),
   noDays: yup.string().required("Số ngày cho thuê không được để trống"),
   fee: yup.string().required("Phí cho thuê không được để trống"),
 });
 
 export default function AddPost() {
   const dispatch = useDispatch();
-  
 
   const books = useSelector((state) => state.book);
+  const role =
+    JSON.parse(window.localStorage.getItem("user")).roles[0] === "ROLE_ADMIN";
   useEffect(() => {
-    dispatch(getBooks());
+    role ? dispatch(getBooks()) : dispatch(getUserBooks());
   }, []);
 
   useEffect(() => {
@@ -47,40 +58,65 @@ export default function AddPost() {
     resolver: yupResolver(schema),
   });
 
-  const submitForm = (data, e) => {
+  const submitForm = async (data, e) => {
     e.preventDefault();
-    let postDetails = listSelectBook.filter(lsb => lsb.selected);
-    data.postDetailDtos = postDetails.map(lsb => {
+    let postDetails = listSelectBook.filter((lsb) => lsb.selected);
+    data.postDetailDtos = postDetails.map((lsb) => {
       return {
         bookDto: {
           id: lsb.id,
         },
-        quantity: lsb.quantity
-      }
+        quantity: lsb.quantity,
+      };
     });
-    console.log(data);
-    dispatch(addPost(data));
+    if (role) {
+      data.address = null;
+    } else {
+      data.address = address;
+      data.title = "[Ký gửi]";
+    }
+    const res = await dispatch(
+      addPost({
+        title: data.title,
+        noDays: data.noDays,
+        fee: data.fee,
+        content: data.content,
+        address: data.address,
+        postDetailDtos: data.postDetailDtos,
+      })
+    );
+    if (res.success) {
+      NotificationManager.success(res.message, "Thông báo", 2000);
+      resetData();
+    } else {
+      NotificationManager.errror(res.message, "Lỗi", 2000);
+    }
   };
 
   const resetData = () => {
-    resetField("name");
+    resetField("title");
+    resetField("noDays");
+    resetField("fee");
+    resetField("content");
+    setTotal(0);
+    setAddress("Chọn địa chỉ");
   };
 
   const [listSelectBook, setListSelectBook] = useState([]);
-  
+
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    console.log(total);
-  }, [listSelectBook, total]);
+  // useEffect(() => {
+  //   console.log(total);
+  // }, [listSelectBook, total]);
 
   const sumTotal = (listSelected) => {
     let total = 0;
-    listSelected.forEach(l => {
+    listSelected.forEach((l) => {
       l.selected && (total += l.quantity * l.price);
     });
     setTotal(total);
-  }
+  };
   const handleClickCheckbox = (book, e, index) => {
     const temp = listSelectBook;
     temp[index].selected = e.target.checked;
@@ -96,9 +132,28 @@ export default function AddPost() {
     listSelectBook[index].quantity += value;
     setListSelectBook([...listSelectBook]);
     sumTotal(listSelectBook);
-  }
+  };
+
+  const [address, setAddress] = useState("Chọn địa chỉ");
+
+  const handleChangeAddress = (event) => {
+    setAddress(event.target.value);
+  };
+  const listAddress = [
+    "Chọn địa chỉ",
+    "102 P. Phạm Ngọc Thạch, Kim Liên, Đống Đa, Hà Nội",
+    "119 Đ. Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội",
+    "Số 458 Minh Khai, Q. Hai Bà Trưng, Hà Nội",
+    "191 Bà Triệu, Lê Đại Hành, Hoàn Kiếm, Hà Nội",
+    "72 Nguyễn Trãi, Thượng Đình, Thanh Xuân, Hà Nội",
+    "72A Nguyễn Trãi, Thượng Đình, Thanh Xuân, Hà Nội",
+    "04A Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội",
+    "458 P. Minh Khai, Vĩnh Phú, Hai Bà Trưng, Hà Nội",
+    "85 Đ. Lê Văn Lương, Nhân Chính, Thanh Xuân, Hà Nội",
+  ];
   return (
     <section className="question-area pt-40px pb-40px">
+      <NotificationContainer />
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
           <h3 className="fs-22 fw-medium mr-0">Thêm mới post</h3>
@@ -113,18 +168,55 @@ export default function AddPost() {
               <div className="card card-item">
                 <div className="card-body">
                   <div className="form-group">
-                    <TextField
-                      required
-                      id="filled-basic"
-                      label="Tiêu đề post"
-                      variant="filled"
-                      fullWidth
-                      {...register("title")}
-                    />
-                    {errors.title && (
-                      <span className="error-message" role="alert">
-                        {errors.title?.message}
-                      </span>
+                    {role ? (
+                      <>
+                        <TextField
+                          required
+                          id="filled-basic"
+                          label="Tiêu đề post"
+                          variant="filled"
+                          fullWidth
+                          {...register("title")}
+                        />
+                        {errors.title && (
+                          <span className="error-message" role="alert">
+                            {errors.title?.message}
+                          </span>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Địa chỉ
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={address}
+                            label="Địa chỉ"
+                            onChange={handleChangeAddress}
+                          >
+                            {listAddress.map((add, index) => {
+                              return (
+                                <MenuItem value={add} key={index}>
+                                  {add}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </FormControl>
+                        <TextField
+                          required
+                          id="filled-basic"
+                          label="Tiêu đề post"
+                          variant="filled"
+                          defaultValue={"[Ký gửi]"}
+                          fullWidth
+                          {...register("title")}
+                          style={{ display: "none" }}
+                        />
+                      </>
                     )}
                   </div>
                   <div className="row">
@@ -139,13 +231,13 @@ export default function AddPost() {
                         {...register("noDays")}
                       />
                       {errors.noDays && (
-                      <span className="error-message" role="alert">
-                        {errors.noDays?.message}
-                      </span>
-                    )}
+                        <span className="error-message" role="alert">
+                          {errors.noDays?.message}
+                        </span>
+                      )}
                     </div>
                     <div className="col-md-3">
-                    <TextField
+                      <TextField
                         id="filled-basic"
                         label="Phí thuê"
                         variant="filled"
@@ -153,10 +245,10 @@ export default function AddPost() {
                         {...register("fee")}
                       />
                       {errors.fee && (
-                      <span className="error-message" role="alert">
-                        {errors.fee?.message}
-                      </span>
-                    )}
+                        <span className="error-message" role="alert">
+                          {errors.fee?.message}
+                        </span>
+                      )}
                     </div>
                     <div className="form-group col-md-3">
                       <TextField
@@ -208,7 +300,7 @@ export default function AddPost() {
                       {listSelectBook &&
                         listSelectBook.map((book, index) => {
                           return (
-                            <tr key={index}>
+                            <tr key={index} className="fw-normal">
                               <th scope="row">
                                 <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
                                   <div className="media-body">
@@ -236,13 +328,17 @@ export default function AddPost() {
                                     type="text"
                                     name="qty-input"
                                     value={book.quantity}
-                                    onChange={(e) => handleChangeQuantity(e, index)}
+                                    onChange={(e) =>
+                                      handleChangeQuantity(e, index)
+                                    }
                                   />
                                   <button
                                     className="qtyBtn qtyInc"
                                     type="button"
                                     onClick={() => handleQuantity(1, index)}
-                                    disabled={book.quantity === book.maxQuantity}
+                                    disabled={
+                                      book.quantity === book.maxQuantity
+                                    }
                                   >
                                     <i className="la la-plus"></i>
                                   </button>
@@ -250,7 +346,9 @@ export default function AddPost() {
                               </td>
                               <td>
                                 <Checkbox
-                                  onChange={(e) => handleClickCheckbox(book, e, index)}
+                                  onChange={(e) =>
+                                    handleClickCheckbox(book, e, index)
+                                  }
                                 />
                               </td>
                             </tr>

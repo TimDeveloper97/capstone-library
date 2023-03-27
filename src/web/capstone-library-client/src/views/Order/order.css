@@ -1,68 +1,94 @@
-.table-header th{
-    vertical-align: middle !important;
+.table-header th {
+  vertical-align: middle !important;
 }
-.check-col{
-    width: 150px;
+.check-col {
+  width: 150px;
 }
-.table-center{
-    margin: 0 auto;
-    width: 800px;
+.table-center {
+  margin: 0 auto;
+  width: 800px;
 }
-.button-action span{
-    height: 60px;
-    width: 60px;
-    display: block;
-    z-index: 2;
-    background: #fff;
-    text-align: center;
-    border-radius: 50%;
-    box-shadow: 0 10px 10px rgba(0,  0, 0, 0.1);
-    cursor: pointer;
-    position: relative;
+.button-action {
+  padding-top: 20px;
+}
+.button-action span {
+  height: 60px;
+  width: 60px;
+  display: block;
+  z-index: 2;
+  background: #fff;
+  text-align: center;
+  border-radius: 50%;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  position: relative;
+  padding-top: 15px;
 }
 
 .button-action span i {
-    font-size: 25px;
+  font-size: 25px;
 }
-.tooltip-action{
-    background: #fff;
-    font-size: 20px;
-    padding: 10px 18px;
-    top: 0;
-    display: none;
-    pointer-events: none;
-    border-radius: 25px;
-    box-shadow: 0 10px 10px rgba(0,  0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    position: relative;
-    z-index: 2;
+.tooltip-action {
+  background: #fff;
+  font-size: 20px;
+  padding: 10px 18px;
+  top: 0;
+  right: -80px;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 25px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: absolute;
+  z-index: 2;
+  width: 270px;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  flex-wrap: wrap;
 }
-.button-tooltip{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    position: relative;
+.button-tooltip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
 }
 
-.tooltip-action:before{
-    position: absolute;
-    content: "";
-    height: 15px;
-    width: 15px;
-    background:  #fff;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%) rotate(45deg);
+.tooltip-action:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  background: #fff;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
 }
-.button-action:hover .tooltip-action{
-     display: block;
-     pointer-events: auto;
-     top: -10px;
+.button-action:hover .tooltip-action {
+  opacity: 1;
+  pointer-events: auto;
+  top: -45px;
 }
-.cart-order{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-content: center;
+.card-order {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  padding: 0 !important;
+}
+.day-display {
+  background-color: #2e4f4f;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+}
+.item-body {
+  padding: 15px;
+}
+.order-status {
+  border-radius: 10px;
+  padding: 5px;
+  background-color: green;
+  color: #fff;
 }

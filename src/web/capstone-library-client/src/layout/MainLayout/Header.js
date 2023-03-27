@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUser } from "../../actions/user";
+import Notification from "../../components/Notification/Notification";
 import DetailAccount from "./DetailAccount";
 import "./header.css";
 
@@ -16,7 +17,7 @@ export default function Header() {
     setRoleAdmin(curUser?.roles[0] === "ROLE_ADMIN");
   }, []);
 
-  const user = useSelector((state) => state.user);  
+  const user = useSelector((state) => state.user);
 
   return (
     <header className="header-area bg-dark">
@@ -69,41 +70,37 @@ export default function Header() {
                     <Link to={"/post"}>
                       Post <i className="la la-angle-down fs-11"></i>
                     </Link>
-                    <ul className="dropdown-menu-item">
-                      <li>
-                        <Link to={"/user/add-post"}>Tạo post</Link>
-                      </li>
-                    </ul>
+                    {roleAdmin ? (
+                      <ul className="dropdown-menu-item">
+                        <li>
+                          <Link to={"/user/add-post"}>Tạo post</Link>
+                        </li>
+                      </ul>
+                    ) : null}
                   </li>
-                  {
-                    roleAdmin && <li>
-                    <a href="#">Quản lý <i className="la la-angle-down fs-11"></i></a>
-                  <ul className="dropdown-menu-item">
+                  {roleAdmin && (
                     <li>
-                      <Link to={"/user/category"}>Quản lý thể loại</Link>
+                      <a href="#">
+                        Quản lý <i className="la la-angle-down fs-11"></i>
+                      </a>
+                      <ul className="dropdown-menu-item">
+                        <li>
+                          <Link to={"/user/category"}>Quản lý thể loại</Link>
+                        </li>
+                        <li>
+                          <Link to={"/user/order-status"}>
+                            Quản lý đơn hàng
+                          </Link>
+                        </li>
+                      </ul>
                     </li>
-                    <li>
-                      <Link to={"/user/order-status"}>Quản lý đơn hàng</Link>
-                    </li>
-                  </ul>
-                </li>
-                  }
+                  )}
                 </ul>
               </nav>
+              <div className="form-group mb-0">
+                <Notification />
+              </div>
 
-              {/* <form method="post" className="mr-4">
-                <div className="form-group mb-0">
-                  <input
-                    className="form-control form--control form--control-bg-gray text-white"
-                    type="text"
-                    name="search"
-                    placeholder="Type your search words..."
-                  />
-                  <button className="form-btn text-white-50" type="button">
-                    <i className="la la-search"></i>
-                  </button>
-                </div>
-              </form> */}
               <div className="nav-right-button">
                 {user?.firstName ? (
                   <span className="user-fullname">
