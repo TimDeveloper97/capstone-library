@@ -30,6 +30,7 @@ namespace xfLibrary.Models
 
 
         private string color = "#00000";
+        private bool isAdmin = false, isDeny = false, isAccept = false;
         [JsonIgnore]
         public string Color { get => color; set => SetProperty(ref color, value); }
         [JsonIgnore]
@@ -37,10 +38,10 @@ namespace xfLibrary.Models
         [JsonIgnore]
         public string Message { get; set; }
         [JsonIgnore]
-        public bool IsAdmin { get; set; } = false;
+        public bool IsAdmin { get => isAdmin; set => SetProperty(ref isAdmin, value); }
         [JsonIgnore]
-        public bool IsDeny { get; set; } = false;
+        public bool IsDeny { get => isDeny; set => SetProperty(ref isDeny, value); }
         [JsonIgnore]
-        public bool IsAccept { get; set; } = false;
+        public bool IsAccept { get => isAccept; set => SetProperty(ref isAccept, value); }
     }
 }
