@@ -68,13 +68,8 @@ export default function Notification() {
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    console.log(listNotice);
-  }, [listNotice]);
+  
   const handleClickReadAll = () => {
-    // let temp = listNotice;
-    // temp.forEach((t) => (t.status = 1));
-    console.log("click all");
     setListNotice((prev) =>
       prev.map((p) => {
         return {

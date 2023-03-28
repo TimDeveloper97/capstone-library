@@ -35,7 +35,7 @@ export default function Post() {
                     <div className="questions-snippet">
                       <ListPost />
                     </div>
-                    <div className="pager d-flex flex-wrap align-items-center justify-content-between pt-30px">
+                    {/* <div className="pager d-flex flex-wrap align-items-center justify-content-between pt-30px">
                       <div>
                         <nav aria-label="Page navigation example">
                           <ul className="pagination generic-pagination pr-1">
@@ -99,7 +99,7 @@ export default function Post() {
                           <option value="50">50 per page</option>
                         </select>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

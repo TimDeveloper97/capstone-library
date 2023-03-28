@@ -9,6 +9,10 @@ import { getCategories } from "../../actions/category";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCross, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { addBook } from "../../actions/book";
+import {
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
 
 const schema = yup.object({
   name: yup.string().required("Tên sách không được để trống"),
@@ -33,16 +37,29 @@ export default function AddBook() {
     resolver: yupResolver(schema),
   });
 
-  const submitForm = (data, e) => {
+  const submitForm = async (data, e) => {
     e.preventDefault();
     data.categories = listCategories.map((lc) => lc.nameCode);
     data.imgs = imgs;
-    dispatch(addBook(data));
-    resetData();
+    const res = await dispatch(addBook(data));
+    if (res.success) {
+      NotificationManager.success(res.message, "Thông báo", 2000);
+      resetData();
+    } else {
+      NotificationManager.error(res.message, "Lỗi", 2000);
+    }
   };
 
   const resetData = () => {
     resetField("name");
+    resetField("author");
+    resetField("publisher");
+    resetField("publishYear");
+    resetField("price");
+    resetField("quantity");
+    resetField("description");
+    setListCategories([]);
+    setSelectedImages([]);
   };
   const [listCategories, setListCategories] = useState([]);
   const [cate, setCate] = useState("chinhtri_phapluat");
@@ -94,6 +111,7 @@ export default function AddBook() {
 
   return (
     <section className="question-area pt-40px pb-40px">
+      <NotificationContainer />
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
           <h3 className="fs-22 fw-medium mr-0">Thêm mới sách</h3>

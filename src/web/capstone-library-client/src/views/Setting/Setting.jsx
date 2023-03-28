@@ -21,8 +21,8 @@ const schema = yup.object({
 export default function Setting() {
   const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
+  const user = JSON.parse(window.localStorage.getItem("user"));
   useEffect(() => {
-    const user = JSON.parse(window.localStorage.getItem("user"));
     dispatch(getUser(user));
   }, []);
 
@@ -44,6 +44,8 @@ export default function Setting() {
     const putData = data;
     putData.id = userInfo.id;
     putData.balance = userInfo.balance;
+    putData.roles = user.roles;
+    console.log(putData);
     dispatch(updateUser(putData));
     switchEdit();
   };
@@ -376,7 +378,7 @@ export default function Setting() {
                           mình bằng email
                         </p>
                         <Link
-                          to={"/recovery-password"}
+                          to={"/forgot-password"}
                           className="btn theme-btn theme-btn-sm theme-btn-white"
                         >
                           Lấy lại mật khẩu{" "}

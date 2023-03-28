@@ -89,7 +89,7 @@ export default function AddPost() {
       NotificationManager.success(res.message, "Thông báo", 2000);
       resetData();
     } else {
-      NotificationManager.errror(res.message, "Lỗi", 2000);
+      NotificationManager.error(res.message, "Lỗi", 2000);
     }
   };
 

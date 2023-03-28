@@ -14,6 +14,7 @@ import OrderStatus from "./views/Order/OrderStatus";
 import AddPost from "./views/Post/AddPost";
 import Post from "./views/Post/Post";
 import DetailPost from "./views/Post/PostDetail";
+import PostRequest from "./views/PostRequest/PostRequest";
 import Register from "./views/Register/Register";
 import Setting from "./views/Setting/Setting";
 
@@ -82,6 +83,10 @@ export default function Route() {
             {
               path: "order-status",
               element: <OrderStatus />
+            },
+            {
+              path: "post-request",
+              element: <PostRequest />
             }
           ],
         },
