@@ -35,7 +35,7 @@ namespace xfLibrary.ViewModels
         public ICommand ForgotPasswordCommand => new Command(async () =>
         {
             var message = await Shell.Current.ShowPopupAsync(new ForgotPasswordPopup());
-            _message.ShortAlert(message);
+            //_message.ShortAlert(message);
         });
 
         public ICommand LoginCommand => new Command(async () =>
