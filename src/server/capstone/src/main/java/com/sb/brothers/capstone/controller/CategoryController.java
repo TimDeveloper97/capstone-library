@@ -31,7 +31,7 @@ public class CategoryController {
         List<Category> categories = categoryService.getAllCategory();
         if(categories.isEmpty()){
             logger.warn("no content");
-            return new ResponseEntity(new CustomErrorType("Empty categories."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Thể loại sách trống."), HttpStatus.OK);
         }
         logger.info("Success - Get All categories");
         return new ResponseEntity<>(new ResData<List<Category>>(0, categories), HttpStatus.OK);
@@ -44,13 +44,13 @@ public class CategoryController {
         if(categoryService.isCategoryExist(categoryDto.getNameCode())){
             logger.error("Unable to create. A Category with name:"
                    + categoryDto.getNameCode() + " already exist.");
-            return new ResponseEntity(new CustomErrorType("Unable to create. A Category with name:"
-                    + categoryDto.getNameCode()+ " already exist."), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Thêm mới thể loại sách không thành công do thể loại sách "
+                    + categoryDto.getNameCode()+ " đã tồn tại."), HttpStatus.OK);
         }
         Category category = new Category();
         categoryDto.convertCategory(category);
         categoryService.updateCategory(category);
-        return new ResponseEntity(new CustomErrorType(true, "Create Category - SUCCESS"), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Thêm thể loại sách thành công."), HttpStatus.CREATED);
 
     }//form add new category > do add
 
@@ -60,12 +60,11 @@ public class CategoryController {
         logger.info("Fetching & Deleting Category with name code " + id);
         if(!categoryService.isCategoryExist(id)){
             logger.error("Category with name code: "+ id +" not found. Unable to delete.");
-            return new ResponseEntity(new CustomErrorType("Category with id:"+ id +" not found. Unable to delete."),
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Thể loại sách có mã: "+ id +" không tồn tại. Xóa thể loại không thành công"), HttpStatus.OK);
         }
         categoryService.removeCategoryById(id);
         logger.info("Delete Category - Success!");
-        return new ResponseEntity(new CustomErrorType(true, "Delete category with nameCode:" + id + " - SUCCESS."), HttpStatus.OK);
+        return new ResponseEntity(new CustomErrorType(true, "Xóa thể loại có mã:" + id + " - SUCCESS."), HttpStatus.OK);
     }//delete 1 category
 
     @PutMapping("/update/{id}")
@@ -75,7 +74,7 @@ public class CategoryController {
         Category currCategory = categoryService.getCategoryById(id).get();
         if(currCategory == null){
             logger.error("Category with id:"+ id +" not found. Unable to update.");
-            return new ResponseEntity(new CustomErrorType("User with id:"+ id +" not found. Unable to update."),
+            return new ResponseEntity(new CustomErrorType("Thể loại sách có mã: "+ id +" không tìm thấy. Cập nhật không thành công."),
                     HttpStatus.NOT_FOUND);
         }
         currCategory.setName(category.getName());

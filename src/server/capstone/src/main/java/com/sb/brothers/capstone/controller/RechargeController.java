@@ -40,11 +40,11 @@ public class RechargeController {
             payments = paymentService.getAllPayments();
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
-            return new ResponseEntity<>(new CustomErrorType("Get all recharge with exception. No content to return."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Lấy thông tin lịch sử nạp tiền thất bại. Nguyên nhân" + ex.getCause()), HttpStatus.OK);
         }
         if(payments.isEmpty()){
             logger.warn("There are no recharge.");
-            return new ResponseEntity<>(new CustomErrorType("There are no recharge."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Không có thông tin nạp tiền nào."), HttpStatus.OK);
         }
         List<PaymentDto> paymentDtos = new ArrayList<>();
         payments.stream().forEach(rec -> {
@@ -75,11 +75,11 @@ public class RechargeController {
                 payment.setManager(manager);
                 paymentService.updatePayment(payment);
             }
-            else throw new Exception("User is not found: "+ user.getId());
+            else throw new Exception("Không tìm thấy người dùng có mã: "+ user.getId());
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
-            return new ResponseEntity<>(new CustomErrorType("Update payment with exception. No content to return."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:" + ex.getMessage() + ".\nNguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new CustomErrorType("Transfer status - SUCCESS."), HttpStatus.OK);
+        return new ResponseEntity<>(new CustomErrorType("Nạp tiền thành công."), HttpStatus.OK);
     }//view all posts
 }

@@ -6,10 +6,8 @@ import com.sb.brothers.capstone.dto.UserDTO;
 import com.sb.brothers.capstone.entities.Book;
 import com.sb.brothers.capstone.entities.Role;
 import com.sb.brothers.capstone.entities.User;
-import com.sb.brothers.capstone.services.BookService;
-import com.sb.brothers.capstone.services.CategoryService;
-import com.sb.brothers.capstone.services.RoleService;
-import com.sb.brothers.capstone.services.UserService;
+import com.sb.brothers.capstone.global.GlobalData;
+import com.sb.brothers.capstone.services.*;
 import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.CustomStatus;
 import com.sb.brothers.capstone.util.ResData;
@@ -22,10 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,6 +44,9 @@ public class UnauthenticatedUserAPI {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDTO userModel){
         //chuyen password tu form dki thanh dang ma hoa
@@ -56,8 +54,8 @@ public class UnauthenticatedUserAPI {
         if(userService.isUserExist(userModel.getId())){
             logger.error("Unable to register. User with username:"
                     +userModel.getId()+" already exist.");
-            return new ResponseEntity(new CustomErrorType("Unable to register. User with username "
-                    +userModel.getId()+" already exist."), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Đăng ký thất bại. Username "
+                    +userModel.getId()+" đã tồn tại."), HttpStatus.CONFLICT);
         }
         User newUser = new User();
         userModel.setStatus(CustomStatus.ACTIVATE);
@@ -68,9 +66,28 @@ public class UnauthenticatedUserAPI {
         roles.add(roleService.findRoleByName("ROLE_USER"));
         newUser.setRoles(roles);
         userService.updateUser(newUser);
-        return new ResponseEntity(new CustomErrorType(true,"New account registration - SUCCESS"), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true,"Đăng ký tài khoản thành công."), HttpStatus.CREATED);
     }//after register success
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPass(@RequestBody UserDTO userDTO){
+        logger.info("Forgot password the single user");
+        Optional<User> userFP = userService.getUserByEmailAndId(userDTO.getEmail(), userDTO.getId());
+        if(userFP.isPresent()){
+            User user = userFP.get();
+            user.setPassword(bCryptPasswordEncoder.encode("1"));
+            userService.updateUser(user);
+            emailService.sendMessage(userDTO.getEmail(), GlobalData.getSubject(), GlobalData.getContent("1"), null);
+            logger.error("Success. A password of user who has name: "
+                    + userDTO.getId() +", Email: "+userDTO.getEmail()+" has been reset.");
+            return new ResponseEntity(new CustomErrorType(true, "Mật khẩu của bạn đã được thay đổi. Vui lòng " +
+                    "kiểm tra hòm thư e-mail của bạn: "+userDTO.getEmail()), HttpStatus.OK);
+        }
+        logger.error("Unable to forgot password. A User with name: "
+                + userDTO.getId() +", Email: "+userDTO.getEmail()+" isn't exist.");
+        return new ResponseEntity(new CustomErrorType("Quên mật khẩu thất bại."
+                + " Email đăng ký không chính xác."), HttpStatus.OK);
+    }
 
     //books session
     @GetMapping("/books/search-by-author")
@@ -83,7 +100,7 @@ public class UnauthenticatedUserAPI {
             books = bookService.searchBookByAuthor(bookDto.getAuthor());
         if(books.size() == 0){
             logger.warn("Author's books:"+ bookDto.getName()+" could not be found");
-            return new ResponseEntity(new CustomErrorType("The books of Author:"+ bookDto.getName()+" could not be found"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy sách của tác giả:"+ bookDto.getName()), HttpStatus.NOT_FOUND);
         }
         List<BookDTO> bookDTOS = bookDto.convertAllBooks(books);
         logger.info("Return all books of author:" + bookDto.getName() +" - SUCCESS.");
@@ -101,7 +118,7 @@ public class UnauthenticatedUserAPI {
             books = bookService.searchBookByPostLocation(dataDto.getValue());
         if(books.isEmpty()){
             logger.warn("Books with poster's location: "+ dataDto.getValue()+" could not be found");
-            return new ResponseEntity(new CustomErrorType("Books with poster's location: "+ dataDto.getValue()+" could not be found"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Bài đăng có địa chỉ: "+ dataDto.getValue() + " không tìm thấy."), HttpStatus.OK);
         }
         Set<BookDTO> bookDTOS = new HashSet<>();
         for (Book book : books){
@@ -132,39 +149,4 @@ public class UnauthenticatedUserAPI {
         return new ResponseEntity<>(new ResData<List<BookDTO>>(0, bookDTOS), HttpStatus.OK);
     }//view all books with location
 
-    //books session
-    @GetMapping("/books")
-    public ResponseEntity<?> getAllBooks(){
-        logger.info("Return all books");
-        List<Book> books = bookService.getAllBook();
-        List<BookDTO> bookDTOS = new BookDTO().convertAllBooks(books.stream().collect(Collectors.toSet()));
-        if(books.isEmpty()){
-            logger.warn("The list of books is empty.");
-            return new ResponseEntity(new CustomErrorType("The list of books is empty."), HttpStatus.OK);
-        }
-        logger.info("Return all books - SUCCESS.");
-        return new ResponseEntity<>(new ResData<List<BookDTO>>(0, bookDTOS), HttpStatus.OK);
-    }//view all books
-
-    @GetMapping("/books/{id}")
-    public ResponseEntity<?> getBookById(@PathVariable("id") int id){
-        logger.info("Return the single book");
-        if(!bookService.isBookExist(id)){
-            logger.error("Book with id: " + id + " not found.");
-            return new ResponseEntity(new CustomErrorType("Unable to get. A Book with id:"
-                    + id +" not exist."),HttpStatus.NOT_FOUND);
-        }
-        Book book = null;
-        try {
-            book = bookService.getBookById(id).get();
-        }catch (Exception ex){
-            logger.error("Exception: "+ ex.getMessage() +"\n" + ex.getCause());
-            return new ResponseEntity(new CustomErrorType("Unable to get. A Book with id:"
-                    + id +" not exist."),HttpStatus.NOT_FOUND);
-        }
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.convertBook(book);
-        logger.info("Return the single book with id:" + id +" - SUCCESS.");
-        return new ResponseEntity<>(new ResData<BookDTO>(0, bookDTO), HttpStatus.OK);
-    }
 }

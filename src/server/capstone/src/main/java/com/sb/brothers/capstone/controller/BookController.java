@@ -11,6 +11,7 @@ import com.sb.brothers.capstone.services.CategoryService;
 import com.sb.brothers.capstone.services.ImageService;
 import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
+import com.sb.brothers.capstone.util.ResData;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,77 +52,6 @@ public class BookController {
     @Autowired
     private TokenProvider tokenProvider;
 
-    /*@PostMapping("/add")
-    public ResponseEntity<?> createNewBook(
-               @RequestParam(name = "author", required = false) String author,
-               @RequestParam(name = "publisher", required = false) String publisher,
-               @RequestParam(name = "description", required = false) String description,
-               @RequestParam(name = "publishYear", required = false) Integer publishYear,
-               @RequestParam(name = "name", required = false) String name,
-               @RequestParam(name = "price", required = false) double price,
-               @RequestParam(name = "quantity", required = false) int quantity,
-               @RequestParam(name = "categories", required = false) String categories,
-               @RequestParam(value = "bookImage", required = false) MultipartFile fileBookImage,
-               @RequestParam(value = "bookImage1", required = false) MultipartFile fileBookImage1,
-               @RequestParam(value = "bookImage2", required = false) MultipartFile fileBookImage2,
-               @RequestParam(value = "bookImage3", required = false) MultipartFile fileBookImage3,
-               @RequestParam(value = "bookImage4", required = false) MultipartFile fileBookImage4) {
-        logger.info("Creating Book:" + name);
-        Book book = new Book();
-        book.setAuthor(author);
-        book.setPublisher(publisher);
-        book.setPublishYear(publishYear);
-        book.setDescription(description);
-        book.setName(name);
-        book.setPrice(price);
-        book.setQuantity(quantity);
-        Set<Image> images = new HashSet<>();
-        String[] arrCats = categories.split("\\,");
-        Set<Category> categorySet = new HashSet<>();
-
-        byte[] fileContent = FileUtils.readFileToByteArray(new File("C:\\Users\\son-28f\\Pictures\\thanh_giong.jpeg"));
-        String encodedString = Base64.getEncoder().encodeToString(fileContent);
-
-        byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
-        FileUtils.writeByteArrayToFile(new File("C:\\Users\\son-28f\\Pictures\\thanh_giong2.jpeg"), decodedBytes);
-
-        for (String catName: arrCats) {
-            if(categoryService.isCategoryExist(catName)){
-                categorySet.add(categoryService.getCategoryById(catName).get());
-            }
-            else {
-                return new ResponseEntity(new CustomErrorType("Category has name: "+ catName +" not found."), HttpStatus.NOT_FOUND);
-            }
-        }
-        book.setCategories(categorySet);
-        bookService.updateBook(book);
-        if(fileBookImage != null && !fileBookImage.isEmpty()) {
-            Image img = addImages(fileBookImage, images, book);
-            imageService.update(img);
-        }
-        if(fileBookImage1 != null && !fileBookImage1.isEmpty()) {
-            Image img1 = addImages(fileBookImage1, images, book);
-            imageService.update(img1);
-        }
-        if(fileBookImage2 != null && !fileBookImage2.isEmpty()) {
-            Image img2 = addImages(fileBookImage2, images, book);
-            imageService.update(img2);
-        }
-        if(fileBookImage3 != null && !fileBookImage3.isEmpty()) {
-            Image img3 = addImages(fileBookImage3, images, book);
-            imageService.update(img3);
-        }
-        if(fileBookImage4 != null && !fileBookImage4.isEmpty()) {
-            Image img4 = addImages(fileBookImage4, images, book);
-            imageService.update(img4);
-        }
-        book.setImages(images);
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.convertBook(book);
-        logger.info("Create new book - Success!");
-        return new ResponseEntity(new CustomErrorType(true, "Create book - SUCCESS"), HttpStatus.CREATED);
-    }//form add new book > do add*/
-
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> createNewBook(Authentication auth, @RequestBody BookDTO bookDto) {
@@ -135,7 +65,7 @@ public class BookController {
                 categorySet.add(categoryService.getCategoryById(catName).get());
             }
             else {
-                return new ResponseEntity(new CustomErrorType("Category has name: "+ catName +" not found."), HttpStatus.NOT_FOUND);
+                return new ResponseEntity(new CustomErrorType("Thể loại sách: "+ catName +" không tồn tại."), HttpStatus.OK);
             }
         }
         book.setCategories(categorySet);
@@ -147,8 +77,33 @@ public class BookController {
         bookService.updateBook(book);
         addImages(bookDto, book);
         logger.info("Create new book - Success!");
-        return new ResponseEntity(new CustomErrorType(true, "Create book - SUCCESS"), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Đã thêm sách thành công"), HttpStatus.CREATED);
     }//form add new book > do add
+
+    //books session
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getAllBooksByUserId(Authentication auth){
+        logger.info("Return list books");
+        Set<Book> books = bookService.getListBooksOfUserId(auth.getName());
+        for (Book book : books){
+            book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
+        }
+        if(books.isEmpty()){
+            logger.warn("This user's book list is empty.");
+            return new ResponseEntity<>(new CustomErrorType("Kho sách của bạn trống."), HttpStatus.OK);
+        }
+        Set<BookDTO> bookDTOS = new HashSet<BookDTO>();
+        for (Book book : books){
+            book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
+            BookDTO bDto = new BookDTO();
+            bDto.convertBook(book);
+            bookDTOS.add(bDto);
+        }
+        logger.info("Return all books of user:" + auth.getName() +" - SUCCESS.");
+        return new ResponseEntity<>(new ResData<Set<BookDTO>>(0, bookDTOS), HttpStatus.OK);
+    }//view all books
+
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('USER')")
@@ -158,19 +113,55 @@ public class BookController {
             Set<Book> books = bookService.getListBooksOfUserId(auth.getName());
             if(books.stream().filter(b -> (b.getId() == id)).collect(Collectors.toSet()).isEmpty()){
                 logger.error("Book with id:"+ id +" not found. Unable to delete.");
-                return new ResponseEntity(new CustomErrorType("Use with id:"+ auth.getName() +" does not have this book."),
+                return new ResponseEntity(new CustomErrorType("Người dùng có id:"+ auth.getName() +" không sở hữu cuốn sách này. Xóa sách không thành công."),
                         HttpStatus.OK);
             }
             else bookService.removeBookById(id);
         }
         catch (Exception e){
             logger.error("Book with id:"+ id +" has been ordered or posted. Unable to delete.");
-            return new ResponseEntity(new CustomErrorType("Book with id:" + id +" has been ordered or posted. Unable to delete."),
+            return new ResponseEntity(new CustomErrorType("Cuốn sách có id:" + id +" đã được đặt hàng hoặc đăng cho thuê/ ký gửi. Xóa sách không thành công."),
                     HttpStatus.OK);
         }
         logger.info("Delete book - Success!");
         return new ResponseEntity(new CustomErrorType(true, "Delete book - SUCCESS"), HttpStatus.FOUND);
     }//delete 1 book
+
+
+    //books session
+    @GetMapping("")
+    public ResponseEntity<?> getAllBooks(){
+        logger.info("Return all books");
+        List<Book> books = bookService.getAllBook();
+        List<BookDTO> bookDTOS = new BookDTO().convertAllBooks(books.stream().collect(Collectors.toSet()));
+        if(books.isEmpty()){
+            logger.warn("The list of books is empty.");
+            return new ResponseEntity(new CustomErrorType("Kho sách trống."), HttpStatus.OK);
+        }
+        logger.info("Return all books - SUCCESS.");
+        return new ResponseEntity<>(new ResData<List<BookDTO>>(0, bookDTOS), HttpStatus.OK);
+    }//view all books
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getBookById(@PathVariable("id") int id){
+        logger.info("Return the single book");
+        if(!bookService.isBookExist(id)){
+            logger.error("Book with id: " + id + " not found.");
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy cuốn sách có mã:"
+                    + id),HttpStatus.OK);
+        }
+        Book book = null;
+        try {
+            book = bookService.getBookById(id).get();
+        }catch (Exception ex){
+            logger.error("Exception: "+ ex.getMessage() +"\n" + ex.getCause());
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy cuốn sách có mã:" + id),HttpStatus.OK);
+        }
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.convertBook(book);
+        logger.info("Return the single book with id:" + id +" - SUCCESS.");
+        return new ResponseEntity<>(new ResData<BookDTO>(0, bookDTO), HttpStatus.OK);
+    }
 
     @PutMapping("/update")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -185,14 +176,14 @@ public class BookController {
         }
         if(books == null || books.isEmpty()){
             logger.error("Book with id:"+ bookDto.getId() +" not found. Unable to update.");
-            return new ResponseEntity(new CustomErrorType("Use with id:"+ auth.getName() +" does not have this book."),
+            return new ResponseEntity(new CustomErrorType("Người dùng có id:"+ auth.getName() +" không sở hữu cuốn sách này."),
                     HttpStatus.OK);
         }
         Book currBook = books.iterator().next();
         if (currBook == null) {
             logger.error("Book with id:"+ bookDto.getId() +" not found. Unable to update.");
-            return new ResponseEntity(new CustomErrorType("Book with id:"+ bookDto.getId() +" not found. Unable to update."),
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Cuốn sách có tên:'"+ bookDto.getName() +"' không tồn tại. Cập nhật thông tin sách không thành công."),
+                    HttpStatus.OK);
         }
         currBook.setName(bookDto.getName());
         currBook.setPublisher(bookDto.getPublisher());
@@ -206,8 +197,8 @@ public class BookController {
             }
             else{
                 logger.error("Book with id:"+ bookDto.getId() +" found. Unable to update because category has name:" + nameCode +" is not exist.");
-                return new ResponseEntity(new CustomErrorType("Book with id:"+ bookDto.getId()
-                        +" found. Unable to update because category has name:" + nameCode +" is not exist."), HttpStatus.OK);
+                return new ResponseEntity(new CustomErrorType("Cuốn sách có mã:"+ bookDto.getId()
+                        +" cập nhật không thành công do thể loại sách:" + nameCode +" không đúng."), HttpStatus.OK);
             }
         }
         currBook.setCategories(catSet);
@@ -219,27 +210,12 @@ public class BookController {
             addImages(bookDto, currBook);
         }catch (Exception e){
             logger.error("Book with id:"+ bookDto.getId() +" found but Unable to update.");
-            return new ResponseEntity(new CustomErrorType("Book with id:"+ bookDto.getId() +" found but Unable to update."),
-                    HttpStatus.FOUND);
+            return new ResponseEntity(new CustomErrorType("Cuốn sách có mã:"+ bookDto.getId() +" xảy ra lỗi khi cập nhật."),
+                    HttpStatus.OK);
         }
         logger.info("Update book - Success");
-        return new ResponseEntity(new CustomErrorType(true, "Update book - SUCCESS"), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Cập nhật thông tin sách thành công."), HttpStatus.CREATED);
     }//form edit book, fill old data into form
-/*
-    Image addImages(MultipartFile fileBookImage, Set<Image> images, Book book){
-        Image img = new Image();
-        String imageUUID = fileBookImage.getOriginalFilename();
-        Path fileNameAndPath = Paths.get(uploadDir, imageUUID);
-        try {
-            Files.write(fileNameAndPath, fileBookImage.getBytes());
-        } catch (IOException e) {
-            logger.error("IOException:" + e.getMessage() +".\n" + e.getCause());
-        }
-        img.setLink(imageUUID);
-        images.add(img);
-        img.setBook(book);
-        return img;
-    }*/
 
 
     void addImages(BookDTO bookDto, Book currBook){

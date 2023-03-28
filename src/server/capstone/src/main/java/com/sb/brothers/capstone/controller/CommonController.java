@@ -39,10 +39,13 @@ public class CommonController {
         String contentType = null;
         try {
             String uploadDir = new File(".").getCanonicalPath() + "\\images\\";
+            File directory = new File(uploadDir);
+            if (! directory.exists()){
+                directory.mkdir();
+                // If you require it to make the entire directory path including parents,
+                // use directory.mkdirs(); here instead.
+            }
             resource = new FileUrlResource(uploadDir+fileName);
-            /*System.out.println("_----------------------------------------");
-            System.out.println(uploadDir+fileName);
-            System.out.println("------------------------------------------");*/
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (Exception ex) {
             logger.info("Could not determine file type. " + ex.getMessage() +".\n"+ex.getCause());
@@ -69,11 +72,11 @@ public class CommonController {
             notifications = notificationService.getAllNotification(auth.getName());
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
-            return new ResponseEntity<>(new CustomErrorType("Get all notification with exception. No content to return."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:"+ ex.getMessage() +".\n Nguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(notifications.isEmpty()){
             logger.warn("There are no notification.");
-            return new ResponseEntity<>(new CustomErrorType("There are no notification."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Không có thông báo mới."), HttpStatus.OK);
         }
         List<NotificationDto> ntfDtos = new ArrayList<>();
         notifications.stream().forEach(ntf -> {
@@ -100,15 +103,33 @@ public class CommonController {
             if(notification.getUser().getId().compareTo(auth.getName()) == 0) {
                 notificationService.update(id);
             }
-            else throw new Exception("Notification not sent to user with id:"+ auth.getName());
+            else throw new Exception("Bạn không thể xem thông báo của người khác.");
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
-            return new ResponseEntity<>(new CustomErrorType("Get all notification with exception. No content to return."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:"+ ex.getMessage() +".\n Nguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(notification == null){
             logger.warn("There are no notification.");
-            return new ResponseEntity<>(new CustomErrorType("There are no notification."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Không có thông báo mới."), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new CustomErrorType("Change notification status - SUCCESS."), HttpStatus.OK);
+        return new ResponseEntity<>(new CustomErrorType("Đánh dấu là đã đọc thông báo."), HttpStatus.OK);
+    }//view all posts
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/api/notification/read-all")
+    public ResponseEntity<?> readAllNotification(Authentication auth){
+        logger.info("Read all notification.");
+        List<Notification> notifications = notificationService.getAllNotification(auth.getName());
+        if(notifications.isEmpty()){
+            logger.warn("There are no notification.");
+            return new ResponseEntity<>(new CustomErrorType("Không có thông báo mới."), HttpStatus.OK);
+        }
+        notifications.stream().forEach(ntf -> {
+            if(ntf.getStatus() == 0) {
+                ntf.setStatus(1);
+                notificationService.update(ntf.getId());
+            }
+        });
+        return new ResponseEntity<>(new CustomErrorType(true,"Đánh dấu tất cả là đã đọc."), HttpStatus.OK);
     }//view all posts
 }
