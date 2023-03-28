@@ -29,4 +29,9 @@ public class NotificationServiceImpl implements NotificationService {
     public Optional<Notification> getNotificationById(int ntfId) {
         return notificationRepository.findById(ntfId);
     }
+
+    @Override
+    public void updateNotification(Notification notification) {
+        notificationRepository.saveAndFlush(notification);
+    }
 }
