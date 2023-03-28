@@ -1,5 +1,7 @@
 package com.sb.brothers.capstone.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
@@ -16,9 +18,11 @@ public class Payment implements Serializable {
 	private int id;
 	private String content;
 	private Date createdDate;
-	private Date modifiedDate;
-	private int status;
-	private double transferAmount;
+	//@JsonIgnore
+	//rivate Date modifiedDate;
+	@JsonIgnore
+	//private int status;
+	private int transferAmount;
 	private User manager;
 	private User user;
 
@@ -56,7 +60,7 @@ public class Payment implements Serializable {
 	}
 
 
-	@Temporal(TemporalType.TIMESTAMP)
+	/*@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="modified_date")
 	public Date getModifiedDate() {
 		return this.modifiedDate;
@@ -73,21 +77,21 @@ public class Payment implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
-	}
+	}*/
 
 
 	@Column(name="transfer_amount")
-	public double getTransferAmount() {
+	public int getTransferAmount() {
 		return this.transferAmount;
 	}
 
-	public void setTransferAmount(double transferAmount) {
+	public void setTransferAmount(int transferAmount) {
 		this.transferAmount = transferAmount;
 	}
 
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	public User getManager() {
 		return this.manager;
 	}
@@ -98,7 +102,7 @@ public class Payment implements Serializable {
 
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	public User getUser() {
 		return this.user;
 	}

@@ -1,6 +1,8 @@
-package com.sb.brothers.capstone.controller.admin;
+package com.sb.brothers.capstone.controller;
 
+import com.sb.brothers.capstone.configuration.jwt.TokenProvider;
 import com.sb.brothers.capstone.dto.BookDTO;
+import com.sb.brothers.capstone.dto.ImageDto;
 import com.sb.brothers.capstone.entities.Book;
 import com.sb.brothers.capstone.entities.Category;
 import com.sb.brothers.capstone.entities.Image;
@@ -15,32 +17,39 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/books")
 @RestController
 public class BookController {
-    //public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/imgs";
+    public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/imgs";
 
     public static final Logger logger = Logger.getLogger(BookController.class);
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    BookService bookService;
+    private BookService bookService;
 
     @Autowired
-    ImageService imageService;
+    private ImageService imageService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     /*@PostMapping("/add")
     public ResponseEntity<?> createNewBook(
@@ -119,8 +128,6 @@ public class BookController {
         logger.info("Creating Book:" + bookDto.getName());
         Book book = new Book();
         bookDto.convertBookDto(book);
-
-        Set<Image> images = new HashSet<>();
         Set<Category> categorySet = new HashSet<>();
 
         for (String catName: bookDto.getCategories()) {
@@ -133,26 +140,17 @@ public class BookController {
         }
         book.setCategories(categorySet);
         book.setUser(userService.getUserById(auth.getName()).get());
-        bookService.updateBook(book);
-        try {
-            for (String img : bookDto.getImgs()) {
-                Image image = new Image();
-                image.setBook(book);
-                image.setLink(img);
-                imageService.update(image);
-                images.add(image);
-            }
-        }catch (Exception e){
-            logger.warn("Image is empty.");
+        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN")){
+            book.setInStock(book.getQuantity());
+            book.setQuantity(0);
         }
-        book.setImages(images);
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.convertBook(book);
+        bookService.updateBook(book);
+        addImages(bookDto, book);
         logger.info("Create new book - Success!");
         return new ResponseEntity(new CustomErrorType(true, "Create book - SUCCESS"), HttpStatus.CREATED);
     }//form add new book > do add
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteUser(Authentication auth, @PathVariable("id") int id){
         logger.info("Fetching & Deleting book with id" + id);
@@ -218,6 +216,7 @@ public class BookController {
         logger.info("Fetching & Updating Book with id: "+ bookDto.getId());
         try {
             bookService.updateBook(currBook);
+            addImages(bookDto, currBook);
         }catch (Exception e){
             logger.error("Book with id:"+ bookDto.getId() +" found but Unable to update.");
             return new ResponseEntity(new CustomErrorType("Book with id:"+ bookDto.getId() +" found but Unable to update."),
@@ -241,4 +240,29 @@ public class BookController {
         img.setBook(book);
         return img;
     }*/
+
+
+    void addImages(BookDTO bookDto, Book currBook){
+        try {
+            for (ImageDto img : bookDto.getImgs()) {
+                Image image = new Image();
+                try {
+                    byte[] decodedBytes = Base64.getDecoder().decode(img.getData());
+                    Date d = new Date();
+                    String link[] = img.getFileName().split("\\.");
+                    uploadDir = new File(".").getCanonicalPath() + "/images";
+                    Path fileNameAndPath = Paths.get(uploadDir, ( d.getTime() +"." + link[link.length - 1]));
+                    Files.write(fileNameAndPath, decodedBytes);
+                    image.setBook(currBook);
+                    image.setLink("/images/"+(d.getTime() +"." + link[link.length - 1]));
+                    imageService.update(image);
+                }
+                catch (Exception e){
+                    logger.error("File or path not exists.");
+                }
+            }
+        }catch (Exception e){
+            logger.warn("Image is empty.");
+        }
+    }
 }

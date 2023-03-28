@@ -18,9 +18,9 @@ public class Order implements Serializable {
 	private int id;
 	private Date borrowedDate;
 	private String description;
-	private int discount;
+	//private int status;
 	private Date returnDate;
-	private double totalPrice;
+	private int totalPrice;
 	private Post post;
 	private User user;
 
@@ -59,14 +59,22 @@ public class Order implements Serializable {
 	}
 
 
-	public int getDiscount() {
+	/*public int getDiscount() {
 		return this.discount;
 	}
 
 	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
+*/
+/*
+	public int getStatus() {
+		return status;
+	}
 
+	public void setStatus(int status) {
+		this.status = status;
+	}*/
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="return_date")
@@ -80,17 +88,17 @@ public class Order implements Serializable {
 
 
 	@Column(name="total_price")
-	public double getTotalPrice() {
+	public int getTotalPrice() {
 		return this.totalPrice;
 	}
 
-	public void setTotalPrice(double totalPrice) {
+	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
 
 	//bi-directional many-to-one association to Post
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	public Post getPost() {
 		return this.post;
 	}
@@ -101,7 +109,7 @@ public class Order implements Serializable {
 
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	public User getUser() {
 		return this.user;
 	}

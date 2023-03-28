@@ -32,6 +32,7 @@ public class ManagerPost implements Serializable {
 	}
 
 	@Lob
+	@Column(name = "content", nullable = true, length = 512)
 	public String getContent() {
 		return this.content;
 	}

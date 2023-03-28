@@ -24,10 +24,13 @@ public class Book implements Serializable {
 	private String description;
 	private Integer publishYear;
 	private String name;
-	private double price;
+	private int price;
 	private int quantity;
+	private int inStock;
+	private int percent;
 	private Set<Image> images;
 	private Set<Category> categories;
+	private Set<PostDetail> postDetails;
 	private User user;
 
 	public Book() {
@@ -63,7 +66,8 @@ public class Book implements Serializable {
 		this.publisher = publisher;
 	}
 
-	@Column(name = "description", nullable = true, length = -1)
+	@Lob
+	@Column(name = "description", nullable = true, length = 512)
 	public String getDescription() {
 		return this.description;
 	}
@@ -92,11 +96,11 @@ public class Book implements Serializable {
 	}
 
 
-	public double getPrice() {
+	public int getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -110,7 +114,7 @@ public class Book implements Serializable {
 	}
 
 	//bi-directional many-to-one association to Image
-	@OneToMany(mappedBy="book", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="book", fetch = FetchType.EAGER)
 	public Set<Image> getImages() {
 		return this.images;
 	}
@@ -133,8 +137,16 @@ public class Book implements Serializable {
 		return image;
 	}
 
+	public int getPercent() {
+		return percent;
+	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	public void setPercent(int percent) {
+		this.percent = percent;
+	}
+
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name="book_category"
 			, joinColumns={
@@ -153,12 +165,60 @@ public class Book implements Serializable {
 		this.categories = categories;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	//bi-directional many-to-one association to Image
+	@OneToMany(mappedBy="book", fetch = FetchType.EAGER)
+	public Set<PostDetail> getPostDetails() {
+		return this.postDetails;
+	}
+
+	public void setPostDetails(Set<PostDetail> postDetails) {
+		this.postDetails = postDetails;
+	}
+
+	public PostDetail addPostDetail(PostDetail postDetail) {
+		getPostDetails().add(postDetail);
+		postDetail.setBook(this);
+
+		return postDetail;
+	}
+
+	public PostDetail removePostDetail(PostDetail postDetail) {
+		getPostDetails().remove(postDetail);
+		postDetail.setBook(null);
+
+		return postDetail;
+	}
+
+	@Column(name = "in_stock", columnDefinition = "integer default 0")
+	public int getInStock() {
+		return inStock;
+	}
+
+	public void setInStock(int inStock) {
+		this.inStock = inStock;
+	}
+
+	public Book(Book book) {
+		this.author = book.getAuthor();
+		this.publisher = book.getPublisher();
+		this.description = book.getDescription() + "[Ký gửi]";
+		this.publishYear = book.getPublishYear();
+		this.name = book.getName();
+		this.price = book.getPrice();
+		this.quantity = book.getQuantity();
+		this.inStock = book.getInStock();
+		this.percent = book.getPercent();
+		this.images = book.getImages();
+		this.categories = book.getCategories();
+		this.user = book.getUser();
 	}
 }
