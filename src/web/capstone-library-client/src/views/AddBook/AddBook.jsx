@@ -45,11 +45,13 @@ export default function AddBook() {
     resetField("name");
   };
   const [listCategories, setListCategories] = useState([]);
+  const [cate, setCate] = useState("chinhtri_phapluat");
 
   const handleChangeSelect = (event) => {
     let cateSelected = categories.filter(
       (cate) => cate.nameCode === event.target.value
     )[0];
+    setCate(event.target.value);
     if (!listCategories.find((lc) => lc.nameCode === cateSelected.nameCode)) {
       setListCategories([...listCategories, cateSelected]);
     }
@@ -80,8 +82,8 @@ export default function AddBook() {
       let data = await toBase64(file);
       // console.log(data);
       // console.log("img" + index);
-      data = data.split(',')[1];
-      imgArr.push({fileName: file.name, data});
+      data = data.split(",")[1];
+      imgArr.push({ fileName: file.name, data });
     });
     setImgs(imgArr);
     const imagesArray = selectedFilesArray.map((file) => {
@@ -186,6 +188,7 @@ export default function AddBook() {
                       rows={3}
                       variant="filled"
                       fullWidth
+                      {...register("description")}
                     />
                   </div>
                   <div className="form-group mb-0">
@@ -210,8 +213,9 @@ export default function AddBook() {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value="chinhtri_phapluat"
+                    value={cate}
                     name="categories"
+                    label="Thể loại"
                     onChange={handleChangeSelect}
                   >
                     {categories &&
@@ -267,8 +271,10 @@ export default function AddBook() {
                     selectedImages.map((image, index) => {
                       return (
                         <div key={index} className="image">
-                          <div style={{margin: '0 auto', width: 'fit-content'}}>
-                          <img src={image} height="200" alt="upload" />
+                          <div
+                            style={{ margin: "0 auto", width: "fit-content" }}
+                          >
+                            <img src={image} height="200" alt="upload" />
                           </div>
                           <button
                             onClick={() =>

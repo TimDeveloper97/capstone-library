@@ -1,20 +1,77 @@
-import { faCheck, faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faEllipsis,
+  faEllipsisVertical,
+  faFileInvoiceDollar,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
-import { getOrderStatus } from "../../apis/order";
+import { useNavigate } from "react-router-dom";
+import {
+  bookReturn,
+  confirmOrder,
+  denyOrder,
+  getOrderStatus,
+  receivedOrder,
+} from "../../apis/order";
 import Loading from "../../components/Loading/Loading";
+import { getColorStatus } from "../../helper/helpFunction";
 
 export default function OrderStatus() {
   const [listOrderStatus, setlistOrderStatus] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrderStatus = async () => {
       const { data } = await getOrderStatus();
-      setlistOrderStatus(data.value);
+      setlistOrderStatus(
+        data.value.map((val) => {
+          return {
+            ...val,
+            statusColor: getColorStatus(val.status),
+          };
+        })
+      );
     };
     fetchOrderStatus();
   }, []);
 
+  // const [status, setStatus] = useState();
+
+  // useEffect(() => {
+  //   listOrderStatus.forEach
+  // }, [listOrderStatus])
+
+  const handleConfirmOrder = async (e, id) => {
+    e.preventDefault();
+    await confirmOrder(id);
+    navigate(0);
+  };
+
+  const handleDenyOrder = async (e, id) => {
+    e.preventDefault();
+    await denyOrder(id);
+    navigate(0);
+  };
+
+  const handleReceivedOrder = async (e, id) => {
+    e.preventDefault();
+    await receivedOrder(id);
+    navigate(0);
+  };
+
+  const handleBookReturn = async (e, id) => {
+    e.preventDefault();
+    await bookReturn(id);
+    navigate(0);
+  };
+
+  const convertToDay = (input) => {
+    const day = new Date(input);
+    return moment(day).format("D/MM/YYYY");
+  };
   return listOrderStatus ? (
     <>
       <section className="hero-area bg-white shadow-sm pt-80px pb-80px">
@@ -37,37 +94,97 @@ export default function OrderStatus() {
           <div className="row">
             {listOrderStatus.map((los, index) => {
               return (
-                <div key={index} className="col-md-5 cart cart-item">
-                  <div className="cart-body cart-order">
-                    <div className="day-display">
-                      <p>{los.borrowedDate}</p>
-                      <p>{los.noDays}</p>
-                      <p>{los.borrowedDate}</p>
-                    </div>
-                    <div className="item-body">
-                      <p>{los.userId}</p>
-                      <p>{los.totalPrice}</p>
-                      <p>"Đã thanh toán"</p>
-                    </div>
-                    <div className="button-action">
-                      <div className="tooltip-action">
-                        <button>
-                          <FontAwesomeIcon icon={faCheck} /> Chấp thuận
-                        </button>
-                        <button>
-                          <FontAwesomeIcon icon={faCheck} />Từ chối
-                        </button>
+                <div
+                  className="col-md-4 col-sm-12 col-xs-12"
+                  key={index}
+                  style={{ padding: "10px 20px" }}
+                >
+                  <div className="card card-item">
+                    <div className="card-body card-order">
+                      <div className="day-display">
+                        <p>{convertToDay(los.borrowedDate)}</p>
+                        <p style={{ margin: "15px 0" }}>{los.noDays} ngày</p>
+                        <p style={{ color: "red" }}>
+                          {convertToDay(
+                            +los.borrowedDate + 1000 * 60 * 60 * 24 * los.noDays
+                          )}
+                        </p>
                       </div>
-                      <span>
-                        <FontAwesomeIcon icon={faPen} />
-                      </span>
+                      <div className="item-body">
+                        <p style={{ fontWeight: "500", fontSize: "1.25rem" }}>
+                          {los.userId}
+                        </p>
+                        <p style={{ marginBottom: "10px" }}>
+                          <FontAwesomeIcon
+                            icon={faFileInvoiceDollar}
+                            color={"#7AA874"}
+                          />{" "}
+                          Tổng tiền: {los.totalPrice} VNĐ
+                        </p>
+                        <span
+                          className="order-status"
+                          style={{ backgroundColor: los.statusColor.color }}
+                        >
+                          {los.statusColor.state}
+                        </span>
+                      </div>
+                      {los.status === 2 ? null : los.status === 32 ? (
+                        <div className="button-action">
+                          <div className="tooltip-action">
+                            <button
+                              className="btn btn-success"
+                              onClick={(e) => handleConfirmOrder(e, los.id)}
+                            >
+                              <FontAwesomeIcon icon={faCheck} /> Chấp thuận
+                            </button>
+                            <button
+                              className="btn btn-danger"
+                              onClick={(e) => handleDenyOrder(e, los.id)}
+                            >
+                              <FontAwesomeIcon icon={faCheck} />
+                              Từ chối
+                            </button>
+                          </div>
+                          <span>
+                            <FontAwesomeIcon icon={faEllipsisVertical} />
+                          </span>
+                        </div>
+                      ) : los.status === 64 ? (
+                        <div className="button-action">
+                          <div className="tooltip-action">
+                            <button
+                              className="btn btn-success"
+                              onClick={(e) => handleReceivedOrder(e, los.id)}
+                            >
+                              <FontAwesomeIcon icon={faCheck} /> Xác nhận
+                            </button>
+                          </div>
+                          <span>
+                            <FontAwesomeIcon icon={faEllipsisVertical} />
+                          </span>
+                        </div>
+                      ) : los.status === 128 ? (
+                        <div className="button-action">
+                          <div className="tooltip-action">
+                            <button
+                              className="btn btn-success"
+                              onClick={(e) => handleBookReturn(e, los.id)}
+                            >
+                              <FontAwesomeIcon icon={faCheck} /> Xác nhận
+                            </button>
+                          </div>
+                          <span>
+                            <FontAwesomeIcon icon={faEllipsisVertical} />
+                          </span>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
               );
             })}
           </div>
-          <form action="#" className="cart-form mb-50px table-responsive px-2">
+          {/* <form action="#" className="cart-form mb-50px table-responsive px-2">
             <table className="table generic-table table-center">
               <thead>
                 <tr className="table-header">
@@ -98,7 +215,7 @@ export default function OrderStatus() {
                 })}
               </tbody>
             </table>
-          </form>
+          </form> */}
         </div>
       </section>
     </>
