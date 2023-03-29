@@ -14,19 +14,28 @@ import javax.validation.constraints.NotNull;
 public class PostDetail implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private Book book;
 	private Post post;
-	private boolean sublet;
-	private double fee;
+	private int sublet;
 	private int quantity;
 
 	public PostDetail() {
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	//bi-directional many-to-one association to Book
-	@Id
-	@ManyToOne(fetch=FetchType.LAZY)
+	//@Id
+	@ManyToOne(fetch=FetchType.EAGER)
 	public Book getBook() {
 		return this.book;
 	}
@@ -37,8 +46,8 @@ public class PostDetail implements Serializable {
 
 
 	//bi-directional many-to-one association to Order
-	@Id
-	@ManyToOne(fetch=FetchType.LAZY)
+	//@Id
+	@ManyToOne(fetch=FetchType.EAGER)
 	@NotNull
 	public Post getPost() {
 		return this.post;
@@ -48,20 +57,12 @@ public class PostDetail implements Serializable {
 		this.post = post;
 	}
 
-	public boolean isSublet() {
+	public int getSublet() {
 		return sublet;
 	}
 
-	public void setSublet(boolean sublet) {
+	public void setSublet(int sublet) {
 		this.sublet = sublet;
-	}
-
-	public double getFee() {
-		return fee;
-	}
-
-	public void setFee(double fee) {
-		this.fee = fee;
 	}
 
 	@Column(name="quantity", columnDefinition = "integer default 1")

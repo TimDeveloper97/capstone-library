@@ -1,4 +1,4 @@
-package com.sb.brothers.capstone.controller.admin;
+package com.sb.brothers.capstone.controller;
 
 import com.sb.brothers.capstone.dto.UserDTO;
 import com.sb.brothers.capstone.entities.Role;

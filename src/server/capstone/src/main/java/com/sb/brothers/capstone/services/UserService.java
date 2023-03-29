@@ -18,4 +18,6 @@ public interface UserService {
     Optional<User> getUserByEmailAndId(String email, String id);
     void changePassword(String id, String newPass);
     void updateProfile(String id, String address, String email, String firstName, String lastName, Date modifiedDate, String phone);
+    Optional<String> getUserByPostId(int id);
+    void updateBalance(String id,int balance);
 }

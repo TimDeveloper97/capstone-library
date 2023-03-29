@@ -17,8 +17,9 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -84,15 +85,9 @@ public class UnauthenticatedUserAPI {
             logger.warn("Author's books:"+ bookDto.getName()+" could not be found");
             return new ResponseEntity(new CustomErrorType("The books of Author:"+ bookDto.getName()+" could not be found"), HttpStatus.NOT_FOUND);
         }
-        Set<BookDTO> bookDTOS = new HashSet<BookDTO>();
-        for (Book book : books){
-            book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
-            BookDTO bDto = new BookDTO();
-            bDto.convertBook(book);
-            bookDTOS.add(bDto);
-        }
+        List<BookDTO> bookDTOS = bookDto.convertAllBooks(books);
         logger.info("Return all books of author:" + bookDto.getName() +" - SUCCESS.");
-        return new ResponseEntity<>(new ResData<Set<BookDTO>>(0, bookDTOS), HttpStatus.OK);
+        return new ResponseEntity<>(new ResData<List<BookDTO>>(0, bookDTOS), HttpStatus.OK);
     }//view all books by author
 
     //books session
@@ -103,7 +98,7 @@ public class UnauthenticatedUserAPI {
         if(dataDto.getValue() == "")
             books = bookService.getAllBook().stream().collect(Collectors.toSet());
         else
-            books = bookService.searchBookByPostLocation("%" + dataDto.getValue() + "%");
+            books = bookService.searchBookByPostLocation(dataDto.getValue());
         if(books.isEmpty()){
             logger.warn("Books with poster's location: "+ dataDto.getValue()+" could not be found");
             return new ResponseEntity(new CustomErrorType("Books with poster's location: "+ dataDto.getValue()+" could not be found"), HttpStatus.NOT_FOUND);
@@ -119,24 +114,33 @@ public class UnauthenticatedUserAPI {
         return new ResponseEntity<>(new ResData<Set<BookDTO>>(0, bookDTOS), HttpStatus.OK);
     }//view all books with location
 
-    //@TODO
-    //suggest
+    //books session
+    @GetMapping("/books/suggest")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> suggestBook(Authentication auth){
+        logger.info("Return all suggest books for user: " + auth.getName());
+        Set<Book> books = bookService.searchBySuggest(auth.getName());
+        if(books == null){
+            books = bookService.getAllBook().stream().collect(Collectors.toSet());
+        }
+        if(books.isEmpty()){
+            logger.warn("Books with poster's location: "+ auth.getName()+" could not be found");
+            return new ResponseEntity(new CustomErrorType("Books with poster's location: "+ auth.getName()+" could not be found"), HttpStatus.NOT_FOUND);
+        }
+        List<BookDTO> bookDTOS = BookDTO.convertAllBooks(books);
+        logger.info("Return all books with poster's location: "+ auth.getName() +" - SUCCESS.");
+        return new ResponseEntity<>(new ResData<List<BookDTO>>(0, bookDTOS), HttpStatus.OK);
+    }//view all books with location
 
     //books session
     @GetMapping("/books")
     public ResponseEntity<?> getAllBooks(){
         logger.info("Return all books");
         List<Book> books = bookService.getAllBook();
-        List<BookDTO> bookDTOS = new ArrayList<>();
-        for (Book book : books){
-            book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.convertBook(book);
-            bookDTOS.add(bookDTO);
-        }
+        List<BookDTO> bookDTOS = new BookDTO().convertAllBooks(books.stream().collect(Collectors.toSet()));
         if(books.isEmpty()){
-            logger.warn("no content");
-            return new ResponseEntity(new CustomErrorType("No content."), HttpStatus.NOT_FOUND);
+            logger.warn("The list of books is empty.");
+            return new ResponseEntity(new CustomErrorType("The list of books is empty."), HttpStatus.OK);
         }
         logger.info("Return all books - SUCCESS.");
         return new ResponseEntity<>(new ResData<List<BookDTO>>(0, bookDTOS), HttpStatus.OK);

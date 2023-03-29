@@ -35,8 +35,11 @@ namespace xfLibrary.ViewModels
                 parameterPost = Uri.UnescapeDataString(value ?? string.Empty);
                 SetProperty(ref parameterPost, value);
 
-                NewPost = Newtonsoft.Json.JsonConvert.DeserializeObject<Post>(parameterPost);
-                isUpdate = true;
+                if(!string.IsNullOrEmpty(parameterPost))
+                {
+                    NewPost = Newtonsoft.Json.JsonConvert.DeserializeObject<Post>(parameterPost);
+                    isUpdate = true;
+                }    
             }
         }
         #endregion
