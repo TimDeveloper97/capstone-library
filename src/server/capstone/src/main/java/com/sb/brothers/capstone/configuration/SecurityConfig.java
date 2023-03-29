@@ -128,12 +128,12 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web)-> web.ignoring().antMatchers("/resources/**",
+        return (web)-> web.ignoring().antMatchers(/*"/resources/**",
                 "/templates/**",
-                "/static/**",
-                "/images/**",
-                "/productImages/**",
+                "/static/**",*/
+                "/images/**"
+                /*"/productImages/**",
                 "/css/**",
-                "/js/**");
+                "/js/**"*/);
     }//bo qua authen cac package nay
 }

@@ -39,7 +39,7 @@ public class CartController {
     public ResponseEntity<?> cartGet(Authentication auth){
         List<PostDto> list = GlobalData.cart.get(auth.getName());
         if(list == null || list.isEmpty()){
-            return new ResponseEntity<>(new CustomErrorType("Cart of user with id:" + auth.getName() +" is empty."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Giỏ hàng trống."), HttpStatus.OK);
         }
         return new ResponseEntity<>(new ResData<List<PostDto>>(0,list), HttpStatus.OK);
     }//page cart
@@ -53,12 +53,12 @@ public class CartController {
         PostDto postDto = new PostDto();
         Post post = postService.getPostById(postId).get();
         if(post == null || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED){
-            return new ResponseEntity(new CustomErrorType("Post with id:" + postId + " not found."), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy bài đăng có mã: " + postId), HttpStatus.OK);
         }
         postDto.convertPost(post);
         list.add(postDto);
         GlobalData.cart.put(auth.getName(), list);
-        return new ResponseEntity(new CustomErrorType(true, "Add to cart - SUCCESS."), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Thêm vào giỏ hàng thành công."), HttpStatus.CREATED);
     }//click add from page viewProduct
 
     @DeleteMapping("/cart/remove-item/{postId}")
@@ -70,11 +70,11 @@ public class CartController {
                 GlobalData.cart.get(auth.getName()).removeIf(n -> (n.getId() == postId));
             }catch (Exception ex){
                 logger.error("This item not exists in your cart.");
-                return new ResponseEntity<>(new CustomErrorType("This item not exists in your cart."), HttpStatus.OK);
+                return new ResponseEntity<>(new CustomErrorType("Sản phẩm không có trong giỏ hàng."), HttpStatus.OK);
             }
-            return new ResponseEntity(new CustomErrorType(true, "Remove item - SUCCESS."), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType(true, "Xóa sản phần khỏi thành công."), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new CustomErrorType("No item in your cart."), HttpStatus.OK);
+        return new ResponseEntity<>(new CustomErrorType("Giỏ hàng trống."), HttpStatus.OK);
     } // delete 1 product
 
     //Get All Order session
@@ -92,11 +92,11 @@ public class CartController {
             }
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
-            return new ResponseEntity<>(new CustomErrorType("Get all posts with exception. No content to return."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:"+ex.getMessage() +".\nNguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
         if(orders.isEmpty()){
             logger.warn("There are no orders.");
-            return new ResponseEntity<>(new CustomErrorType("There are no posts."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Không có đơn hàng nào."), HttpStatus.OK);
         }
         return new ResponseEntity<>(new ResData<>(0, orderDtos), HttpStatus.OK);
     }//view all posts

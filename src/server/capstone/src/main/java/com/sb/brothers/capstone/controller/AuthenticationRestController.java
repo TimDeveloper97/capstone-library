@@ -53,7 +53,7 @@ public class AuthenticationRestController {
       try {
          authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
       }catch (BadCredentialsException ex){
-         return new ResponseEntity(new CustomErrorType("Username or password not correct."), HttpStatus.NOT_FOUND);
+         return new ResponseEntity(new CustomErrorType("Tài khoản hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại."), HttpStatus.OK);
       }
       GlobalData.mapCurrPass.put(loginDto.getUsername(), loginDto.getPassword());
       SecurityContextHolder.getContext().setAuthentication(authentication);

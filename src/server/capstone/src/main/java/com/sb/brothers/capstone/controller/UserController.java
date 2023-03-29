@@ -43,7 +43,7 @@ public class UserController {
         List<User> users = userService.findAllUsers();
         if(users.isEmpty()){
             logger.warn("no content");
-            return new ResponseEntity(new CustomErrorType("Unable to get All users. Empty Users data"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Không có bất kỳ người dùng nào."), HttpStatus.OK);
         }
         for (User user : users){
             user.lazyLoad();
@@ -59,8 +59,7 @@ public class UserController {
         logger.info("Return the single user");
         if(!userService.isUserExist(id)){
             logger.error("User with id: " + id + " not found.");
-            return new ResponseEntity(new CustomErrorType("Unable to get. A User with id:"
-                    + id +" not exist."),HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy người dùng có mã:" + id),HttpStatus.OK);
         }
         User user = userService.getUserById(id).get();
         user.lazyLoad();
@@ -77,7 +76,7 @@ public class UserController {
         model.addAttribute("roles",roleService.getAllRole());
         return new ResponseEntity<UserDTO>(new UserDTO(), HttpStatus.CREATED);
     }*/
-
+/*
     @PostMapping("/add")
     public ResponseEntity<?> postUserAdd(@RequestBody UserDTO userDTO) {
         //convert dto > entity
@@ -107,22 +106,23 @@ public class UserController {
         userService.updateUser(user);
         logger.info("Create new user - Success!");
         return new ResponseEntity(new CustomErrorType(true, "Create new user - Success"), HttpStatus.CREATED);
-    }
-    @DeleteMapping("/delete/{id}")
+    }*/
+
+    /*@DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") String id, UriComponentsBuilder ucBuilder){
         logger.info("Fetching & Deleting user with id" + id);
         if(!userService.isUserExist(id)){
             logger.error("User with id:"+ id +" not found. Unable to delete.");
-            return new ResponseEntity(new CustomErrorType("User with id:"+ id +" not found. Unable to delete."),
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy người dùng có mã:" + id),
+                    HttpStatus.OK);
         }
         userService.removeUserById(id);
         logger.info("Delete user - Success!");
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/admin/users").build().toUri());
-        return new ResponseEntity<User>(headers, HttpStatus.NO_CONTENT);
-    }//delete 1 user
-
+        return new ResponseEntity<User>(headers, HttpStatus.OK);
+    }//delete 1 user*/
+/*
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody User user, Model model){
         User currUser = userService.getUserById(id).get();
@@ -145,5 +145,5 @@ public class UserController {
         logger.info("Update user - Success");
         return new ResponseEntity<User>(currUser, HttpStatus.OK);
 
-    }
+    }*/
 }

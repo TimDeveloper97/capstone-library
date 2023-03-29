@@ -12,4 +12,6 @@ public interface NotificationService {
     List<Notification> getAllNotification(String userId);
     void update(int id);
     Optional<Notification> getNotificationById(int ntfId);
+
+    void updateNotification(Notification notification);
 }
