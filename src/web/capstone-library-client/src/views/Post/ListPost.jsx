@@ -33,7 +33,7 @@ export default function ListPost({posts}) {
                     className="col-md-3 col-lg-3 col-xl-3 book-item"
                     key={index}
                   >
-                    <div id="product-1" className="single-product">
+                    <div id="product-1" className="single-product card card-item">
                       <div className="part-1">
                         <img src={getOneImg(item)} alt="thumbnail" />
                       </div>

@@ -33,10 +33,9 @@ export default function Notification() {
     const getNotice = async () => {
       const { data } = await getNotification();
       // console.log(data.value);
-      // const temp = data.value.sort((a, b) => b.id - a.id);
-
+      // const temp = data.value.sort((a, b) => b.id - a.id).slice();
       // console.log(temp);
-      setListNotice(data.value.sort((a, b) => a.createdDate - b.createdDate));
+      setListNotice(data.value.sort((a, b) => b.id - a.id).slice());
     };
     getNotice();
   }, []);
@@ -49,8 +48,8 @@ export default function Notification() {
     const getNotice = async () => {
       const { data } = await getNotification();
       isAllNotice
-        ? setListNotice(data.value)
-        : setListNotice(data.value.filter((val) => val.status === 0));
+        ? setListNotice(data.value.sort((a, b) => b.id - a.id).slice())
+        : setListNotice(data.value.filter((val) => val.status === 0).sort((a, b) => b.id - a.id).slice());
     };
     getNotice();
   }, [isAllNotice]);

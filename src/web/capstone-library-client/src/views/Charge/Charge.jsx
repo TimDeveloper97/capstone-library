@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getRecharge } from "../../apis/order";
 import Loading from "../../components/Loading/Loading";
 
 export default function Charge() {
   const [listCharge, setListCharge] = useState();
+
+  useEffect(() => {
+    const getCharge = async () => {
+      const {data} = await getRecharge();
+      setListCharge(data.value);
+    }
+    getCharge();
+  }, []);
   return listCharge ? (
     <>
       <section className="hero-area bg-white shadow-sm pt-80px pb-80px">
@@ -22,7 +31,9 @@ export default function Charge() {
       </section>
       <section className="cart-area pt-80px pb-80px position-relative">
         <div className="container">
-          <div className="row"></div>
+          <div className="row">
+            
+          </div>
         </div>
       </section>
     </>

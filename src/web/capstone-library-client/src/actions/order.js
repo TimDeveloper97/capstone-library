@@ -19,6 +19,7 @@ export const removeOrder = (id) => async (dispatch) => {
 };
 
 export const checkout = (data) => async (dispatch) => {
+  console.log(data);
   const response = await api.checkout(data);
   return response.data;
 };

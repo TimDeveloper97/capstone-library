@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { orderBook } from "../../actions/order";
+import { checkout, orderBook } from "../../actions/order";
 import { getPostById } from "../../apis/post";
 import Carousel from "../../components/Carousel/Carousel";
 import Loading from "../../components/Loading/Loading";
@@ -56,6 +56,17 @@ export default function DetailPost() {
         NotificationManager.error(response.message, "Lỗi", 2000);
     }
   }
+
+  const handleRentNow = async () => {
+    const response = await dispatch(checkout({orders: [{id: currentPost.id}]}));
+    console.log(response);
+    if(response.success){
+        NotificationManager.success(response.message, "Thông báo", 2000);
+    }else{
+        NotificationManager.error(response.message, "Lỗi", 2000);
+    }
+  }
+
   return currentPost ? (
     <section className="question-area pb-40px">
         <NotificationContainer />
@@ -144,7 +155,7 @@ export default function DetailPost() {
                                 <FontAwesomeIcon icon={faCartPlus} />  {"  "}
                                   Thêm vào giỏ
                                 </button>
-                                <button className="btn btn-info">
+                                <button className="btn btn-info" onClick={() => handleRentNow()}>
                                     <FontAwesomeIcon icon={faBagShopping} />  {"  "}
                                     Thuê ngay
                                 </button>

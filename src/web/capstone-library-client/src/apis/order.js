@@ -19,3 +19,5 @@ export const denyOrder = (id) => axiosIntance.put(`/order/cancellation/${id}`);
 export const receivedOrder = (id) => axiosIntance.put(`/order/received/${id}`);
 
 export const bookReturn = (id) => axiosIntance.put(`/order/book-returns/${id}`);
+
+export const getRecharge = () => axiosIntance.get("/api/recharge");
