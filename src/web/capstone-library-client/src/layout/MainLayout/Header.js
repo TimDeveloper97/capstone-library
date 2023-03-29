@@ -11,9 +11,9 @@ import "./header.css";
 export default function Header() {
   const dispatch = useDispatch();
   const [roleAdmin, setRoleAdmin] = useState(false);
+  const curUser = JSON.parse(window.localStorage.getItem("user"));
   useEffect(() => {
-    const curUser = JSON.parse(window.localStorage.getItem("user"));
-    dispatch(getUser(curUser));
+    dispatch(getUser(curUser.id));
     setRoleAdmin(curUser?.roles[0] === "ROLE_ADMIN");
   }, []);
 
