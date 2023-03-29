@@ -26,13 +26,13 @@ export default function DetailAccount() {
       {role ? null : (
         <>
           <div className="detail-item">
-            <Link to={"/rentbook"} style={{ color: "#8DCBE6" }}>
+            <Link to={"/user/rent-book"} style={{ color: "#8DCBE6" }}>
               <FontAwesomeIcon icon={faBookOpen} />
               Sách đã thuê
             </Link>
           </div>
           <div className="detail-item">
-            <Link to={"/user/add-post"} style={{ color: "#FAAB78" }}>
+            <Link to={"/user/deposit-book"} style={{ color: "#FAAB78" }}>
               <FontAwesomeIcon icon={faBook} /> Ký gửi sách
             </Link>
           </div>

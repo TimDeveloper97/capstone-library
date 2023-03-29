@@ -74,12 +74,13 @@ export default function AddPost() {
     } else {
       data.address = address;
       data.title = "[Ký gửi]";
+      data.fee = 30;
     }
     const res = await dispatch(
       addPost({
         title: data.title,
         noDays: data.noDays,
-        fee: data.fee,
+        fee: role ? data.fee : 30,
         content: data.content,
         address: data.address,
         postDetailDtos: data.postDetailDtos,
@@ -236,20 +237,34 @@ export default function AddPost() {
                         </span>
                       )}
                     </div>
-                    <div className="col-md-3">
-                      <TextField
-                        id="filled-basic"
-                        label="Phí thuê"
-                        variant="filled"
-                        required
-                        {...register("fee")}
-                      />
-                      {errors.fee && (
-                        <span className="error-message" role="alert">
-                          {errors.fee?.message}
-                        </span>
-                      )}
-                    </div>
+                    {role ? (
+                      <div className="col-md-3">
+                        <TextField
+                          id="filled-basic"
+                          label="Phí thuê"
+                          variant="filled"
+                          required
+                          {...register("fee")}
+                        />
+                        {errors.fee && (
+                          <span className="error-message" role="alert">
+                            {errors.fee?.message}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="col-md-3">
+                        <TextField
+                          id="filled-basic"
+                          label="Phí thuê"
+                          variant="filled"
+                          required
+                          {...register("fee")}
+                          defaultValue={"30%"}
+                          disabled
+                        />
+                      </div>
+                    )}
                     <div className="form-group col-md-3">
                       <TextField
                         id="filled-basic"

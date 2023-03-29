@@ -25,7 +25,7 @@ export default function Header() {
         <div className="row align-items-center">
           <div className="col-lg-2">
             <div className="logo-box">
-              <a href="index.html" className="logo">
+              <a href="/" className="logo">
                 <img src="/images/logoC.png" alt="logo" />
               </a>
               <div className="user-action">
@@ -91,6 +91,12 @@ export default function Header() {
                           <Link to={"/user/order-status"}>
                             Quản lý đơn hàng
                           </Link>
+                        </li>
+                        <li>
+                          <Link to={"/user/post-request"}>Quản lý post</Link>
+                        </li>
+                        <li>
+                          <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
                         </li>
                       </ul>
                     </li>

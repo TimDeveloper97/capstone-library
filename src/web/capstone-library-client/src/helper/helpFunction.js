@@ -14,6 +14,16 @@ const getColorStatus = (status) => {
         color: "#EA5455",
         state: "Từ chối",
       };
+    case 4:
+      return {
+        color: "#F0EB8D",
+        state: "Đợi chấp thuận",
+      };
+    case 16:
+      return {
+        color: "#16FF00",
+        state: "Chấp thuận",
+      };
     case 32:
       return {
         color: "#FC7300",
@@ -54,7 +64,7 @@ const getTimeAgo = (time) => {
   const msPerDay = 3600 * 24 * 1000;
   const msPerHour = 3600 * 1000;
   if (diff < msPerDay) {
-    return `${diff / msPerHour + 1} giờ trước`;
+    return `${Math.ceil(diff / msPerHour)} giờ trước`;
   } else {
     return convertToDay(time);
   }

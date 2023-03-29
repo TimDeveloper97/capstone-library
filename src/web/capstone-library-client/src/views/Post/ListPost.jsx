@@ -15,6 +15,16 @@ export default function ListPost() {
 
   const posts = useSelector((state) => state.post);
 
+  const getOneImg = (post) => {
+    let img = "/images/default_img.jpeg";
+    post.postDetailDtos.forEach((pto) => {
+      if (pto.bookDto.imgs.length > 0) {
+        img = getImgUrl(pto.bookDto.imgs[0].fileName);
+      }
+    });
+    return img;
+  };
+
   return posts ? (
     <>
       <section className="section-products">
@@ -29,7 +39,7 @@ export default function ListPost() {
                   >
                     <div id="product-1" className="single-product">
                       <div className="part-1">
-                        <img src={"/images/default_img.jpeg"} alt="thumbnail" />
+                        <img src={getOneImg(item)} alt="thumbnail" />
                       </div>
                       <div className="part-2">
                         <h3 className="product-title">{item.title}</h3>
@@ -47,8 +57,8 @@ export default function ListPost() {
         </div>
       </section>
       <Stack spacing={2}>
-      <Pagination count={10} color="primary" />
-    </Stack>
+        <Pagination count={10} color="primary" />
+      </Stack>
     </>
   ) : (
     <Loading />

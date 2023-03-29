@@ -184,38 +184,6 @@ export default function OrderStatus() {
               );
             })}
           </div>
-          {/* <form action="#" className="cart-form mb-50px table-responsive px-2">
-            <table className="table generic-table table-center">
-              <thead>
-                <tr className="table-header">
-                  <th scope="colSpan">Khách hàng</th>
-                  <th scope="colSpan">Tổng tiền</th>
-                  <th scope="colSpan">Ngày thuê</th>
-                  <th scope="colSpan">Ngày hết hạn</th>
-                  <th scope="colSpan">Ngày còn lại</th>
-                  <th scope="colSpan">Trạng thái</th>
-                </tr>
-              </thead>
-              <tbody
-                style={{ borderBottom: "1px solid rgba(128, 137, 150, .1)" }}
-              >
-                {listOrderStatus.map((los, index) => {
-                  return (
-                    <tr key={index}>
-                      <th>{los.userId}</th>
-                      <th>{los.totalPrice}</th>
-                      <td>{los.borrowedDate}</td>
-                      <td>{los.borrowedDate}</td>
-                      <td>{los.noDays}</td>
-                      <td>
-                        <span>Đã thanh toán</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </form> */}
         </div>
       </section>
     </>

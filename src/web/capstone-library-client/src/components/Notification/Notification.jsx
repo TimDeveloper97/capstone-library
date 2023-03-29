@@ -13,10 +13,10 @@ import {
   MenuList,
   Paper,
   Popper,
-  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
+  changeAllNotification,
   changeNotificationStatus,
   getNotification,
 } from "../../apis/notification";
@@ -32,7 +32,11 @@ export default function Notification() {
   useEffect(() => {
     const getNotice = async () => {
       const { data } = await getNotification();
-      setListNotice(data.value);
+      // console.log(data.value);
+      // const temp = data.value.sort((a, b) => b.id - a.id);
+
+      // console.log(temp);
+      setListNotice(data.value.sort((a, b) => a.createdDate - b.createdDate));
     };
     getNotice();
   }, []);
@@ -68,7 +72,7 @@ export default function Notification() {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const handleClickReadAll = () => {
     setListNotice((prev) =>
       prev.map((p) => {
@@ -78,6 +82,7 @@ export default function Notification() {
         };
       })
     );
+    changeAllNotification();
   };
 
   const getNumberOfUnreadNotice = (list) => {

@@ -19,32 +19,34 @@ export default function Order() {
   const [listOrder, setListOrder] = useState([]);
 
   useEffect(() => {
-    setListOrder(order.map(ord => {
-      return {
-        id: ord.id,
-        title: ord.title,
-        price: getPriceOfPost(ord),
-        checked: false,
-      }
-    }))
+    setListOrder(
+      order.map((ord) => {
+        return {
+          id: ord.id,
+          title: ord.title,
+          price: getPriceOfPost(ord),
+          checked: false,
+        };
+      })
+    );
   }, [order]);
-  
+
   const getPriceOfPost = (post) => {
     let price = 0;
-    post.postDetailDtos.forEach(pdt => {
+    post.postDetailDtos.forEach((pdt) => {
       price += pdt.bookDto.price * pdt.quantity;
     });
     return post.fee + price;
-  }
+  };
   const removePostInOrder = (id) => {
     dispatch(removeOrder(id));
-  }
+  };
 
   const [sumTotal, setSumTotal] = useState(0);
 
   useEffect(() => {
     let total = 0;
-    listOrder.forEach(l => {
+    listOrder.forEach((l) => {
       l.checked && (total += l.price);
     });
     setSumTotal(total);
@@ -53,50 +55,56 @@ export default function Order() {
 
   const checkSelectAll = () => {
     let check = true;
-    listOrder.forEach(l => {
+    listOrder.forEach((l) => {
       !l.checked && (check = l.checked);
     });
-    if(listOrder.length === 0 || !listOrder){
+    if (listOrder.length === 0 || !listOrder) {
       check = false;
     }
     setCheckAll(check);
-  }
+  };
 
   const [checkAll, setCheckAll] = useState(false);
   const handleCheckAll = () => {
     // listOrder.forEach(l => {
     //   l.checked = !checkAll;
     // });
-    setListOrder(prev => prev.map(l => {
-      return {...l, checked : !checkAll};
-    }));
-    setCheckAll(prev => !prev);
-  }
+    setListOrder((prev) =>
+      prev.map((l) => {
+        return { ...l, checked: !checkAll };
+      })
+    );
+    setCheckAll((prev) => !prev);
+  };
   const handleCheck = (e, ind) => {
-    setListOrder(prev => prev.map((l, index) => {
-      if(index === ind){
-        return {...l, checked: e.target.checked};
-      }else{
-        return l;
-      }
-    }));
-  }
-  const handleCheckout = (e) => {
+    setListOrder((prev) =>
+      prev.map((l, index) => {
+        if (index === ind) {
+          return { ...l, checked: e.target.checked };
+        } else {
+          return l;
+        }
+      })
+    );
+  };
+  const handleCheckout = async (e) => {
     e.preventDefault();
     let orders = [];
-    listOrder.forEach(l => {
-      l.checked && orders.push({id: l.id});
+    listOrder.forEach((l) => {
+      l.checked && orders.push({ id: l.id });
     });
     const balance = JSON.parse(window.localStorage.getItem("user")).balance;
-    if(sumTotal <= balance){
-      dispatch(checkout({orders}));
-      NotificationManager.success("Đặt sách thành công", "Thông báo", 2000);
-    }else{
+    if (sumTotal <= balance) {
+      const res = await dispatch(checkout({ orders }));
+      if (res.status) {
+        NotificationManager.success(res.message, "Thông báo", 2000);
+      } else {
+        NotificationManager.error(res.message, "Lỗi", 2000);
+      }
+    } else {
       NotificationManager.error("Số dư còn lại không đủ", "Lỗi", 2000);
     }
-    
-  }
-  
+  };
 
   return order ? (
     <>
@@ -122,7 +130,10 @@ export default function Order() {
               <thead>
                 <tr className="table-header">
                   <th scope="colSpan" className="check-col">
-                    <Checkbox checked={checkAll} onChange={() => handleCheckAll()} />
+                    <Checkbox
+                      checked={checkAll}
+                      onChange={() => handleCheckAll()}
+                    />
                     Chọn
                   </th>
                   <th scope="colSpan">Post</th>
@@ -133,46 +144,59 @@ export default function Order() {
                 </tr>
               </thead>
               <tbody>
-                {
-                  listOrder.map((post, index) => {
-                    return <tr key={index}>
-                    <th>
-                      <Checkbox checked={post.checked} onChange={(e) => handleCheck(e, index)} />
-                    </th>
-                    <th scope="row">
-                      <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
-                        <a href="#" className="media-img d-block media-img-sm">
-                          <img
-                            src="/images/default_img.jpeg"
-                            alt="Product image"
-                          />
-                        </a>
-                        <div className="media-body">
-                          <h5 className="fs-15 fw-medium">
-                            <a href="#">{post.title}</a>
-                          </h5>
+                {listOrder.map((post, index) => {
+                  return (
+                    <tr key={index}>
+                      <th>
+                        <Checkbox
+                          checked={post.checked}
+                          onChange={(e) => handleCheck(e, index)}
+                        />
+                      </th>
+                      <th scope="row">
+                        <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                          <a
+                            href="#"
+                            className="media-img d-block media-img-sm"
+                          >
+                            <img
+                              src="/images/default_img.jpeg"
+                              alt="Product image"
+                            />
+                          </a>
+                          <div className="media-body">
+                            <h5 className="fs-15 fw-medium">
+                              <a href="#">{post.title}</a>
+                            </h5>
+                          </div>
                         </div>
-                      </div>
-                    </th>
-                    <td>{post.price}</td>
-                    <td>
-                      <button
-                        className="icon-element icon-element-xs shadow-sm"
-                        style={{border: 'none'}}
-                        onClick={() => removePostInOrder(post.id)}
-                      >
-                        <i className="la la-times"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  })
-                }
+                      </th>
+                      <td>{post.price}</td>
+                      <td>
+                        <button
+                          className="icon-element icon-element-xs shadow-sm"
+                          style={{ border: "none" }}
+                          onClick={() => removePostInOrder(post.id)}
+                        >
+                          <i className="la la-times"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
                 <tr>
                   <td colSpan="6">
                     <div className="cart-actions d-flex align-items-center justify-content-between">
-                      <div className="input-group my-2 w-auto">Tổng tiền: {sumTotal} đồng</div>
+                      <div className="input-group my-2 w-auto">
+                        Tổng tiền: {sumTotal} đồng
+                      </div>
                       <div className="flex-grow-1 text-right my-2">
-                        <button className="btn theme-btn" onClick={(e) => handleCheckout(e)}>Thanh toán</button>
+                        <button
+                          className="btn theme-btn"
+                          onClick={(e) => handleCheckout(e)}
+                        >
+                          Thanh toán
+                        </button>
                       </div>
                     </div>
                   </td>

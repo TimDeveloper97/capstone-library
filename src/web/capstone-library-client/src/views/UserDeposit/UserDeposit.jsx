@@ -1,19 +1,18 @@
-import { faCheck, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { acceptPost, denyPost, getPostRequest } from "../../apis/post";
+import { Link } from "react-router-dom";
+import { getPostByUser } from "../../apis/post";
 import Loading from "../../components/Loading/Loading";
 import { getColorStatus } from "../../helper/helpFunction";
 
-export default function PostRequest() {
+export default function UserDeposit() {
   const [listPostRequest, setListPostRequest] = useState([]);
-  const navigate = useNavigate();
-
+  //const navigate = useNavigate();
+  //const user = JSON.parse(window.localStorage.getItem("user"));
   useEffect(() => {
     const getPost = async () => {
-      const { data } = await getPostRequest();
+      const { data } = await getPostByUser();
+      //data.value.filter((val) => val.user === user.id);
       setListPostRequest(
         data.value.map((val) => {
           return {
@@ -26,22 +25,11 @@ export default function PostRequest() {
     getPost();
   }, []);
 
-  const handleAccept = async (e, id) => {
-    e.preventDefault();
-    await acceptPost(id);
-    navigate(0);
-  };
-
-  const handleDeny = async (e, id) => {
-    e.preventDefault();
-    await denyPost(id);
-    navigate(0);
-  };
-
   const convertToDay = (input) => {
     const day = new Date(input);
     return moment(day).format("D/MM/YYYY");
   };
+
   return listPostRequest ? (
     <>
       <section className="hero-area bg-white shadow-sm pt-80px pb-80px">
@@ -55,12 +43,22 @@ export default function PostRequest() {
         <span className="icon-shape icon-shape-7"></span>
         <div className="container">
           <div className="hero-content text-center">
-            <h2 className="section-title pb-3">Danh sách yêu cầu post</h2>
+            <h2 className="section-title pb-3">Danh sách ký gửi</h2>
           </div>
         </div>
       </section>
       <section className="cart-area pt-80px pb-80px position-relative">
         <div className="container">
+          <div
+            className="row"
+            style={{ display: "flex", justifyContent: "flex-end" }}
+          >
+            <div className="col-md-2">
+              <Link to={"/user/add-post"}>
+                <button className="btn btn-success">Ký gửi sách</button>
+              </Link>
+            </div>
+          </div>
           <div className="row">
             {listPostRequest.map((los, index) => {
               return (
@@ -94,28 +92,6 @@ export default function PostRequest() {
                           {los.statusColor.state}
                         </span>
                       </div>
-                      {los.status === 2 ? null : los.status === 4 ? (
-                        <div className="button-action">
-                          <div className="tooltip-action">
-                            <button
-                              className="btn btn-success"
-                              onClick={(e) => handleAccept(e, los.id)}
-                            >
-                              <FontAwesomeIcon icon={faCheck} /> Chấp thuận
-                            </button>
-                            <button
-                              className="btn btn-danger"
-                              onClick={(e) => handleDeny(e, los.id)}
-                            >
-                              <FontAwesomeIcon icon={faCheck} />
-                              Từ chối
-                            </button>
-                          </div>
-                          <span>
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
-                          </span>
-                        </div>
-                      ) : null}
                     </div>
                   </div>
                 </div>
