@@ -45,9 +45,6 @@ public class PostController {
     @Autowired
     private TokenProvider tokenProvider;
 
-    @Autowired
-    private RoleService roleService;
-
     //posts session
     @GetMapping("")
     public ResponseEntity<?> getAllAdminPosts(){
@@ -57,11 +54,12 @@ public class PostController {
             posts = postService.getAllPosts();
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
-            return new ResponseEntity<>(new CustomErrorType("Get all posts with exception. No content to return."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Lấy thông tin tất cả cái bài đăng thất bại. Xảy ra lỗi: "+ex.getMessage()
+            +". \nNguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
-            return new ResponseEntity<>(new CustomErrorType("There are no posts."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Không có bài đăng nào."), HttpStatus.OK);
         }
         return getResponseEntity(posts);
     }//view all posts
@@ -87,11 +85,11 @@ public class PostController {
             posts = postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
-            return new ResponseEntity<>(new CustomErrorType("Get all user posts with exception. No content to return."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +". \nNguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
-            return new ResponseEntity<>(new CustomErrorType("There are no posts."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Không có bài ký gửi nào."), HttpStatus.OK);
         }
         return getResponseEntity(posts);
     }//view all posts
@@ -106,11 +104,11 @@ public class PostController {
             posts = postService.getAllPostHasBookId(bookId);
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
-            return new ResponseEntity<>(new CustomErrorType("Get all posts has book id with exception. No content to return."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +". \nNguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
-            return new ResponseEntity<>(new CustomErrorType("There are no posts."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Không có bài đăng nào có chứa cuốn sách này."), HttpStatus.OK);
         }
         return getResponseEntity(posts);
     }//view all posts
@@ -123,11 +121,11 @@ public class PostController {
             posts = postService.getAllPostsByUserId(auth.getName());
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
-            return new ResponseEntity(new CustomErrorType("Exception: " + ex.getMessage()+".\n" + ex.getCause()), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage()+".\nNguyên nhân: " + ex.getCause()), HttpStatus.CONFLICT);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
-            return new ResponseEntity<>(new CustomErrorType("User has no posts."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Bạn không đăng bất kỳ bài viết nào."), HttpStatus.OK);
         }
         return getResponseEntity(posts);
     }
@@ -137,19 +135,18 @@ public class PostController {
         logger.info("Return the single post");
         if(!postService.isPostExist(id)){
             logger.error("Post with id: " + id + " not found.");
-            return new ResponseEntity(new CustomErrorType("Unable to get. A Post with id:"
-                    + id +" not exist."),HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType("Lấy thông tin bài đăng thất bại. Bài đăng không tồn tại."),HttpStatus.OK);
         }
         Post post = null;
         try{
             post = postService.getPostById(id).get();
             String user = userService.getUserByPostId(id).get();
             if(post.getStatus() != CustomStatus.ADMIN_POST && !user.equals(auth.getName())){
-                throw new Exception("User is not user posted.");
+                throw new Exception("Bạn không phải người đăng bài ký gửi.");
             }
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage());
-            return new ResponseEntity(new CustomErrorType("Exception: " + ex.getMessage()), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +".\nNguyên nhân: "+ ex.getCause()), HttpStatus.CONFLICT);
         }
         PostDto postDto = new PostDto();
         postDto.convertPost(post);
@@ -163,10 +160,11 @@ public class PostController {
         if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN"))
             postDto.setStatus(CustomStatus.ADMIN_POST);
         else postDto.setStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
+        Post p = null;
         try{
             User user = userService.getUserById(auth.getName()).get();
             if((user.getStatus()&CustomStatus.BLOCK_POST) == 0){
-                Post p = new Post();
+                p = new Post();
                 postDto.convertPostDto(p);
                 p.setUser(user);
                 p.setCreatedDate(new Date());
@@ -175,15 +173,17 @@ public class PostController {
             }
             else{
                 logger.warn("Unable to create new post. User has been blocked from posting.");
-                return new ResponseEntity(new CustomErrorType("Unable to create new post. User has been blocked from posting."), HttpStatus.OK);
+                return new ResponseEntity(new CustomErrorType("Tạo bài viết thất bại. Bạn đã bị chăn đăng bài."), HttpStatus.OK);
             }
         }
         catch (Exception ex){
+            if(postService.isPostExist(p.getId()))
+                postService.removePostById(p.getId());
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
-            return new ResponseEntity(new CustomErrorType(ex.getMessage()), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +".\n Nguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
         logger.info("Create new post - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true,"Create new post - SUCCESS."), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true,"Tạo bài đăng thành công."), HttpStatus.CREATED);
     }//form add new post > do add
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -194,20 +194,20 @@ public class PostController {
             Post post = postService.getPostById(id).get();
             if(post == null){
                 logger.error("Post with id:"+ id +" not found. Unable to delete.");
-                return new ResponseEntity(new CustomErrorType("Post with id:"+ id +" not found. Unable to delete."),
+                return new ResponseEntity(new CustomErrorType("Xóa bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.OK);
             }
             if(post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN")) {
                 postService.removePostById(id);
             }
-            else throw new Exception("The user is not a posted user or a posting manage.");
+            else throw new Exception("Bạn không phải người đăng bài viết hoặc người quản lý tin.");
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
             return new ResponseEntity(new CustomErrorType("Exception: " + ex.getMessage()+".\n" + ex.getCause()),
                     HttpStatus.OK);
         }
         logger.info("Delete post with id:" + id +" - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true,"Delete post with id:"+ id+" - SUCCESS."), HttpStatus.OK);
+        return new ResponseEntity(new CustomErrorType(true,"Xóa bài đăng thành công."), HttpStatus.OK);
     }//delete 1 post
 
 
@@ -215,13 +215,13 @@ public class PostController {
     @PutMapping("/update")
     public ResponseEntity<?> updatePost(Authentication auth, @RequestBody PostDto postDto) throws Exception {
         if(auth.getName() == postDto.getUser()){
-            return new ResponseEntity<>(new CustomErrorType("Request user not correct."), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new CustomErrorType("Yêu ccaauf của bạn không hợp lệ."), HttpStatus.UNAUTHORIZED);
         }
         if(postDto.getId() != 0) {
             Post currPost = postService.getPostById(postDto.getId()).get();
             if (currPost == null) {
                 logger.error("Post with id:" + postDto.getId() + " not found. Unable to update.");
-                return new ResponseEntity(new CustomErrorType("Post with id:" + postDto.getId() + " not found. Unable to update."),
+                return new ResponseEntity(new CustomErrorType("Cập nhật bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.NOT_FOUND);
             }
             logger.info("Fetching & Updating Post with id: " + postDto.getId());
@@ -236,9 +236,9 @@ public class PostController {
                 logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
             }
             logger.info("Update post with post id:"+ postDto.getId() +" - SUCCESS.");
-            return new ResponseEntity<>(new CustomErrorType(true, "Update post with post id:"+ postDto.getId() +" - SUCCESS."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType(true, "Cập nhật bài đăng thành công."), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new CustomErrorType("Request data not correct."), HttpStatus.OK);
+        return new ResponseEntity<>(new CustomErrorType("Dữ liệu đầu vào không chính xác. Vui lòng kiểm tra lại."), HttpStatus.OK);
     }//form edit post, fill old data into form
 
     public void setPostDetail(Authentication auth, PostDto postDto, Post currPost) throws Exception {
@@ -248,11 +248,10 @@ public class PostController {
             Book book = bookService.getBookById(pdDto.getBookDto().getId()).get();
             Book b = new Book(book);
             if(book == null){
-                throw new Exception("Book with id:" + pdDto.getBookDto().getId() + " not found.");
+                throw new Exception("Cuốn sách có mã:" + pdDto.getBookDto().getId() + " không tìm thấy.");
             }
             if(book.getUser().getId().compareTo(auth.getName()) == 0 || book.getInStock() > 0){
                 postDetail.setBook(book);
-                postDetail.setSublet(0);
                 postDetail.setQuantity(pdDto.getQuantity());
                 if(currPost.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED) {
                     book.setQuantity(book.getQuantity() - postDetail.getQuantity());
@@ -261,18 +260,24 @@ public class PostController {
                     b.setInStock(postDetail.getQuantity());
                     bookService.updateBook(b);
                     bookService.updateBook(book);
+                    postDetail.setSublet(1);
                 }
                 else if(currPost.getStatus() == CustomStatus.ADMIN_POST){
                     //@TODO - check qua han
-                    if(checkBookNotExpired(book, postDto) == false){
-                        throw new Exception("The number of rental days exceeds the number of book deposit days.");
+                    if(isAnAdminBook(book) == false){
+                        PostDetail pdHasBook = postDetailService.findByBookId(book.getId());
+                        Post oldPost = pdHasBook.getPost();
+                        if(checkBookNotExpired(book, postDto, oldPost.getNoDays()) == false){
+                            throw new Exception("Số ngày cho thuê vượt quá số ngày ký gửi của cuốn sách.");
+                        }
                     }
                     book.setInStock(book.getInStock() - postDetail.getQuantity());
                     bookService.updateBook(book);
+                    postDetail.setSublet(0);
                 }
                 postDetailService.save(postDetail);
             }
-            else throw new Exception("User: " + auth.getName() +" does not own this book.");
+            else throw new Exception("Bạn không sở hữu cuốn sách này.");
         }
     }
 
@@ -292,38 +297,25 @@ public class PostController {
         Post currPost = null;
         try{
             if(!postService.isPostExist(id)){
-                throw new Exception("Post with id:" + id + " not found. Unable to update.");
+                throw new Exception("Cập nhật trạng thái bài đăng thất bại. Không thể tìm thấy bài đăng.");
             }
             currPost = postService.getPostById(id).get();
             if(status == CustomStatus.USER_POST_IS_APPROVED) {
                 List<PostDetail> postDetailList = postDetailService.findAllByPostId(id);
                 for (PostDetail pd : postDetailList) {
                     if (pd.getQuantity() > pd.getBook().getQuantity()) {
-                        return new ResponseEntity(new CustomErrorType("The quantity of book in this post not enough."), HttpStatus.OK);
+                        return new ResponseEntity(new CustomErrorType("Số lượng sách trong kho không đủ."), HttpStatus.OK);
                     }
-                   /* Book book = pd.getBook();
-                    User bookOwner = book.getUser();
-                    List<Role> roles = roleService.getAllByUserId(bookOwner.getId());
-                    boolean checkAdmin = false;
-                    for(Role role : roles) {
-                        if(role.getName().compareTo("ROLE_ADMIN") == 0){
-                            checkAdmin = true;
-                        }
-                    }
-                    if(checkAdmin) {
-                        book.setPercent(currPost.getFee());
-                        bookService.updateBook(book);
-                    }*/
                 }
             }
             if (currPost.getStatus() == status){
-                return new ResponseEntity<>(new CustomErrorType("Post status has been no change."), HttpStatus.OK);
+                return new ResponseEntity<>(new CustomErrorType("Trạng thái bài đăng không thay đổi."), HttpStatus.OK);
             }
             else postService.updateStatus(id , status);
         }
         catch (Exception ex){
             logger.warn("Exception: " + ex.getMessage() + (ex.getCause() != null ? ". " + ex.getCause() : "" ));
-            return new ResponseEntity(new CustomErrorType(ex.getMessage() +".\n" + ex.getCause()), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +".\nNguyên nhân: " + ex.getCause()), HttpStatus.OK);
         }
         currPost.setStatus(status);   //set status post
         ManagerPost managerPost = new ManagerPost();
@@ -336,17 +328,24 @@ public class PostController {
         logger.info("Fetching & Change Post status with id: " + id);
         postService.updatePost(currPost);
         logger.info("Change post status with post id:"+ id +" - SUCCESS.");
-        return new ResponseEntity<>(new CustomErrorType(true, "Post Status are changed."), HttpStatus.OK);
+        return new ResponseEntity<>(new CustomErrorType(true, "Cập nhật trạng thái thành công."), HttpStatus.OK);
     }
 
-    boolean checkBookNotExpired(Book book, PostDto p){
+    boolean isAnAdminBook(Book book){
         User owner = book.getUser();
         for(Role role : owner.getRoles()){
             if(role.getName().compareTo("ROLE_ADMIN") == 0){
                 return true;
             }
         }
-        long expiredTime = new Date().getTime() + p.getNoDays();
+        return false;
+    }
+
+    boolean checkBookNotExpired(Book book, PostDto p, int noDaysInOldPost){
+        /*if(isAnAdminBook(book)){
+            return true;
+        }*/
+        long expiredTime = new Date().getTime() + OrderDto.milisecondsPerDay*noDaysInOldPost;
         long rentTime = new Date().getTime() + OrderDto.milisecondsPerDay*p.getNoDays();
         if(rentTime > expiredTime){
             return false;

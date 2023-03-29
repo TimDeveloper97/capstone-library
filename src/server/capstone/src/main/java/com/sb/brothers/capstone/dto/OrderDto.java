@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class OrderDto {
 
-    public final static long milisecondsPerDay = 1000*60*60*24;
+    public final static long milisecondsPerDay = 1000*60*60*24L;
 
     private int id;
     private Date borrowedDate;

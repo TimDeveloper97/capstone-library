@@ -54,21 +54,21 @@ public class AuthenticatedUserAPI {
     @PutMapping("/update-profile")
     public ResponseEntity<?> updateProfile(Authentication auth, @RequestBody UserDTO userDto){
         if(!userService.isUserExist(auth.getName())){
-            return new ResponseEntity<>(new CustomErrorType("Request user not correct."), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new CustomErrorType("Yêu cầu cập nhật của người dùng không hợp lệ."), HttpStatus.UNAUTHORIZED);
         }
         User currUser = userService.getUserById(userDto.getId()).get();
         if(currUser == null){
             logger.error("User with id:"+ userDto.getId() +" not found. Unable to update.");
-            return new ResponseEntity(new CustomErrorType("User with id:"+ userDto.getId() +" not found. Unable to update."),
+            return new ResponseEntity(new CustomErrorType("Người dùng với id:"+ userDto.getId() +" không tồn tại. Cập nhật hồ sơ người dùng thất bại."),
                     HttpStatus.NOT_FOUND);
         }
         try {
             userService.updateProfile(userDto.getId(), userDto.getAddress(), userDto.getEmail(), userDto.getFirstName(), userDto.getLastName(), new Date(), userDto.getPhone());
         }catch (Exception ex){
-            return new ResponseEntity(new CustomErrorType("Exception: "+ex.getMessage() +".\n"+ex.getCause()), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +". \nNguyên nhân: "+ex.getCause()), HttpStatus.CONFLICT);
         }
         logger.info("Fetching & Updating User with id: "+ userDto.getId() +" at "+ new Date());
-        return new ResponseEntity(new CustomErrorType(true, "Update user profile with id:" + userDto.getId() +" - SUCCESS."), HttpStatus.OK);
+        return new ResponseEntity(new CustomErrorType(true, "Hoàn tất việc cập nhật hồ sơ người dùng id:" + userDto.getId()), HttpStatus.OK);
 
     }
 
@@ -85,8 +85,7 @@ public class AuthenticatedUserAPI {
         logger.info("Return user profile has id:" + userId);
         if(!userService.isUserExist(userId)){
             logger.error("User with id: " + userId + " not found.");
-            return new ResponseEntity(new CustomErrorType("Unable to get. A User with id:"
-                    + userId +" not exist."),HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Người dùng có id:" + userId +" không tồn tại."),HttpStatus.OK);
         }
         User user = null;
         UserDTO userDto = new UserDTO();
@@ -96,7 +95,7 @@ public class AuthenticatedUserAPI {
             userDto.convertUser(user);
         }catch (Exception ex){
             logger.error("Exception:" + ex.getMessage() + ".\n" + ex.getCause());
-            return new ResponseEntity(new CustomErrorType("Exception:" + ex.getMessage() + ".\n" + ex.getCause()), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() + ". \n Nguyên nhân: " + ex.getCause()), HttpStatus.CONFLICT);
         }
         logger.info("Load user profile: SUCCESS");
         return new ResponseEntity<>(new ResData<UserDTO>(0, userDto), HttpStatus.OK);
@@ -107,15 +106,15 @@ public class AuthenticatedUserAPI {
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(Authentication auth, @RequestBody ChangePasswordDto data){
         if(!data.getOldPass().equals(GlobalData.mapCurrPass.get(auth.getName()))){
-            return new ResponseEntity<>(new CustomErrorType("Old password is incorrect."), HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(new CustomErrorType("Mật khẩu cũ không chính xác."), HttpStatus.OK);
         }
         if(!userService.isUserExist(auth.getName())){
-            return new ResponseEntity<>(new CustomErrorType("User request is incorrect."), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+            return new ResponseEntity<>(new CustomErrorType("Yêu cầu của bạn không hợp lệ."), HttpStatus.OK);
         }
         logger.info("Change password for the single user");
         User user = userService.getUserById(auth.getName()).get();
         if(user == null){
-            return new ResponseEntity(new CustomErrorType("Username or password is incorrect."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Tài khoản hoặc mật khẩu cũ không chính xác. Vui lòng kiểm tra lại."), HttpStatus.NOT_FOUND);
         }
         try {
             user.setModifiedDate(new Date());
@@ -127,8 +126,7 @@ public class AuthenticatedUserAPI {
             return new ResponseEntity(new CustomErrorType("Exception: "+ ex.getMessage() + ".\n" + ex.getCause()), HttpStatus.CONFLICT);
         }
         logger.info("Success. A password of user who has name: " + auth.getName() + " has been change.");
-        return new ResponseEntity(new CustomErrorType(true, "A password of user who has name: "
-                + auth.getName() + " has been change."), HttpStatus.OK);
+        return new ResponseEntity(new CustomErrorType(true, "Mật khẩu của bạn đã được thay đổi."), HttpStatus.OK);
     }
 
     //books session
@@ -143,7 +141,7 @@ public class AuthenticatedUserAPI {
             books = bookService.searchBookByName(dataDto.getValue());
         if(books.isEmpty()){
             logger.warn("The book with the title containing:"+ dataDto.getValue() +" could not be found");
-            return new ResponseEntity(new CustomErrorType("The book with the title containing:"+ dataDto.getValue() +" could not be found"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy sách có tên: "+ dataDto.getValue()), HttpStatus.OK);
         }
         books.stream().forEach(book -> book.setCategories(categoryService.getAllCategoriesByBookId(book.getId())));
         //Set<Book> availBooks = books.stream().filter(b-> b.getQuantity() > 0).collect(Collectors.toSet());

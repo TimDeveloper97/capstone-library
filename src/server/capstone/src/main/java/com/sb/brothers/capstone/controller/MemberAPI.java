@@ -31,12 +31,6 @@ public class MemberAPI {
     private PostService postService;
 
     @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
     private OrderService orderService;
 
     @Autowired
@@ -51,15 +45,18 @@ public class MemberAPI {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     //books session
     @PostMapping("/checkout")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> checkout(Authentication auth, @RequestBody OrderDto orderDto){
         logger.info("Return rent books");
         List<PostDto> postDtos = GlobalData.cart.get(auth.getName());
-        if(postDtos == null || postDtos.isEmpty()){
+        if((postDtos == null || postDtos.isEmpty()) && (orderDto.getOrders() == null || orderDto.getOrders().isEmpty())){
             logger.warn("The cart of user:"+ auth.getName()+" is empty.");
-            return new ResponseEntity<>(new CustomErrorType("The cart of user:"+ auth.getName()+" is empty."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Giỏ hàng của bạn trống."), HttpStatus.OK);
         }
         int total = 0;
         List<Order> orders = new ArrayList<>();
@@ -67,6 +64,9 @@ public class MemberAPI {
         for(PostDto postDto : orderDto.getOrders()){
             Order order = new Order();
             Post post = postService.getPostById(postDto.getId()).get();
+            if(post.getStatus() != CustomStatus.ADMIN_POST){
+                return new ResponseEntity<>(new CustomErrorType("Sản phẩm đã được thuê trước đó, đặt hàng và thanh toán thất bại."), HttpStatus.OK);
+            }
             user = userService.getUserById(auth.getName()).get();
             order.setPost(post);
             order.setUser(user);
@@ -87,16 +87,18 @@ public class MemberAPI {
             for(Order order : orders) {
                 orderService.save(order);
                 changePostStatus(auth, order.getId(), CustomStatus.USER_PAYMENT_SUCCESS);
-                postDtos.removeIf(p-> p.getId() == order.getPost().getId());
+                if(postDtos != null) {
+                    postDtos.removeIf(p -> p.getId() == order.getPost().getId());
+                }
             };
         }
         else{
-            return new ResponseEntity<>(new CustomErrorType("User "+ auth.getName() + " dosen't have enough money."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Số tiền trong tài khoản không đủ để thực hiện giao dịch. Vui lòng kiểm tra lại."), HttpStatus.OK);
         }
         user.setBalance(user.getBalance() - total);
         userService.updateUser(user);
-        logger.info("Return all books - SUCCESS.");
-        return new ResponseEntity<>(new CustomErrorType(true, "User "+ auth.getName() + " checkout - SUCCESS."), HttpStatus.OK);
+        logger.info("Checkout- SUCCESS.");
+        return new ResponseEntity<>(new CustomErrorType(true, "Thanh toán thành công."), HttpStatus.OK);
     }//view all books
 
     boolean checkAccount(int bookId){
@@ -126,6 +128,7 @@ public class MemberAPI {
                 notification.setDescription("Bạn đã nhận được "+discount+"vnđ tiền triết khấu khi có người thuê sách "+ book.getName() + " của bạn.");
                 notification.setCreatedDate(new Date());
                 notification.setStatus(0);
+                notificationService.updateNotification(notification);
             }
         }
         return discount;
@@ -138,33 +141,22 @@ public class MemberAPI {
             book.setInStock(book.getInStock() + postDetail.getQuantity());
             sum += book.getPrice();
         }
-        user.setBalance(user.getBalance() + sum - expired(post));
+        int expiredFee = expired(post);
+        if(expiredFee > (user.getBalance() + sum)){
+            expiredFee = user.getBalance() + sum;
+            user.setBalance(0);
+        }
+        else user.setBalance(user.getBalance() + sum - expiredFee);
+        if(expiredFee> 0){
+            Notification notification = new Notification();
+            notification.setUser(user);
+            notification.setDescription("Bạn đã bị trừ "+expiredFee+"vnđ do trả sách quá hạn.");
+            notification.setCreatedDate(new Date());
+            notification.setStatus(0);
+            notificationService.updateNotification(notification);
+        }
         userService.updateUser(user);
     }
-
-    //books session
-    @GetMapping("/books/me")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getAllBooksByUserId(Authentication auth){
-        logger.info("Return list books");
-        Set<Book> books = bookService.getListBooksOfUserId(auth.getName());
-        for (Book book : books){
-            book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
-        }
-        if(books.isEmpty()){
-            logger.warn("This user's book list is empty.");
-            return new ResponseEntity<>(new CustomErrorType("This user's book list is empty."), HttpStatus.OK);
-        }
-        Set<BookDTO> bookDTOS = new HashSet<BookDTO>();
-        for (Book book : books){
-            book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
-            BookDTO bDto = new BookDTO();
-            bDto.convertBook(book);
-            bookDTOS.add(bDto);
-        }
-        logger.info("Return all books of user:" + auth.getName() +" - SUCCESS.");
-        return new ResponseEntity<>(new ResData<Set<BookDTO>>(0, bookDTOS), HttpStatus.OK);
-    }//view all books
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
     @PutMapping("/order/confirmation/{id}")
@@ -214,11 +206,11 @@ public class MemberAPI {
                         userService.updateUser(user);
                     }
                     if (currPost.getStatus() == status) {
-                        return new ResponseEntity<>(new CustomErrorType("Post status can't change."), HttpStatus.OK);
+                        return new ResponseEntity<>(new CustomErrorType("Trạng thái đơn hàng không thay đổi."), HttpStatus.OK);
                     } else postService.updateStatus(currPost.getId(), status);
                 } catch (Exception ex) {
                     logger.warn("Exception: " + ex.getMessage() + (ex.getCause() != null ? ". " + ex.getCause() : ""));
-                    return new ResponseEntity(new CustomErrorType(ex.getMessage() + ".\n" + ex.getCause()), HttpStatus.OK);
+                    return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() + ".\n Nguyên nhân: " + ex.getCause()), HttpStatus.OK);
                 }
             }
             else if (currPost.getStatus() == CustomStatus.USER_WAIT_TAKE_BOOK) {
@@ -247,10 +239,10 @@ public class MemberAPI {
                     refunds(postDetails, order.getPost(), order.getUser());
                 }
             }
-            else return new ResponseEntity<>(new CustomErrorType("Post status can't change."), HttpStatus.OK);
+            else return new ResponseEntity<>(new CustomErrorType("Không thể thay đổi trạng thái đơn hàng. Vui lòng kiểm tra lại."), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(new CustomErrorType("Post with id:" + oId + " in order not found. Unable to update."), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomErrorType("Đơn hàng có mã: " + oId + " không tồn tại. Cập nhật trạng thái thất bại."), HttpStatus.OK);
         }
         currPost.setStatus(status);   //set status post
         ManagerPost managerPost = new ManagerPost();
@@ -263,7 +255,7 @@ public class MemberAPI {
         logger.info("Fetching & Change order status with id: " + currPost.getId());
         postService.updatePost(currPost);
         logger.info("Change order status with post id:"+ currPost.getId() +" - SUCCESS.");
-        return new ResponseEntity<>(new CustomErrorType(true, "Post Status are changed."), HttpStatus.OK);
+        return new ResponseEntity<>(new CustomErrorType(true, "Đã cập nhật trạng thái đơn hàng."), HttpStatus.OK);
     }
 
     int expired(Post post){
@@ -274,8 +266,8 @@ public class MemberAPI {
         for(PostDetail pd: postDetails){
             noBooks += pd.getQuantity();
         }
-        if(expiredDay - currDay < 0){
-            return (post.getFee() * noBooks/100);
+        if(expiredDay < currDay){
+            return (int) ((post.getFee() * noBooks * (currDay-expiredDay)/OrderDto.milisecondsPerDay)/100);
         }
         return 0;
     }
