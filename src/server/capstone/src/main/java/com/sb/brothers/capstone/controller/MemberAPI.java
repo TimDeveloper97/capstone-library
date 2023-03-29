@@ -54,7 +54,7 @@ public class MemberAPI {
     public ResponseEntity<?> checkout(Authentication auth, @RequestBody OrderDto orderDto){
         logger.info("Return rent books");
         List<PostDto> postDtos = GlobalData.cart.get(auth.getName());
-        if(postDtos == null || postDtos.isEmpty()){
+        if((postDtos == null || postDtos.isEmpty()) && (orderDto.getOrders() == null || orderDto.getOrders().isEmpty())){
             logger.warn("The cart of user:"+ auth.getName()+" is empty.");
             return new ResponseEntity<>(new CustomErrorType("Giỏ hàng của bạn trống."), HttpStatus.OK);
         }
@@ -64,6 +64,9 @@ public class MemberAPI {
         for(PostDto postDto : orderDto.getOrders()){
             Order order = new Order();
             Post post = postService.getPostById(postDto.getId()).get();
+            if(post.getStatus() != CustomStatus.ADMIN_POST){
+                return new ResponseEntity<>(new CustomErrorType("Sản phẩm đã được thuê trước đó, đặt hàng và thanh toán thất bại."), HttpStatus.OK);
+            }
             user = userService.getUserById(auth.getName()).get();
             order.setPost(post);
             order.setUser(user);
@@ -84,7 +87,9 @@ public class MemberAPI {
             for(Order order : orders) {
                 orderService.save(order);
                 changePostStatus(auth, order.getId(), CustomStatus.USER_PAYMENT_SUCCESS);
-                postDtos.removeIf(p-> p.getId() == order.getPost().getId());
+                if(postDtos != null) {
+                    postDtos.removeIf(p -> p.getId() == order.getPost().getId());
+                }
             };
         }
         else{
