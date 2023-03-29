@@ -20,4 +20,6 @@ export const receivedOrder = (id) => axiosIntance.put(`/order/received/${id}`);
 
 export const bookReturn = (id) => axiosIntance.put(`/order/book-returns/${id}`);
 
-export const getRecharge = () => axiosIntance.get("/api/recharge");
+export const getRecharge = () => axiosIntance.get("/recharge");
+
+export const transfer = (data) => axiosIntance.put("/transfer", data);
