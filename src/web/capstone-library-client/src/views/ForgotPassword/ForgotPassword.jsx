@@ -11,11 +11,13 @@ import { resetPassword } from "../../apis/user";
 
 const schema = yup.object({
   username: yup.string().required("Tên sách không được để trống"),
-  email: yup.string().email('email không đúng định dạng').required('Email không được để trống'),
+  email: yup
+    .string()
+    .email("email không đúng định dạng")
+    .required("Email không được để trống"),
 });
 
 export default function ForgotPassword() {
-
   const {
     register,
     handleSubmit,
@@ -24,19 +26,21 @@ export default function ForgotPassword() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  
 
   const submitForm = async (data, e) => {
     e.preventDefault();
-    const res = await resetPassword({id: data.username, email: data.email});
-    if(res.status){
-      NotificationManager.success(res.message, "Thông báo", 2000);
-      resetField("username")
+    const response = await resetPassword({
+      id: data.username,
+      email: data.email,
+    });
+    if (response.data.success) {
+      NotificationManager.success(response.data.message, "Thông báo", 3000);
+      resetField("username");
       resetField("email");
-    }else{
-      NotificationManager.error(res.message, "Lỗi", 2000);
+    } else {
+      NotificationManager.error(response.data.message, "Lỗi", 3000);
     }
-  }
+  };
 
   return (
     <section
@@ -45,7 +49,11 @@ export default function ForgotPassword() {
     >
       <NotificationContainer />
       <div className="container">
-        <form noValidate onSubmit={handleSubmit(submitForm)} className="card card-item login-form">
+        <form
+          noValidate
+          onSubmit={handleSubmit(submitForm)}
+          className="card card-item login-form"
+        >
           <div className="card-body row p-0">
             <div className="col-lg-6">
               <div className="form-content py-4 pr-60px pl-60px border-right border-right-gray h-100 d-flex align-items-center justify-content-center">
@@ -78,13 +86,15 @@ export default function ForgotPassword() {
                     {...register("username")}
                   />
                   {errors.username && (
-                      <span className="error-message" role="alert">
-                        {errors.username?.message}
-                      </span>
-                    )}
+                    <span className="error-message" role="alert">
+                      {errors.username?.message}
+                    </span>
+                  )}
                 </div>
                 <div className="form-group">
-                  <label className="fs-14 text-black fw-medium lh-18">Email</label>
+                  <label className="fs-14 text-black fw-medium lh-18">
+                    Email
+                  </label>
                   <input
                     type="email"
                     className="form-control form--control"
@@ -92,10 +102,10 @@ export default function ForgotPassword() {
                     {...register("email")}
                   />
                   {errors.email && (
-                      <span className="error-message" role="alert">
-                        {errors.email?.message}
-                      </span>
-                    )}
+                    <span className="error-message" role="alert">
+                      {errors.email?.message}
+                    </span>
+                  )}
                 </div>
                 <div className="form-group">
                   <button
@@ -103,7 +113,8 @@ export default function ForgotPassword() {
                     className="btn theme-btn w-100"
                     type="submit"
                   >
-                    Reset mật khẩu <i className="la la-arrow-right icon ml-1"></i>
+                    Reset mật khẩu{" "}
+                    <i className="la la-arrow-right icon ml-1"></i>
                   </button>
                 </div>
               </div>
