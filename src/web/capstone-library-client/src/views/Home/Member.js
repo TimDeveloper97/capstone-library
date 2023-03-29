@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Member() {
   return (
@@ -70,9 +71,9 @@ export default function Member() {
               </h2>
             </div>
             <div className="col-lg-5 text-right">
-              <a href="free-demo.html" className="btn theme-btn">
+              <Link to={"/register"} className="btn theme-btn">
                 Đăng ký ngay <i className="la la-arrow-right icon ml-1"></i>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

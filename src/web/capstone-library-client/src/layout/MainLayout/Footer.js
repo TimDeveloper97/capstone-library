@@ -9,57 +9,15 @@ export default function Footer() {
       <span className="vertical-bar-shape vertical-bar-shape-4"></span>
       <div className="container">
         <div className="row">
-          <div className="col-lg-3 responsive-column-half">
-            <div className="footer-item">
-              <h3 className="fs-18 fw-bold pb-2 text-white">Company</h3>
-              <ul className="generic-list-item generic-list-item-hover-underline pt-3 generic-list-item-white">
-                <li>
-                  <a href="about.html">About</a>
-                </li>
-                <li>
-                  <a href="contact.html">Contact</a>
-                </li>
-                <li>
-                  <a href="careers.html">Careers</a>
-                </li>
-                <li>
-                  <a href="advertising.html">Advertising</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="col-lg-3 responsive-column-half">
-            <div className="footer-item">
-              <h3 className="fs-18 fw-bold pb-2 text-white">Legal Stuff</h3>
-              <ul className="generic-list-item generic-list-item-hover-underline pt-3 generic-list-item-white">
-                <li>
-                  <a href="privacy-policy.html">Privacy Policy</a>
-                </li>
-                <li>
-                  <a href="terms-and-conditions.html">Terms of Service</a>
-                </li>
-                <li>
-                  <a href="privacy-policy.html">Cookie Policy</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="col-lg-3 responsive-column-half">
-            <div className="footer-item">
-              <h3 className="fs-18 fw-bold pb-2 text-white">Help</h3>
-              <ul className="generic-list-item generic-list-item-hover-underline pt-3 generic-list-item-white">
-                <li>
-                  <a href="faq.html">Knowledge Base</a>
-                </li>
-                <li>
-                  <a href="contact.html">Support</a>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <div className="col-lg-3 responsive-column-half"></div>
+          <div className="col-lg-3 responsive-column-half"></div>
+          <div className="col-lg-3 responsive-column-half"></div>
           <div className="col-lg-3 responsive-column-half">
             <div className="footer-item">
               <h3 className="fs-18 fw-bold pb-2 text-white">Connect with us</h3>
+              <div className="row">
+                <div className="col-md-3"></div>
+              </div>
               <ul className="generic-list-item generic-list-item-hover-underline pt-3 generic-list-item-white">
                 <li>
                   <a href="#">

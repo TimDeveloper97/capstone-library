@@ -2,17 +2,18 @@ import { Search } from "@mui/icons-material";
 import React, { useState } from "react";
 import Funfact from "./Funfact";
 import Guest from "./Guest";
-import './home.css';
+import "./home.css";
 import Instruct from "./Instruct";
 import Member from "./Member";
 import Quotes from "./Quotes";
 
 export default function Home() {
-    const [loading, setLoading] = useState(true);
-    setTimeout(() => setLoading(false), 3000);
+  const [loading, setLoading] = useState(true);
+  setTimeout(() => setLoading(false), 3000);
   return (
     <>
-      {loading && <div id="preloader">
+      {loading && (
+        <div id="preloader">
           <div className="loader">
             <svg className="spinner" viewBox="0 0 50 50">
               <circle
@@ -25,7 +26,8 @@ export default function Home() {
               ></circle>
             </svg>
           </div>
-        </div>}
+        </div>
+      )}
 
       <section className="hero-area bg-dark overflow-hidden section-padding">
         <span className="stroke-shape stroke-shape-1 stroke-shape-white"></span>
@@ -64,14 +66,14 @@ export default function Home() {
           </div>
         </div>
         <div className="generic-img-box generic-img-box-layout-2">
-          <img className="lazy" src="./images/img1.jpg" alt="image1" />
+          <img className="lazy" src="./images/harry-potter.jpg" alt="image1" />
           <img
             className="lazy"
             src="./images/sherlock-holmes-toan-tap.jpg"
             alt="image2"
           />
-          <img className="lazy" src="./images/img3.jpg" alt="image1" />
-          <img className="lazy" src="./images/img4.jpg" alt="image2" />
+          <img className="lazy" src="./images/de-men-1.jpeg" alt="image1" />
+          <img className="lazy" src="./images/binh-ngo-1.jpeg" alt="image2" />
         </div>
       </section>
       <Funfact />

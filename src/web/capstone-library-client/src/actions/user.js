@@ -7,12 +7,13 @@ export const updateUser = (data) => async (dispatch) => {
   dispatch({ type: "UPDATE_USER", payload: data });
 };
 
-export const getUser = (data) => (dispatch) => {
-  dispatch({ type: "GET_USER", payload: data });
+export const getUser = (id) => async (dispatch) => {
+  console.log(id);
+  const { data } = await api.viewProfile(id);
+  dispatch({ type: "GET_USER", payload: data.value });
 };
 
 export const clearSession = () => (dispatch) => {
   window.localStorage.clear();
-  dispatch({type: "CLEAR_SESSION", payload: null});
-}
-
+  dispatch({ type: "CLEAR_SESSION", payload: null });
+};

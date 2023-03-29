@@ -23,7 +23,8 @@ export default function Setting() {
   const [editable, setEditable] = useState(false);
   const user = JSON.parse(window.localStorage.getItem("user"));
   useEffect(() => {
-    dispatch(getUser(user));
+    //console.log(user);
+    dispatch(getUser(user.id));
   }, []);
 
   const userInfo = useSelector((state) => state.user);
@@ -61,7 +62,6 @@ export default function Setting() {
       })
       .then((response) => {
         NotificationManager.success(response.data.message, "Thông báo", 2000);
-
         setCfPass("");
         setNewPass("");
         setOldPass("");
