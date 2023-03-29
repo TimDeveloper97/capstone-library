@@ -12,7 +12,7 @@ import java.util.List;
 public class UserDTO {
     private String id;
     private String address;
-    private double balance;
+    private int balance;
     private String email;
     private String firstName;
     private String lastName;

@@ -78,8 +78,8 @@ namespace xfLibrary.ViewModels
         public ICommand ChangePasswordCommand => new Command(async () =>
         {
             var message = await Shell.Current.ShowPopupAsync(new ChangePasswordPopup(_token));
-            if (message == null) return;
-            _message.ShortAlert(message);
+            //if (message == null) return;
+            //_message.ShortAlert(message);
         });
 
         public ICommand LogoutCommand => new Command(async () =>
@@ -105,7 +105,7 @@ namespace xfLibrary.ViewModels
             MessagingCenter.Subscribe<object, bool>(this, "haslogin",
                   (sender, arg) =>
                   {
-                      IsVisible = arg;
+                      IsVisible = HasLogin();
                       OnPropertyChanged("IsVisible");
 
                       ////view

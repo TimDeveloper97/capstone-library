@@ -18,7 +18,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        return postRepository.findAllPosts();
     }
 
     @Override
@@ -32,7 +32,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Set<Post> getAllPostsByUserId(String id) {
+    public List<Post> getAllPostHasBookId(int id) {
+        return postRepository.getAllPostHasBookId(id);
+    }
+
+    @Override
+    public List<Post> getAllPostsByUserId(String id) {
         return postRepository.findAllByUserId(id);
     }
 
@@ -48,7 +53,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void updatePost(Post post) {
-        postRepository.save(post);
+        postRepository.saveAndFlush(post);
     }
 
     @Override

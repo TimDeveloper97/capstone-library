@@ -49,11 +49,14 @@ public class TokenProvider implements InitializingBean {
       this.key = Keys.hmacShaKeyFor(keyBytes);
    }
 
-   public String createToken(Authentication authentication, boolean rememberMe) {
-      String authorities = authentication.getAuthorities().stream()
-         .map(GrantedAuthority::getAuthority)
-         .collect(Collectors.joining(","));
+   public String getRoles(Authentication auth){
+      String roles = auth.getAuthorities().stream()
+              .map(GrantedAuthority::getAuthority)
+              .collect(Collectors.joining(","));
+      return roles;
+   }
 
+   public String createToken(Authentication authentication, boolean rememberMe) {
       long now = (new Date()).getTime();
       Date validity;
       if (rememberMe) {
@@ -64,7 +67,7 @@ public class TokenProvider implements InitializingBean {
 
       return Jwts.builder()
          .setSubject(authentication.getName())
-         .claim(AUTHORITIES_KEY, authorities)
+         .claim(AUTHORITIES_KEY, getRoles(authentication))
          .signWith(key, SignatureAlgorithm.HS512)
          .setExpiration(validity)
          .compact();

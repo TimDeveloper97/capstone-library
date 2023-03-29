@@ -16,6 +16,7 @@ public class Notification implements Serializable {
 	private int id;
 	private Date createdDate;
 	private String description;
+	private int status;
 	private User user;
 
 	public Notification() {
@@ -32,6 +33,13 @@ public class Notification implements Serializable {
 		this.id = id;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_date")

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -26,12 +27,17 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     Set<Book> findByAuthorContains(String name);
 
-    @Query(value = "SELECT * FROM books where id in \n" +
-            "(SELECT b.id from books as b left join post_detail as pd on b.id = pd.book_id \n" +
-            "\t\tjoin post as p on p.id = pd.post_id\n" +
-            "where p.address like :address)",
+    @Query(value = "SELECT * FROM books where id in (SELECT b.id from books as b left join post_detail as pd on b.id = pd.book_id " +
+            " join post as p on p.id = pd.post_id where p.address like %:address%)",
             nativeQuery = true)
     Set<Book> findByPostLocation(@Param("address") String address);
 
-    //Set<Book> recommendBooks(String uId);
+    @Query(value = "select * from books where id in " +
+            "(select bca.book_id from category as c inner join book_category as bca on c.name_code =  bca.category_id where c.name_code in " +
+            "(Select Distinct category_id from favourite_book as fb join book_category as bc on fb.book_id = bc.book_id where fb.user_id = :uId and fb.rating >= 7))", nativeQuery = true)
+    Set<Book> recommendBooks(@Param("uId") String uId);
+
+    @Query(value = "Select * from books where in_stock > 0",
+            nativeQuery = true)
+    List<Book> findAllBooksInStock();
 }

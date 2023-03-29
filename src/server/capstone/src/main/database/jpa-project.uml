@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/151a0d16/jpa-project/jpa-project/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="328.5203488372092" y="233.0">UserRole#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/UserRole.java</node>
+    <node x="594.1453488372092" y="718.0">Category#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Category.java</node>
+    <node x="558.1453488372092" y="457.0">Report#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Report.java</node>
+    <node x="399.86982956690457" y="456.0">PostDetail#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/PostDetail.java</node>
+    <node x="406.5203488372092" y="725.0">BookCategory#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/BookCategory.java</node>
+    <node x="488.1453488372092" y="123.0">Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java</node>
+    <node x="753.2418354338615" y="457.0">Post#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Post.java</node>
+    <node x="962.2927569396761" y="457.0">ManagerPost#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/ManagerPost.java</node>
+    <node x="920.99451364135" y="123.0">Message#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Message.java</node>
+    <node x="1131.3436784454907" y="123.0">Payment#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Payment.java</node>
+    <node x="146.09534883720926" y="312.0">Image#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Image.java</node>
+    <node x="249.64534883720927" y="123.0">UsersBooks#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/UsersBooks.java</node>
+    <node x="145.64534883720927" y="217.5">Roles#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Roles.java</node>
+    <node x="710.6453488372092" y="123.0">Notification#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Notification.java</node>
+    <node x="218.64534883720927" y="457.0">FavouriteBook#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/FavouriteBook.java</node>
+    <node x="174.69534883720922" y="602.0">Books#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Books.java</node>
+    <node x="1127.3436784454907" y="456.0">Orders#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Orders.java</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="BookCategory#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/BookCategory.java" target="Category#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Category.java" relationship="RELATION">
+      <point x="-33.0" y="-39.0" />
+      <point x="439.5203488372092" y="757.0" />
+      <point x="660.1453488372092" y="757.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="Post#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Post.java" target="Report#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Report.java" relationship="RELATION">
+      <point x="0.0" y="-116.0" />
+      <point x="841.7418354338615" y="687.0" />
+      <point x="642.1453488372092" y="687.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="ManagerPost#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/ManagerPost.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="-33.25" y="-61.0" />
+      <point x="995.5427569396761" y="430.0" />
+      <point x="576.6453488372092" y="430.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="FavouriteBook#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/FavouriteBook.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="0.0" y="-50.0" />
+      <point x="282.64534883720927" y="431.0" />
+      <point x="576.6453488372092" y="431.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="Books#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Books.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="28.80000000000001" y="-116.0" />
+      <point x="275.49534883720924" y="623.0" />
+      <point x="362.6078488372092" y="623.0" />
+      <point x="362.6078488372092" y="431.0" />
+      <point x="576.6453488372092" y="431.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="Books#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Books.java" target="Image#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Image.java" relationship="RELATION">
+      <point x="-28.80000000000001" y="-116.0" />
+      <point x="217.8953488372092" y="687.0" />
+      <point x="205.09534883720926" y="687.0" />
+      <point x="0.0" y="50.0" />
+    </edge>
+    <edge source="Books#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Books.java" target="FavouriteBook#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/FavouriteBook.java" relationship="RELATION">
+      <point x="0.0" y="-116.0" />
+      <point x="246.69534883720922" y="697.0" />
+      <point x="259.64534883720927" y="697.0" />
+      <point x="259.64534883720927" y="579.5" />
+      <point x="282.64534883720927" y="579.5" />
+      <point x="0.0" y="50.0" />
+    </edge>
+    <edge source="Books#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Books.java" target="PostDetail#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/PostDetail.java" relationship="RELATION">
+      <point x="57.60000000000002" y="-116.0" />
+      <point x="304.29534883720925" y="697.0" />
+      <point x="462.86982956690457" y="697.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="Post#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Post.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="59.0" y="-116.0" />
+      <point x="900.7418354338615" y="430.0" />
+      <point x="581.6453488372092" y="430.0" />
+      <point x="581.6453488372092" y="431.0" />
+      <point x="576.6453488372092" y="431.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="Message#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Message.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="1.1368683772161603E-13" y="-72.0" />
+      <point x="1004.9945136413501" y="430.0" />
+      <point x="576.6453488372092" y="430.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="UserRole#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/UserRole.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="0.0" y="-39.0" />
+      <point x="382.5203488372092" y="430.0" />
+      <point x="576.6453488372092" y="430.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="ManagerPost#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/ManagerPost.java" target="Post#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Post.java" relationship="RELATION">
+      <point x="33.25" y="-61.0" />
+      <point x="1062.042756939676" y="625.150923420774" />
+      <point x="841.7418354338615" y="625.150923420774" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="Report#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Report.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="0.0" y="-105.0" />
+      <point x="642.1453488372092" y="430.0" />
+      <point x="576.6453488372092" y="430.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="BookCategory#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/BookCategory.java" target="Books#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Books.java" relationship="RELATION">
+      <point x="33.0" y="-39.0" />
+      <point x="419.0" y="725.0" />
+      <point x="419.0" y="753.0" />
+      <point x="246.69534883720922" y="753.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="Post#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Post.java" target="PostDetail#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/PostDetail.java" relationship="RELATION">
+      <point x="-59.0" y="-116.0" />
+      <point x="782.7418354338615" y="697.0" />
+      <point x="462.86982956690457" y="697.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" target="UsersBooks#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/UsersBooks.java" relationship="RELATION">
+      <point x="0.0" y="-138.0" />
+      <point x="576.6453488372092" y="155.51346900364666" />
+      <point x="304.64534883720927" y="155.51346900364666" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="Roles#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Roles.java" target="UserRole#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/UserRole.java" relationship="RELATION">
+      <point x="0.0" y="-39.0" />
+      <point x="197.64534883720927" y="273.0" />
+      <point x="382.5203488372092" y="273.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="Payment#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Payment.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="0.0" y="-105.0" />
+      <point x="1219.8436784454907" y="430.0" />
+      <point x="576.6453488372092" y="430.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="Books#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Books.java" target="UsersBooks#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/UsersBooks.java" relationship="RELATION">
+      <point x="-57.599999999999966" y="-116.0" />
+      <point x="189.09534883720926" y="697.0" />
+      <point x="131.1453488372092" y="697.0" />
+      <point x="131.1453488372092" y="162.0" />
+      <point x="304.64534883720927" y="162.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="Orders#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Orders.java" target="Post#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Post.java" relationship="RELATION">
+      <point x="-45.25" y="-116.0" />
+      <point x="1172.5936784454907" y="658.9305964004235" />
+      <point x="841.7418354338615" y="658.9305964004235" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="Orders#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Orders.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="45.25" y="-116.0" />
+      <point x="1221.8436784454907" y="456.0" />
+      <point x="1221.8436784454907" y="430.0" />
+      <point x="576.6453488372092" y="430.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+    <edge source="Notification#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Notification.java" target="Users#file://D:/workspaceJava/jpa-project/src/main/java/com/sb/brothers/capstone/entities/Users.java" relationship="RELATION">
+      <point x="0.0" y="-61.0" />
+      <point x="794.6453488372092" y="430.0" />
+      <point x="576.6453488372092" y="430.0" />
+      <point x="0.0" y="138.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="658.5" y="488.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Embeddables</Category>
+    <Category>Properties</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+

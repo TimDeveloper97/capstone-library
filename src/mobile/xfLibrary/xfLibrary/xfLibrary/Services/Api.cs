@@ -20,7 +20,7 @@ namespace xfLibrary.Services
         public const string Login = "login";
         public const string ViewProfile = "view-profile";
         public const string Register = "register";
-        public const string ForgotPassword = "forgotpassword";
+        public const string ForgotPassword = "forgot-password";
         public const string ChangePassword = "change-password";
         public const string UpdateProfile = "update-profile";
 

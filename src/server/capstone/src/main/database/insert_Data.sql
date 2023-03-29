@@ -176,3 +176,60 @@ ALTER TABLE `capstone_db`.`post`
     ADD COLUMN `address` VARCHAR(255) NULL AFTER `title`;
 ALTER TABLE `capstone_db`.`image`
     CHANGE COLUMN `link` `link` LONGTEXT NULL DEFAULT NULL ;
+
+
+--
+-- Table structure for table `post_detail`
+--
+
+DROP TABLE IF EXISTS `post_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post_detail` (
+                               `id` int NOT NULL AUTO_INCREMENT,
+                               `fee` double NOT NULL,
+                               `sublet` bit(1) NOT NULL,
+                               `post_id` int NOT NULL,
+                               `quantity` int DEFAULT '1',
+                               `book_id` int NOT NULL,
+                               PRIMARY KEY (`id`),
+                               KEY `FK6li9i4xwinbd19wvh5buy60dh` (`book_id`),
+                               KEY `FK46mm0e5earch2ws3ffhl533aa` (`post_id`),
+                               CONSTRAINT `FK46mm0e5earch2ws3ffhl533aa` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+                               CONSTRAINT `FK6li9i4xwinbd19wvh5buy60dh` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_detail`
+--
+
+LOCK TABLES `post_detail` WRITE;
+/*!40000 ALTER TABLE `post_detail` DISABLE KEYS */;
+INSERT INTO `post_detail` VALUES (0.5,_binary '',1,1,1);
+/*!40000 ALTER TABLE `post_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-- WW04
+-- Table structure for table `report`
+--
+
+DROP TABLE IF EXISTS `report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report` (
+      `id` int NOT NULL AUTO_INCREMENT,
+      `content` longtext,
+      `created_date` datetime DEFAULT NULL,
+      `status` int NOT NULL,
+      `title` varchar(255) DEFAULT NULL,
+      `type_report` int DEFAULT NULL,
+      `created_by` varchar(255) DEFAULT NULL,
+      `post_id` int NOT NULL,
+      PRIMARY KEY (`id`),
+      KEY `FKnuqod1y014fp5bmqjeoffcgqy` (`post_id`),
+      KEY `FKide3gruwmi3na8jjsgfs04din` (`created_by`),
+      CONSTRAINT `FKide3gruwmi3na8jjsgfs04din` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+      CONSTRAINT `FKnuqod1y014fp5bmqjeoffcgqy` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
