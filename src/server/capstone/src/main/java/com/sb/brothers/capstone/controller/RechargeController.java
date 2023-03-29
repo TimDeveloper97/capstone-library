@@ -80,6 +80,6 @@ public class RechargeController {
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:" + ex.getMessage() + ".\nNguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new CustomErrorType("Nạp tiền thành công."), HttpStatus.OK);
+        return new ResponseEntity<>(new CustomErrorType(true, "Nạp tiền thành công."), HttpStatus.OK);
     }//view all posts
 }
