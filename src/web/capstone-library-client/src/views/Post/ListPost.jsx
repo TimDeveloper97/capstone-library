@@ -7,13 +7,9 @@ import { getPosts } from "../../actions/post";
 import { getImgUrl } from "../../helper/helpFunction";
 import Loading from "../../components/Loading/Loading";
 import { Pagination, Stack } from "@mui/material";
-export default function ListPost() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getPosts());
-  }, []);
 
-  const posts = useSelector((state) => state.post);
+
+export default function ListPost({posts}) {
 
   const getOneImg = (post) => {
     let img = "/images/default_img.jpeg";
@@ -25,7 +21,7 @@ export default function ListPost() {
     return img;
   };
 
-  return posts ? (
+  return (
     <>
       <section className="section-products">
         <div className="container">
@@ -56,11 +52,7 @@ export default function ListPost() {
           </div>
         </div>
       </section>
-      <Stack spacing={2}>
-        <Pagination count={10} color="primary" />
-      </Stack>
+      
     </>
-  ) : (
-    <Loading />
-  );
+  )
 }

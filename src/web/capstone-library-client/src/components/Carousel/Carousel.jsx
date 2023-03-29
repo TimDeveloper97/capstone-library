@@ -3,6 +3,7 @@ import { getImgUrl } from "../../helper/helpFunction";
 import "./carousel.css";
 
 export default function Carousel({images}) {
+  console.log(images);
   return (
     <div
       id="carouselExampleIndicators"
@@ -35,7 +36,7 @@ export default function Carousel({images}) {
         {
             images.map((img, index) => {
                 return <div key={index} className={index === 0 ? "carousel-item active" : "carousel-item"}>
-                <img src="/images/default_img.jpeg" className="d-block w-100" alt="..." />
+                <img src={getImgUrl(img)} className="d-block w-100" alt="..." />
               </div>
             })
         }
