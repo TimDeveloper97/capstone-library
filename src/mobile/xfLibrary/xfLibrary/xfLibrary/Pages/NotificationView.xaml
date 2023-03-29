@@ -47,7 +47,7 @@
                         </Label>
                         <Grid RowDefinitions="auto,*" RowSpacing="0" IsVisible="{Binding Source={Reference label}, Path=IsVisible, Converter={StaticResource ChangeBoolConverter}}">
                             <mdc:MaterialButton HorizontalOptions="End" VerticalOptions="Start" Text="Đọc tất cả" Command="{Binding ReadAllCommand}" IsBusy="{Binding IsBusy}"
-                                                BorderColor="Transparent" TextColor="{StaticResource Blue}" Margin="0,0,0,-5"/>
+                                                BorderColor="Transparent" BackgroundColor="Transparent" TextColor="{StaticResource Blue}" Margin="0,0,0,-5"/>
                             <ListView Grid.Row="1" GroupDisplayBinding="{Binding Date, Converter={StaticResource DateTimeToStringConverter}}"
                                   IsGroupingEnabled="True" ItemsSource="{Binding Notifications}" IsPullToRefreshEnabled="False" Margin="0,0,0,10">
                                 <ListView.ItemTemplate>

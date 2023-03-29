@@ -105,7 +105,7 @@ namespace xfLibrary.ViewModels
             MessagingCenter.Subscribe<object, bool>(this, "haslogin",
                   (sender, arg) =>
                   {
-                      IsVisible = arg;
+                      IsVisible = HasLogin();
                       OnPropertyChanged("IsVisible");
 
                       ////view
