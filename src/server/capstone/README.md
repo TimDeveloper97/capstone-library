@@ -33,3 +33,12 @@ xem trưng bày sản phẩm, tạo giỏ hàng, thanh toán hóa đơn
 + paging
 + search engine
 
+### Something Needs to change before run Server
+-mail properties(Tài khoản email sẽ dùng để gửi mail cho người dùng thực hiện chức năng quên mật khẩu)
++email.username = <your email>
++email.password = <your password>
+
++ spring.datasource.url= jdbc:mysql://<your ip>:3306/capstone_db
++ spring.datasource.username= <?>
++ spring.datasource.password= <?>
++ spring.jpa.hibernate.ddl-auto=none
