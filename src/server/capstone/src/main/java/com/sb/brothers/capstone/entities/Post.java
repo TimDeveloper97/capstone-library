@@ -44,7 +44,7 @@ public class Post implements Serializable {
 	}
 
 
-	@Lob
+	//@Lob
 	@Column(name = "content", nullable = true, length = 512)
 	public String getContent() {
 		return this.content;

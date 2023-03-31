@@ -37,7 +37,7 @@ public class Message implements Serializable {
 		this.id = id;
 	}
 
-	@Lob
+	//@Lob
 	public String getContent() {
 		return user1.getId()+": "+this.content;
 	}
