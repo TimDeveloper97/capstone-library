@@ -5,7 +5,6 @@ import com.sb.brothers.capstone.dto.PostDto;
 import com.sb.brothers.capstone.entities.Order;
 import com.sb.brothers.capstone.entities.Post;
 import com.sb.brothers.capstone.global.GlobalData;
-import com.sb.brothers.capstone.services.BookService;
 import com.sb.brothers.capstone.services.OrderService;
 import com.sb.brothers.capstone.services.PostService;
 import com.sb.brothers.capstone.util.CustomErrorType;
@@ -55,6 +54,11 @@ public class CartController {
         if(post == null || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED){
             return new ResponseEntity(new CustomErrorType("Không tìm thấy bài đăng có mã: " + postId), HttpStatus.OK);
         }
+        for (PostDto pInOrder : list){
+            if(pInOrder.getId() == postId){
+                return new ResponseEntity(new CustomErrorType("Sản phầm đã có trong giỏ hàng."), HttpStatus.OK);
+            }
+        }
         postDto.convertPost(post);
         list.add(postDto);
         GlobalData.cart.put(auth.getName(), list);
@@ -72,7 +76,7 @@ public class CartController {
                 logger.error("This item not exists in your cart.");
                 return new ResponseEntity<>(new CustomErrorType("Sản phẩm không có trong giỏ hàng."), HttpStatus.OK);
             }
-            return new ResponseEntity(new CustomErrorType(true, "Xóa sản phần khỏi thành công."), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType(true, "Xóa sản phẩm khỏi giỏ hàng thành công."), HttpStatus.OK);
         }
         return new ResponseEntity<>(new CustomErrorType("Giỏ hàng trống."), HttpStatus.OK);
     } // delete 1 product
