@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+// eslint-disable-next-line no-unused-expressions
 ! function(e) {
     "use strict";
     var t = e(window);
@@ -62,6 +64,7 @@
                             e(o).each(function() {
                                 if (e(this).offset().top <= t + 100) {
                                     var a = e(o).attr("id");
+                                    // eslint-disable-next-line no-unused-expressions
                                     e(".js-scroll-nav li").removeClass("active"), e(".js-scroll-nav").find("a[href*=\\#" + a + "]").parent().addClass("active")
                                 }
                             })
@@ -244,4 +247,5 @@
             e.stopPropagation()
         }), b.length && b.fancybox()
     })
+// eslint-disable-next-line no-undef
 }(jQuery);

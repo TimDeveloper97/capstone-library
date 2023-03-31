@@ -18,6 +18,7 @@ export default function Header() {
   }, []);
 
   const user = useSelector((state) => state.user);
+  const [isActive, setIsActive] = useState(false);
 
   return (
     <header className="header-area bg-dark">
@@ -30,18 +31,11 @@ export default function Header() {
               </a>
               <div className="user-action">
                 <div
-                  className="search-menu-toggle icon-element icon-element-xs shadow-sm mr-1"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Search"
-                >
-                  <i className="la la-search"></i>
-                </div>
-                <div
                   className="off-canvas-menu-toggle icon-element icon-element-xs shadow-sm"
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Main menu"
+                  onClick={() => setIsActive(true)}
                 >
                   <i className="la la-bars"></i>
                 </div>
@@ -133,6 +127,81 @@ export default function Header() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        className={
+          isActive
+            ? "off-canvas-menu active custom-scrollbar-styled"
+            : "off-canvas-menu custom-scrollbar-styled"
+        }
+      >
+        <div
+          className="off-canvas-menu-close icon-element icon-element-sm shadow-sm"
+          data-toggle="tooltip"
+          data-placement="left"
+          title="Close menu"
+          onClick={() => setIsActive(false)}
+        >
+          <i className="la la-times"></i>
+        </div>
+        <ul className="generic-list-item off-canvas-menu-list pt-90px">
+          <li>
+            <Link to={"/"}>Trang chủ</Link>
+          </li>
+          <li>
+            <Link to={"/book"}>Kho sách</Link>
+          </li>
+          <li>
+            <Link to={"/user/add-book"}>Thêm sách</Link>
+          </li>
+          <li>
+            <Link to={"/post"}>Post</Link>
+          </li>
+          {roleAdmin && (
+            <>
+            <li>
+                <Link to={"/user/add-post"}>Tạo post</Link>
+              </li>
+              <li>
+                <Link to={"/user/category"}>Quản lý thể loại</Link>
+              </li>
+              <li>
+                <Link to={"/user/order-status"}>Quản lý đơn hàng</Link>
+              </li>
+              <li>
+                <Link to={"/user/post-request"}>Quản lý post</Link>
+              </li>
+              <li>
+                <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
+              </li>
+            </>
+          )}
+        </ul>
+        <div className="form-group mb-0">
+          <Notification />
+        </div>
+
+        <div className="nav-right-button">
+          {user?.firstName ? (
+            <span className="user-fullname" style={{color: 'black', marginLeft: '20px'}}>
+              <FontAwesomeIcon icon={faUserCheck} />
+              {"  " + user.lastName + " " + user.firstName}
+              <DetailAccount />
+            </span>
+          ) : (
+            <>
+              <Link
+                to={"/login"}
+                className="btn theme-btn theme-btn-sm theme-btn-outline"
+              >
+                <i className="la la-sign-in mr-1"></i> Đăng nhập
+              </Link>
+              <Link to={"/register"} className="btn theme-btn theme-btn-sm">
+                <i className="la la-user mr-1"></i> Đăng ký
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

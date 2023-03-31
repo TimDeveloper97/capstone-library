@@ -96,7 +96,7 @@ export default function Order() {
     const balance = JSON.parse(window.localStorage.getItem("user")).balance;
     if (sumTotal <= balance) {
       const res = await dispatch(checkout({ orders }));
-      if (res.status) {
+      if (res.success) {
         NotificationManager.success(res.message, "Thông báo", 2000);
       } else {
         NotificationManager.error(res.message, "Lỗi", 2000);

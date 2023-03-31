@@ -8,7 +8,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   bookReturn,
   confirmOrder,
@@ -18,10 +17,13 @@ import {
 } from "../../apis/order";
 import Loading from "../../components/Loading/Loading";
 import { getColorStatus } from "../../helper/helpFunction";
+import {
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
 
 export default function OrderStatus() {
   const [listOrderStatus, setlistOrderStatus] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrderStatus = async () => {
@@ -38,34 +40,60 @@ export default function OrderStatus() {
     fetchOrderStatus();
   }, []);
 
-  // const [status, setStatus] = useState();
-
-  // useEffect(() => {
-  //   listOrderStatus.forEach
-  // }, [listOrderStatus])
-
-  const handleConfirmOrder = async (e, id) => {
+  const handleConfirmOrder = async (e, id, index) => {
     e.preventDefault();
-    await confirmOrder(id);
-    navigate(0);
+    const {data} = await confirmOrder(id);
+    if (data.success) {
+      let temp = listOrderStatus;
+      temp[index].statusColor = getColorStatus(64);
+      temp[index].status = 64;
+      setlistOrderStatus(temp.slice());
+      NotificationManager.success(data.message, "Thông báo", 2000);
+    } else {
+      NotificationManager.error(data.message, "Lỗi", 2000);
+    }
   };
 
-  const handleDenyOrder = async (e, id) => {
+  const handleDenyOrder = async (e, id, index) => {
     e.preventDefault();
-    await denyOrder(id);
-    navigate(0);
+    const {data} = await denyOrder(id);
+    if (data.success) {
+      let temp = listOrderStatus;
+      temp[index].statusColor = getColorStatus(2);
+      temp[index].status = 2;
+      setlistOrderStatus(temp.slice());
+      NotificationManager.success(data.message, "Thông báo", 2000);
+    } else {
+      NotificationManager.error(data.message, "Lỗi", 2000);
+    }
   };
 
-  const handleReceivedOrder = async (e, id) => {
+  const handleReceivedOrder = async (e, id, index) => {
     e.preventDefault();
-    await receivedOrder(id);
-    navigate(0);
+    const {data} = await receivedOrder(id);
+    if (data.success) {
+      let temp = listOrderStatus;
+      temp[index].statusColor = getColorStatus(128);
+      temp[index].status = 128;
+      setlistOrderStatus(temp.slice());
+      NotificationManager.success(data.message, "Thông báo", 2000);
+    } else {
+      NotificationManager.error(data.message, "Lỗi", 2000);
+    }
   };
 
-  const handleBookReturn = async (e, id) => {
+  const handleBookReturn = async (e, id, index) => {
     e.preventDefault();
-    await bookReturn(id);
-    navigate(0);
+    const {data} = await bookReturn(id);
+    if (data.success) {
+      let temp = listOrderStatus;
+      temp[index].statusColor = getColorStatus(256);
+      temp[index].status = 256;
+      setlistOrderStatus(temp.slice());
+      NotificationManager.success(data.message, "Thông báo", 2000);
+    } else {
+      NotificationManager.error(data.message, "Lỗi", 2000);
+    }
   };
 
   const convertToDay = (input) => {
@@ -75,7 +103,7 @@ export default function OrderStatus() {
   return listOrderStatus ? (
     <>
       <section className="hero-area bg-white shadow-sm pt-80px pb-80px">
-        {/* <NotificationContainer /> */}
+        <NotificationContainer />
         <span className="icon-shape icon-shape-1"></span>
         <span className="icon-shape icon-shape-2"></span>
         <span className="icon-shape icon-shape-3"></span>
@@ -133,13 +161,13 @@ export default function OrderStatus() {
                           <div className="tooltip-action">
                             <button
                               className="btn btn-success"
-                              onClick={(e) => handleConfirmOrder(e, los.id)}
+                              onClick={(e) => handleConfirmOrder(e, los.id, index)}
                             >
                               <FontAwesomeIcon icon={faCheck} /> Chấp thuận
                             </button>
                             <button
                               className="btn btn-danger"
-                              onClick={(e) => handleDenyOrder(e, los.id)}
+                              onClick={(e) => handleDenyOrder(e, los.id, index)}
                             >
                               <FontAwesomeIcon icon={faCheck} />
                               Từ chối
@@ -154,7 +182,9 @@ export default function OrderStatus() {
                           <div className="tooltip-action">
                             <button
                               className="btn btn-success"
-                              onClick={(e) => handleReceivedOrder(e, los.id)}
+                              onClick={(e) =>
+                                handleReceivedOrder(e, los.id, index)
+                              }
                             >
                               <FontAwesomeIcon icon={faCheck} /> Xác nhận
                             </button>
@@ -168,7 +198,9 @@ export default function OrderStatus() {
                           <div className="tooltip-action">
                             <button
                               className="btn btn-success"
-                              onClick={(e) => handleBookReturn(e, los.id)}
+                              onClick={(e) =>
+                                handleBookReturn(e, los.id, index)
+                              }
                             >
                               <FontAwesomeIcon icon={faCheck} /> Xác nhận
                             </button>
