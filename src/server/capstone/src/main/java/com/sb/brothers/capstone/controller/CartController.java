@@ -54,6 +54,11 @@ public class CartController {
         if(post == null || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED){
             return new ResponseEntity(new CustomErrorType("Không tìm thấy bài đăng có mã: " + postId), HttpStatus.OK);
         }
+        for (PostDto pInOrder : list){
+            if(pInOrder.getId() == postId){
+                return new ResponseEntity(new CustomErrorType("Sản phầm đã có trong giỏ hàng."), HttpStatus.OK);
+            }
+        }
         postDto.convertPost(post);
         list.add(postDto);
         GlobalData.cart.put(auth.getName(), list);
