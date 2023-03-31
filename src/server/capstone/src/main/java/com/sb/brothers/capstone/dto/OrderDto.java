@@ -22,6 +22,7 @@ public class OrderDto {
     private String userId;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<PostDto> orders;
+    private PostDto postDto;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private int postId;
@@ -38,6 +39,10 @@ public class OrderDto {
         this.totalPrice = order.getTotalPrice();
         this.userId = order.getUser().getId();
         this.postId = order.getPost().getId();
+        if(order.getPost() != null) {
+            this.postDto = new PostDto();
+            postDto.convertPost(order.getPost());
+        }
     }
 
     int getNoDays(Date sDay, Date fDay){

@@ -66,7 +66,7 @@ public class Book implements Serializable {
 		this.publisher = publisher;
 	}
 
-	@Lob
+	//@Lob
 	@Column(name = "description", nullable = true, length = 512)
 	public String getDescription() {
 		return this.description;

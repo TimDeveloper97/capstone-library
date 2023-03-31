@@ -37,7 +37,7 @@ public class Report implements Serializable {
 	}
 
 
-	@Lob
+	//@Lob
 	public String getContent() {
 		return this.content;
 	}

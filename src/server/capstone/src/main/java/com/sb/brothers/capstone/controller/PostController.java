@@ -215,7 +215,7 @@ public class PostController {
     @PutMapping("/update")
     public ResponseEntity<?> updatePost(Authentication auth, @RequestBody PostDto postDto) throws Exception {
         if(auth.getName() == postDto.getUser()){
-            return new ResponseEntity<>(new CustomErrorType("Yêu ccaauf của bạn không hợp lệ."), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new CustomErrorType("Yêu cầu của bạn không hợp lệ."), HttpStatus.UNAUTHORIZED);
         }
         if(postDto.getId() != 0) {
             Post currPost = postService.getPostById(postDto.getId()).get();

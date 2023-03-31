@@ -39,7 +39,7 @@ public class Payment implements Serializable {
 		this.id = id;
 	}
 
-	@Lob
+	//@Lob
 	public String getContent() {
 		return this.content;
 	}

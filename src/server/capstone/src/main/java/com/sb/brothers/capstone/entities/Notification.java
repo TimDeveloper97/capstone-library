@@ -52,7 +52,7 @@ public class Notification implements Serializable {
 	}
 
 
-	@Lob
+	//@Lob
 	public String getDescription() {
 		return this.description;
 	}
