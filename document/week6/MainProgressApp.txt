@@ -1,0 +1,25 @@
+Luồng hoạt động của App:
+Tạo sách => tạo ký gửi => tạo bài đăng => thanh toán => mượn sách => trả sách => thành công
+
+User và Admin mỗi ng sẽ có 1 kho sách riêng của chính họ
+1, User tiến hành đăng sách vào trong kho của mình 
+=> mục tiêu kiểm soát số lượng sách sở hữu và trạng thái của chúng
+2, User tiến hành ký gửi bằng cách tạo bài ký gửi. Việc ký gửi sẽ hiện lên ở tài khoản Admin. 
+Admin có thể chấp thuận hoặc từ chối
+3, sau khi User ký gửi sách sẽ được chuyển vào kho của admin. Các thông số User ký gửi sẽ được lưu trong
+sách đó ở trong kho Admin
+4, admin khi đăng bài cho thuê sách có thể lấy sách đã ký gửi của nhiều User khác nhau(vì có thể có nhiều sách
+trong 1 bài ký gửi). Sau khi đăng sẽ hiện lên trang chủ
+5, User có thể thuê lại những bài đăng với số sách tương ứng trong bài 
+(Giá sẽ được tính theo = Tiền cọc bài đăng + tiền mỗi cuốn sách)
+6, User có thể thanh toán luôn hoặc thêm vào giỏ tùy mong muốn. 
+Sau khi tiến hành thanh toán thì sẽ phải đợi admin chấp nhận
+=> Vì có thể loại sách đó đã hết, hoặc admin đang đi công tác, hoặc gặp vấn đề bàn giao sách hay các vấn đề liền quan
+khi đó Admin có thể từ chối cho lấy sách hoặc chấp thuận. 
+7, Sẽ có thông báo thanh toán đến admin và admin chấp thuận thì sẽ có thông báo về User là có thể đến lấy sách
+Nếu admin từ chối thì sẽ có thông báo trở lại User và hoàn trả lại tiền.
+8, User đến lây sách và admin xác nhận sẽ có thông báo gửi về 2 bên. 
+9, User đến trả sách và có thông báo trả về
+=> Nếu User trả muộn sách A  ngày thì số tiền sẽ bị trừ đi 1% với trên 1 ngày đến khi nào hết tiền cọc. Khi đó admin sẽ phải
+tự liên lạc đến để đòi sách, TH khác tự xử lý
+=> những TH trên đều có cập nhật trạng thái tương ứng

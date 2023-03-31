@@ -28,6 +28,9 @@ namespace xfLibrary.Models
         [JsonProperty("noDays")]
         public int NumberOfRentalDays { get; set; }
 
+        [JsonProperty("postDto")]
+        public Post Post { get; set; }
+
 
         private string color = "#00000";
         private bool isAdmin = false, isDeny = false, isAccept = false;

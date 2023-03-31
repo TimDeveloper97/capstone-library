@@ -49,7 +49,7 @@ namespace xfLibrary.Models
 
         [JsonProperty("money")] 
         public int Money { get; set; }
-        
+
 
 
         private int maxLines = 2;

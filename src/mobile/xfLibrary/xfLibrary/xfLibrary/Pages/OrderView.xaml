@@ -133,8 +133,8 @@
                                                 </StackLayout>
 
                                                 <StackLayout Grid.Row="1" Spacing="0">
-                                                    <Label Style="{StaticResource TitleLabelStyle}" Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}"
-                                                       VerticalOptions="End" HorizontalOptions="Start" FontFamily="MuliBold"/>
+                                                    <Label Style="{StaticResource TitleLabelStyle}" Text="{Binding Post.Title, Converter={StaticResource UpperOneStringConverter}}"
+                                                            VerticalOptions="End" HorizontalOptions="Start" FontFamily="MuliBold" LineBreakMode="TailTruncation"/>
 
                                                     <Label Text="{Binding Total, StringFormat='💲Tổng tiền: {0}VND', Converter={StaticResource MoneyConverter}}" Style="{StaticResource MiniLabelStyle}" LineBreakMode="TailTruncation"
                                                                    HorizontalTextAlignment="Start" FontFamily="MuliBold"/>
