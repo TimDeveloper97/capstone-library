@@ -13,7 +13,7 @@ export default function Header() {
   const [roleAdmin, setRoleAdmin] = useState(false);
   const curUser = JSON.parse(window.localStorage.getItem("user"));
   useEffect(() => {
-    dispatch(getUser(curUser.id));
+    curUser && dispatch(getUser(curUser.id));
     setRoleAdmin(curUser?.roles[0] === "ROLE_ADMIN");
   }, []);
 
