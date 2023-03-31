@@ -112,7 +112,8 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `name_code` varchar(255) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`name_code`)
+  PRIMARY KEY (`name_code`),
+  UNIQUE KEY `name_code_UNIQUE` (`name_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
