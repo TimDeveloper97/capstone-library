@@ -160,7 +160,7 @@ export default function Header() {
           </li>
           {roleAdmin && (
             <>
-            <li>
+              <li>
                 <Link to={"/user/add-post"}>Tạo post</Link>
               </li>
               <li>
@@ -178,13 +178,13 @@ export default function Header() {
             </>
           )}
         </ul>
-        <div className="form-group mb-0">
-          <Notification />
-        </div>
 
         <div className="nav-right-button">
           {user?.firstName ? (
-            <span className="user-fullname" style={{color: 'black', marginLeft: '20px'}}>
+            <span
+              className="user-fullname"
+              style={{ color: "black", marginLeft: "20px" }}
+            >
               <FontAwesomeIcon icon={faUserCheck} />
               {"  " + user.lastName + " " + user.firstName}
               <DetailAccount />
