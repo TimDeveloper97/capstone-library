@@ -12,6 +12,7 @@ Web:
 => xử lý phân trang
 6, login sai pass hay user --> load trang trắng 
 7, user mới tạo vào trang list book thì ra trang trắng
+8, user ký gửi thì sửa lại title, tương tự với admin
 DB:
 1, category add cùng mã y hệt nhau dc --> xóa 1 cái mất 2 cái
 2, user ko ký gửi được
