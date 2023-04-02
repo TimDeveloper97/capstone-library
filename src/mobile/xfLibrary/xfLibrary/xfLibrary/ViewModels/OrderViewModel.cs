@@ -55,7 +55,10 @@ namespace xfLibrary.ViewModels
 
             var post = await _mainService.GetPostAsync(good.PostId, _token);
             if (post != null)
+            {
+                post.IsAdmin = _isAdmin;
                 await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, true));
+            }    
 
             IsBusy = false;
         });

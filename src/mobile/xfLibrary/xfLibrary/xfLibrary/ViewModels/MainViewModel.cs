@@ -40,6 +40,7 @@ namespace xfLibrary.ViewModels
             if (SearchDatas.Count == 0) return;
 
             var postOne = SearchDatas[0];
+            postOne.IsAdmin = _isAdmin;
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
 
             if (item == null) return;
@@ -76,6 +77,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand SelectedCommand => new Command<Post>(async (post) =>
         {
+            post.IsAdmin = _isAdmin;
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
             if (item == null) return;

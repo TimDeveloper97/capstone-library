@@ -325,6 +325,8 @@ namespace xfLibrary.ViewModels
                     }
                 }
             }
+
+            post.IsAdmin = _isAdmin;
             return post;
         }
         #endregion

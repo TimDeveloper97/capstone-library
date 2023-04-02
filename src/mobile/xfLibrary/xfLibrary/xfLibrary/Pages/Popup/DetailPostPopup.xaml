@@ -8,7 +8,7 @@
              xmlns:page="clr-namespace:xfLibrary.Pages"
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              xmlns:m="clr-namespace:xfLibrary.Models"
-             Size="350,400"
+             Size="350,370"
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              x:TypeArguments="m:Post"

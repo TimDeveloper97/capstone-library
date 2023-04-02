@@ -23,7 +23,7 @@ namespace xfLibrary.Pages.Popup
             InitializeComponent();
             _model = m;
 
-            if (isView)
+            if (isView || m.IsAdmin)
                 action.IsVisible = false;
             else
                 action.IsVisible = true;
