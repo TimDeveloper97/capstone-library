@@ -13,4 +13,5 @@ public interface OrderService {
     List<Order> findAllByUser(String uId);
     List<Order> getOrderByStatus();
     Optional<Order> getOrderById(int oId);
+    List<Order> getOrderByStatusForUser(String userId);
 }

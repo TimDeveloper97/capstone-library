@@ -16,4 +16,8 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Query(value = "SELECT * FROM orders WHERE post_id IN (SELECT id FROM POST WHERE (status = 2 OR status > 30 ) AND user_id = 'admin')"
             , nativeQuery = true)
     List<Order> findAllOrdersByRequestStatus();
+
+    @Query(value = "SELECT * FROM orders WHERE user_id = :userId AND post_id IN (SELECT id FROM POST WHERE (status = 2 OR status > 30 ) AND user_id = 'admin')"
+            , nativeQuery = true)
+    List<Order> findAllOrdersByRequestStatusForUser(@Param("userId") String userId);
 }
