@@ -37,4 +37,9 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> getOrderById(int oId) {
         return orderRepository.findById(oId);
     }
+
+    @Override
+    public List<Order> getOrderByStatusForUser(String userId) {
+        return orderRepository.findAllOrdersByRequestStatusForUser(userId);
+    }
 }
