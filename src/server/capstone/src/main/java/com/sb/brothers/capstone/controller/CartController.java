@@ -1,5 +1,6 @@
 package com.sb.brothers.capstone.controller;
 
+import com.sb.brothers.capstone.configuration.jwt.TokenProvider;
 import com.sb.brothers.capstone.dto.OrderDto;
 import com.sb.brothers.capstone.dto.PostDto;
 import com.sb.brothers.capstone.entities.Order;
@@ -32,6 +33,9 @@ public class CartController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @GetMapping("/cart")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -84,12 +88,15 @@ public class CartController {
     //Get All Order session
     @GetMapping("/order/request")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> getAllOrderRequest(){
+    public ResponseEntity<?> getAllOrderRequest(Authentication auth){
         logger.info("Return all admin posts");
         List<Order> orders = null;
         List<OrderDto> orderDtos = new ArrayList<>();
         try{
-            orders = orderService.getOrderByStatus();
+            if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN")) {
+                orders = orderService.getOrderByStatus();
+            }
+            else orders = orderService.getOrderByStatusForUser(auth.getName());
             for (Order order: orders){
                 OrderDto orderDto = new OrderDto(order);
                 orderDtos.add(orderDto);
