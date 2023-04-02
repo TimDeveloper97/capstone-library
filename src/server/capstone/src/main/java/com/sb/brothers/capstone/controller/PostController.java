@@ -300,14 +300,14 @@ public class PostController {
                 throw new Exception("Cập nhật trạng thái bài đăng thất bại. Không thể tìm thấy bài đăng.");
             }
             currPost = postService.getPostById(id).get();
-            if(status == CustomStatus.USER_POST_IS_APPROVED) {
+            /*if(status == CustomStatus.USER_POST_IS_APPROVED) {
                 List<PostDetail> postDetailList = postDetailService.findAllByPostId(id);
                 for (PostDetail pd : postDetailList) {
                     if (pd.getQuantity() > pd.getBook().getQuantity()) {
                         return new ResponseEntity(new CustomErrorType("Số lượng sách trong kho không đủ."), HttpStatus.OK);
                     }
                 }
-            }
+            }*/
             if (currPost.getStatus() == status){
                 return new ResponseEntity<>(new CustomErrorType("Trạng thái bài đăng không thay đổi."), HttpStatus.OK);
             }
