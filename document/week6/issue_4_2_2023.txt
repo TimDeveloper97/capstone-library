@@ -1,0 +1,17 @@
+doing:
+1, xóa category ko hiện thông báo xác nhận 
+=> Cái này ko cần thông báo vì nó chỉ ở phía admin
+
+Web: 
+1, admin vẫn add to cart -> loại bỏ
+2, trang sách đã thuê của user mới sao lại có sách của user khác
+3, user ko ký gửi được
+4, tạo post ko giới hạn số lượng sách trong kho, giảm sách về 0 thì nút + ko tăng số lượng dc 
+(xử lý nếu quá số lượng thì ko cho post)
+5, paging cái kho sách chỉ hiện 1-2 sách và phân ra rất nhiều trang (vd: 10 cuốn thì phân ra 4-5 trang mỗi trang chỉ chứa 1-2 cuốn)
+=> xử lý phân trang
+6, login sai pass hay user --> load trang trắng 
+7, user mới tạo vào trang list book thì ra trang trắng
+DB:
+1, category add cùng mã y hệt nhau dc --> xóa 1 cái mất 2 cái
+2, user ko ký gửi được
