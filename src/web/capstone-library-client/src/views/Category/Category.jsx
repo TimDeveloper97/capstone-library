@@ -14,10 +14,14 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategory, deleteCategory, getCategories } from "../../actions/category";
 import * as yup from "yup";
+import { removeTones } from "../../helper/helpFunction";
+import {
+  NotificationManager,
+  NotificationContainer
+} from "react-notifications";
 
 const schema = yup.object({
   name: yup.string().required("Tên không được để trống"),
-  nameCode: yup.string().required("Mã không được để trống"),
 });
 
 export default function Category() {
@@ -46,18 +50,30 @@ export default function Category() {
 
   const categories = useSelector((state) => state.category);
 
-  const submitForm = (data, e) => {
+  const submitForm = async (data, e) => {
     e.preventDefault();
-    dispatch(addCategory({name: data.name, nameCode: data.nameCode}));
+    data.nameCode = removeTones(data.name);
+    const res = await dispatch(addCategory({name: data.name, nameCode: data.nameCode}));
+    if(res.success){
+      NotificationManager.success(res.message, "Thông báo", 2000);
+    }else{
+      NotificationManager.error(res.message, "Lỗi", 2000);
+    }
     resetField("name");
     resetField("nameCode");
     handleClose();
   };
-  const handleDelete = (id) => {
-    dispatch(deleteCategory(id));
+  const handleDelete = async (id) => {
+    const res = await dispatch(deleteCategory(id));
+    if(res.success){
+      NotificationManager.success(res.message, "Thông báo", 2000);
+    }else{
+      NotificationManager.error(res.message, "Lỗi", 2000);
+    }
   }
   return (
     <div className="container">
+      <NotificationContainer />
       <div
         className="cart-form mb-50px table-responsive px-2"
         style={{ paddingTop: "20px" }}
@@ -89,20 +105,7 @@ export default function Category() {
                     {errors.name?.message}
                   </span>
                 )}
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  label="Mã"
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  {...register("nameCode")}
-                />
-                {errors.nameCode && (
-                  <span className="error-message" role="alert">
-                    {errors.nameCode?.message}
-                  </span>
-                )}
+                
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Hủy</Button>

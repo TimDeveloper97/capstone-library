@@ -41,6 +41,7 @@
   opacity: 0;
   visibility: hidden;
   padding: 20px;
+  width: 190px;
 }
 
 .detail-item {
@@ -61,18 +62,4 @@
 .logo img {
   width: 100px;
 }
-.detail-account {
-  background-color: #fff;
-  position: absolute;
-  right: -10px;
-  z-index: 10;
-  color: #6c727c;
-  box-shadow: 0 0 1px 1px #aaa;
-  text-align: left;
-  cursor: default;
-  border-radius: 10px;
-  transition: all 0.3s;
-  opacity: 0;
-  visibility: hidden;
-  padding: 20px;
-}
+

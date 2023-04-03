@@ -21,14 +21,6 @@ export default function BookPage() {
                 >
                   <div className="filters d-flex align-items-center justify-content-between pb-4">
                     <h3 className="fs-17 fw-medium">Tất cả sách</h3>
-                    {/* <div className="filter-option-box w-20">
-                      <select className="select-container">
-                        <option className="newest">Newest </option>
-                        <option className="featured">Bountied (390)</option>
-                        <option className="frequent">Frequent </option>
-                        <option className="votes">Votes </option>
-                      </select>
-                    </div> */}
                   </div>
                   <div className="question-main-bar">
                     <div className="questions-snippet">

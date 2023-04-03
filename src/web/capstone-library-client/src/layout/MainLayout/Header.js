@@ -106,7 +106,7 @@ export default function Header() {
                   <span className="user-fullname">
                     <FontAwesomeIcon icon={faUserCheck} />
                     {"  " + user.lastName + " " + user.firstName}
-                    <DetailAccount />
+                    <DetailAccount isCollapse={false} />
                   </span>
                 ) : (
                   <>
@@ -179,7 +179,7 @@ export default function Header() {
           )}
         </ul>
 
-        <div className="nav-right-button">
+        <div className="collapse-user">
           {user?.firstName ? (
             <span
               className="user-fullname"
@@ -187,13 +187,14 @@ export default function Header() {
             >
               <FontAwesomeIcon icon={faUserCheck} />
               {"  " + user.lastName + " " + user.firstName}
-              <DetailAccount />
+              <DetailAccount isCollapse={true} />
             </span>
           ) : (
             <>
               <Link
                 to={"/login"}
                 className="btn theme-btn theme-btn-sm theme-btn-outline"
+                style={{marginLeft: '15px'}}
               >
                 <i className="la la-sign-in mr-1"></i> Đăng nhập
               </Link>

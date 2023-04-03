@@ -39,7 +39,7 @@ export default function AddPost() {
         return {
           id: book.id,
           quantity: 1,
-          maxQuantity: book.quantity,
+          maxQuantity: role ? book.inStock : book.quantity,
           price: book.price,
           name: book.name,
           selected: false,
@@ -330,6 +330,7 @@ export default function AddPost() {
                         <th scope="col">Tên sách</th>
                         <th scope="col">Giá</th>
                         <th scope="col">Số lượng</th>
+                        <th scope="col">Còn lại</th>
                         <th scope="col">Chọn</th>
                       </tr>
                     </thead>
@@ -381,6 +382,7 @@ export default function AddPost() {
                                   </button>
                                 </div>
                               </td>
+                              <td style={{textAlign: 'center'}}>{book.maxQuantity}</td>
                               <td>
                                 <Checkbox
                                   onChange={(e) =>

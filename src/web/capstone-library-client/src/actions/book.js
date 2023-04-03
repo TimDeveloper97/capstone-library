@@ -9,7 +9,7 @@ export const getBooks = () => async (dispatch) => {
   const response = await api.getBooks();
   dispatch({
     type: "GET_BOOKS",
-    payload: response.data.value ? response.data.value : [],
+    payload: response.data.value ? response.data.value.sort((a, b) => a.id - b.id).slice() : [],
   });
 };
 
@@ -17,7 +17,7 @@ export const getUserBooks = () => async (dispatch) => {
   const response = await api.getUserBooks();
   dispatch({
     type: "GET_BOOKS",
-    payload: response.data.value ? response.data.value : [],
+    payload: response.data.value ? response.data.value.sort((a, b) => a.id - b.id).slice() : [],
   });
 };
 
