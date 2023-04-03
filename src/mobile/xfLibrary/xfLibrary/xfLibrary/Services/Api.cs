@@ -32,6 +32,8 @@ namespace xfLibrary.Services
         public const string UpdateBook = "books/update";
 
         public const string Category = "admin/categories";
+        public const string AddCategory = "admin/categories/add";
+        public const string DeleteCategory = "admin/categories/delete";
         public const string SuggestBook = "books/suggest";
         public const string GetSuggestPost = "posts/has-book";
 

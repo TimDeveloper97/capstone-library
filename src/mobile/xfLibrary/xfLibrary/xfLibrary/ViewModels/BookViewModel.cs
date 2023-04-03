@@ -56,10 +56,13 @@ namespace xfLibrary.ViewModels
         public ICommand DeleteCommand => new Command<Book>(async (book) =>
         {
             var res = await _accountService.DeleteBookAsync(book.Id, _token);
+            if (res == null) return;
+
             if (res.Success)
                 ItemsSource.Remove(book);
 
-            _message.ShortAlert(res.Message);
+            if (string.IsNullOrEmpty(res.Message))
+                _message.ShortAlert(res.Message);
         });
 
         public ICommand UpdateCommand => new Command<Book>(async (book) => await Shell.Current.GoToAsync($"{nameof(DetailBookView)}" +

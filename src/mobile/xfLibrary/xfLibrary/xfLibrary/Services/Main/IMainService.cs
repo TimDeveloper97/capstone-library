@@ -10,6 +10,8 @@ namespace xfLibrary.Services.Main
     public interface IMainService
     {
         Task<List<Category>> CategoryAsync();
+        Task<Response> AddCategoryAsync(string name, string code, string token);
+        Task<Response> DeleteCategoryAsync(string id, string token);
 
         Task<List<Book>> SuggestAsync(string _token);
         Task<List<Post>> GetSuggestPostAsync(string id);

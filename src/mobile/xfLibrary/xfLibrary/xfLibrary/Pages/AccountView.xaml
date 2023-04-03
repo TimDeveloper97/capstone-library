@@ -63,6 +63,7 @@
                     <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý" HorizontalOptions="Start" Padding="15,20,10,5"/>
                     <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
                     <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
+                    <view:ItemView Text="Danh mục" Icon="{Static icon:FontIcons.Folder}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Black}" TabCommand="{Binding CategoryCommand}"/>
                 </StackLayout>
 
                 <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">

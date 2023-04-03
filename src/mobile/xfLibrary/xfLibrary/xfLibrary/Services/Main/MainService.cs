@@ -20,6 +20,18 @@ namespace xfLibrary.Services.Main
             return value;
         }
 
+        public async Task<Response> AddCategoryAsync(string name, string code, string token)
+        {
+            var res = await Service.Post(new { name = name, nameCode = code }, Api.AddCategory, token);
+            return res;
+        }
+
+        public async Task<Response> DeleteCategoryAsync(string id, string token)
+        {
+            var res = await Service.Delete(id, Api.DeleteCategory, token);
+            return res;
+        }
+
         public async Task<List<Book>> SuggestAsync(string _token)
         {
             var res = await Service.Get(Api.SuggestBook, _token);
