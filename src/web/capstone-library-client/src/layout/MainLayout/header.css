@@ -30,7 +30,6 @@
 .detail-account {
   background-color: #fff;
   position: absolute;
-  top: 70px;
   right: -10px;
   z-index: 10;
   color: #6c727c;
@@ -42,6 +41,7 @@
   opacity: 0;
   visibility: hidden;
   padding: 20px;
+  width: 190px;
 }
 
 .detail-item {
@@ -53,6 +53,7 @@
 }
 .user-fullname {
   cursor: pointer;
+  position: relative;
 }
 .user-fullname:hover .detail-account {
   visibility: unset;
@@ -61,3 +62,4 @@
 .logo img {
   width: 100px;
 }
+

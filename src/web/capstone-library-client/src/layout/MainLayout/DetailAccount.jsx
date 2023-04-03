@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { clearSession } from "../../actions/user";
 
-export default function DetailAccount() {
+export default function DetailAccount({isCollapse}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const role =
@@ -22,7 +22,7 @@ export default function DetailAccount() {
     window.location.href = "/";
   };
   return (
-    <div className="detail-account">
+    <div className="detail-account" style={{right: isCollapse ? '-40px' : '-10px'}}>
       {role ? null : (
         <>
           <div className="detail-item">

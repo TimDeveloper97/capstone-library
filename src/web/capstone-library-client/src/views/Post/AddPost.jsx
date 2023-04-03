@@ -21,7 +21,6 @@ import {
 
 const schema = yup.object({
   noDays: yup.string().required("Số ngày cho thuê không được để trống"),
-  fee: yup.string().required("Phí cho thuê không được để trống"),
 });
 
 export default function AddPost() {
@@ -40,7 +39,7 @@ export default function AddPost() {
         return {
           id: book.id,
           quantity: 1,
-          maxQuantity: book.quantity,
+          maxQuantity: role ? book.inStock : book.quantity,
           price: book.price,
           name: book.name,
           selected: false,
@@ -57,40 +56,52 @@ export default function AddPost() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const [errorState, setErrorState] = useState({
+    fee: null,
+    title: null,
+    address: null,
+  });
   const submitForm = async (data, e) => {
     e.preventDefault();
-    let postDetails = listSelectBook.filter((lsb) => lsb.selected);
-    data.postDetailDtos = postDetails.map((lsb) => {
-      return {
-        bookDto: {
-          id: lsb.id,
-        },
-        quantity: lsb.quantity,
-      };
-    });
-    if (role) {
-      data.address = null;
+    if (role && data.fee.trim() === "") {
+      setErrorState({ fee: "Phí thuê không được để trống" });
+    } else if (role && data.title.trim() === "") {
+      setErrorState({ title: "Tiêu đề không được để trống" });
+    } else if (!role && address === "Chọn địa chỉ") {
+      setErrorState({ address: "Bạn chưa chọn địa chỉ" });
     } else {
-      data.address = address;
-      data.title = "[Ký gửi]";
-      data.fee = 30;
-    }
-    const res = await dispatch(
-      addPost({
-        title: data.title,
-        noDays: data.noDays,
-        fee: role ? data.fee : 30,
-        content: data.content,
-        address: data.address,
-        postDetailDtos: data.postDetailDtos,
-      })
-    );
-    if (res.success) {
-      NotificationManager.success(res.message, "Thông báo", 2000);
-      resetData();
-    } else {
-      NotificationManager.error(res.message, "Lỗi", 2000);
+      let postDetails = listSelectBook.filter((lsb) => lsb.selected);
+      data.postDetailDtos = postDetails.map((lsb) => {
+        return {
+          bookDto: {
+            id: lsb.id,
+          },
+          quantity: lsb.quantity,
+        };
+      });
+      if (role) {
+        data.address = null;
+      } else {
+        data.address = address;
+        data.title = "[Ký gửi]";
+        data.fee = 30;
+      }
+      const res = await dispatch(
+        addPost({
+          title: data.title,
+          noDays: data.noDays,
+          fee: role ? data.fee : 30,
+          content: data.content,
+          address: data.address,
+          postDetailDtos: data.postDetailDtos,
+        })
+      );
+      if (res.success) {
+        NotificationManager.success(res.message, "Thông báo", 2000);
+        resetData();
+      } else {
+        NotificationManager.error(res.message, "Lỗi", 2000);
+      }
     }
   };
 
@@ -139,6 +150,9 @@ export default function AddPost() {
 
   const handleChangeAddress = (event) => {
     setAddress(event.target.value);
+    if (event.target.value !== "Chọn địa chỉ") {
+      setErrorState({ address: null });
+    }
   };
   const listAddress = [
     "Chọn địa chỉ",
@@ -157,7 +171,9 @@ export default function AddPost() {
       <NotificationContainer />
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
-          <h3 className="fs-22 fw-medium mr-0">Thêm mới post</h3>
+          <h3 className="fs-22 fw-medium mr-0">
+            {role ? "Thêm mới post" : "Ký gửi sách"}
+          </h3>
         </div>
         <div className="row">
           <div className="col-lg-6" style={{ position: "relative" }}>
@@ -179,9 +195,9 @@ export default function AddPost() {
                           fullWidth
                           {...register("title")}
                         />
-                        {errors.title && (
+                        {errorState.title && (
                           <span className="error-message" role="alert">
-                            {errors.title?.message}
+                            {errorState.title}
                           </span>
                         )}
                       </>
@@ -206,6 +222,11 @@ export default function AddPost() {
                               );
                             })}
                           </Select>
+                          {errorState.address && (
+                            <span className="error-message" role="alert">
+                              {errorState.address}
+                            </span>
+                          )}
                         </FormControl>
                         <TextField
                           required
@@ -243,12 +264,13 @@ export default function AddPost() {
                           id="filled-basic"
                           label="Phí thuê"
                           variant="filled"
+                          name="fee"
                           required
                           {...register("fee")}
                         />
-                        {errors.fee && (
+                        {errorState.fee && (
                           <span className="error-message" role="alert">
-                            {errors.fee?.message}
+                            {errorState.fee}
                           </span>
                         )}
                       </div>
@@ -257,10 +279,10 @@ export default function AddPost() {
                         <TextField
                           id="filled-basic"
                           label="Phí thuê"
+                          name="userFee"
                           variant="filled"
-                          required
                           {...register("fee")}
-                          defaultValue={"30%"}
+                          value={"30%"}
                           disabled
                         />
                       </div>
@@ -288,7 +310,7 @@ export default function AddPost() {
                   </div>
                   <div className="form-group mb-0">
                     <button className="btn theme-btn" type="submit">
-                      Đăng post
+                      {role ? "Đăng post" : "Ký gửi"}
                     </button>
                   </div>
                 </div>
@@ -308,6 +330,7 @@ export default function AddPost() {
                         <th scope="col">Tên sách</th>
                         <th scope="col">Giá</th>
                         <th scope="col">Số lượng</th>
+                        <th scope="col">Còn lại</th>
                         <th scope="col">Chọn</th>
                       </tr>
                     </thead>
@@ -359,6 +382,7 @@ export default function AddPost() {
                                   </button>
                                 </div>
                               </td>
+                              <td style={{textAlign: 'center'}}>{book.maxQuantity}</td>
                               <td>
                                 <Checkbox
                                   onChange={(e) =>

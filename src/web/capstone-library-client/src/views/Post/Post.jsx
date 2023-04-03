@@ -87,10 +87,12 @@ export default function Post() {
   const [keyword, setKeyword] = useState("");
   const handleSearch = (event) => {
     //event.preventDefault();
-    setKeyword(event.target.value)
+    setKeyword(event.target.value);
     console.log(keyword);
-    setListPost(posts.filter(post => post.title.indexOf(event.target.value) !== -1));
-  }
+    setListPost(
+      posts.filter((post) => post.title.indexOf(event.target.value) !== -1)
+    );
+  };
 
   return posts ? (
     <section className="question-area pb-40px">
@@ -108,23 +110,29 @@ export default function Post() {
                 >
                   <div className="filters d-flex align-items-center justify-content-between pb-4">
                     <h3 className="fs-17 fw-medium">Tất cả post</h3>
-                    
-                    <div className="filter-option-box" style={{display: "flex"}}>
-                    <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group mb-0" style={{width: '300px', marginRight: '30px'}}>
-                      <input
-                        className="form-control form--control"
-                        type="text"
-                        name="search"
-                        placeholder="Nhập tên sách..."
-                        value={keyword}
-                        onChange={(e) => handleSearch(e)}
-                      />
-                      <button className="form-btn" type="submit">
-                        <i className="la la-search"></i>
-                      </button>
-                    </div>
-                    </form>
+
+                    <div
+                      className="filter-option-box"
+                      style={{ display: "flex" }}
+                    >
+                      <form onSubmit={(e) => e.preventDefault()}>
+                        <div
+                          className="form-group mb-0"
+                          style={{ width: "300px", marginRight: "30px" }}
+                        >
+                          <input
+                            className="form-control form--control"
+                            type="text"
+                            name="search"
+                            placeholder="Nhập tên post..."
+                            value={keyword}
+                            onChange={(e) => handleSearch(e)}
+                          />
+                          <button className="form-btn" type="submit">
+                            <i className="la la-search"></i>
+                          </button>
+                        </div>
+                      </form>
                       <FormControl style={{ width: "200px" }}>
                         <InputLabel id="demo-simple-select-label">
                           Sắp xếp

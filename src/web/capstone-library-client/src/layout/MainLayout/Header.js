@@ -106,7 +106,7 @@ export default function Header() {
                   <span className="user-fullname">
                     <FontAwesomeIcon icon={faUserCheck} />
                     {"  " + user.lastName + " " + user.firstName}
-                    <DetailAccount />
+                    <DetailAccount isCollapse={false} />
                   </span>
                 ) : (
                   <>
@@ -160,7 +160,7 @@ export default function Header() {
           </li>
           {roleAdmin && (
             <>
-            <li>
+              <li>
                 <Link to={"/user/add-post"}>Tạo post</Link>
               </li>
               <li>
@@ -178,22 +178,23 @@ export default function Header() {
             </>
           )}
         </ul>
-        <div className="form-group mb-0">
-          <Notification />
-        </div>
 
-        <div className="nav-right-button">
+        <div className="collapse-user">
           {user?.firstName ? (
-            <span className="user-fullname" style={{color: 'black', marginLeft: '20px'}}>
+            <span
+              className="user-fullname"
+              style={{ color: "black", marginLeft: "20px" }}
+            >
               <FontAwesomeIcon icon={faUserCheck} />
               {"  " + user.lastName + " " + user.firstName}
-              <DetailAccount />
+              <DetailAccount isCollapse={true} />
             </span>
           ) : (
             <>
               <Link
                 to={"/login"}
                 className="btn theme-btn theme-btn-sm theme-btn-outline"
+                style={{marginLeft: '15px'}}
               >
                 <i className="la la-sign-in mr-1"></i> Đăng nhập
               </Link>

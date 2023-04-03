@@ -1,4 +1,10 @@
-import { faBagShopping, faCartPlus, faDongSign, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBagShopping,
+  faCartPlus,
+  faDongSign,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,17 +14,19 @@ import { getPostById } from "../../apis/post";
 import Carousel from "../../components/Carousel/Carousel";
 import Loading from "../../components/Loading/Loading";
 import {
-    NotificationManager,
-    NotificationContainer,
-  } from "react-notifications";
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
 import { getImgUrl } from "../../helper/helpFunction";
-import './post.css';
+import "./post.css";
 
 export default function DetailPost() {
   const [currentPost, setCurrentPost] = useState();
   const [listImg, setListImg] = useState([]);
 
   const dispatch = useDispatch();
+  const isAdmin =
+    JSON.parse(window.localStorage.getItem("user")).roles[0] === "ROLE_ADMIN";
 
   const { id } = useParams();
   //const books = useSelector(state => state.book);
@@ -50,26 +58,28 @@ export default function DetailPost() {
   const handleRentBook = async () => {
     const response = await dispatch(orderBook(currentPost.id));
     console.log(response);
-    if(response.success){
-        NotificationManager.success(response.message, "Thông báo", 2000);
-    }else{
-        NotificationManager.error(response.message, "Lỗi", 2000);
+    if (response.success) {
+      NotificationManager.success(response.message, "Thông báo", 2000);
+    } else {
+      NotificationManager.error(response.message, "Lỗi", 2000);
     }
-  }
+  };
 
   const handleRentNow = async () => {
-    const response = await dispatch(checkout({orders: [{id: currentPost.id}]}));
+    const response = await dispatch(
+      checkout({ orders: [{ id: currentPost.id }] })
+    );
     console.log(response);
-    if(response.success){
-        NotificationManager.success(response.message, "Thông báo", 2000);
-    }else{
-        NotificationManager.error(response.message, "Lỗi", 2000);
+    if (response.success) {
+      NotificationManager.success(response.message, "Thông báo", 2000);
+    } else {
+      NotificationManager.error(response.message, "Lỗi", 2000);
     }
-  }
+  };
 
   return currentPost ? (
     <section className="question-area pb-40px">
-        <NotificationContainer />
+      <NotificationContainer />
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
@@ -118,7 +128,7 @@ export default function DetailPost() {
                                       <th scope="colSpan">Thành tiền</th>
                                     </tr>
                                   </thead>
-                                  <tbody style={{borderBottom: 'none'}}>
+                                  <tbody style={{ borderBottom: "none" }}>
                                     {currentPost.postDetailDtos.map(
                                       (post, index) => {
                                         return (
@@ -150,16 +160,25 @@ export default function DetailPost() {
                                 </table>
                               </div>
 
-                              <div className="buy">
-                                <button className="btn btn-success" onClick={() => handleRentBook()}>
-                                <FontAwesomeIcon icon={faCartPlus} />  {"  "}
-                                  Thêm vào giỏ
-                                </button>
-                                <button className="btn btn-info" onClick={() => handleRentNow()}>
-                                    <FontAwesomeIcon icon={faBagShopping} />  {"  "}
+                              {!isAdmin && (
+                                <div className="buy">
+                                  <button
+                                    className="btn btn-success"
+                                    onClick={() => handleRentBook()}
+                                  >
+                                    <FontAwesomeIcon icon={faCartPlus} /> {"  "}
+                                    Thêm vào giỏ
+                                  </button>
+                                  <button
+                                    className="btn btn-info"
+                                    onClick={() => handleRentNow()}
+                                  >
+                                    <FontAwesomeIcon icon={faBagShopping} />{" "}
+                                    {"  "}
                                     Thuê ngay
-                                </button>
-                              </div>
+                                  </button>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>

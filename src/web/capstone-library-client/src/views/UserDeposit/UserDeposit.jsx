@@ -13,14 +13,15 @@ export default function UserDeposit() {
     const getPost = async () => {
       const { data } = await getPostByUser();
       //data.value.filter((val) => val.user === user.id);
-      setListPostRequest(
-        data.value.map((val) => {
-          return {
-            ...val,
-            statusColor: getColorStatus(val.status),
-          };
-        })
-      );
+      data.value &&
+        setListPostRequest(
+          data.value.map((val) => {
+            return {
+              ...val,
+              statusColor: getColorStatus(val.status),
+            };
+          })
+        );
     };
     getPost();
   }, []);
