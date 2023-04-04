@@ -19,7 +19,7 @@ export default function ListBook() {
   const books = useSelector((state) => state.book);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 2,
+    pageSize: 10,
     numberOfPage: 1
   });
   const [listBook, setListBook] = useState([]);

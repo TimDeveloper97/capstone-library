@@ -7,7 +7,7 @@ import {
 } from "react-notifications";
 
 import "react-notifications/lib/notifications.css";
-import { Link, redirect, useLocation, useNavigate, } from "react-router-dom";
+import { Link, redirect, useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axiosIntance from "../../helper/axios";
@@ -35,17 +35,21 @@ export default function Login() {
     window.localStorage.clear();
     window.location.reload();
   }
-  const from = location.state?.from || {pathname: "/"};
+  const from = location.state?.from || { pathname: "/" };
   const onSubmit = (data, e) => {
     e.preventDefault();
     axiosIntance
       .post("/login", data)
       .then((response) => {
-        const { value, token } = response.data;
-        window.localStorage.setItem("token", token);
-        window.localStorage.setItem("user", JSON.stringify(value));
-        dispatch(getUser(value));
-        window.location.href = from.pathname;
+        if (response.data.hasOwnProperty("success")) {
+          NotificationManager.error(response.data.message, "Lỗi", 2000);
+        } else {
+          const { value, token } = response.data;
+          window.localStorage.setItem("token", token);
+          window.localStorage.setItem("user", JSON.stringify(value));
+          dispatch(getUser(value));
+          window.location.href = from.pathname;
+        }
       })
       .catch((err) => {
         if (err.response.status === 404) {

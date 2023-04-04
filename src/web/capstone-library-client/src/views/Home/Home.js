@@ -46,7 +46,7 @@ export default function Home() {
                 <p className="lh-26 text-white">
                   Tận hưởng hệ thống thư viện chuyên nghiệp và đẩy đủ.
                 </p>
-                <div className="hero-btn-box pt-30px">
+                {/* <div className="hero-btn-box pt-30px">
                   <a
                     href="#for-guest"
                     className="btn theme-btn mr-2 page-scroll"
@@ -60,7 +60,7 @@ export default function Home() {
                   >
                     Thành viên <i className="la la-angle-down icon ml-1"></i>
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

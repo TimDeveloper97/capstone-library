@@ -69,7 +69,6 @@ export default function DetailPost() {
     const response = await dispatch(
       checkout({ orders: [{ id: currentPost.id }] })
     );
-    console.log(response);
     if (response.success) {
       NotificationManager.success(response.message, "Thông báo", 2000);
     } else {

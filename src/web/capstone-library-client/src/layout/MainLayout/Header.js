@@ -98,7 +98,7 @@ export default function Header() {
                 </ul>
               </nav>
               <div className="form-group mb-0">
-                <Notification />
+                {curUser && <Notification />}
               </div>
 
               <div className="nav-right-button">
