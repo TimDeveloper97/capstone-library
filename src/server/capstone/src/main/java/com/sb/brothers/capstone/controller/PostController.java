@@ -260,7 +260,7 @@ public class PostController {
                     b.setInStock(postDetail.getQuantity());
                     bookService.updateBook(b);
                     bookService.updateBook(book);
-                    postDetail.setSublet(1);
+                    postDetail.setSublet(book.getId());
                 }
                 else if(currPost.getStatus() == CustomStatus.ADMIN_POST){
                     //@TODO - check qua han
