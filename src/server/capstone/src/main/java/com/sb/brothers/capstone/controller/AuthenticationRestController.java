@@ -9,6 +9,7 @@ import com.sb.brothers.capstone.global.GlobalData;
 import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.ResLoginData;
+import com.sb.brothers.capstone.util.UserNotActivatedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,9 @@ public class AuthenticationRestController {
          authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
       }catch (BadCredentialsException ex){
          return new ResponseEntity(new CustomErrorType("Tài khoản hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại."), HttpStatus.OK);
+      }
+      catch (UserNotActivatedException unEx){
+         return new ResponseEntity(new CustomErrorType("Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ Administrator để kích hoạt lại."), HttpStatus.OK);
       }
       GlobalData.mapCurrPass.put(loginDto.getUsername(), loginDto.getPassword());
       SecurityContextHolder.getContext().setAuthentication(authentication);
