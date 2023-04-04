@@ -1,16 +1,20 @@
 package com.sb.brothers.capstone.controller;
 
+import com.sb.brothers.capstone.configuration.jwt.TokenProvider;
 import com.sb.brothers.capstone.dto.UserDTO;
 import com.sb.brothers.capstone.entities.Role;
 import com.sb.brothers.capstone.entities.User;
 import com.sb.brothers.capstone.services.RoleService;
 import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
+import com.sb.brothers.capstone.util.ResData;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,7 +33,7 @@ public class UserController {
     public static final Logger logger = Logger.getLogger(UserController.class);
 
     @Autowired
-    private PasswordEncoder bCryptPasswordEncoder;
+    private TokenProvider tokenProvider;
 
     @Autowired
     UserService userService;
@@ -122,28 +127,28 @@ public class UserController {
         headers.setLocation(ucBuilder.path("/api/admin/users").build().toUri());
         return new ResponseEntity<User>(headers, HttpStatus.OK);
     }//delete 1 user*/
-/*
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody User user, Model model){
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/role-update/{id}")
+    public ResponseEntity<?> updateUser(Authentication auth, @PathVariable("id") String id, @RequestBody User user){
+        logger.info("API update Role for other User by Admin - START");
         User currUser = userService.getUserById(id).get();
         if(currUser == null){
             logger.error("User with id:"+ id +" not found. Unable to update.");
-            return new ResponseEntity(new CustomErrorType("User with id:"+ id +" not found. Unable to update."),
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy người dùng có id:"+ id +". Cập nhật thông tin thất bại."),
+                    HttpStatus.OK);
         }
-        currUser.setFirstName(user.getFirstName());
-        currUser.setLastName(user.getLastName());
-        currUser.setAddress(user.getAddress());
-        currUser.setPhone(user.getPhone());
-        currUser.setBalance(user.getBalance());
-        currUser.setModifiedBy(user.getModifiedBy());
-        currUser.setModifiedDate(user.getModifiedDate());
+        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN")){
+            return new ResponseEntity(new CustomErrorType("Không thể thay đổi vai trò của Administrator. Cập nhật thông tin thất bại."),
+                    HttpStatus.OK);
+        }
+        currUser.setModifiedBy(auth.getName());
+        currUser.setModifiedDate(new Date());
         currUser.setStatus(user.getStatus());
         currUser.setRoles(user.getRoles());
         logger.info("Fetching & Updating User with id: "+ user.getId()+" by " + user.getModifiedBy() +" at "+ user.getModifiedDate());
         userService.updateUser(currUser);
-        logger.info("Update user - Success");
-        return new ResponseEntity<User>(currUser, HttpStatus.OK);
-
-    }*/
+        logger.info("API update Role for other User by Admin - Success");
+        return new ResponseEntity<>(new CustomErrorType(true, "Cập nhật vai trò và trạng thái người dùng thành công."), HttpStatus.OK);
+    }
 }
