@@ -411,6 +411,26 @@ DELIMITER ;;
     SET @USER_POST_IS_EXPIRED 	     = 512;
     SET @MANAGER		     = 3;
 	SELECT user_id INTO @username FROM Orders where post_id = OLD.id;
+
+    -- Xử lý hết hạn ký gửi sách
+    begin
+	DECLARE pBookId, subQ int;
+	DECLARE done INT DEFAULT FALSE;
+	DECLARE cur CURSOR FOR select sublet, quantity from post_detail where  post_id = OLD.id and sublet > 0;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	open cur;
+	read_loop: LOOP
+		FETCH cur INTO pBookId, subQ;
+		IF done THEN
+		  LEAVE read_loop;
+		END IF;
+		if(OLD.status = @USER_POST_IS_APPROVED AND NEW.status = @USER_POST_IS_EXPIRED) THEN
+			update books set quantity = (quantity + subQ) where id = pBookId;
+    		END IF;
+	END LOOP;	
+	CLOSE cur;
+    end;
+    
     begin
 	DECLARE manager VARCHAR(255);
 	DECLARE done INT DEFAULT FALSE;
