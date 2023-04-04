@@ -58,30 +58,34 @@
                 </Grid>
                 <!--#endregion-->
 
-                <!--#region Items -->
-                <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
-                    <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý" HorizontalOptions="Start" Padding="15,20,10,5"/>
-                    <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
-                    <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
-                    <view:ItemView Text="Danh mục" Icon="{Static icon:FontIcons.Folder}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Black}" TabCommand="{Binding CategoryCommand}"/>
-                </StackLayout>
+                <ScrollView Margin="0,0,0,15">
+                    <StackLayout>
+                        <!--#region Items -->
+                        <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
+                            <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý" HorizontalOptions="Start" Padding="15,20,10,5"/>
+                            <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
+                            <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
+                            <view:ItemView Text="Danh mục" Icon="{Static icon:FontIcons.Folder}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Red}" TabCommand="{Binding CategoryCommand}"/>
+                        </StackLayout>
 
-                <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
-                    <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="15,20,10,5"/>
-                    <view:ItemView Text="Thống kê" Icon="{Static icon:FontIcons.Charity}" TabCommand="{Binding StaticCommand}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Tertiary}"/>
-                    <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}"/>
-                    <view:ItemView Text="Nạp tiền" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Cash}" Color="{StaticResource Yellow}"/>
-                </StackLayout>
+                        <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
+                            <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="15,20,10,5"/>
+                            <view:ItemView Text="Thống kê" Icon="{Static icon:FontIcons.Charity}" TabCommand="{Binding StaticCommand}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Tertiary}"/>
+                            <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}"/>
+                            <view:ItemView Text="Nạp tiền" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Cash}" Color="{StaticResource Yellow}"/>
+                        </StackLayout>
 
-                <StackLayout Spacing="0">
-                    <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Khác" HorizontalOptions="Start" Padding="15,20,10,5"/>
-                    <view:ItemView Text="Cài đặt tài khoản" Icon="{Static icon:FontIcons.Tools}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding ProfileCommand}"/>
-                    <view:ItemView Text="Đổi mật khẩu" Icon="{Static icon:FontIcons.KeyChange}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding ChangePasswordCommand}"/>
-                    <view:ItemView Text="Set IP" Icon="{Static icon:FontIcons.IpNetwork}" Color="{StaticResource Gray500}" TabCommand="{Binding IpCommand}"/>
-                    <view:ItemView Text="Đóng góp ý kiến" Icon="{Static icon:FontIcons.Help}" Color="{StaticResource Gray500}" TabCommand="{Binding ReportCommand}"/>
-                    <view:ItemView Text="Đăng xuất" Icon="{Static icon:FontIcons.Logout}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding LogoutCommand}"/>
-                </StackLayout>
-                <!--#endregion-->
+                        <StackLayout Spacing="0">
+                            <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Khác" HorizontalOptions="Start" Padding="15,20,10,5"/>
+                            <view:ItemView Text="Cài đặt tài khoản" Icon="{Static icon:FontIcons.Tools}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding ProfileCommand}"/>
+                            <view:ItemView Text="Đổi mật khẩu" Icon="{Static icon:FontIcons.KeyChange}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding ChangePasswordCommand}"/>
+                            <view:ItemView Text="Set IP" Icon="{Static icon:FontIcons.IpNetwork}" Color="{StaticResource Gray500}" TabCommand="{Binding IpCommand}"/>
+                            <view:ItemView Text="Đóng góp ý kiến" Icon="{Static icon:FontIcons.Help}" Color="{StaticResource Gray500}" TabCommand="{Binding ReportCommand}"/>
+                            <view:ItemView Text="Đăng xuất" Icon="{Static icon:FontIcons.Logout}" IsVisible="{Binding IsVisible}" Color="{StaticResource Gray500}" TabCommand="{Binding LogoutCommand}"/>
+                        </StackLayout>
+                        <!--#endregion-->
+                    </StackLayout>
+                </ScrollView>
 
             </StackLayout>
         </ScrollView>

@@ -32,6 +32,7 @@ namespace xfLibrary.ViewModels
         public ICommand StaticCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(StaticView)));
 
         public ICommand CartCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CartView)));
+        public ICommand CategoryCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CategoryView)));
 
         public ICommand TransactionCommand => new Command(async () =>
         {

@@ -164,7 +164,9 @@ namespace xfLibrary.ViewModels
                       Category.Clear();
 
                       if (arg == null)
+                      {
                           _message.ShortAlert("Kết nối bị gián đoạn");
+                      }    
                       else
                       {
                           var category = (IList<Category>)arg;
@@ -186,7 +188,9 @@ namespace xfLibrary.ViewModels
                       _allPosts.Clear();
 
                       if (arg == null)
-                          _message.ShortAlert("Kết nối bị gián đoạn");
+                      {
+                          //_message.ShortAlert("Kết nối bị gián đoạn");
+                      }    
                       else
                       {
                           var posts = (IList<Post>)arg;
@@ -211,7 +215,9 @@ namespace xfLibrary.ViewModels
                       Suggests.Clear();
 
                       if (arg == null)
-                          _message.ShortAlert("Kết nối bị gián đoạn");
+                      {
+                          //_message.ShortAlert("Kết nối bị gián đoạn");
+                      }    
                       else
                       {
                           var books = (IList<Book>)arg;

@@ -85,7 +85,7 @@
                                         <ViewCell>
                                             <Grid ColumnDefinitions="auto, *" Padding="10,5">
                                                 <!--#region Icon -->
-                                                <Grid VerticalOptions="Start" HorizontalOptions="Start" HeightRequest="35" WidthRequest="38">
+                                                <Grid VerticalOptions="Start" HorizontalOptions="Start" HeightRequest="38" WidthRequest="38">
                                                     <Frame BackgroundColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}" CornerRadius="30" Opacity="0.1"
                                                            Style="{StaticResource FrameNoBorder}"/>
                                                     <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Bell}"

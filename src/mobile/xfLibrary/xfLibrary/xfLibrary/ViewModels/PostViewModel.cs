@@ -267,7 +267,9 @@ namespace xfLibrary.ViewModels
                       Posts.Clear();
 
                       if (arg == null)
-                          _message.ShortAlert("Kết nối bị gián đoạn");
+                      {
+                          //_message.ShortAlert("Kết nối bị gián đoạn");
+                      }    
                       else
                       {
                           IsBusy = true;

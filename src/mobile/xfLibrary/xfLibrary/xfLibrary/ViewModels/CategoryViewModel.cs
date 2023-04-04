@@ -62,7 +62,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand DeleteCommand => new Command<Category>(async (cate) =>
         {
-            var res = await _mainService.DeleteCategoryAsync(cate.Id, _token);
+            var res = await _mainService.DeleteCategoryAsync(cate.Code, _token);
             if (res == null) return;
 
             if (res.Success)
