@@ -261,6 +261,7 @@ public class PostController {
                     bookService.updateBook(b);
                     bookService.updateBook(book);
                     postDetail.setSublet(book.getId());
+                    postDetail.setBook(b);
                 }
                 else if(currPost.getStatus() == CustomStatus.ADMIN_POST){
                     //@TODO - check qua han
