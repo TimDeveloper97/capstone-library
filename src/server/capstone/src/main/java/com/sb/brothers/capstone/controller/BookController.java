@@ -227,6 +227,12 @@ public class BookController {
                     Date d = new Date();
                     String link[] = img.getFileName().split("\\.");
                     uploadDir = new File(".").getCanonicalPath() + "/images";
+                    File directory = new File(uploadDir);
+                    if (! directory.exists()){
+                        directory.mkdir();
+                        // If you require it to make the entire directory path including parents,
+                        // use directory.mkdirs(); here instead.
+                    }
                     Path fileNameAndPath = Paths.get(uploadDir, ( d.getTime() +"." + link[link.length - 1]));
                     Files.write(fileNameAndPath, decodedBytes);
                     image.setBook(currBook);
