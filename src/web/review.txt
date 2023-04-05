@@ -1,0 +1,17 @@
+- bỏ chức năng: khách vãng lai( chỉ button)
+- pagin book admin: tăng size, hiện tại: 2
+- hình ảnh
+- footer hơi to
+- mã ở cateogries
+- noti lúc xoá categories
+- filter/search: đơn hàng | mặc định mới nhất phải ở trên cùng
+- tách role manager:
+  + manager sẽ thực hiện những việc như xác nhận đơn ký gửi, xác nhận đơn nạp tiền, quản lý post (các tác vụ xác nhận )
+  + admin chỉ xem danh sách để quản lý (category, đơn nạp tiền) thêm quản lý user(xem ds user --> có thể disable user ), chỉ admin mới có thể tạo account MANAGER ( mặc định user khi register đều là customer)
+- chưa thấy chức năng update hay xóa sách khi xem detail 
+- bug: thanh toán giỏ hàng
+- confirm form: nút "thuê ngay" để cho khách hang xác nhận
+- bỏ: chấp nhận thuê post
+- xác nhận lấy sách: user: sinh mã: admin: confirm mã --> quét mã 
+
+--> Những chức năng thanh toán, xóa sửa --> phải có pop-up confirm cho user xác nhận

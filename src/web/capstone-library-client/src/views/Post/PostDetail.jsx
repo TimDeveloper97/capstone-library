@@ -17,8 +17,8 @@ import {
   NotificationManager,
   NotificationContainer,
 } from "react-notifications";
-import { getImgUrl } from "../../helper/helpFunction";
 import "./post.css";
+import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 
 export default function DetailPost() {
   const [currentPost, setCurrentPost] = useState();
@@ -64,6 +64,16 @@ export default function DetailPost() {
       NotificationManager.error(response.message, "Lỗi", 2000);
     }
   };
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const confirmRentNow = () => {
+    setOpen(true);
+    //handleRentNow();
+  };
 
   const handleRentNow = async () => {
     const response = await dispatch(
@@ -74,6 +84,7 @@ export default function DetailPost() {
     } else {
       NotificationManager.error(response.message, "Lỗi", 2000);
     }
+    setOpen(false);
   };
 
   return currentPost ? (
@@ -170,7 +181,7 @@ export default function DetailPost() {
                                   </button>
                                   <button
                                     className="btn btn-info"
-                                    onClick={() => handleRentNow()}
+                                    onClick={() => confirmRentNow()}
                                   >
                                     <FontAwesomeIcon icon={faBagShopping} />{" "}
                                     {"  "}
@@ -179,6 +190,16 @@ export default function DetailPost() {
                                 </div>
                               )}
                             </div>
+                            <Dialog open={open} onClose={handleClose}>
+                              <DialogTitle>Xác nhận thuê ngay?</DialogTitle>
+
+                              <DialogActions>
+                                <Button onClick={handleRentNow}>
+                                  Xác nhận
+                                </Button>
+                                <Button onClick={handleClose}>Hủy</Button>
+                              </DialogActions>
+                            </Dialog>
                           </div>
                         </div>
                       </div>

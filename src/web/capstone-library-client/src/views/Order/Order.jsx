@@ -1,4 +1,10 @@
-import { Checkbox } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkout, getOrder, removeOrder } from "../../actions/order";
@@ -87,23 +93,38 @@ export default function Order() {
       })
     );
   };
-  const handleCheckout = async (e) => {
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleConfirm = (e) => {
     e.preventDefault();
+    setOpen(true);
+  };
+
+  const handleCheckout = async () => {
     let orders = [];
     listOrder.forEach((l) => {
       l.checked && orders.push({ id: l.id });
     });
-    const balance = JSON.parse(window.localStorage.getItem("user")).balance;
-    if (sumTotal <= balance) {
-      const res = await dispatch(checkout({ orders }));
-      if (res.success) {
-        NotificationManager.success(res.message, "Thông báo", 2000);
-      } else {
-        NotificationManager.error(res.message, "Lỗi", 2000);
-      }
+    if (orders.length === 0) {
+      NotificationManager.error("Giỏ hàng của bạn đang trống", "Lỗi", 2000);
     } else {
-      NotificationManager.error("Số dư còn lại không đủ", "Lỗi", 2000);
+      const balance = JSON.parse(window.localStorage.getItem("user")).balance;
+      if (sumTotal <= balance) {
+        const res = await dispatch(checkout({ orders }));
+        if (res.success) {
+          NotificationManager.success(res.message, "Thông báo", 2000);
+        } else {
+          NotificationManager.error(res.message, "Lỗi", 2000);
+        }
+      } else {
+        NotificationManager.error("Số dư còn lại không đủ", "Lỗi", 2000);
+      }
     }
+    handleClose();
   };
 
   return order ? (
@@ -193,7 +214,7 @@ export default function Order() {
                       <div className="flex-grow-1 text-right my-2">
                         <button
                           className="btn theme-btn"
-                          onClick={(e) => handleCheckout(e)}
+                          onClick={(e) => handleConfirm(e)}
                         >
                           Thanh toán
                         </button>
@@ -205,6 +226,14 @@ export default function Order() {
             </table>
           </form>
         </div>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Xác nhận thanh toán?</DialogTitle>
+
+          <DialogActions>
+            <Button onClick={() => handleCheckout()}>Xác nhận</Button>
+            <Button onClick={handleClose}>Hủy</Button>
+          </DialogActions>
+        </Dialog>
       </section>
     </>
   ) : (
