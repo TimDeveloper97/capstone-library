@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
 @RequestMapping("/api/admin/categories")
 @RestController
 public class CategoryController {
     public static final Logger logger = Logger.getLogger(CategoryController.class);
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     //Categories session
     @GetMapping("")
