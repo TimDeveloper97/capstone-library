@@ -125,7 +125,7 @@ public class MemberAPI {
                 updateBalance(book, discount);
                 Notification notification = new Notification();
                 notification.setUser(book.getUser());
-                notification.setDescription("Bạn đã nhận được "+discount+"vnđ tiền triết khấu khi có người thuê sách "+ book.getName() + " của bạn.");
+                notification.setDescription("Bạn đã nhận được "+discount+"vnđ tiền chiết khấu khi có người thuê sách "+ book.getName() + " của bạn.");
                 //notification.setCreatedDate(new Date());
                 //notification.setStatus(0);
                 notificationService.updateNotification(notification);
