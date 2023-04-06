@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Controller
 @RequestMapping("/api/admin/users")
 @RestController
 public class UserController {
@@ -36,41 +35,49 @@ public class UserController {
     private TokenProvider tokenProvider;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
 
     //Accounts
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
-    public ResponseEntity<List<User>> getAllUsers(){
-        logger.info("Return all users");
+    public ResponseEntity<?> getAllUsers(){
+        logger.info("[API-User] Return all users - START");
         List<User> users = userService.findAllUsers();
+        List<UserDTO> userDtos = new ArrayList<>();
         if(users.isEmpty()){
-            logger.warn("no content");
+            logger.warn("[API-User] no content");
+            logger.info("[API-User] Return all users - END");
             return new ResponseEntity(new CustomErrorType("Không có bất kỳ người dùng nào."), HttpStatus.OK);
         }
         for (User user : users){
-            user.lazyLoad();
+            //user.lazyLoad();
             user.setRoles(roleService.getAllByUserId(user.getId()));
+            UserDTO userDto = new UserDTO();
+            userDto.convertUser(user);
+            userDtos.add(userDto);
         }
-        logger.info("Success!");
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        logger.info("[API-User] Return all users - SUCCESS");
+        return new ResponseEntity<>(new ResData<List<UserDTO>>(0, userDtos), HttpStatus.OK);
     }
 
     //Account
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") String id, Model model){
-        logger.info("Return the single user");
+    public ResponseEntity<?> getUserById(@PathVariable("id") String id){
+        logger.info("[API-User] Return the single user - START");
         if(!userService.isUserExist(id)){
-            logger.error("User with id: " + id + " not found.");
+            logger.error("[API-User] User with id: " + id + " not found.");
             return new ResponseEntity(new CustomErrorType("Không tìm thấy người dùng có mã:" + id),HttpStatus.OK);
         }
         User user = userService.getUserById(id).get();
-        user.lazyLoad();
         user.setRoles(roleService.getAllByUserId(user.getId()));
-        logger.info("Success!");
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        UserDTO userDto = new UserDTO();
+        userDto.convertUser(user);
+        logger.info("[API-User] Return the single user - SUCCESS");
+        return new ResponseEntity<>(new ResData<>(0, userDto), HttpStatus.OK);
     }
 
     /* Do not use this API
@@ -131,14 +138,16 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/role-update/{id}")
     public ResponseEntity<?> updateUser(Authentication auth, @PathVariable("id") String id, @RequestBody User user){
-        logger.info("API update Role for other User by Admin - START");
+        logger.info("[API-User] Update Role for other User by Admin - START");
         User currUser = userService.getUserById(id).get();
         if(currUser == null){
-            logger.error("User with id:"+ id +" not found. Unable to update.");
+            logger.error("[API-User] User with id:"+ id +" not found. Unable to update.");
+            logger.info("[API-User] Update Role for other User by Admin - END");
             return new ResponseEntity(new CustomErrorType("Không tìm thấy người dùng có id:"+ id +". Cập nhật thông tin thất bại."),
                     HttpStatus.OK);
         }
         if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN")){
+            logger.info("[API-User] Update Role for other User by Admin - END");
             return new ResponseEntity(new CustomErrorType("Không thể thay đổi vai trò của Administrator. Cập nhật thông tin thất bại."),
                     HttpStatus.OK);
         }
@@ -146,9 +155,9 @@ public class UserController {
         currUser.setModifiedDate(new Date());
         currUser.setStatus(user.getStatus());
         currUser.setRoles(user.getRoles());
-        logger.info("Fetching & Updating User with id: "+ user.getId()+" by " + user.getModifiedBy() +" at "+ user.getModifiedDate());
+        logger.info("[API-User] Fetching & Updating User with id: "+ user.getId()+" by " + user.getModifiedBy() +" at "+ user.getModifiedDate());
         userService.updateUser(currUser);
-        logger.info("API update Role for other User by Admin - Success");
+        logger.info("[API-User] Update Role for other User by Admin - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType(true, "Cập nhật vai trò và trạng thái người dùng thành công."), HttpStatus.OK);
     }
 }
