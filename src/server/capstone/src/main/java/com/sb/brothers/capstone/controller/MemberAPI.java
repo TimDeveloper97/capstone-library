@@ -126,8 +126,8 @@ public class MemberAPI {
                 Notification notification = new Notification();
                 notification.setUser(book.getUser());
                 notification.setDescription("Bạn đã nhận được "+discount+"vnđ tiền triết khấu khi có người thuê sách "+ book.getName() + " của bạn.");
-                notification.setCreatedDate(new Date());
-                notification.setStatus(0);
+                //notification.setCreatedDate(new Date());
+                //notification.setStatus(0);
                 notificationService.updateNotification(notification);
             }
         }
@@ -151,8 +151,8 @@ public class MemberAPI {
             Notification notification = new Notification();
             notification.setUser(user);
             notification.setDescription("Bạn đã bị trừ "+expiredFee+"vnđ do trả sách quá hạn.");
-            notification.setCreatedDate(new Date());
-            notification.setStatus(0);
+            //notification.setCreatedDate(new Date());
+            //notification.setStatus(0);
             notificationService.updateNotification(notification);
         }
         userService.updateUser(user);
