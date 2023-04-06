@@ -1,8 +1,10 @@
 package com.sb.brothers.capstone.controller;
 
 import com.sb.brothers.capstone.dto.PaymentDto;
+import com.sb.brothers.capstone.entities.Notification;
 import com.sb.brothers.capstone.entities.Payment;
 import com.sb.brothers.capstone.entities.User;
+import com.sb.brothers.capstone.services.NotificationService;
 import com.sb.brothers.capstone.services.PaymentService;
 import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
@@ -30,6 +32,9 @@ public class RechargeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/recharge")
@@ -69,8 +74,22 @@ public class RechargeController {
                 Payment payment = new Payment();
                 payment.setTransferAmount(paymentDto.getTransferAmount());
                 payment.setUser(user);
-                payment.setContent("Tài khoản "+ paymentDto.getUser() +" đã được nạp thêm "+ paymentDto.getTransferAmount()
-                        +"vnd. Số dư hiện tại là "+(user.getBalance() + paymentDto.getTransferAmount())+"vnd.");
+                if(paymentDto.getTransferAmount() < 0){
+                    payment.setContent("Tài khoản " + paymentDto.getUser() + " đã rút " + paymentDto.getTransferAmount()
+                            + "vnd, người thực hiện giao dịch: " + auth.getName());
+                    Notification ntf = new Notification();
+                    ntf.setUser(user);
+                    ntf.setDescription("Bạn đã rút " + paymentDto.getTransferAmount() + "vnd, số dư hiện tại là:" + user.getBalance() +"vnd");
+                    notificationService.updateNotification(ntf);
+                }
+                else {
+                    payment.setContent("Tài khoản " + paymentDto.getUser() + " đã được nạp thêm " + paymentDto.getTransferAmount()
+                            + "vnd, người thực hiện giao dịch: " + auth.getName());
+                    Notification ntf = new Notification();
+                    ntf.setUser(user);
+                    ntf.setDescription("Bạn đã nạp " + paymentDto.getTransferAmount() + "vnd vào tài khoản, số dư hiện tại là:" + user.getBalance() +"vnd");
+                    notificationService.updateNotification(ntf);
+                }
                 payment.setCreatedDate(new Date());
                 payment.setManager(manager);
                 paymentService.updatePayment(payment);
@@ -82,4 +101,5 @@ public class RechargeController {
         }
         return new ResponseEntity<>(new CustomErrorType(true, "Nạp tiền thành công."), HttpStatus.OK);
     }//view all posts
+
 }
