@@ -146,7 +146,15 @@ public class MemberAPI {
             expiredFee = user.getBalance() + sum;
             user.setBalance(0);
         }
-        else user.setBalance(user.getBalance() + sum - expiredFee);
+        else {
+            user.setBalance(user.getBalance() + sum - expiredFee);
+            Notification notification = new Notification();
+            notification.setUser(user);
+            notification.setDescription("Bạn đã được hoàn "+sum+"vnđ tiền cọc vào tài khoản.");
+            //notification.setCreatedDate(new Date());
+            //notification.setStatus(0);
+            notificationService.updateNotification(notification);
+        }
         if(expiredFee> 0){
             Notification notification = new Notification();
             notification.setUser(user);
@@ -158,31 +166,31 @@ public class MemberAPI {
         userService.updateUser(user);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/order/confirmation/{id}")
     public ResponseEntity<?> waitingStatus(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_WAIT_TAKE_BOOK);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/order/received/{id}")
     public ResponseEntity<?> acceptOrdertatus(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_RETURN_IS_NOT_APPROVED);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/order/cancellation/{id}")
     public ResponseEntity<?> orderCancellation(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_REQUEST_IS_DENY);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/order/book-returns/{id}")
     public ResponseEntity<?> orderReturns(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_RETURN_IS_APPROVED);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/post/disable/{id}")
     public ResponseEntity<?> disablePost(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.ADMIN_DISABLE_POST);
