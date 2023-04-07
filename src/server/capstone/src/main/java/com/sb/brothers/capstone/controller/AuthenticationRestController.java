@@ -10,6 +10,7 @@ import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.ResLoginData;
 import com.sb.brothers.capstone.util.UserNotActivatedException;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,8 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 public class AuthenticationRestController {
 
+   private Logger logger = Logger.getLogger(AuthenticationRestController.class);
+
    @Autowired
    private UserService userService;
 
@@ -47,16 +50,18 @@ public class AuthenticationRestController {
 
    @PostMapping("/login")
    public ResponseEntity<?> authorize(@Valid @RequestBody LoginDto loginDto) {
-
+      logger.info("[API-Authentication] authorize - START");
       UsernamePasswordAuthenticationToken authenticationToken =
          new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
       Authentication authentication = null;
       try {
          authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
       }catch (BadCredentialsException ex){
+         logger.info("[API-Authentication] authorize - END");
          return new ResponseEntity(new CustomErrorType("Tài khoản hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại."), HttpStatus.OK);
       }
       catch (UserNotActivatedException unEx){
+         logger.info("[API-Authentication] authorize - END");
          return new ResponseEntity(new CustomErrorType("Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ Administrator để kích hoạt lại."), HttpStatus.OK);
       }
       GlobalData.mapCurrPass.put(loginDto.getUsername(), loginDto.getPassword());
@@ -67,6 +72,7 @@ public class AuthenticationRestController {
       respDto.convertUser(userService.getUserById(authentication.getName()).get());
       HttpHeaders httpHeaders = new HttpHeaders();
       httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+      logger.info("[API-Authentication] authorize - SUCCESS");
       return new ResponseEntity<>(new ResLoginData(0,respDto , jwt), httpHeaders, HttpStatus.OK);
    }
 

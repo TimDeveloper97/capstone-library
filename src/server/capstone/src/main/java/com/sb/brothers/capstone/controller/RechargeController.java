@@ -39,16 +39,19 @@ public class RechargeController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/recharge")
     public ResponseEntity<?> getAllPayment(){
+        logger.info("[API-Recharge] getAllPayment - START");
         logger.info("Return all notification.");
         List<Payment> payments = null;
         try{
             payments = paymentService.getAllPayments();
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Recharge] getAllPayment - END");
             return new ResponseEntity<>(new CustomErrorType("Lấy thông tin lịch sử nạp tiền thất bại. Nguyên nhân" + ex.getCause()), HttpStatus.OK);
         }
         if(payments.isEmpty()){
             logger.warn("There are no recharge.");
+            logger.info("[API-Recharge] getAllPayment - END");
             return new ResponseEntity<>(new CustomErrorType("Không có thông tin nạp tiền nào."), HttpStatus.OK);
         }
         List<PaymentDto> paymentDtos = new ArrayList<>();
@@ -57,12 +60,14 @@ public class RechargeController {
             recDto.convertPayment(rec);
             paymentDtos.add(recDto);
         });
+        logger.info("[API-Recharge] getAllPayment - SUCCESS");
         return new ResponseEntity<>(new ResData<List<PaymentDto>>(0, paymentDtos), HttpStatus.OK);
     }//view all posts
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/transfer")
-    public ResponseEntity<?> seenNotification(Authentication auth, @RequestBody PaymentDto paymentDto){
+    public ResponseEntity<?> transfer(Authentication auth, @RequestBody PaymentDto paymentDto){
+        logger.info("[API-Recharge] transfer - START");
         logger.info("Update payment.");
         User user = null;
         User manager = null;
@@ -97,8 +102,10 @@ public class RechargeController {
             else throw new Exception("Không tìm thấy người dùng có mã: "+ user.getId());
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Recharge] transfer - END");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:" + ex.getMessage() + ".\nNguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
+        logger.info("[API-Recharge] transfer - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType(true, "Nạp tiền thành công."), HttpStatus.OK);
     }//view all posts
 

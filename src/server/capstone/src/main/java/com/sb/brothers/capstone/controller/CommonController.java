@@ -33,6 +33,7 @@ public class CommonController {
     @GetMapping("/images/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
+        logger.info("[API-Common] downloadFile - END");
         Resource resource = null;
 
         // Try to determine file's content type
@@ -49,14 +50,15 @@ public class CommonController {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (Exception ex) {
             logger.info("Could not determine file type. " + ex.getMessage() +".\n"+ex.getCause());
-            return new ResponseEntity(new CustomErrorType("File not found " + fileName), HttpStatus.OK);
+            logger.info("[API-Common] downloadFile - END");
+            return new ResponseEntity(new CustomErrorType("Không tìm thấy file: " + fileName), HttpStatus.OK);
         }
 
         // Fallback to the default content type if type could not be determined
         if(contentType == null) {
             contentType = "application/octet-stream";
         }
-
+        logger.info("[API-Common] downloadFile - SUCCESS");
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
@@ -66,16 +68,19 @@ public class CommonController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/api/notification")
     public ResponseEntity<?> getAllNotification(Authentication auth){
+        logger.info("[API-Common] getAllNotification - START");
         logger.info("Return all notification.");
         List<Notification> notifications = null;
         try{
             notifications = notificationService.getAllNotification(auth.getName());
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Common] getAllNotification - END");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:"+ ex.getMessage() +".\n Nguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(notifications.isEmpty()){
             logger.warn("There are no notification.");
+            logger.info("[API-Common] getAllNotification - END");
             return new ResponseEntity<>(new CustomErrorType("Không có thông báo mới."), HttpStatus.OK);
         }
         List<NotificationDto> ntfDtos = new ArrayList<>();
@@ -84,6 +89,7 @@ public class CommonController {
             ntfDto.convertNotification(ntf);
             ntfDtos.add(ntfDto);
         });
+        logger.info("[API-Common] getAllNotification - SUCCESS");
         return new ResponseEntity<>(new ResData<List<NotificationDto>>(0, ntfDtos), HttpStatus.OK);
     }//view all posts
 
@@ -96,6 +102,7 @@ public class CommonController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/api/notification/{id}")
     public ResponseEntity<?> seenNotification(Authentication auth, @PathVariable("id") int id){
+        logger.info("[API-Common] seenNotification - START");
         logger.info("Return all notification.");
         Notification notification = null;
         try{
@@ -106,22 +113,27 @@ public class CommonController {
             else throw new Exception("Bạn không thể xem thông báo của người khác.");
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Common] seenNotification - END");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:"+ ex.getMessage() +".\n Nguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(notification == null){
             logger.warn("There are no notification.");
+            logger.info("[API-Common] seenNotification - END");
             return new ResponseEntity<>(new CustomErrorType("Không có thông báo mới."), HttpStatus.OK);
         }
+        logger.info("[API-Common] seenNotification - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType("Đánh dấu là đã đọc thông báo."), HttpStatus.OK);
     }//view all posts
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/api/notification/read-all")
     public ResponseEntity<?> readAllNotification(Authentication auth){
+        logger.info("[API-Common] readAllNotification - START");
         logger.info("Read all notification.");
         List<Notification> notifications = notificationService.getAllNotification(auth.getName());
         if(notifications.isEmpty()){
             logger.warn("There are no notification.");
+            logger.info("[API-Common] readAllNotification - END");
             return new ResponseEntity<>(new CustomErrorType("Không có thông báo mới."), HttpStatus.OK);
         }
         notifications.stream().forEach(ntf -> {
@@ -130,6 +142,7 @@ public class CommonController {
                 notificationService.update(ntf.getId());
             }
         });
+        logger.info("[API-Common] readAllNotification - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType(true,"Đánh dấu tất cả là đã đọc."), HttpStatus.OK);
     }//view all posts
 }

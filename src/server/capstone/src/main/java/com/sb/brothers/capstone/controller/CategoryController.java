@@ -26,29 +26,34 @@ public class CategoryController {
     //Categories session
     @GetMapping("")
     public ResponseEntity<?> getAllCategories(){
+        logger.info("[API-Category] getAllCategories - START");
         logger.info("Return all categories");
         List<Category> categories = categoryService.getAllCategory();
         if(categories.isEmpty()){
             logger.warn("no content");
+            logger.info("[API-Category] getAllCategories - END");
             return new ResponseEntity(new CustomErrorType("Thể loại sách trống."), HttpStatus.OK);
         }
-        logger.info("Success - Get All categories");
+        logger.info("[API-Category] getAllCategories - SUCCESS");
         return new ResponseEntity<>(new ResData<List<Category>>(0, categories), HttpStatus.OK);
     }//view all categories
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> postCatAdd(@RequestBody CategoryDTO categoryDto){
+        logger.info("[API-Category] postCatAdd - START");
         logger.info("Creating new category:" + categoryDto.getNameCode());
         if(categoryService.isCategoryExist(categoryDto.getNameCode())){
             logger.error("Unable to create. A Category with name:"
                    + categoryDto.getNameCode() + " already exist.");
+            logger.info("[API-Category] postCatAdd - END");
             return new ResponseEntity(new CustomErrorType("Thêm mới thể loại sách không thành công do thể loại sách "
                     + categoryDto.getNameCode()+ " đã tồn tại."), HttpStatus.OK);
         }
         Category category = new Category();
         categoryDto.convertCategory(category);
         categoryService.updateCategory(category);
+        logger.info("[API-Category] postCatAdd - SUCCESS");
         return new ResponseEntity(new CustomErrorType(true, "Thêm thể loại sách thành công."), HttpStatus.CREATED);
 
     }//form add new category > do add
@@ -56,30 +61,34 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteCat(@PathVariable String id){
+        logger.info("[API-Category] deleteCat - START");
         logger.info("Fetching & Deleting Category with name code " + id);
         if(!categoryService.isCategoryExist(id)){
             logger.error("Category with name code: "+ id +" not found. Unable to delete.");
+            logger.info("[API-Category] deleteCat - END");
             return new ResponseEntity(new CustomErrorType("Thể loại sách có mã: "+ id +" không tồn tại. Xóa thể loại không thành công"), HttpStatus.OK);
         }
         categoryService.removeCategoryById(id);
-        logger.info("Delete Category - Success!");
+        logger.info("[API-Category] deleteCat - SUCCESS");
         return new ResponseEntity(new CustomErrorType(true, "Xóa thể loại có mã:" + id + " - SUCCESS."), HttpStatus.OK);
     }//delete 1 category
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateCat(@PathVariable String id, @RequestBody Category category){
+        logger.info("[API-Category] updateCat - START");
         logger.info("Fetching & Updating category with id" + id);
         Category currCategory = categoryService.getCategoryById(id).get();
         if(currCategory == null){
             logger.error("Category with id:"+ id +" not found. Unable to update.");
+            logger.info("[API-Category] updateCat - END");
             return new ResponseEntity(new CustomErrorType("Thể loại sách có mã: "+ id +" không tìm thấy. Cập nhật không thành công."),
-                    HttpStatus.NOT_FOUND);
+                    HttpStatus.OK);
         }
         currCategory.setName(category.getName());
         currCategory.setNameCode(category.getNameCode());
         categoryService.updateCategory(currCategory);
-        logger.info("Update category - Success");
+        logger.info("[API-Category] updateCat - SUCCESS");
         return new ResponseEntity<>(new ResData<Category>(0, currCategory), HttpStatus.OK);
     }//form edit category, fill old data into form
 
