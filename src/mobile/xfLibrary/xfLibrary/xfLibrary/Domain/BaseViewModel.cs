@@ -78,6 +78,8 @@ namespace xfLibrary.Domain
         }
 
         protected bool IsUser() => _user.Level == Api.USER;
+        protected bool IsAdmin() => _user.Level == Api.ADMIN;
+        protected bool IsManager() => _user.Level == Api.MANAGER;
 
         protected string LoadIcon()
         {

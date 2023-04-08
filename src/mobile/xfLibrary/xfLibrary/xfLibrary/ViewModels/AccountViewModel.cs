@@ -18,10 +18,12 @@ namespace xfLibrary.ViewModels
         private User profile;
         string icon = "emoji3.png";
         private bool isAdmin = false;
+        private bool isManager = false;
 
         public string Icon { get => icon; set => SetProperty(ref icon, value); }
         public User Profile { get => profile; set => SetProperty(ref profile, value); }
         public bool IsAdmin { get => isAdmin; set => SetProperty(ref isAdmin, value); }
+        public bool IsManager { get => isManager; set => SetProperty(ref isManager, value); }
         #endregion
 
         #region Command 
@@ -79,8 +81,6 @@ namespace xfLibrary.ViewModels
         public ICommand ChangePasswordCommand => new Command(async () =>
         {
             var message = await Shell.Current.ShowPopupAsync(new ChangePasswordPopup(_token));
-            //if (message == null) return;
-            //_message.ShortAlert(message);
         });
 
         public ICommand LogoutCommand => new Command(async () =>
@@ -109,10 +109,13 @@ namespace xfLibrary.ViewModels
                       IsVisible = HasLogin();
                       OnPropertyChanged("IsVisible");
 
-                      ////view
+                      //view
                       Profile = _user;
                       Icon = LoadIcon();
-                      IsAdmin = !IsUser();
+
+                      //role
+                      IsAdmin = IsAdmin();
+                      IsManager = IsManager();
 
                       ////update profile
                       RefreshProfileCommand.Execute(null);
