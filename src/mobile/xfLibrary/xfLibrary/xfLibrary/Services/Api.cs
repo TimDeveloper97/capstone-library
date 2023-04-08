@@ -24,6 +24,11 @@ namespace xfLibrary.Services
         public const string ChangePassword = "change-password";
         public const string UpdateProfile = "update-profile";
 
+        public const string Users = "admin/users";
+        public const string UpdateRoleUser = "admin/users/role-update";
+        public const string Config = "admin/config";
+        public const string UpdateConfig = "admin/config/update";
+
         public const string AdminBook = "books";
         public const string UserBook = "books/me";
         public const string AddBook = "books/add";
@@ -75,9 +80,6 @@ namespace xfLibrary.Services
         /// </summary>
         public const string GetOrderRequest = "order/request"; 
 
-        public const string Admin = "ROLE_ADMIN"; 
-        public const string User = "ROLE_USER"; 
-
         public static string[] Maps = new string[] {
             "102 P. Phạm Ngọc Thạch, Kim Liên, Đống Đa, Hà Nội",
             "119 Đ. Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội",
@@ -128,11 +130,21 @@ namespace xfLibrary.Services
 
         //STATUS OF ACCOUNT
         public const int ACTIVATE = 32;
-        public const int BLOCK_POST = 64;
+        public const int DISABLE = 64;
+
+        //STATUS OF ROLES
+        public const int USER = 0;
+        public const int MANAGER = 1;
+        public const int ADMIN = 99;
 
         //state of status
-        public static string[] COLORS = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E" };
-        public static string[] STATES = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công" };
+        public static string[] USER_ROLES = { "ROLE_USER" };
+        public static string[] MANAGER_ROLES = { "ROLE_MANAGER_POST", "ROLE_USER" };
+        public static string[] ADMIN_ROLES = { "ROLE_ADMIN", "ROLE_USER" };
+
+        //state of status
+        public static readonly string[] COLORS = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E" };
+        public static readonly string[] STATES = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công" };
     }
 
     public class Service : Api
@@ -277,6 +289,8 @@ namespace xfLibrary.Services
         }
 
         public static async Task<Response> PutParameter(string para, string url, string token = null) => await Put(null, url + @"/" + para, token);
+        
+        public static async Task<Response> PutObjParameter(string para, object obj, string url, string token = null) => await Put(obj, url + @"/" + para, token);
 
     }
 }

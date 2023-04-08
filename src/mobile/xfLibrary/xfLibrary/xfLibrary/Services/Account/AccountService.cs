@@ -15,6 +15,42 @@ namespace xfLibrary.Services.Account
 {
     class AccountService : IAccountService
     {
+        #region User
+        public async Task<List<User>> GetAllUserAsync(string token)
+        {
+            var res = await Service.Get(Api.Users, token);
+            if (res.Value == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<User>>(res.Value.ToString());
+
+            return value;
+        }
+
+        public async Task<Response> UpdateRoleAsync(string username, object obj, string token)
+        {
+            var res = await Service.PutObjParameter(username, obj, Api.UpdateRoleUser, token);
+
+            return res;
+        }
+
+        public async Task<List<Config>> GetAllConfigAsync(string token)
+        {
+            var res = await Service.Get(Api.Config, token);
+            if (res.Value == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<List<Config>>(res.Value.ToString());
+
+            return value;
+        }
+
+        public async Task<Response> UpdateConfigAsync(object obj, string token)
+        {
+            var res = await Service.Put(obj, Api.UpdateConfig, token);
+
+            return res;
+        }
+        #endregion
+
         #region Profile
         public async Task<Response> ChangePasswordAsync(object obj, string token)
         {

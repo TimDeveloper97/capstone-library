@@ -56,7 +56,7 @@ namespace xfLibrary.ViewModels
             var post = await _mainService.GetPostAsync(good.PostId, _token);
             if (post != null)
             {
-                post.IsAdmin = _isAdmin;
+                post.IsAdmin = !IsUser();
                 await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, true));
             }    
 
@@ -188,7 +188,7 @@ namespace xfLibrary.ViewModels
             good.ReturnDate = s;
 
             //isadmin
-            good.IsAdmin = _isAdmin;
+            good.IsAdmin = !IsUser();
 
             good = UpdateSwipe(good);
 

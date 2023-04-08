@@ -94,7 +94,7 @@ namespace xfLibrary.ViewModels
         async Task AddBook()
         {
             List<Book> books = null;
-            if (_isAdmin)
+            if (!IsUser())
                 books = await _accountService.GetAdminBookAsync(_token);
             else
                 books = await _accountService.GetUserBookAsync(_token);
@@ -104,7 +104,7 @@ namespace xfLibrary.ViewModels
             foreach (var book in books)
             {
                 //set fee statis
-                if (_isAdmin)
+                if (!IsUser())
                     book.Quantity = book.InStock.ToString();
 
                 if (book.Imgs == null || book.Imgs.Count == 0)

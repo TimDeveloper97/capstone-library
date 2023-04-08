@@ -40,7 +40,7 @@ namespace xfLibrary.ViewModels
             if (SearchDatas.Count == 0) return;
 
             var postOne = SearchDatas[0];
-            postOne.IsAdmin = _isAdmin;
+            postOne.IsAdmin = !IsUser();
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
 
             if (item == null) return;
@@ -77,7 +77,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand SelectedCommand => new Command<Post>(async (post) =>
         {
-            post.IsAdmin = _isAdmin;
+            post.IsAdmin = !IsUser();
             var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
             if (item == null) return;
@@ -121,7 +121,7 @@ namespace xfLibrary.ViewModels
                     {
                         _token = res.Token;
                         _user = user;
-                        _isAdmin = user.Roles.Any(x => x == Services.Api.Admin);
+                        _user.Level = Resources.ExtentionHelper.StringToRole(user.Roles);
                     }
                 }
             }
@@ -139,7 +139,7 @@ namespace xfLibrary.ViewModels
 
                 // lấy số status status = 4
                 List<Post> posts = null;
-                if (!_isAdmin)
+                if (IsUser())
                     posts = await _mainService.GetAllPostMeAsync(_token);
                 else
                     posts = await _mainService.GetAllPostAdminAsync(_token);
@@ -182,7 +182,7 @@ namespace xfLibrary.ViewModels
                 await MoveToLogin(async () =>
                 {
                     List<Post> posts = null;
-                    if (!_isAdmin)
+                    if (IsUser())
                         posts = await _mainService.GetAllPostMeAsync(_token);
                     else
                         posts = await _mainService.GetAllPostAdminAsync(_token);

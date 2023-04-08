@@ -49,7 +49,7 @@ namespace xfLibrary.ViewModels
             IsBusy = true;
 
             List<Post> posts = null;
-            if (!_isAdmin)
+            if (IsUser())
                 posts = await _mainService.GetAllPostMeAsync(_token);
             else
                 posts = await _mainService.GetAllPostAdminAsync(_token);
@@ -373,7 +373,7 @@ namespace xfLibrary.ViewModels
             } 
 
             //update admin
-            post.IsAdmin = _isAdmin;
+            post.IsAdmin = !IsUser();
 
             //update color status
             post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);

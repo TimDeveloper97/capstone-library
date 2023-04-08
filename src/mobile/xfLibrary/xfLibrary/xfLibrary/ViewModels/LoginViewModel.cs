@@ -60,7 +60,7 @@ namespace xfLibrary.ViewModels
             {
                 _token = res.Token;
                 _user = user;
-                _isAdmin = user.Roles.Any(x => x == Services.Api.Admin);
+                _user.Level = Resources.ExtentionHelper.StringToRole(user.Roles);
 
                 if (IsRemember)
                 {

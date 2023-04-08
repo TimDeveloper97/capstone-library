@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
+using xfLibrary.Services;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace xfLibrary.Resources
@@ -58,6 +60,19 @@ namespace xfLibrary.Resources
                 if ((status & (1 << i)) != 0)
                     return Services.Api.STATES[i];
             return "N/A";
+        }
+
+        public static int StringToRole(string[] roles)
+        {
+            var eAdmin = roles.Any(x => x.Contains(nameof(Api.ADMIN)));
+            if (eAdmin)
+                return Api.ADMIN;
+
+            var eMPost = roles.Any(x => x.Contains(nameof(Api.MANAGER)));
+            if (eMPost)
+                return Api.MANAGER;
+
+            return Api.USER;
         }
     }
 }

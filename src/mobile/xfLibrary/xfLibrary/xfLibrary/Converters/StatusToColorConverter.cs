@@ -96,4 +96,23 @@ namespace xfLibrary.Converters
             throw new NotImplementedException();
         }
     }
+
+    class StatusToTextConverter : IValueConverter
+    {
+        public int Value { get; set; } = 0;
+        public string TRUE { get; set; } = "Đúng";
+        public string FALSE { get; set; } = "Sai";
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return FALSE;
+            var status = (int)value;
+
+            return status == Value ? TRUE : FALSE;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

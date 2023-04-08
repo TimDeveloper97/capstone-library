@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
+             xmlns:view="clr-namespace:xfLibrary.Views"
+             xmlns:xf="clr-namespace:BottomBar.XamarinForms"
+             xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             xmlns:converter="clr-namespace:xfLibrary.Converters"
+             x:Name="self"
+             
+             x:Class="xfLibrary.Pages.UserView">
+    <ContentPage.Resources>
+        <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
+            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+            <Setter Property="HeightRequest" Value="30" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
+        </Style>
+        <converter:StatusToBoolConverter x:Key="StatusToBool32Converter" Value="32"/>
+        <converter:StatusToBoolConverter x:Key="StatusToBool0Converter" Value="0"/>
+        
+        <converter:StatusToTextConverter x:Key="StatusToLevelConverter" Value="0" TRUE="Thăng cấp" FALSE="Giáng cấp"/>
+        <converter:StatusToTextConverter x:Key="StatusToStatusConverter" Value="32" TRUE="Khóa" FALSE="Mở"/>
+
+        <converter:StatusToTextConverter x:Key="StatusToLevelViewConverter" Value="0" TRUE="Người dùng" FALSE="Quản lý"/>
+        <converter:StatusToTextConverter x:Key="StatusToStatusViewConverter" Value="32" TRUE="Đang mở" FALSE="Đang khóa"/>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding RefreshCommand}" />
+    </ContentPage.Behaviors>
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
+            <!--#region Navigator -->
+            <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
+                <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
+                           Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="10"
+                           HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
+                    <Label Style="{StaticResource IconLabel}" FontSize="40" Text="{Static icon:FontIcons.ChevronLeft}"
+                               VerticalOptions="Center" HorizontalOptions="Center" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.BackCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+
+                <Label Grid.Row="1" Text="Danh sách người dùng" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
+                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+
+                <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
+                    <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" VerticalOptions="End" TextColor="White" BusyColor="White"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="45" Margin="0,-5,0,0"/>
+                    <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Filter}"
+                        TextColor="White" Margin="0,0,20,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.FilterCommand, Source={x:Reference Name=self}}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Header -->
+            <Grid Grid.Row="1" BackgroundColor="{StaticResource AppColor}"/>
+            <BoxView Grid.Row="1" Style="{StaticResource ChatAdornerStyle}"/>
+
+            <!--#endregion-->
+
+            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="20,-10,10,10">
+                <CollectionView ItemsSource="{Binding Users}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="{Binding Status, Converter={StaticResource StatusToStatusConverter}}" Command="{Binding Path=BindingContext.DisableCommand, Source={x:Reference  Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="{Binding Level, Converter={StaticResource StatusToLevelConverter}}" Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference  Name=self}}" CommandParameter="{Binding .}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <!-- Content -->
+
+                                    <Grid ColumnDefinitions="auto, *" Padding="5,10">
+                                        <!--#region Icon -->
+                                        <Grid VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="38" WidthRequest="38">
+                                            <Frame BackgroundColor="{StaticResource Blue}" CornerRadius="30" Opacity="0.1"
+                                                       Style="{StaticResource FrameNoBorder}"/>
+                                            <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Account}"
+                                                       VerticalOptions="Center" HorizontalOptions="Center" TextColor="{StaticResource Blue}"/>
+                                        </Grid>
+                                        <!--#endregion-->
+
+                                        <Grid Grid.Column="1" RowDefinitions="*,*" HorizontalOptions="Start">
+                                            <Label Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                                   Margin="0,0,0,-5" LineBreakMode="TailTruncation">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding FirstName, TargetNullValue='N/A', Converter={StaticResource UpperOneStringConverter}}"/>
+                                                        <Span Text="{Binding LastName, TargetNullValue='', StringFormat=' {0}', Converter={StaticResource UpperOneStringConverter}}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <Grid Grid.Row="1" ColumnDefinitions="auto, *">
+                                                <Label Text="{Binding Id, StringFormat='Tài khoản: {0}'}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                                       Margin="0,0,0,-5" LineBreakMode="TailTruncation" TextColor="{StaticResource Gray400}"/>
+
+                                                <StackLayout Grid.Column="1" HorizontalOptions="End" Orientation="Horizontal">
+                                                    <Frame Style="{StaticResource FrameNoBorder}" CornerRadius="10">
+                                                        <Label Text="{Binding Status, Converter={StaticResource StatusToStatusViewConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                                        <Frame.Triggers>
+                                                            <MultiTrigger TargetType="Frame">
+                                                                <MultiTrigger.Conditions>
+                                                                    <BindingCondition Binding="{Binding Status}" Value="32"/>
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="BackgroundColor" Value="{StaticResource Green}" />
+                                                                <Setter Property="BorderColor" Value="{StaticResource Green}" />
+                                                            </MultiTrigger>
+                                                            <MultiTrigger TargetType="Frame">
+                                                                <MultiTrigger.Conditions>
+                                                                    <BindingCondition Binding="{Binding Status, Converter={StaticResource StatusToBool32Converter}}" Value="true"/>
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="BackgroundColor" Value="{StaticResource Red}" />
+                                                                <Setter Property="BorderColor" Value="{StaticResource Red}" />
+                                                            </MultiTrigger>
+                                                        </Frame.Triggers>
+                                                    </Frame>
+
+                                                    <Frame Style="{StaticResource FrameNoBorder}" CornerRadius="10">
+                                                        <Label Text="{Binding Level, Converter={StaticResource StatusToLevelViewConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                                        <Frame.Triggers>
+                                                            <MultiTrigger TargetType="Frame">
+                                                                <MultiTrigger.Conditions>
+                                                                    <BindingCondition Binding="{Binding Level}" Value="0"/>
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="BackgroundColor" Value="{StaticResource Yellow}" />
+                                                                <Setter Property="BorderColor" Value="{StaticResource Yellow}" />
+                                                            </MultiTrigger>
+                                                            <MultiTrigger TargetType="Frame">
+                                                                <MultiTrigger.Conditions>
+                                                                    <BindingCondition Binding="{Binding Level, Converter={StaticResource StatusToBool0Converter}}" Value="true"/>
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="BackgroundColor" Value="{StaticResource Tertiary}" />
+                                                                <Setter Property="BorderColor" Value="{StaticResource Tertiary}" />
+                                                            </MultiTrigger>
+                                                        </Frame.Triggers>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </SwipeView>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
+            <!--<mdc:MaterialFloatingButton Grid.Row="2" VerticalOptions="End" HorizontalOptions="End" Margin="10,20" Icon="ic_plus_white.png"
+                                        Command="{Binding AddCommand}" CommandParameter="{Binding .}"/>-->
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -332,7 +332,7 @@ namespace xfLibrary.ViewModels
                 }
             }
 
-            post.IsAdmin = _isAdmin;
+            post.IsAdmin = !IsUser();
             return post;
         }
         #endregion

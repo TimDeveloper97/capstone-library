@@ -146,6 +146,9 @@
     <EmbeddedResource Update="Pages\StaticView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\UserView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Languages\LanguageReource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageReource.Designer.cs</LastGenOutput>

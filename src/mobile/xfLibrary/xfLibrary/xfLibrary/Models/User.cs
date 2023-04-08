@@ -34,9 +34,14 @@ namespace ChatApp.Models
         public string Phone { get; set; }
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public int Status { get; set; }
 
         [JsonProperty("roles")]
         public string[] Roles { get; set; }
+
+
+        private int level = 0;
+        [JsonIgnore]
+        public int Level { get => level; set => SetProperty(ref level, value); }
     }
 }

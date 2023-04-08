@@ -36,7 +36,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand TransactionCommand => new Command(async () =>
         {
-            if (_isAdmin)
+            if (!IsUser())
                 await Shell.Current.ShowPopupAsync(new DepositPopup(_token));
             else
                 await Shell.Current.ShowPopupAsync(
@@ -112,7 +112,7 @@ namespace xfLibrary.ViewModels
                       ////view
                       Profile = _user;
                       Icon = LoadIcon();
-                      IsAdmin = _isAdmin;
+                      IsAdmin = !IsUser();
 
                       ////update profile
                       RefreshProfileCommand.Execute(null);

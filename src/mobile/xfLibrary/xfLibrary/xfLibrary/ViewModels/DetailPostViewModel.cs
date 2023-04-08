@@ -76,7 +76,7 @@ namespace xfLibrary.ViewModels
                 Title = "Tạo thông tin bài";
             }
 
-            NewPost.IsAdmin = _isAdmin;
+            NewPost.IsAdmin = !IsUser();
 
             //set fee statis
             if (!NewPost.IsAdmin)
@@ -85,7 +85,7 @@ namespace xfLibrary.ViewModels
         public ICommand BookCommand => new Command(async () =>
         {
             List<Book> books = null;
-            if (_isAdmin)
+            if (!IsUser())
                 books = await _accountService.GetAdminBookAsync(_token);
             else
                 books = await _accountService.GetUserBookAsync(_token);
@@ -108,7 +108,7 @@ namespace xfLibrary.ViewModels
 
             foreach (var book in books)
             {
-                if (_isAdmin)
+                if (!IsUser())
                     book.Quantity = book.InStock.ToString();
             }
 

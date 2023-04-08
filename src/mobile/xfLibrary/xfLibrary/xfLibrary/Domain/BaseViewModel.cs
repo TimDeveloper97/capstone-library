@@ -44,7 +44,7 @@ namespace xfLibrary.Domain
         #region Extend
         public static ChatApp.Models.User _user { get; set; }
         protected static string _token { get; set; }
-        protected static bool _isAdmin { get; set; } = false;
+        //protected static bool _isAdmin { get; set; } = false;
 
         protected IMessage _message = DependencyService.Get<IMessage>();
         protected IAccountService _accountService = DependencyService.Get<IAccountService>();
@@ -74,12 +74,21 @@ namespace xfLibrary.Domain
             IsVisible = false;
             _token = null;
             _user = null;
-            _isAdmin = false;
+            //_isAdmin = false;
         }
+
+        protected bool IsUser() => _user.Level == Api.USER;
+
         protected string LoadIcon()
         {
-            if (_isAdmin) return "emoji4.png";
-            else return "emoji3.png";
+            if(_user == null)
+                return "emoji3.png";
+            else
+            {
+                if(_user.Level == Api.ADMIN) return "emoji4.png";
+                else if (_user.Level == Api.MANAGER) return "emoji4.png";
+                else return "emoji3.png";
+            }
         }
         protected async Task Login() => await Shell.Current.GoToAsync(nameof(LoginView));
         protected async Task TimeoutSession(string message)
