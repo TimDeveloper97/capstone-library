@@ -32,7 +32,7 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, auto, *" RowSpacing="0">
+        <Grid RowDefinitions="auto, auto, auto, *" RowSpacing="0">
             <!--#region Navigator -->
             <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
                 <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
@@ -54,10 +54,13 @@
             <!--#region Header -->
             <Grid Grid.Row="1" BackgroundColor="{StaticResource AppColor}"/>
             <BoxView Grid.Row="1" Style="{StaticResource ChatAdornerStyle}"/>
-
             <!--#endregion-->
 
-            <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="10,-10,10,0">
+            <!--#region Segmented -->
+            <mdc:MaterialSegmented x:Name="seg" Grid.Row="2" HeightRequest="40" ItemsSource="{Binding Groups}" Command="{Binding GroupCommand}"             CommandParameter="{Binding Source={Reference seg}, Path=TabIndex}"/>
+            <!--#endregion-->
+
+            <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" Margin="10,-10,10,0">
                 <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
                     <ScrollView>
                         <Grid>
