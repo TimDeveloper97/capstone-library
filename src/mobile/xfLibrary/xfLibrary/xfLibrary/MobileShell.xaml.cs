@@ -52,6 +52,7 @@ namespace xfLibrary
             Routing.RegisterRoute(nameof(InformationPaymenPopup), typeof(InformationPaymenPopup));
             Routing.RegisterRoute(nameof(ForgotPasswordPopup), typeof(ForgotPasswordPopup));
             Routing.RegisterRoute(nameof(ChangePasswordPopup), typeof(ChangePasswordPopup));
+            Routing.RegisterRoute(nameof(ConfigPopup), typeof(ConfigPopup));
         }
     }
 }

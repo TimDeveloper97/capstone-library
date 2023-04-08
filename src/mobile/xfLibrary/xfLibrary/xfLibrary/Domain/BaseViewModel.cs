@@ -88,7 +88,7 @@ namespace xfLibrary.Domain
             else
             {
                 if(_user.Level == Api.ADMIN) return "emoji4.png";
-                else if (_user.Level == Api.MANAGER) return "emoji4.png";
+                else if (_user.Level == Api.MANAGER) return "emoji8.png";
                 else return "emoji3.png";
             }
         }

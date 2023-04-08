@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              
              xmlns:xct="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
@@ -8,20 +8,20 @@
              xmlns:page="clr-namespace:xfLibrary.Pages"
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              xmlns:m="clr-namespace:xfLibrary.Models"
-             Size="350,200"
+             Size="350,250"
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
-             x:TypeArguments="m:Category"
+             x:TypeArguments="x:String"
              IsLightDismissEnabled="True"
              x:Name="self"
              
-             x:Class="xfLibrary.Pages.Popup.DetailCategoryPopup">
+             x:Class="xfLibrary.Pages.Popup.ConfigPopup">
     <xct:Popup.Content>
         <Grid>
             <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">
                 <StackLayout Spacing="0">
                     <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
-                        <Label Text="Tạo danh mục" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                        <Label Text="Cấu hình" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
                     </Grid>
 
                     <StackLayout VerticalOptions="FillAndExpand">
@@ -29,7 +29,8 @@
                             <Frame>
                                 <StackLayout Padding="10,5,10,15" Spacing="0">
                                     <StackLayout Margin="20,0">
-                                        <mdc:MaterialEntry x:Name="category" LabelText="Tên danh mục *"/>
+                                        <mdc:MaterialEntry x:Name="discount" LabelText="Chiết khấu *" Keyboard="Numeric"/>
+                                        <mdc:MaterialEntry x:Name="days" LabelText="Thời gian thông báo trả sách *" Keyboard="Numeric"/>
                                     </StackLayout>
                                 </StackLayout>
                             </Frame>

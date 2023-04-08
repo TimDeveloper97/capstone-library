@@ -33,7 +33,10 @@ namespace xfLibrary.ViewModels
 
         public ICommand StaticCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(StaticView)));
 
+        public ICommand UserCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(UserView)));
+
         public ICommand CartCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CartView)));
+
         public ICommand CategoryCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CategoryView)));
 
         public ICommand TransactionCommand => new Command(async () =>
@@ -43,6 +46,18 @@ namespace xfLibrary.ViewModels
             else
                 await Shell.Current.ShowPopupAsync(
                     new TransactionPopup(_user == null ? "anonymous" : _user.FirstName + _user.LastName));
+        });
+
+        public ICommand ConfigCommand => new Command(async () =>
+        {
+            var configs = await _accountService.GetAllConfigAsync(_token);
+            if(configs == null)
+            {
+                _message.ShortAlert("Không lấy được dữ liệu");
+                return;
+            } 
+                
+            await Shell.Current.ShowPopupAsync(new ConfigPopup(configs, _token));
         });
 
         public ICommand RefreshProfileCommand => new Command(async () =>
@@ -55,12 +70,16 @@ namespace xfLibrary.ViewModels
             {
                 _user = res;
                 Profile = res;
+
+                IsAdmin = IsAdmin();
+                IsManager = IsManager();
             }
 
             IsBusy = false;
         });
 
         public ICommand ReportCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup()));
+
         public ICommand IpCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new IpPopup(Services.Api.Url.Substring(7, Services.Api.Url.Length - 12))));
 
         public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () =>
