@@ -6,3 +6,5 @@ export const resetPassword = (data) =>
   axiosIntance.post("/forgot-password", data);
 
 export const viewProfile = (id) => axiosIntance.get(`/view-profile/${id}`);
+
+export const getAllUser = () => axiosIntance.get("/admin/users");

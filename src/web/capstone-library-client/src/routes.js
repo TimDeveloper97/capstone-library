@@ -20,6 +20,7 @@ import PostRequest from "./views/PostRequest/PostRequest";
 import Register from "./views/Register/Register";
 import Setting from "./views/Setting/Setting";
 import UserDeposit from "./views/UserDeposit/UserDeposit";
+import UserManagement from "./views/User/UserManagement";
 
 export default function Route() {
   return useRoutes([
@@ -102,6 +103,10 @@ export default function Route() {
             {
               path: "charge",
               element: <Charge />,
+            },
+            {
+              path: "user-management",
+              element: <UserManagement />,
             },
           ],
         },

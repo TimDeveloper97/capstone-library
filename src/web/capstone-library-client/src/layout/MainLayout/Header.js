@@ -92,6 +92,11 @@ export default function Header() {
                         <li>
                           <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
                         </li>
+                        <li>
+                          <Link to={"/user/user-management"}>
+                            Quản lý người dùng
+                          </Link>
+                        </li>
                       </ul>
                     </li>
                   )}
@@ -194,7 +199,7 @@ export default function Header() {
               <Link
                 to={"/login"}
                 className="btn theme-btn theme-btn-sm theme-btn-outline"
-                style={{marginLeft: '15px'}}
+                style={{ marginLeft: "15px" }}
               >
                 <i className="la la-sign-in mr-1"></i> Đăng nhập
               </Link>

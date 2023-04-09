@@ -1,0 +1,12 @@
+.user-item {
+  background-color: #fff;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+.avatar {
+  padding: 15px 0 0 20px;
+  text-align: center;
+}
+.list-user {
+  width: 60%;
+}
