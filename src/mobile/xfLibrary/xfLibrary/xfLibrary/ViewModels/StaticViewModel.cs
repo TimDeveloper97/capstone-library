@@ -51,13 +51,15 @@ namespace xfLibrary.ViewModels
             //tiền vào
             else if(index == 1)
             {
-                foreach (var item in _list)
+                var res = _list.Where(x => x.Any(y => y.Message.Contains("nạp"))).ToList();
+                foreach (var item in res)
                     Transactions.Add(item);
             }   
             //tiền ra
             else
             {
-                foreach (var item in _list)
+                var res = _list.Where(x => x.Any(y => y.Message.Contains("rút"))).ToList();
+                foreach (var item in res)
                     Transactions.Add(item);
             }    
 
