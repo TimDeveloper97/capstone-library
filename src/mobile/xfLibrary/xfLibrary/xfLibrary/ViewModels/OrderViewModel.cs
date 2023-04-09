@@ -9,7 +9,9 @@ using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Models;
+using xfLibrary.Pages;
 using xfLibrary.Pages.Popup;
+using ZXing.Mobile;
 
 namespace xfLibrary.ViewModels
 {
@@ -49,6 +51,15 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
+        public ICommand QRCommand => new Command(async () =>
+        {
+            IsBusy = true;
+
+            await Shell.Current.Navigation.PushAsync(new ScanQRView());
+
+            IsBusy = false;
+        });
+
         public ICommand ViewCommand => new Command<Goods>(async (good) =>
         {
             IsBusy = true;
@@ -58,7 +69,7 @@ namespace xfLibrary.ViewModels
             {
                 post.IsAdmin = !IsUser();
                 await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, true));
-            }    
+            }
 
             IsBusy = false;
         });
@@ -79,7 +90,7 @@ namespace xfLibrary.ViewModels
 
                     //update swipe
                     good = UpdateSwipe(good);
-                }    
+                }
             }
             //lấy sách => trả sách 64 -> 128
             else if (good.Status == Services.Api.USER_TAKE_BOOK)
@@ -91,7 +102,7 @@ namespace xfLibrary.ViewModels
 
                     //update swipe
                     good = UpdateSwipe(good);
-                }    
+                }
             }
             //trả sách => sang trạng thái trả sách thành công 128 -> 256
             else if (good.Status == Services.Api.USER_RETURN_IS_NOT_APPROVED)
@@ -103,7 +114,7 @@ namespace xfLibrary.ViewModels
 
                     //update swipe
                     good = UpdateSwipe(good);
-                }    
+                }
             }
 
             if (res != null && !string.IsNullOrEmpty(res.Message))
@@ -217,8 +228,8 @@ namespace xfLibrary.ViewModels
 
         Goods UpdateSwipe(Goods good)
         {
-            
-            if(good.IsAdmin)
+
+            if (good.IsAdmin)
             {
                 //deny
                 if (good.Status == Services.Api.USER_PAYMENT_SUCCESS)
@@ -229,9 +240,9 @@ namespace xfLibrary.ViewModels
                 //accept
                 if (good.Status >= Services.Api.USER_PAYMENT_SUCCESS && good.Status < Services.Api.USER_RETURN_IS_APPROVED)
                     good.IsAccept = true;
-                else 
+                else
                     good.IsAccept = false;
-            }    
+            }
 
             //update color status
             good.Color = Resources.ExtentionHelper.StatusToColor(good.Status);

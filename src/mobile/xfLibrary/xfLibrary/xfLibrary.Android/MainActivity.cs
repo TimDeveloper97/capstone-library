@@ -23,6 +23,7 @@ namespace xfLibrary.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             XF.Material.Droid.Material.Init(this, savedInstanceState);
+            ZXing.Net.Mobile.Forms.Android.Platform.Init();
             CardsViewRenderer.Preserve();
             LoadApplication(new App());
         }
@@ -57,5 +58,6 @@ namespace xfLibrary.Droid
                 }
             }
         }
+
     }
 }

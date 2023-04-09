@@ -69,7 +69,8 @@
                             <view:ItemView Text="Người dùng" Icon="{Static icon:FontIcons.Account}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Black}" TabCommand="{Binding UserCommand}"/>
                         </StackLayout>
 
-                        <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
+                        <!--<StackLayout Spacing="0" IsVisible="{Binding IsVisible}">-->
+                        <StackLayout Spacing="0">
                             <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="15,20,10,5" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}"/>
                             <view:ItemView Text="Thống kê" Icon="{Static icon:FontIcons.Charity}" TabCommand="{Binding StaticCommand}" IsVisible="{Binding IsManager}" Color="{StaticResource Tertiary}"/>
                             <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}"/>

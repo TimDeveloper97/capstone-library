@@ -26,6 +26,7 @@ namespace xfLibrary.iOS
             global::Xamarin.Forms.Forms.Init();
             CardsViewRenderer.Preserve();
             XF.Material.iOS.Material.Init();
+            ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
