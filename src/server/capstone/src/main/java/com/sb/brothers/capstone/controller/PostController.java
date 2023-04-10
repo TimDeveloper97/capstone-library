@@ -311,13 +311,13 @@ public class PostController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/accept-post/{id}")
     public ResponseEntity<?> acceptPostStatus(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_POST_IS_APPROVED);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/deny-post/{id}")
     public ResponseEntity<?> denyPost(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_REQUEST_IS_DENY);
