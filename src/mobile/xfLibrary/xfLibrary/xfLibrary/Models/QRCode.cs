@@ -32,7 +32,7 @@ namespace xfLibrary.Models
                 OrderId = m.OrderId;
             }
             catch (Exception)
-            {}
+            { }
         }
     }
 }
