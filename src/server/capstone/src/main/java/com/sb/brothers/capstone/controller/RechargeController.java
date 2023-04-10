@@ -105,6 +105,10 @@ public class RechargeController {
             logger.info("[API-Recharge] transfer - END");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:" + ex.getMessage() + ".\nNguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
+        if(paymentDto.getTransferAmount() < 0) {
+            logger.info("[API-Recharge] transfer - SUCCESS");
+            return new ResponseEntity<>(new CustomErrorType(true, "Rút tiền thành công."), HttpStatus.OK);
+        }
         logger.info("[API-Recharge] transfer - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType(true, "Nạp tiền thành công."), HttpStatus.OK);
     }//view all posts
