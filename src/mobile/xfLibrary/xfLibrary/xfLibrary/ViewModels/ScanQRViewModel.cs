@@ -43,7 +43,7 @@ namespace xfLibrary.ViewModels
             }
 
             //qrcode experted
-            if (qr.Time.AddMinutes(5) < DateTime.Now)
+            if (qr.Start.AddMinutes(5) < DateTime.Now)
             {
                 IsBusy = false;
                 _message.ShortAlert("QR Code đã hết hạn");

@@ -8,8 +8,10 @@ namespace xfLibrary.Models
 {
     class QRCode : BaseModel
     {
+        DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
         [JsonProperty("time")]
-        public DateTime Time { get; set; }
+        public long Time { get; set; }
 
         [JsonProperty("token")]
         public string Token { get; set; }
@@ -19,6 +21,10 @@ namespace xfLibrary.Models
 
         [JsonProperty("status")]
         public int Status { get; set; }
+
+
+        [JsonIgnore]
+        public DateTime Start { get; set; }
 
         public QRCode(string qr)
         {
@@ -30,6 +36,7 @@ namespace xfLibrary.Models
                 Token = m.Token;
                 Status = m.Status;
                 OrderId = m.OrderId;
+                Start = start.AddMilliseconds(m.Time).ToLocalTime();
             }
             catch (Exception)
             { }
