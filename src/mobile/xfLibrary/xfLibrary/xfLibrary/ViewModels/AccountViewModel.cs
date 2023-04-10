@@ -17,13 +17,9 @@ namespace xfLibrary.ViewModels
         #region Properties
         private User profile;
         string icon = "emoji3.png";
-        private bool isAdmin;
-        private bool isManager;
 
         public string Icon { get => icon; set => SetProperty(ref icon, value); }
         public User Profile { get => profile; set => SetProperty(ref profile, value); }
-        public bool IsAdmin { get => isAdmin; set => SetProperty(ref isAdmin, value); }
-        public bool IsManager { get => isManager; set => SetProperty(ref isManager, value); }
         #endregion
 
         #region Command 
@@ -72,9 +68,6 @@ namespace xfLibrary.ViewModels
                 _user.Level = Resources.ExtentionHelper.StringToRole(_user.Roles);
 
                 Profile = res;
-
-                IsAdmin = IsAdmin();
-                IsManager = IsManager();
             }
 
             IsBusy = false;
@@ -133,12 +126,6 @@ namespace xfLibrary.ViewModels
                       //view
                       Profile = _user;
                       Icon = LoadIcon();
-
-                      //role
-                      IsAdmin = IsAdmin();
-                      IsManager = IsManager();
-                      OnPropertyChanged("IsAdmin");
-                      OnPropertyChanged("IsManager");
 
                       ////update profile
                       RefreshProfileCommand.Execute(null);

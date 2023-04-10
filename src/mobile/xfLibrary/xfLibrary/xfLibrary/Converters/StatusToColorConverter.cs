@@ -65,6 +65,24 @@ namespace xfLibrary.Converters
         }
     }
 
+    class StatusValueToBoolConverter : ValueConverterExtension, IValueConverter
+    {
+        public int Value { get; set; } = 0;
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return false;
+            var status = (int)value;
+
+            return status == Value ? true : false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     class OffToOnConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

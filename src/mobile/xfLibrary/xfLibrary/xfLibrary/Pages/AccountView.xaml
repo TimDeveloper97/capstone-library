@@ -14,10 +14,21 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             xmlns:converter="clr-namespace:xfLibrary.Converters"
              x:Name="self"
             
              x:Class="xfLibrary.Pages.AccountView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:StatusValueToBoolConverter x:Key="User" Value="0"/>
+            <converter:StatusValueToBoolConverter x:Key="Manager" Value="1"/>
+            <converter:StatusValueToBoolConverter x:Key="Admin" Value="99"/>
 
+            <converter:StatusToBoolConverter x:Key="NotUser" Value="0"/>
+            <converter:StatusToBoolConverter x:Key="NotManager" Value="1"/>
+            <converter:StatusToBoolConverter x:Key="NotAdmin" Value="99"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
     <ContentView.Content>
         <ScrollView>
             <StackLayout>
@@ -63,18 +74,19 @@
                         <!--#region Items -->
                         <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
                             <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý" HorizontalOptions="Start" Padding="15,10,10,5"/>
-                            <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
-                            <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
-                            <view:ItemView Text="Danh mục" Icon="{Static icon:FontIcons.Folder}" IsVisible="{Binding IsManager}" Color="{StaticResource Red}" TabCommand="{Binding CategoryCommand}"/>
-                            <view:ItemView Text="Người dùng" Icon="{Static icon:FontIcons.Account}" IsVisible="{Binding IsAdmin}" Color="DarkSlateBlue" TabCommand="{Binding UserCommand}"/>
-                            <view:ItemView Text="Cấu hình" Icon="{Static icon:FontIcons.Toolbox}" Color="DeepSkyBlue" IsVisible="{Binding IsAdmin}" TabCommand="{Binding ConfigCommand}"/>
+                            <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" IsVisible="{Binding Profile.Level, Converter={StaticResource NotAdmin}}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
+
+                            <view:ItemView Text="Danh mục" Icon="{Static icon:FontIcons.Folder}" IsVisible="{Binding Profile.Level, Converter={StaticResource NotAdmin}}" Color="{StaticResource Red}" TabCommand="{Binding CategoryCommand}"/>
+                            <view:ItemView Text="Người dùng" Icon="{Static icon:FontIcons.Account}" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" Color="DarkSlateBlue" TabCommand="{Binding UserCommand}"/>
+                            <view:ItemView Text="Cấu hình" Icon="{Static icon:FontIcons.Toolbox}" Color="DeepSkyBlue" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" TabCommand="{Binding ConfigCommand}"/>
                         </StackLayout>
 
                         <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
                             <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="15,10,10,5"/>
-                            <view:ItemView Text="Thống kê" Icon="{Static icon:FontIcons.Charity}" TabCommand="{Binding StaticCommand}" IsVisible="{Binding IsAdmin}" Color="{StaticResource Tertiary}"/>
-                            <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}" IsVisible="{Binding IsAdmin, Converter={StaticResource ChangeBoolConverter}}"/>
-                            <view:ItemView Text="Nạp tiền" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Cash}" IsVisible="{Binding IsManager, Converter={StaticResource ChangeBoolConverter}}" Color="{StaticResource Yellow}"/>
+                            <view:ItemView Text="Thống kê" Icon="{Static icon:FontIcons.Charity}" TabCommand="{Binding StaticCommand}" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" Color="{StaticResource Tertiary}"/>
+                            <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}" IsVisible="{Binding Profile.Level, Converter={StaticResource NotAdmin}}"/>
+                            <view:ItemView Text="Nạp tiền" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Cash}" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" Color="{StaticResource Yellow}"/>
+                            <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding Profile.Level, Converter={StaticResource User}}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
                         </StackLayout>
                         
                         <StackLayout Spacing="0">

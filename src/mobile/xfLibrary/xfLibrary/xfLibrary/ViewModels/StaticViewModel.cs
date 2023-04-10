@@ -89,7 +89,7 @@ namespace xfLibrary.ViewModels
         {
             Transactions = new ObservableCollection<TransactionGroup>();
             _list = new List<TransactionGroup>();
-            Groups = new string[] { "Tất cả", "Tiền vào", "Tiền ra" };
+            Groups = new string[] { "Tất cả", "Tiền nạp", "Tiền rút" };
             IsBusy = true;
         }
         void UpdateDataItem(List<Transaction> trans)
