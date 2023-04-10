@@ -8,3 +8,5 @@ export const resetPassword = (data) =>
 export const viewProfile = (id) => axiosIntance.get(`/view-profile/${id}`);
 
 export const getAllUser = () => axiosIntance.get("/admin/users");
+
+export const updateRoleUser = (id, data) => axiosIntance.put(`/admin/users/role-update/${id}`, data);

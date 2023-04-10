@@ -4,6 +4,7 @@ import {
   faEllipsisVertical,
   faFileInvoiceDollar,
   faPen,
+  faQrcode,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment/moment";
@@ -21,9 +22,13 @@ import {
   NotificationManager,
   NotificationContainer,
 } from "react-notifications";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import QRCode from "react-qr-code";
+import { useNavigate } from "react-router-dom";
 
 export default function OrderStatus() {
   const [listOrderStatus, setlistOrderStatus] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrderStatus = async () => {
@@ -68,19 +73,38 @@ export default function OrderStatus() {
     }
   };
 
+  const [qrValue, setQrValue] = useState("");
+  const [open, setOpen] = useState(false);
   const handleReceivedOrder = async (e, id, index) => {
     e.preventDefault();
-    const {data} = await receivedOrder(id);
-    if (data.success) {
-      let temp = listOrderStatus;
-      temp[index].statusColor = getColorStatus(128);
-      temp[index].status = 128;
-      setlistOrderStatus(temp.slice());
-      NotificationManager.success(data.message, "Thông báo", 2000);
-    } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+    //const user = JSON.parse(window.localStorage.getItem("user"));
+    const token = window.localStorage.getItem("token");
+    const data = {
+      time: (new Date()).getTime(),
+      token: token,
+      orderId: id,
+      status: 64
     }
+    const input = JSON.stringify(data)
+    setQrValue(input);
+    setOpen(true);
+    // const {data} = await receivedOrder(id);
+    // if (data.success) {
+    //   let temp = listOrderStatus;
+    //   temp[index].statusColor = getColorStatus(128);
+    //   temp[index].status = 128;
+    //   setlistOrderStatus(temp.slice());
+    //   NotificationManager.success(data.message, "Thông báo", 2000);
+    // } else {
+    //   NotificationManager.error(data.message, "Lỗi", 2000);
+    // }
   };
+  const handleClose = () => {
+    setOpen(false);
+  }
+  const checkResult = () => {
+    navigate(0);
+  }
 
   const handleBookReturn = async (e, id, index) => {
     e.preventDefault();
@@ -186,7 +210,7 @@ export default function OrderStatus() {
                                 handleReceivedOrder(e, los.id, index)
                               }
                             >
-                              <FontAwesomeIcon icon={faCheck} /> Xác nhận
+                              <FontAwesomeIcon icon={faQrcode} /> Tạo mã
                             </button>
                           </div>
                           <span>
@@ -217,6 +241,20 @@ export default function OrderStatus() {
             })}
           </div>
         </div>
+        <Dialog open={open} onClose={handleClose}>
+                              <DialogTitle>Xác nhận thuê ngay?</DialogTitle>
+                              <DialogContent>
+                              <div style={{ background: 'white', padding: '16px' }}>
+    <QRCode value={qrValue} />
+</div>
+                              </DialogContent>
+                              <DialogActions>
+                                <Button onClick={checkResult}>
+                                  Xem kết quả
+                                </Button>
+                                <Button onClick={handleClose}>Hủy</Button>
+                              </DialogActions>
+                            </Dialog>
       </section>
     </>
   ) : (

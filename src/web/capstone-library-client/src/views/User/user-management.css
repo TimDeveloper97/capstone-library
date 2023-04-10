@@ -10,3 +10,6 @@
 .list-user {
   width: 60%;
 }
+.user-item p{
+  padding: 5px 0;
+}

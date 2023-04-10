@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllUser } from "../../apis/user";
+import { getAllUser, updateRoleUser } from "../../apis/user";
 import {
   NotificationContainer,
   NotificationManager,
@@ -18,11 +18,12 @@ import Loading from "../../components/Loading/Loading";
 import "./user-management.css";
 
 export default function UserManagement() {
+  const userRole = JSON.parse(window.localStorage.getItem("user")).roles[0];
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await getAllUser();
-      setUsers(data);
+      setUsers(data.value);
     };
     fetchUser();
   }, []);
@@ -31,6 +32,29 @@ export default function UserManagement() {
   useEffect(() => {
     setListUser(users.sort((a, b) => a.id - b.id).slice());
   }, [users]);
+
+  const changeUserRole = async (user) => {};
+
+  const changeUserStatus = async (user, index) => {
+    const {data} = await updateRoleUser(user.id, {
+      id: user.id,
+      status: user.status === 32 ? 0 : 32,
+      roles: user.roles,
+    });
+    if(data.success){
+      NotificationManager.success(data.message, "Thông báo", 2000);
+      const temp = listUser;
+    if (temp[index].status === 32) {
+      temp[index].status = 0;
+    } else {
+      temp[index].status = 32;
+    }
+    setListUser(temp.slice());
+  }else{
+    NotificationManager.error(data.message, "Lỗi", 2000);
+  }
+    }
+    
 
   return users ? (
     <>
@@ -99,22 +123,49 @@ export default function UserManagement() {
                             : "Không hoạt động"}
                         </span>
                       </p>
-                      <p>{user.roles[0]?.name}</p>
+                      <p>
+                        <span
+                          style={{
+                            backgroundColor: "#576CBC",
+                            color: "#fff",
+                            padding: "5px 10px 5px 10px",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          {user.roles[0] === "ROLE_ADMIN"
+                            ? "admin"
+                            : user.roles[0] === "ROLE_MANAGER_POST"
+                            ? "quản lý"
+                            : "người dùng"}
+                        </span>
+                      </p>
                     </div>
                     <div className="col-md-2">
-                      <div className="button-action">
-                        <div className="tooltip-action">
-                          <button className="btn btn-success">
-                            <FontAwesomeIcon icon={faCheck} /> Thăng cấp
-                          </button>
-                          <button className="btn btn-danger">
-                            <FontAwesomeIcon icon={faUserSlash} /> Vô hiệu hóa
-                          </button>
+                      {user.roles[0] !== "ROLE_ADMIN" && (
+                        <div className="button-action">
+                          <div
+                            className="tooltip-action"
+                            style={{ width: "300px", right: "-65px" }}
+                          >
+                            <button className="btn btn-success">
+                              <FontAwesomeIcon
+                                icon={faCheck}
+                                onClick={() => changeUserRole(user)}
+                              />{" "}
+                              Thăng cấp
+                            </button>
+                            <button
+                              className={user.status === 32 ? "btn btn-danger": "btn btn-success"}
+                              onClick={() => changeUserStatus(user, index)}
+                            >
+                              <FontAwesomeIcon icon={faUserSlash} /> {user.status === 32 ? "Vô hiệu hóa": "Kích hoạt"}
+                            </button>
+                          </div>
+                          <span>
+                            <FontAwesomeIcon icon={faEllipsisVertical} />
+                          </span>
                         </div>
-                        <span>
-                          <FontAwesomeIcon icon={faEllipsisVertical} />
-                        </span>
-                      </div>
+                      )}
                     </div>
                   </div>
                 );
