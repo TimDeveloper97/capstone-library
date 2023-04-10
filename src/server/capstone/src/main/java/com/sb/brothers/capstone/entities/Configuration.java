@@ -29,7 +29,7 @@ public class Configuration implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "key", nullable = false)
+	@Column(name = "key_cfg", nullable = false)
 	public String getKey() {
 		return key;
 	}
@@ -38,7 +38,7 @@ public class Configuration implements Serializable {
 		this.key = key;
 	}
 
-	@Column(name = "value", nullable = false)
+	@Column(name = "value_cfg", nullable = false)
 	public Integer getValue() {
 		return value;
 	}
