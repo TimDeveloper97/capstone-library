@@ -48,30 +48,34 @@ public class PostController {
     //posts session
     @GetMapping("")
     public ResponseEntity<?> getAllAdminPosts(){
+        logger.info("[API-Post] getAllAdminPosts - START");
         logger.info("Return all admin posts");
         List<Post> posts = null;
         try{
             posts = postService.getAllPosts();
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Post] getAllAdminPosts - END");
             return new ResponseEntity<>(new CustomErrorType("Lấy thông tin tất cả cái bài đăng thất bại. Xảy ra lỗi: "+ex.getMessage()
             +". \nNguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
+            logger.info("[API-Post] getAllAdminPosts - END");
             return new ResponseEntity<>(new CustomErrorType("Không có bài đăng nào."), HttpStatus.OK);
         }
         return getResponseEntity(posts);
     }//view all posts
 
     public ResponseEntity<?> getResponseEntity(List<Post> posts) {
+        logger.info("[API-Post] getResponseEntity - START");
         List<PostDto> postDtos = new ArrayList<>();
         for (Post p: posts) {
             PostDto postDto = new PostDto();
             postDto.convertPost(p);
             postDtos.add(postDto);
         }
-        logger.info("Return all posts - SUCCESS.");
+        logger.info("[API-Post] getResponseEntity - SUCCESS");
         return new ResponseEntity<>(new ResData<List<PostDto>>(0, postDtos), HttpStatus.OK);
     }
 
@@ -79,16 +83,18 @@ public class PostController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
     @GetMapping("/request")
     public ResponseEntity<?> getAllUserPosts(){
-        logger.info("Return all user posts");
+        logger.info("[API-Post] getAllUserPosts - START");
         List<Post> posts = null;
         try{
             posts = postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Post] getAllUserPosts - END");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +". \nNguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
+            logger.info("[API-Post] getAllUserPosts - END");
             return new ResponseEntity<>(new CustomErrorType("Không có bài ký gửi nào."), HttpStatus.OK);
         }
         return getResponseEntity(posts);
@@ -98,16 +104,19 @@ public class PostController {
     //@PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/has-book/{bookId}")
     public ResponseEntity<?> getAllPostByBookId(@PathVariable int bookId){
+        logger.info("[API-Post] getAllPostByBookId - START");
         logger.info("Return all posts contain book");
         List<Post> posts = null;
         try{
             posts = postService.getAllPostHasBookId(bookId);
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Post] getAllPostByBookId - END");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +". \nNguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
+            logger.info("[API-Post] getAllPostByBookId - END");
             return new ResponseEntity<>(new CustomErrorType("Không có bài đăng nào có chứa cuốn sách này."), HttpStatus.OK);
         }
         return getResponseEntity(posts);
@@ -115,16 +124,19 @@ public class PostController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getPostByUserId(Authentication auth){
+        logger.info("[API-Post] getPostByUserId - START");
         logger.info("Return the all posts of user: " + auth.getName());
         List<Post> posts = null;
         try{
             posts = postService.getAllPostsByUserId(auth.getName());
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
+            logger.info("[API-Post] getPostByUserId - END");
             return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage()+".\nNguyên nhân: " + ex.getCause()), HttpStatus.CONFLICT);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
+            logger.info("[API-Post] getPostByUserId - END");
             return new ResponseEntity<>(new CustomErrorType("Bạn không đăng bất kỳ bài viết nào."), HttpStatus.OK);
         }
         return getResponseEntity(posts);
@@ -132,9 +144,11 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(Authentication auth, @PathVariable("id") int id){
+        logger.info("[API-Post] getPostById - START");
         logger.info("Return the single post");
         if(!postService.isPostExist(id)){
             logger.error("Post with id: " + id + " not found.");
+            logger.info("[API-Post] getPostById - END");
             return new ResponseEntity(new CustomErrorType("Lấy thông tin bài đăng thất bại. Bài đăng không tồn tại."),HttpStatus.OK);
         }
         Post post = null;
@@ -142,21 +156,25 @@ public class PostController {
             post = postService.getPostById(id).get();
             String user = userService.getUserByPostId(id).get();
             if(post.getStatus() != CustomStatus.ADMIN_POST && !user.equals(auth.getName())){
+                logger.info("[API-Post] getPostById - END");
                 throw new Exception("Bạn không phải người đăng bài ký gửi.");
             }
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage());
+            logger.info("[API-Post] getPostById - END");
             return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +".\nNguyên nhân: "+ ex.getCause()), HttpStatus.CONFLICT);
         }
         PostDto postDto = new PostDto();
         postDto.convertPost(post);
-        logger.info("Return the single post with id: "+ id +" - SUCCESS.");
+        logger.info("Return the single post with id: "+ id);
+        logger.info("[API-Post] getPostById - SUCCESS");
         return new ResponseEntity<>(new ResData<PostDto>(0, postDto), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
     public ResponseEntity<?> createNewPost(Authentication auth, @RequestBody PostDto postDto) {
+        logger.info("[API-Post] createNewPost - START");
         if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN"))
             postDto.setStatus(CustomStatus.ADMIN_POST);
         else postDto.setStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
@@ -173,6 +191,7 @@ public class PostController {
             }
             else{
                 logger.warn("Unable to create new post. User has been blocked from posting.");
+                logger.info("[API-Post] createNewPost - END");
                 return new ResponseEntity(new CustomErrorType("Tạo bài viết thất bại. Bạn đã bị chăn đăng bài."), HttpStatus.OK);
             }
         }
@@ -180,20 +199,23 @@ public class PostController {
             if(postService.isPostExist(p.getId()))
                 postService.removePostById(p.getId());
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
+            logger.info("[API-Post] createNewPost - END");
             return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +".\n Nguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
-        logger.info("Create new post - SUCCESS");
+        logger.info("[API-Post] createNewPost - SUCCESS");
         return new ResponseEntity(new CustomErrorType(true,"Tạo bài đăng thành công."), HttpStatus.CREATED);
     }//form add new post > do add
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletePost(Authentication auth, @PathVariable("id") int id){
+        logger.info("[API-Post] deletePost - START");
         logger.info("Fetching & Deleting post with id" + id);
         try{
             Post post = postService.getPostById(id).get();
             if(post == null){
                 logger.error("Post with id:"+ id +" not found. Unable to delete.");
+                logger.info("[API-Post] deletePost - END");
                 return new ResponseEntity(new CustomErrorType("Xóa bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.OK);
             }
@@ -203,17 +225,20 @@ public class PostController {
             else throw new Exception("Bạn không phải người đăng bài viết hoặc người quản lý tin.");
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
+            logger.info("[API-Post] deletePost - END");
             return new ResponseEntity(new CustomErrorType("Exception: " + ex.getMessage()+".\n" + ex.getCause()),
                     HttpStatus.OK);
         }
-        logger.info("Delete post with id:" + id +" - SUCCESS");
+        logger.info("Delete post with id:" + id);
+        logger.info("[API-Post] deletePost - SUCCESS");
         return new ResponseEntity(new CustomErrorType(true,"Xóa bài đăng thành công."), HttpStatus.OK);
     }//delete 1 post
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/update")
-    public ResponseEntity<?> updatePost(Authentication auth, @RequestBody PostDto postDto) throws Exception {
+    public ResponseEntity<?> updatePost(Authentication auth, @RequestBody PostDto postDto) {
+        logger.info("[API-Post] updatePost - START");
         if(auth.getName() == postDto.getUser()){
             return new ResponseEntity<>(new CustomErrorType("Yêu cầu của bạn không hợp lệ."), HttpStatus.UNAUTHORIZED);
         }
@@ -221,6 +246,7 @@ public class PostController {
             Post currPost = postService.getPostById(postDto.getId()).get();
             if (currPost == null) {
                 logger.error("Post with id:" + postDto.getId() + " not found. Unable to update.");
+                logger.info("[API-Post] updatePost - END");
                 return new ResponseEntity(new CustomErrorType("Cập nhật bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.NOT_FOUND);
             }
@@ -234,10 +260,13 @@ public class PostController {
             }
             catch (Exception ex){
                 logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
+                logger.info("[API-Post] updatePost - END");
             }
-            logger.info("Update post with post id:"+ postDto.getId() +" - SUCCESS.");
+            logger.info("Update post with post id:"+ postDto.getId());
+            logger.info("[API-Post] updatePost - SUCCESS");
             return new ResponseEntity<>(new CustomErrorType(true, "Cập nhật bài đăng thành công."), HttpStatus.OK);
         }
+        logger.info("[API-Post] updatePost - END");
         return new ResponseEntity<>(new CustomErrorType("Dữ liệu đầu vào không chính xác. Vui lòng kiểm tra lại."), HttpStatus.OK);
     }//form edit post, fill old data into form
 
@@ -260,7 +289,8 @@ public class PostController {
                     b.setInStock(postDetail.getQuantity());
                     bookService.updateBook(b);
                     bookService.updateBook(book);
-                    postDetail.setSublet(1);
+                    postDetail.setSublet(book.getId());
+                    postDetail.setBook(b);
                 }
                 else if(currPost.getStatus() == CustomStatus.ADMIN_POST){
                     //@TODO - check qua han
@@ -294,6 +324,7 @@ public class PostController {
     }//form edit post, fill old data into form
 
     ResponseEntity<?> changePostStatus(Authentication auth, int id, int status){
+        logger.info("[API-Post] changePostStatus - START");
         Post currPost = null;
         try{
             if(!postService.isPostExist(id)){
@@ -315,6 +346,7 @@ public class PostController {
         }
         catch (Exception ex){
             logger.warn("Exception: " + ex.getMessage() + (ex.getCause() != null ? ". " + ex.getCause() : "" ));
+            logger.info("[API-Post] changePostStatus - END");
             return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +".\nNguyên nhân: " + ex.getCause()), HttpStatus.OK);
         }
         currPost.setStatus(status);   //set status post
@@ -327,7 +359,8 @@ public class PostController {
         currPost.setModifiedDate(new Date());
         logger.info("Fetching & Change Post status with id: " + id);
         postService.updatePost(currPost);
-        logger.info("Change post status with post id:"+ id +" - SUCCESS.");
+        logger.info("Change post status with post id:"+ id);
+        logger.info("[API-Post] changePostStatus - END");
         return new ResponseEntity<>(new CustomErrorType(true, "Cập nhật trạng thái thành công."), HttpStatus.OK);
     }
 

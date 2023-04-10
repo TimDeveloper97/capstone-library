@@ -52,10 +52,12 @@ public class MemberAPI {
     @PostMapping("/checkout")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> checkout(Authentication auth, @RequestBody OrderDto orderDto){
+        logger.info("[API-Member] checkout - START");
         logger.info("Return rent books");
         List<PostDto> postDtos = GlobalData.cart.get(auth.getName());
         if((postDtos == null || postDtos.isEmpty()) && (orderDto.getOrders() == null || orderDto.getOrders().isEmpty())){
             logger.warn("The cart of user:"+ auth.getName()+" is empty.");
+            logger.info("[API-Member] checkout - END");
             return new ResponseEntity<>(new CustomErrorType("Giỏ hàng của bạn trống."), HttpStatus.OK);
         }
         int total = 0;
@@ -65,6 +67,7 @@ public class MemberAPI {
             Order order = new Order();
             Post post = postService.getPostById(postDto.getId()).get();
             if(post.getStatus() != CustomStatus.ADMIN_POST){
+                logger.info("[API-Member] checkout - END");
                 return new ResponseEntity<>(new CustomErrorType("Sản phẩm đã được thuê trước đó, đặt hàng và thanh toán thất bại."), HttpStatus.OK);
             }
             user = userService.getUserById(auth.getName()).get();
@@ -93,11 +96,12 @@ public class MemberAPI {
             };
         }
         else{
+            logger.info("[API-Member] checkout - END");
             return new ResponseEntity<>(new CustomErrorType("Số tiền trong tài khoản không đủ để thực hiện giao dịch. Vui lòng kiểm tra lại."), HttpStatus.OK);
         }
         user.setBalance(user.getBalance() - total);
         userService.updateUser(user);
-        logger.info("Checkout- SUCCESS.");
+        logger.info("[API-Member] checkout - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType(true, "Thanh toán thành công."), HttpStatus.OK);
     }//view all books
 
@@ -125,9 +129,9 @@ public class MemberAPI {
                 updateBalance(book, discount);
                 Notification notification = new Notification();
                 notification.setUser(book.getUser());
-                notification.setDescription("Bạn đã nhận được "+discount+"vnđ tiền triết khấu khi có người thuê sách "+ book.getName() + " của bạn.");
-                notification.setCreatedDate(new Date());
-                notification.setStatus(0);
+                notification.setDescription("Bạn đã nhận được "+discount+"vnđ tiền chiết khấu khi có người thuê sách "+ book.getName() + " của bạn.");
+                //notification.setCreatedDate(new Date());
+                //notification.setStatus(0);
                 notificationService.updateNotification(notification);
             }
         }
@@ -146,49 +150,58 @@ public class MemberAPI {
             expiredFee = user.getBalance() + sum;
             user.setBalance(0);
         }
-        else user.setBalance(user.getBalance() + sum - expiredFee);
+        else {
+            user.setBalance(user.getBalance() + sum - expiredFee);
+            Notification notification = new Notification();
+            notification.setUser(user);
+            notification.setDescription("Bạn đã được hoàn "+sum+"vnđ tiền cọc vào tài khoản.");
+            //notification.setCreatedDate(new Date());
+            //notification.setStatus(0);
+            notificationService.updateNotification(notification);
+        }
         if(expiredFee> 0){
             Notification notification = new Notification();
             notification.setUser(user);
             notification.setDescription("Bạn đã bị trừ "+expiredFee+"vnđ do trả sách quá hạn.");
-            notification.setCreatedDate(new Date());
-            notification.setStatus(0);
+            //notification.setCreatedDate(new Date());
+            //notification.setStatus(0);
             notificationService.updateNotification(notification);
         }
         userService.updateUser(user);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/order/confirmation/{id}")
     public ResponseEntity<?> waitingStatus(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_WAIT_TAKE_BOOK);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/order/received/{id}")
     public ResponseEntity<?> acceptOrdertatus(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_RETURN_IS_NOT_APPROVED);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/order/cancellation/{id}")
     public ResponseEntity<?> orderCancellation(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_REQUEST_IS_DENY);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/order/book-returns/{id}")
     public ResponseEntity<?> orderReturns(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.USER_RETURN_IS_APPROVED);
     }//form edit post, fill old data into form
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/post/disable/{id}")
     public ResponseEntity<?> disablePost(Authentication auth, @PathVariable("id") int id){
         return changePostStatus(auth, id, CustomStatus.ADMIN_DISABLE_POST);
     }//form edit post, fill old data into form
 
     ResponseEntity<?> changePostStatus(Authentication auth, int oId, int status){
+        logger.info("[API-Member] changePostStatus - START");
         Order order = orderService.getOrderById(oId).get();
         Post currPost = order.getPost();
         if(currPost != null) {
@@ -206,10 +219,12 @@ public class MemberAPI {
                         userService.updateUser(user);
                     }
                     if (currPost.getStatus() == status) {
+                        logger.info("[API-Member] changePostStatus - END");
                         return new ResponseEntity<>(new CustomErrorType("Trạng thái đơn hàng không thay đổi."), HttpStatus.OK);
                     } else postService.updateStatus(currPost.getId(), status);
                 } catch (Exception ex) {
                     logger.warn("Exception: " + ex.getMessage() + (ex.getCause() != null ? ". " + ex.getCause() : ""));
+                    logger.info("[API-Member] changePostStatus - END");
                     return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() + ".\n Nguyên nhân: " + ex.getCause()), HttpStatus.OK);
                 }
             }
@@ -239,9 +254,13 @@ public class MemberAPI {
                     refunds(postDetails, order.getPost(), order.getUser());
                 }
             }
-            else return new ResponseEntity<>(new CustomErrorType("Không thể thay đổi trạng thái đơn hàng. Vui lòng kiểm tra lại."), HttpStatus.OK);
+            else {
+                logger.info("[API-Member] changePostStatus - END");
+                return new ResponseEntity<>(new CustomErrorType("Không thể thay đổi trạng thái đơn hàng. Vui lòng kiểm tra lại."), HttpStatus.OK);
+            }
         }
         else {
+            logger.info("[API-Member] changePostStatus - END");
             return new ResponseEntity<>(new CustomErrorType("Đơn hàng có mã: " + oId + " không tồn tại. Cập nhật trạng thái thất bại."), HttpStatus.OK);
         }
         currPost.setStatus(status);   //set status post
@@ -255,6 +274,7 @@ public class MemberAPI {
         logger.info("Fetching & Change order status with id: " + currPost.getId());
         postService.updatePost(currPost);
         logger.info("Change order status with post id:"+ currPost.getId() +" - SUCCESS.");
+        logger.info("[API-Member] changePostStatus - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType(true, "Đã cập nhật trạng thái đơn hàng."), HttpStatus.OK);
     }
 

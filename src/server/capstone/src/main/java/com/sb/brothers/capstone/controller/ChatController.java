@@ -32,9 +32,11 @@ public class ChatController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> chatHistory(@RequestBody ChatMessage chatDto){
+        logger.info("[API-Chat] chatHistory - START");
         logger.info("Show chat history of users");
         if(chatDto.getSender() == null || chatDto.getReceiver() == null){
             logger.error("input not correct.");
+            logger.info("[API-Chat] chatHistory - END");
             return new ResponseEntity<>(new CustomErrorType("Dữ liệu đầu vào không hợp lệ. Vui lòng kiểm tra lại."), HttpStatus.BAD_REQUEST);
         }
         Set<Message> messages = null;
@@ -42,22 +44,26 @@ public class ChatController {
             messages = chatService.getAllMessagesByUser(chatDto.getSender(), chatDto.getReceiver());
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +" when get chat history by user." + ex.getCause());
+            logger.info("[API-Chat] chatHistory - END");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi khi lấy thông tin lịch sử chat. Vui lòng kiểm tra lại."), HttpStatus.CONFLICT);
         }
-        logger.info("Get chat history - SUCCESS.");
+        logger.info("[API-Chat] chatHistory - SUCCESS");
         return new ResponseEntity<>(new ResData<Set<Message>>(0, messages), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<?> sendMsg(@RequestBody ChatMessage chatDto){
+        logger.info("[API-Chat] sendMsg - START");
         logger.info("save chat history of users");
         if(chatDto.getSender() == null || chatDto.getReceiver() == null){
             logger.error("input not correct.");
+            logger.info("[API-Chat] sendMsg - END");
             return new ResponseEntity<>(new CustomErrorType("Dữ liệu đầu vào không hợp lệ. Vui lòng kiểm tra lại."), HttpStatus.OK);
         }
         else if(!userService.isUserExist(chatDto.getSender()) || !userService.isUserExist(chatDto.getReceiver())){
             logger.error("Sender or Receiver not found.");
+            logger.info("[API-Chat] sendMsg - END");
             return new ResponseEntity<>(new CustomErrorType("Không tìm thấy người nhận hoặc người gửi."), HttpStatus.OK);
         }
         Message msg = new Message();
@@ -70,7 +76,10 @@ public class ChatController {
             chatService.save(msg);
         }catch (Exception ex){
             logger.error("Exception: "+ ex.getMessage() +" \n" + ex.getCause());
+            logger.info("[API-Chat] sendMsg - END");
+            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi: "+ ex.getMessage() +".\nNguyên nhân:" + ex.getCause()), HttpStatus.OK);
         }
+        logger.info("[API-Chat] sendMsg - END");
         return new ResponseEntity(new CustomErrorType(true, "Tin nhắn đã được lưu thành công."),HttpStatus.CREATED);
     }
 }

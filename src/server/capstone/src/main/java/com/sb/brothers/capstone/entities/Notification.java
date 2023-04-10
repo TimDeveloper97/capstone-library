@@ -20,6 +20,8 @@ public class Notification implements Serializable {
 	private User user;
 
 	public Notification() {
+		this.status = 0;
+		this.createdDate = new Date();
 	}
 
 

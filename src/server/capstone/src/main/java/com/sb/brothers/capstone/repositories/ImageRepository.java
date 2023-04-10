@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface ImageRepository extends JpaRepository<Image, String> {
+public interface ImageRepository extends JpaRepository<Image, Integer> {
     @Query(value = "SELECT * FROM image WHERE book_id = :bookId)",
             nativeQuery = true)
     Set<Image> getImagesByBookId(@Param("bookId") int bookId);

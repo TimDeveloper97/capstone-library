@@ -1,8 +1,10 @@
 package com.sb.brothers.capstone.controller;
 
 import com.sb.brothers.capstone.dto.PaymentDto;
+import com.sb.brothers.capstone.entities.Notification;
 import com.sb.brothers.capstone.entities.Payment;
 import com.sb.brothers.capstone.entities.User;
+import com.sb.brothers.capstone.services.NotificationService;
 import com.sb.brothers.capstone.services.PaymentService;
 import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
@@ -31,19 +33,25 @@ public class RechargeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/recharge")
     public ResponseEntity<?> getAllPayment(){
+        logger.info("[API-Recharge] getAllPayment - START");
         logger.info("Return all notification.");
         List<Payment> payments = null;
         try{
             payments = paymentService.getAllPayments();
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Recharge] getAllPayment - END");
             return new ResponseEntity<>(new CustomErrorType("Lấy thông tin lịch sử nạp tiền thất bại. Nguyên nhân" + ex.getCause()), HttpStatus.OK);
         }
         if(payments.isEmpty()){
             logger.warn("There are no recharge.");
+            logger.info("[API-Recharge] getAllPayment - END");
             return new ResponseEntity<>(new CustomErrorType("Không có thông tin nạp tiền nào."), HttpStatus.OK);
         }
         List<PaymentDto> paymentDtos = new ArrayList<>();
@@ -52,12 +60,14 @@ public class RechargeController {
             recDto.convertPayment(rec);
             paymentDtos.add(recDto);
         });
+        logger.info("[API-Recharge] getAllPayment - SUCCESS");
         return new ResponseEntity<>(new ResData<List<PaymentDto>>(0, paymentDtos), HttpStatus.OK);
     }//view all posts
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/transfer")
-    public ResponseEntity<?> seenNotification(Authentication auth, @RequestBody PaymentDto paymentDto){
+    public ResponseEntity<?> transfer(Authentication auth, @RequestBody PaymentDto paymentDto){
+        logger.info("[API-Recharge] transfer - START");
         logger.info("Update payment.");
         User user = null;
         User manager = null;
@@ -69,8 +79,22 @@ public class RechargeController {
                 Payment payment = new Payment();
                 payment.setTransferAmount(paymentDto.getTransferAmount());
                 payment.setUser(user);
-                payment.setContent("Tài khoản "+ paymentDto.getUser() +" đã được nạp thêm "+ paymentDto.getTransferAmount()
-                        +"vnd. Số dư hiện tại là "+(user.getBalance() + paymentDto.getTransferAmount())+"vnd.");
+                if(paymentDto.getTransferAmount() < 0){
+                    payment.setContent("Tài khoản " + paymentDto.getUser() + " đã rút " + paymentDto.getTransferAmount()
+                            + "vnd, người thực hiện giao dịch: " + auth.getName());
+                    Notification ntf = new Notification();
+                    ntf.setUser(user);
+                    ntf.setDescription("Bạn đã rút " + paymentDto.getTransferAmount() + "vnd, số dư hiện tại là:" + user.getBalance() +"vnd");
+                    notificationService.updateNotification(ntf);
+                }
+                else {
+                    payment.setContent("Tài khoản " + paymentDto.getUser() + " đã được nạp thêm " + paymentDto.getTransferAmount()
+                            + "vnd, người thực hiện giao dịch: " + auth.getName());
+                    Notification ntf = new Notification();
+                    ntf.setUser(user);
+                    ntf.setDescription("Bạn đã nạp " + paymentDto.getTransferAmount() + "vnd vào tài khoản, số dư hiện tại là:" + user.getBalance() +"vnd");
+                    notificationService.updateNotification(ntf);
+                }
                 payment.setCreatedDate(new Date());
                 payment.setManager(manager);
                 paymentService.updatePayment(payment);
@@ -78,8 +102,11 @@ public class RechargeController {
             else throw new Exception("Không tìm thấy người dùng có mã: "+ user.getId());
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
+            logger.info("[API-Recharge] transfer - END");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:" + ex.getMessage() + ".\nNguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
+        logger.info("[API-Recharge] transfer - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType(true, "Nạp tiền thành công."), HttpStatus.OK);
     }//view all posts
+
 }
