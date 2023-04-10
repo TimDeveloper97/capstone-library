@@ -1,10 +1,10 @@
 Note:
-- Nạp/ rút tiền(tách)
+- Nạp/ rút tiền(tách) (checked)
 Sơn
 - Admin:
-+ config discount (mobile đã làm)
-+ config ngày notification khi gần hết hạn thuê sách (mobile đã làm)
-+ disable user, thăng cấp thành manager (mobile đã làm)
++ config discount (mobile đã làm) (checked)
++ config ngày notification khi gần hết hạn thuê sách (mobile đã làm) (checked)
++ disable user, thăng cấp thành manager (mobile đã làm) (checked)
 Sơn
 Chờ customer trao đổi với thầy vấn đề admin chia task cho manager
 Sơn
@@ -12,5 +12,5 @@ Ngọc Sơn
 mã QR: Khi user đến trả sách/ký gửi. Admin xác nhận trên UI sau đó hiện mã QR 
 -> user quest mã QR để hoàn tất xác nhận
 UI thuê post:
-- Tiền cọc: ...... Tiền thuê: ...... Tổng tiền: (mobile ko cần vì đã có chú thích)
-Web: thêm tìm kiếm post có sách bất kỳ (mobile đã làm)
+- Tiền cọc: ...... Tiền thuê: ...... Tổng tiền: (mobile ko cần vì đã có chú thích) (checked)
+Web: thêm tìm kiếm post có sách bất kỳ (mobile đã làm) (checked)

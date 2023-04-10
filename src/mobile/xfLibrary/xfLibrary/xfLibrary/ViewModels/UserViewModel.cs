@@ -41,9 +41,9 @@ namespace xfLibrary.ViewModels
 
             ObservableCollection<User> lsort = null;
             if (isSort)
-                lsort = new ObservableCollection<User>(Users.OrderBy(x => x.Name));
+                lsort = new ObservableCollection<User>(Users.OrderBy(x => x.FirstName + x.LastName));
             else
-                lsort = new ObservableCollection<User>(Users.OrderByDescending(x => x.Name));
+                lsort = new ObservableCollection<User>(Users.OrderByDescending(x => x.FirstName + x.LastName));
 
             isSort = !isSort;
             Users = lsort;
@@ -58,13 +58,13 @@ namespace xfLibrary.ViewModels
             else
                 status = Services.Api.ACTIVATE;
 
-            var res = await _accountService.UpdateRoleAsync(u.Id, new { id = u.Id, status = status, roles = _user.Roles }, _token);
+            var res = await _accountService.UpdateRoleAsync(u.Id, new { id = u.Id, status = status, roles = u.Roles }, _token);
             if (res == null) return;
 
             if (res.Success)
                 u.Status = status;
 
-            if (string.IsNullOrEmpty(res.Message))
+            if (!string.IsNullOrEmpty(res.Message))
                 _message.ShortAlert(res.Message);
         });
 
@@ -85,7 +85,7 @@ namespace xfLibrary.ViewModels
                 u.Level = Resources.ExtentionHelper.StringToRole(roles);
             }    
 
-            if (string.IsNullOrEmpty(res.Message))
+            if (!string.IsNullOrEmpty(res.Message))
                 _message.ShortAlert(res.Message);
         });
 
@@ -110,6 +110,9 @@ namespace xfLibrary.ViewModels
             if (us == null) { IsBusy = false; return; }
             foreach (var u in us)
             {
+                //update level
+                u.Level = Resources.ExtentionHelper.StringToRole(u.Roles);
+                
                 //update view
                 Users.Add(u);
             }

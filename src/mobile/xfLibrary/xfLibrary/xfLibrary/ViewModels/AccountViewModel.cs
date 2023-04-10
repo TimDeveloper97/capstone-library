@@ -17,8 +17,8 @@ namespace xfLibrary.ViewModels
         #region Properties
         private User profile;
         string icon = "emoji3.png";
-        private bool isAdmin = false;
-        private bool isManager = false;
+        private bool isAdmin;
+        private bool isManager;
 
         public string Icon { get => icon; set => SetProperty(ref icon, value); }
         public User Profile { get => profile; set => SetProperty(ref profile, value); }
@@ -69,6 +69,8 @@ namespace xfLibrary.ViewModels
             if (res != null)
             {
                 _user = res;
+                _user.Level = Resources.ExtentionHelper.StringToRole(_user.Roles);
+
                 Profile = res;
 
                 IsAdmin = IsAdmin();
@@ -135,6 +137,8 @@ namespace xfLibrary.ViewModels
                       //role
                       IsAdmin = IsAdmin();
                       IsManager = IsManager();
+                      OnPropertyChanged("IsAdmin");
+                      OnPropertyChanged("IsManager");
 
                       ////update profile
                       RefreshProfileCommand.Execute(null);

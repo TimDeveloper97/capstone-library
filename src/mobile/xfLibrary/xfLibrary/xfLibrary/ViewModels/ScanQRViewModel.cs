@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using xfLibrary.Domain;
+using xfLibrary.Models;
 using ZXing;
 
 namespace xfLibrary.ViewModels
@@ -29,22 +30,31 @@ namespace xfLibrary.ViewModels
             if (_qrCode != null && _qrCode == result.Text)
                 return;
 
-            //result = orderid,statuscode
-            //example = kljdgkjasdkjaskdj,64
+            //result = token,orderid,status
+            //example = asdasdasdasd,kljdgkjasdkjaskdj,64
             _qrCode = result.Text.Trim();
-            var split = _qrCode.Split(',');
-            if (split.Count() != 2)
+            var qr = new QRCode(_qrCode);
+            if (qr == null || string.IsNullOrEmpty(qr.Token)
+            || string.IsNullOrEmpty(qr.OrderId))
             {
                 IsBusy = false;
                 _message.ShortAlert("Sai format QR Code");
                 return;
             }
 
+            //qrcode experted
+            if (qr.Time.AddMinutes(5) < DateTime.Now)
+            {
+                IsBusy = false;
+                _message.ShortAlert("QR Code đã hết hạn");
+                return;
+            }
+
             //call api
             //lấy sách => trả sách 64 -> 128
-            if (split[1] == Services.Api.USER_TAKE_BOOK.ToString())
+            if (qr.Status == Services.Api.USER_TAKE_BOOK)
             {
-                var res = await _mainService.ReceivedAsync(split[0], _token);
+                var res = await _mainService.ReceivedAsync(qr.OrderId, qr.Token);
 
                 if (res != null && !string.IsNullOrEmpty(res.Message))
                     _message.ShortAlert(res.Message);
@@ -56,10 +66,10 @@ namespace xfLibrary.ViewModels
                 }
             }
             //trả sách => sang trạng thái trả sách thành công 128 -> 256
-            else if (split[1] == Services.Api.USER_RETURN_IS_NOT_APPROVED.ToString())
+            else if (qr.Status == Services.Api.USER_RETURN_IS_NOT_APPROVED)
             {
-                var res = await _mainService.SuccessAsync(split[0], _token);
-                
+                var res = await _mainService.SuccessAsync(qr.OrderId, qr.Token);
+
                 if (res != null && !string.IsNullOrEmpty(res.Message))
                     _message.ShortAlert(res.Message);
 
@@ -67,7 +77,7 @@ namespace xfLibrary.ViewModels
                 {
                     IsBusy = false;
                     BackCommand.Execute(null);
-                }    
+                }
             }
 
             IsBusy = false;
