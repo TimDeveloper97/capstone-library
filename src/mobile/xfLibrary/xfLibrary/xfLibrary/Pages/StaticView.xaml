@@ -57,10 +57,11 @@
             <!--#endregion-->
 
             <!--#region Segmented -->
-            <mdc:MaterialSegmented x:Name="seg" Grid.Row="2" HeightRequest="40" ItemsSource="{Binding Groups}" Command="{Binding GroupCommand}"             CommandParameter="{Binding Source={Reference seg}, Path=TabIndex}"/>
+            <mdc:MaterialSegmented x:Name="seg" Grid.Row="2" HeightRequest="40" ItemsSource="{Binding Groups}"
+                                   Command="{Binding GroupCommand}" Margin="10,-10,10,0" SelectedItem="{Binding SelectedItem}"/>
             <!--#endregion-->
 
-            <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" Margin="10,-10,10,0">
+            <Grid Grid.Row="3" HorizontalOptions="FillAndExpand" Margin="10,0">
                 <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
                     <ScrollView>
                         <Grid>
@@ -91,7 +92,7 @@
                                                 <Grid VerticalOptions="Start" HorizontalOptions="Start" HeightRequest="38" WidthRequest="38">
                                                     <Frame BackgroundColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}" CornerRadius="30" Opacity="0.1"
                                                            Style="{StaticResource FrameNoBorder}"/>
-                                                    <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Bell}"
+                                                    <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Cash}"
                                                            VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Date, Converter={StaticResource DatetimeToColorConverter}}"/>
                                                 </Grid>
                                                 <!--#endregion-->
@@ -102,14 +103,14 @@
                                                            MaxLines="{Binding MaxLines}" HorizontalTextAlignment="Start">
                                                         <Label.FormattedText>
                                                             <FormattedString>
-                                                                <Span FontFamily="MuliBold" Text="{Binding Manager, TargetNullValue='N/A', Converter={StaticResource UpperOneStringConverter}}"/>
-                                                                <Span FontFamily="MuliBold" Text="{Binding User, TargetNullValue='N/A', StringFormat='nạp tiền cho {0}', Converter={StaticResource UpperOneStringConverter}}"/>
+                                                                <Span FontFamily="MuliBold" FontSize="{StaticResource SubTitle}" Text="{Binding Manager, TargetNullValue='N/A', Converter={StaticResource UpperOneStringConverter}}"/>
+                                                                <Span FontFamily="MuliBold" FontSize="{StaticResource SubTitle}" Text="{Binding User, TargetNullValue='N/A', StringFormat=' ➣ {0}', Converter={StaticResource UpperOneStringConverter}}"/>
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                     </Label>
 
                                                     <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start" Margin="0,-2,0,0">
-                                                        <Label Text="{Binding Money, StringFormat='Số tiền nạp: {0}VND', Converter={StaticResource MoneyConverter}}" MaxLines="{Binding MaxLines}"
+                                                        <Label Text="{Binding Money, StringFormat='Số tiền: {0}VND', Converter={StaticResource MoneyConverter}}" MaxLines="{Binding MaxLines}"
                                                                Style="{StaticResource MiniLabelStyle}"/>
                                                         <Label Grid.Row="2" Text="{Binding Date, StringFormat='({0:hh:mm tt})', TargetNullValue='N/A'}"
                                                                Style="{StaticResource MiniLabelStyle}" TextColor="{StaticResource Gray300}"/>

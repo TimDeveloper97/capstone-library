@@ -16,10 +16,12 @@ namespace xfLibrary.ViewModels
         private ObservableCollection<TransactionGroup> transactions;
         private List<TransactionGroup> _list;
         private string[] groups;
+        private string selectedItem;
         DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public ObservableCollection<TransactionGroup> Transactions { get => transactions; set => SetProperty(ref transactions, value); }
         public string[] Groups { get => groups; set => SetProperty(ref groups, value); }
+        public string SelectedItem { get => selectedItem; set => SetProperty(ref selectedItem, value); }
 
         #endregion
 
@@ -37,31 +39,35 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
-        public ICommand GroupCommand => new Command<int>(async (index) =>
+        public ICommand GroupCommand => new Command(async () =>
         {
-            IsBusy = true;
-
             Transactions.Clear();
             //all
-            if (index == 0)
+            if (SelectedItem == groups[0])
             {
                 foreach (var item in _list)
                     Transactions.Add(item);
-            }    
+            }
             //tiền vào
-            else if(index == 1)
+            else if (SelectedItem == groups[1])
             {
-                foreach (var item in _list)
-                    Transactions.Add(item);
-            }   
+                foreach (var group in _list)
+                {
+                    var res = group.Where(x => x.Money > 0).ToList();
+                    if (res != null && res.Count != 0)
+                        Transactions.Add(new TransactionGroup(group.Date, res));
+                }
+            }
             //tiền ra
             else
             {
-                foreach (var item in _list)
-                    Transactions.Add(item);
-            }    
-
-            IsBusy = false;
+                foreach (var group in _list)
+                {
+                    var res = group.Where(x => x.Money < 0).ToList();
+                    if (res != null && res.Count != 0)
+                        Transactions.Add(new TransactionGroup(group.Date, res));
+                }
+            }
         });
 
         public ICommand ExtendTextCommand => new Command<Transaction>((noti) =>
@@ -83,7 +89,7 @@ namespace xfLibrary.ViewModels
         {
             Transactions = new ObservableCollection<TransactionGroup>();
             _list = new List<TransactionGroup>();
-            Groups = new string[] { "Tất cả", "Tiền vào", "Tiền ra" };
+            Groups = new string[] { "Tất cả", "Tiền nạp", "Tiền rút" };
             IsBusy = true;
         }
         void UpdateDataItem(List<Transaction> trans)
@@ -99,7 +105,7 @@ namespace xfLibrary.ViewModels
 
                     _list.Add(item);
                     Transactions.Add(item);
-                }    
+                }
             }
         }
         #endregion

@@ -61,7 +61,13 @@
                         </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
-                
+
+                <Label Grid.Column="2" Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Qrcode}"
+                       HorizontalOptions="End" VerticalOptions="Center" TextColor="White" Margin="0,0,20,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.QRCommand, Source={x:Reference Name=self}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </Grid>
             <!--#endregion-->
 

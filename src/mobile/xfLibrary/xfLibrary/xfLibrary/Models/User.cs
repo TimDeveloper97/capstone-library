@@ -14,6 +14,7 @@ namespace ChatApp.Models
         [JsonIgnore]
         public Color Color { get; set; }
 
+        private int status;
         //user
         [JsonProperty("address")]
         public string Address { get; set; }
@@ -34,7 +35,7 @@ namespace ChatApp.Models
         public string Phone { get; set; }
 
         [JsonProperty("status")]
-        public int Status { get; set; }
+        public int Status { get => status; set => SetProperty(ref status, value); }
 
         [JsonProperty("roles")]
         public string[] Roles { get; set; }

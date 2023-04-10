@@ -44,7 +44,6 @@ namespace xfLibrary.Domain
         #region Extend
         public static ChatApp.Models.User _user { get; set; }
         protected static string _token { get; set; }
-        //protected static bool _isAdmin { get; set; } = false;
 
         protected IMessage _message = DependencyService.Get<IMessage>();
         protected IAccountService _accountService = DependencyService.Get<IAccountService>();
@@ -74,12 +73,11 @@ namespace xfLibrary.Domain
             IsVisible = false;
             _token = null;
             _user = null;
-            //_isAdmin = false;
         }
 
-        protected bool IsUser() => _user.Level == Api.USER;
-        protected bool IsAdmin() => _user.Level == Api.ADMIN;
-        protected bool IsManager() => _user.Level == Api.MANAGER;
+        protected bool IsUser() => _user?.Level == Api.USER;
+        protected bool IsAdmin() => _user?.Level == Api.ADMIN;
+        protected bool IsManager() => _user?.Level == Api.MANAGER;
 
         protected string LoadIcon()
         {

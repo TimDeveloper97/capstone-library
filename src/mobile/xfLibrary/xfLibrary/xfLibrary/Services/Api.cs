@@ -130,7 +130,7 @@ namespace xfLibrary.Services
 
         //STATUS OF ACCOUNT
         public const int ACTIVATE = 32;
-        public const int DISABLE = 64;
+        public const int DISABLE = 0;
 
         //STATUS OF ROLES
         public const int USER = 0;

@@ -91,7 +91,7 @@
                                     </SwipeView.RightItems>
                                     <!-- Content -->
 
-                                    <Grid ColumnDefinitions="auto, *" Padding="5,10">
+                                    <Grid ColumnDefinitions="auto, auto, *" Padding="5">
                                         <!--#region Icon -->
                                         <Grid VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="38" WidthRequest="38">
                                             <Frame BackgroundColor="{StaticResource Blue}" CornerRadius="30" Opacity="0.1"
@@ -101,64 +101,62 @@
                                         </Grid>
                                         <!--#endregion-->
 
-                                        <Grid Grid.Column="1" RowDefinitions="*,*" HorizontalOptions="Start">
+                                        <Grid Grid.Column="1" RowDefinitions="*,*" HeightRequest="50">
                                             <Label Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
                                                    Margin="0,0,0,-5" LineBreakMode="TailTruncation">
                                                 <Label.FormattedText>
                                                     <FormattedString>
-                                                        <Span Text="{Binding FirstName, TargetNullValue='N/A', Converter={StaticResource UpperOneStringConverter}}"/>
+                                                        <Span Text="{Binding FirstName, TargetNullValue='N/A', Converter={StaticResource    UpperOneStringConverter}}"/>
                                                         <Span Text="{Binding LastName, TargetNullValue='', StringFormat=' {0}', Converter={StaticResource UpperOneStringConverter}}"/>
                                                     </FormattedString>
                                                 </Label.FormattedText>
                                             </Label>
 
-                                            <Grid Grid.Row="1" ColumnDefinitions="auto, *">
-                                                <Label Text="{Binding Id, StringFormat='Tài khoản: {0}'}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                            <Label Grid.Row="1" Text="{Binding Id, StringFormat='Tài khoản: {0}'}" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start"
                                                        Margin="0,0,0,-5" LineBreakMode="TailTruncation" TextColor="{StaticResource Gray400}"/>
-
-                                                <StackLayout Grid.Column="1" HorizontalOptions="End" Orientation="Horizontal">
-                                                    <Frame Style="{StaticResource FrameNoBorder}" CornerRadius="10">
-                                                        <Label Text="{Binding Status, Converter={StaticResource StatusToStatusViewConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
-                                                        <Frame.Triggers>
-                                                            <MultiTrigger TargetType="Frame">
-                                                                <MultiTrigger.Conditions>
-                                                                    <BindingCondition Binding="{Binding Status}" Value="32"/>
-                                                                </MultiTrigger.Conditions>
-                                                                <Setter Property="BackgroundColor" Value="{StaticResource Green}" />
-                                                                <Setter Property="BorderColor" Value="{StaticResource Green}" />
-                                                            </MultiTrigger>
-                                                            <MultiTrigger TargetType="Frame">
-                                                                <MultiTrigger.Conditions>
-                                                                    <BindingCondition Binding="{Binding Status, Converter={StaticResource StatusToBool32Converter}}" Value="true"/>
-                                                                </MultiTrigger.Conditions>
-                                                                <Setter Property="BackgroundColor" Value="{StaticResource Red}" />
-                                                                <Setter Property="BorderColor" Value="{StaticResource Red}" />
-                                                            </MultiTrigger>
-                                                        </Frame.Triggers>
-                                                    </Frame>
-
-                                                    <Frame Style="{StaticResource FrameNoBorder}" CornerRadius="10">
-                                                        <Label Text="{Binding Level, Converter={StaticResource StatusToLevelViewConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
-                                                        <Frame.Triggers>
-                                                            <MultiTrigger TargetType="Frame">
-                                                                <MultiTrigger.Conditions>
-                                                                    <BindingCondition Binding="{Binding Level}" Value="0"/>
-                                                                </MultiTrigger.Conditions>
-                                                                <Setter Property="BackgroundColor" Value="{StaticResource Yellow}" />
-                                                                <Setter Property="BorderColor" Value="{StaticResource Yellow}" />
-                                                            </MultiTrigger>
-                                                            <MultiTrigger TargetType="Frame">
-                                                                <MultiTrigger.Conditions>
-                                                                    <BindingCondition Binding="{Binding Level, Converter={StaticResource StatusToBool0Converter}}" Value="true"/>
-                                                                </MultiTrigger.Conditions>
-                                                                <Setter Property="BackgroundColor" Value="{StaticResource Tertiary}" />
-                                                                <Setter Property="BorderColor" Value="{StaticResource Tertiary}" />
-                                                            </MultiTrigger>
-                                                        </Frame.Triggers>
-                                                    </Frame>
-                                                </StackLayout>
-                                            </Grid>
                                         </Grid>
+
+                                        <StackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
+                                            <Frame Style="{StaticResource FrameNoBorder}" CornerRadius="10">
+                                                <Label Text="{Binding Status, Converter={StaticResource StatusToStatusViewConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                                <Frame.Triggers>
+                                                    <MultiTrigger TargetType="Frame">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding Status}" Value="32"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource Green}" />
+                                                        <Setter Property="BorderColor" Value="{StaticResource Green}" />
+                                                    </MultiTrigger>
+                                                    <MultiTrigger TargetType="Frame">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding Status, Converter={StaticResource StatusToBool32Converter}}" Value="true"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource Red}" />
+                                                        <Setter Property="BorderColor" Value="{StaticResource Red}" />
+                                                    </MultiTrigger>
+                                                </Frame.Triggers>
+                                            </Frame>
+
+                                            <Frame Style="{StaticResource FrameNoBorder}" CornerRadius="10">
+                                                <Label Text="{Binding Level, Converter={StaticResource StatusToLevelViewConverter}}" TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                                <Frame.Triggers>
+                                                    <MultiTrigger TargetType="Frame">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding Level}" Value="0"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource Yellow}" />
+                                                        <Setter Property="BorderColor" Value="{StaticResource Yellow}" />
+                                                    </MultiTrigger>
+                                                    <MultiTrigger TargetType="Frame">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding Level, Converter={StaticResource StatusToBool0Converter}}" Value="true"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource Tertiary}" />
+                                                        <Setter Property="BorderColor" Value="{StaticResource Tertiary}" />
+                                                    </MultiTrigger>
+                                                </Frame.Triggers>
+                                            </Frame>
+                                        </StackLayout>
                                     </Grid>
                                 </SwipeView>
                             </Grid>

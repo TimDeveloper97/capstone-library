@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:page="clr-namespace:xfLibrary.Pages"
+             xmlns:icon="clr-namespace:xfLibrary.Resources"
+             xmlns:lang="clr-namespace:xfLibrary.Resources.Languages"
+             xmlns:view="clr-namespace:xfLibrary.Views"
+             xmlns:xf="clr-namespace:BottomBar.XamarinForms"
+             xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             xmlns:converter="clr-namespace:xfLibrary.Converters"
+             x:Name="self"
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             
+             x:Class="xfLibrary.Pages.ScanQRView">
+    <ContentPage.Content>
+        <Grid>
+            <zxing:ZXingScannerView x:Name="zxing" IsTorchOn="{Binding IsTorchOn}" IsAnalyzing="True" VerticalOptions="FillAndExpand" 
+                                    ScanResultCommand="{Binding ScanResultCommand}"/>
+            <!--<zxing:ZXingDefaultOverlay TopText="Hold your phone up to the barcode"
+                                   BottomText="Scanning will happen automatically" />-->
+            
+            <StackLayout VerticalOptions="Start" HorizontalOptions="End" Margin="0,20,-10,0">
+                <mdc:MaterialButton TextColor="{StaticResource AppColor}" BusyColor="{StaticResource AppColor}"
+                                    Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Flash}" FontSize="40"
+                                    Command="{Binding FlashCommand}"/>
+            </StackLayout>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" HeightRequest="50"/>
+
+            <StackLayout VerticalOptions="End" HorizontalOptions="Center" Margin="0,20">
+                <Label Text="Chạm vào màn hình để lấy nét" Style="{StaticResource TitleLabelStyle}" TextColor="{StaticResource AppColor}"/>
+                <Label Text="Lưu ý: mã QR Code chỉ tồn tại trong 5 phút" Style="{StaticResource TitleLabelStyle}" TextColor="{StaticResource Red}"/>
+            </StackLayout>
+
+            <StackLayout VerticalOptions="Start" HorizontalOptions="Start" Margin="0,20,-10,0">
+                <mdc:MaterialButton TextColor="{StaticResource AppColor}" BusyColor="{StaticResource AppColor}"
+                                    Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.ChevronLeft}" FontSize="50"
+                                    Command="{Binding BackCommand}"/>
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
