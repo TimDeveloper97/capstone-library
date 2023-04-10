@@ -84,7 +84,7 @@ namespace xfLibrary.ViewModels
                 }
             }
 
-            if (string.IsNullOrEmpty(Book.Name) || Book.Imgs.Count == 0 || Book.Categories.Count == 0)
+            if (string.IsNullOrEmpty(Book.Name) || Book.Categories.Count == 0)
             {
                 _message.ShortAlert("Không được để trống");
                 return;
@@ -148,6 +148,8 @@ namespace xfLibrary.ViewModels
         async Task PickImage()
         {
             var stream = await _photoService.GetImageStreamAsync();
+            if (stream == null) return;
+
             Slides.Add(Resources.ExtentionHelper.ReadFully(stream));
         }
         #endregion
