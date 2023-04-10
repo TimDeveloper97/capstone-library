@@ -40,6 +40,14 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+    public boolean isAdminAccount(User user){
+        for(Role r : user.getRoles()) {
+            if(r.getName().compareTo("ROLE_ADMIN") == 0)
+                return true;
+        }
+        return false;
+    }
+
     //Accounts
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
@@ -55,9 +63,11 @@ public class UserController {
         for (User user : users){
             //user.lazyLoad();
             user.setRoles(roleService.getAllByUserId(user.getId()));
-            UserDTO userDto = new UserDTO();
-            userDto.convertUser(user);
-            userDtos.add(userDto);
+            if(user.getRoles() != null && isAdminAccount(user) == false) {
+                UserDTO userDto = new UserDTO();
+                userDto.convertUser(user);
+                userDtos.add(userDto);
+            }
         }
         logger.info("[API-User] Return all users - SUCCESS");
         return new ResponseEntity<>(new ResData<List<UserDTO>>(0, userDtos), HttpStatus.OK);
@@ -137,7 +147,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/role-update/{id}")
-    public ResponseEntity<?> updateUser(Authentication auth, @PathVariable("id") String id, @RequestBody User user){
+    public ResponseEntity<?> updateUser(Authentication auth, @PathVariable("id") String id, @RequestBody UserDTO userDto){
         logger.info("[API-User] Update Role for other User by Admin - START");
         User currUser = userService.getUserById(id).get();
         if(currUser == null){
@@ -146,16 +156,21 @@ public class UserController {
             return new ResponseEntity(new CustomErrorType("Không tìm thấy người dùng có id:"+ id +". Cập nhật thông tin thất bại."),
                     HttpStatus.OK);
         }
-        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN")){
+        if(currUser.getRoles() != null && isAdminAccount(currUser)){
             logger.info("[API-User] Update Role for other User by Admin - END");
             return new ResponseEntity(new CustomErrorType("Không thể thay đổi vai trò của Administrator. Cập nhật thông tin thất bại."),
                     HttpStatus.OK);
         }
         currUser.setModifiedBy(auth.getName());
         currUser.setModifiedDate(new Date());
-        currUser.setStatus(user.getStatus());
-        currUser.setRoles(user.getRoles());
-        logger.info("[API-User] Fetching & Updating User with id: "+ user.getId()+" by " + user.getModifiedBy() +" at "+ user.getModifiedDate());
+        currUser.setStatus(userDto.getStatus());
+        List<Role> roles = new ArrayList<>();
+        for (String role : userDto.getRoles()){
+            Role r = roleService.findRoleByName(role);
+            roles.add(r);
+        }
+        currUser.setRoles(roles);
+        logger.info("[API-User] Fetching & Updating User with id: "+ userDto.getId()+" by " + userDto.getModifiedBy() +" at "+ userDto.getModifiedDate());
         userService.updateUser(currUser);
         logger.info("[API-User] Update Role for other User by Admin - SUCCESS");
         return new ResponseEntity<>(new CustomErrorType(true, "Cập nhật vai trò và trạng thái người dùng thành công."), HttpStatus.OK);
