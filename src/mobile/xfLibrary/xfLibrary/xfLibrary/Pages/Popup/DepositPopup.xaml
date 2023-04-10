@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
              xmlns:page="clr-namespace:xfLibrary.Pages"
              xmlns:icon="clr-namespace:xfLibrary.Resources"
-             Size="350,270"
+             Size="350,280"
              x:TypeArguments="x:String"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
              IsLightDismissEnabled="True"

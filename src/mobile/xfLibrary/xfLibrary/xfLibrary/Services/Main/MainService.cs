@@ -208,7 +208,7 @@ namespace xfLibrary.Services.Main
 
         public async Task<Response> DepositAsync(object obj, string token)
         {
-            var res = await Service.Post(obj, Api.Transaction, token);
+            var res = await Service.Put(obj, Api.Transaction, token);
             return res;
         }
 
