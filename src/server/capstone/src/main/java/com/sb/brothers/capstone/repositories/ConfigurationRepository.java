@@ -15,7 +15,7 @@ public interface ConfigurationRepository extends JpaRepository<Configuration, In
 
     @Transactional
     @Modifying
-    @Query(value = "update Configuration set Configuration.value = :value where Configuration.key = :key",nativeQuery = true)
+    @Query(value = "update Configuration set Configuration.value_cfg = :value where Configuration.key_cfg = :key",nativeQuery = true)
     void updateConfig(@Param("key") String key, @Param("value") int value);
 
     Optional<Configuration> getConfigurationByKey(String key);
