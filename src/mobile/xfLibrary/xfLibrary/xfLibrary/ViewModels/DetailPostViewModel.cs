@@ -79,11 +79,20 @@ namespace xfLibrary.ViewModels
                     Title = "Đăng bài thuê sách";
             }
 
+            //admin only
             NewPost.IsAdmin = !IsUser();
+
+            //get config
+            var configs = await _accountService.GetAllConfigAsync(_token);
+            if (configs == null)
+            {
+                _message.ShortAlert("Không lấy được thông tin triết khấu");
+                return;
+            }
 
             //set fee statis
             if (!NewPost.IsAdmin)
-                NewPost.Fee = Services.Api.FEE;
+                NewPost.Fee = configs[0].Value;
         });
         public ICommand BookCommand => new Command(async () =>
         {
