@@ -42,7 +42,7 @@ public class ConfigController {
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:"+ ex.getMessage() +".\n Nguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         logger.warn("[API-Config] Change config - SUCCESS.");
-        return new ResponseEntity<>(new CustomErrorType("Thay đổi cấu hình thành công."), HttpStatus.OK);
+        return new ResponseEntity<>(new CustomErrorType(true, "Thay đổi cấu hình thành công."), HttpStatus.OK);
     }//view all posts
 
     @GetMapping("")
