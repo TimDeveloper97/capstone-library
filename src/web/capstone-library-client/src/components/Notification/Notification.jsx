@@ -107,7 +107,7 @@ export default function Notification() {
       <Popper
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
-        placement="bottom-start"
+        placement="bottom-end"
         transition
         style={{ zIndex: "10000" }}
       >
@@ -187,7 +187,7 @@ export default function Notification() {
           </Fade>
         )}
       </Popper>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} style={{zIndex: 10010}}>
         <DialogTitle>Thông báo</DialogTitle>
         <DialogContent>{notice.description}</DialogContent>
         <DialogActions>

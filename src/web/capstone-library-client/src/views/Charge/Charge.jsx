@@ -31,10 +31,16 @@ export default function Charge() {
   useEffect(() => {
     const getCharge = async () => {
       const { data } = await getRecharge();
-      setListCharge(data.value);
+      data.value && setListCharge(data.value);
     };
     getCharge();
   }, []);
+
+  const [showCharge, setShowCharge] = useState([]);
+  useEffect(() => {
+    setShowCharge(listCharge);
+  }, [listCharge]);
+
   const convertToDay = (input) => {
     const day = new Date(input);
     return moment(day).format("D/MM/YYYY");
@@ -49,7 +55,9 @@ export default function Charge() {
     resolver: yupResolver(schema),
   });
 
-  const handleClickOpen = () => {
+  const [isCharge, setIsCharge] = useState(true);
+  const handleClickOpen = (isCharge) => {
+    setIsCharge(isCharge);
     setOpen(true);
   };
 
@@ -60,6 +68,7 @@ export default function Charge() {
   const submitForm = async (data, e) => {
     e.preventDefault();
     data.content = "Nap tien ho";
+    !isCharge && (data.transferAmount = data.transferAmount * -1);
     const response = await transfer(data);
     if (response.data.success) {
       NotificationManager.success(response.data.message, "Thông báo", 2000);
@@ -72,6 +81,17 @@ export default function Charge() {
     resetField("user");
     resetField("transferAmount");
   };
+
+  const setShowChargeState = (state) => {
+    if (state === 0) {
+      setShowCharge(listCharge);
+    } else if (state === 1) {
+      setShowCharge(listCharge.filter((c) => c.transferAmount > 0));
+    } else {
+      setShowCharge(listCharge.filter((c) => c.transferAmount < 0));
+    }
+  };
+
   return listCharge ? (
     <>
       <section className="hero-area bg-white shadow-sm pt-80px pb-80px">
@@ -93,21 +113,55 @@ export default function Charge() {
         <NotificationContainer />
         <div className="container">
           <div className="row">
-            <div className="col-md-10"></div>
+            <div
+              className="col-md-3"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                paddingLeft: "20px",
+                marginBottom: "20px",
+              }}
+            >
+              <button
+                className="btn btn-primary"
+                onClick={() => setShowChargeState(0)}
+              >
+                Tất cả
+              </button>
+              <button
+                className="btn btn-info"
+                onClick={() => setShowChargeState(1)}
+              >
+                Đơn nạp
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowChargeState(-1)}
+              >
+                Đơn rút
+              </button>
+            </div>
+            <div className="col-md-7"></div>
             <div
               className="col-md-2"
               style={{
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: "space-between",
                 paddingRight: "20px",
                 marginBottom: "20px",
               }}
             >
               <button
                 className="btn btn-success"
-                onClick={() => handleClickOpen()}
+                onClick={() => handleClickOpen(true)}
               >
                 Nạp tiền
+              </button>
+              <button
+                className="btn btn-danger"
+                onClick={() => handleClickOpen(false)}
+              >
+                Rút tiền
               </button>
             </div>
           </div>
@@ -119,13 +173,13 @@ export default function Charge() {
                     <tr>
                       <th scope="col">Ngày nạp</th>
                       <th scope="col">Nội dung</th>
-                      <th scope="col">Số tiền nạp</th>
+                      <th scope="col">Số tiền</th>
                       <th scope="col">Người nhận</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {listCharge &&
-                      listCharge.map((charge, index) => {
+                    {showCharge &&
+                      showCharge.map((charge, index) => {
                         return (
                           <tr key={index} className="fw-normal">
                             <th scope="row">
@@ -157,7 +211,7 @@ export default function Charge() {
             onSubmit={handleSubmit(submitForm)}
             style={{ width: "500px", height: "350px" }}
           >
-            <DialogTitle>Nạp tiền</DialogTitle>
+            <DialogTitle>{isCharge ? "Nạp tiền" : "Rút tiền"}</DialogTitle>
             <DialogContent>
               <TextField
                 autoFocus
@@ -176,7 +230,7 @@ export default function Charge() {
               <TextField
                 autoFocus
                 margin="dense"
-                label="Số tiền nạp"
+                label={isCharge ? "Số tiền nạp" : "Số tiền rút"}
                 type="text"
                 fullWidth
                 variant="standard"
@@ -190,7 +244,7 @@ export default function Charge() {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Hủy</Button>
-              <Button type="submit">Nạp</Button>
+              <Button type="submit">{isCharge ? "Nạp" : "Rút"}</Button>
             </DialogActions>
           </form>
         </Dialog>

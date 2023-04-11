@@ -7,9 +7,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
+  faDownLong,
   faEllipsisVertical,
   faLocationDot,
   faMobileScreenButton,
+  faUpLong,
   faUser,
   faUserCheck,
   faUserLock,
@@ -171,7 +173,7 @@ export default function UserManagement() {
                           >
                             <button className="btn btn-success" onClick={() => changeUserRole(user, index)}>
                               <FontAwesomeIcon
-                                icon={faCheck}
+                                icon={user.roles[0] === "ROLE_MANAGER_POST" ? faDownLong : faUpLong}
                               />{" "}
                               {user.roles[0] === "ROLE_MANAGER_POST" ? "Giáng cấp" : "Thăng cấp"}
                             </button>

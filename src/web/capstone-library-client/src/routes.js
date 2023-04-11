@@ -21,6 +21,7 @@ import Register from "./views/Register/Register";
 import Setting from "./views/Setting/Setting";
 import UserDeposit from "./views/UserDeposit/UserDeposit";
 import UserManagement from "./views/User/UserManagement";
+import UpdateBook from "./views/AddBook/UpdateBook";
 
 export default function Route() {
   return useRoutes([
@@ -71,6 +72,10 @@ export default function Route() {
             {
               path: "add-book",
               element: <AddBook />,
+            },
+            {
+              path: "update-book/:id",
+              element: <UpdateBook />,
             },
             {
               path: "order",

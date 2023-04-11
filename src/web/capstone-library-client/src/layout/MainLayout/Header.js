@@ -79,11 +79,16 @@ export default function Header() {
                       </a>
                       <ul className="dropdown-menu-item">
                         {curUser?.roles[0] === "ROLE_ADMIN" ? (
-                          <li>
-                            <Link to={"/user/user-management"}>
-                              Quản lý người dùng
-                            </Link>
-                          </li>
+                          <>
+                            <li>
+                              <Link to={"/user/user-management"}>
+                                Quản lý người dùng
+                              </Link>
+                            </li>
+                            <li>
+                              <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
+                            </li>
+                          </>
                         ) : (
                           <>
                             <li>
@@ -100,9 +105,6 @@ export default function Header() {
                               <Link to={"/user/post-request"}>
                                 Quản lý post
                               </Link>
-                            </li>
-                            <li>
-                              <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
                             </li>
                           </>
                         )}
@@ -175,9 +177,14 @@ export default function Header() {
           {curUser && curUser.roles[0] !== "ROLE_USER" && (
             <>
               {curUser?.roles[0] === "ROLE_ADMIN" ? (
-                <li>
-                  <Link to={"/user/user-management"}>Quản lý người dùng</Link>
-                </li>
+                <>
+                  <li>
+                    <Link to={"/user/user-management"}>Quản lý người dùng</Link>
+                  </li>
+                  <li>
+                    <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
+                  </li>
+                </>
               ) : (
                 <>
                   <li>
@@ -191,9 +198,6 @@ export default function Header() {
                   </li>
                   <li>
                     <Link to={"/user/post-request"}>Quản lý post</Link>
-                  </li>
-                  <li>
-                    <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
                   </li>
                 </>
               )}

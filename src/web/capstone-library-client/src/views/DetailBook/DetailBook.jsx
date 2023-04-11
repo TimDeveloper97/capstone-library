@@ -2,7 +2,7 @@ import { faDongSign, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getBookById } from "../../apis/book";
 import Loading from "../../components/Loading/Loading";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -20,6 +20,7 @@ export default function DetailBook() {
     setActivelLink(id);
     setImgShow(link);
   };
+  const userRole = JSON.parse(window.localStorage.getItem("user")).roles[0];
 
   const { id } = useParams();
   //const books = useSelector(state => state.book);
@@ -105,6 +106,18 @@ export default function DetailBook() {
                             </p>
                           </div>
                         </div>
+                        {userRole === "ROLE_MANAGER_POST" && <div className="row">
+                          <div className="col-md-10">
+
+                          </div>
+                          <div className="col-md-2">
+                            <button className="btn btn-success">
+                                <Link to={`/user/update-book/${currentBook.id}`}>
+                                  Cập nhật sách
+                                </Link>
+                            </button>
+                          </div>
+                        </div>}
                       </div>
                     </div>
                   </div>
