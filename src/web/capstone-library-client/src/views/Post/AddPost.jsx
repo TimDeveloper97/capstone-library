@@ -28,7 +28,7 @@ export default function AddPost() {
 
   const books = useSelector((state) => state.book);
   const role =
-    JSON.parse(window.localStorage.getItem("user")).roles[0] === "ROLE_ADMIN";
+    JSON.parse(window.localStorage.getItem("user")).roles[0] === "ROLE_MANAGER_POST";
   useEffect(() => {
     role ? dispatch(getBooks()) : dispatch(getUserBooks());
   }, []);

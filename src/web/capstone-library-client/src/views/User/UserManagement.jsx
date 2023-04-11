@@ -11,6 +11,8 @@ import {
   faLocationDot,
   faMobileScreenButton,
   faUser,
+  faUserCheck,
+  faUserLock,
   faUserSlash,
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
@@ -33,28 +35,48 @@ export default function UserManagement() {
     setListUser(users.sort((a, b) => a.id - b.id).slice());
   }, [users]);
 
-  const changeUserRole = async (user) => {};
+  const changeUserRole = async (user, index) => {
+    const {data} = await updateRoleUser(user.id, {
+      id: user.id,
+      status: user.status,
+      roles:
+        user.roles[0] === "ROLE_USER"
+          ? ["ROLE_MANAGER_POST", "ROLE_USER"]
+          : ["ROLE_USER"],
+    });
+    if (data.success) {
+      NotificationManager.success(data.message, "Thông báo", 2000);
+      const temp = listUser;
+      if (temp[index].roles[0] === "ROLE_USER") {
+        temp[index].roles = ["ROLE_MANAGER_POST", "ROLE_USER"];
+      } else {
+        temp[index].roles = ["ROLE_USER"];
+      }
+      setListUser(temp.slice());
+    } else {
+      NotificationManager.error(data.message, "Lỗi", 2000);
+    }
+  };
 
   const changeUserStatus = async (user, index) => {
-    const {data} = await updateRoleUser(user.id, {
+    const { data } = await updateRoleUser(user.id, {
       id: user.id,
       status: user.status === 32 ? 0 : 32,
       roles: user.roles,
     });
-    if(data.success){
+    if (data.success) {
       NotificationManager.success(data.message, "Thông báo", 2000);
       const temp = listUser;
-    if (temp[index].status === 32) {
-      temp[index].status = 0;
+      if (temp[index].status === 32) {
+        temp[index].status = 0;
+      } else {
+        temp[index].status = 32;
+      }
+      setListUser(temp.slice());
     } else {
-      temp[index].status = 32;
+      NotificationManager.error(data.message, "Lỗi", 2000);
     }
-    setListUser(temp.slice());
-  }else{
-    NotificationManager.error(data.message, "Lỗi", 2000);
-  }
-    }
-    
+  };
 
   return users ? (
     <>
@@ -147,18 +169,26 @@ export default function UserManagement() {
                             className="tooltip-action"
                             style={{ width: "300px", right: "-65px" }}
                           >
-                            <button className="btn btn-success">
+                            <button className="btn btn-success" onClick={() => changeUserRole(user, index)}>
                               <FontAwesomeIcon
                                 icon={faCheck}
-                                onClick={() => changeUserRole(user)}
                               />{" "}
-                              Thăng cấp
+                              {user.roles[0] === "ROLE_MANAGER_POST" ? "Giáng cấp" : "Thăng cấp"}
                             </button>
                             <button
-                              className={user.status === 32 ? "btn btn-danger": "btn btn-success"}
+                              className={
+                                user.status === 32
+                                  ? "btn btn-danger"
+                                  : "btn btn-success"
+                              }
                               onClick={() => changeUserStatus(user, index)}
                             >
-                              <FontAwesomeIcon icon={faUserSlash} /> {user.status === 32 ? "Vô hiệu hóa": "Kích hoạt"}
+                              <FontAwesomeIcon
+                                icon={
+                                  user.status === 32 ? faUserLock : faUserCheck
+                                }
+                              />{" "}
+                              {user.status === 32 ? "Vô hiệu hóa" : "Kích hoạt"}
                             </button>
                           </div>
                           <span>
