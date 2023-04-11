@@ -1,0 +1,35 @@
+Hiện tại đã gặp những lỗi này
+Mobile:
+1.Khung search trên đầu ko dùng đc 
+=> kiểm tra lại kỹ càng xem có post(bài đăng hay chưa). Search theo tiêu đề của bài
+2.Bấm vào cate thì ko xem đc sách của cate
+=> Category ở trang chủ sẽ tiến hành sort các Post theo category đó cái này sẽ cộng dồn category
+=> nếu muốn xem detail thì vào trong Book của User
+=> nếu muốn refresh thì bấm reload sẽ load lại tất cả các post
+3.Bấm vào book thì ko xem đc book detail
+=> Book ở trang chủ sẽ tiến hành sort các Post theo book đang có cái này sẽ cộng dồn book 
+=> nếu muốn xem detail thì vào trong Book của User
+=> nếu muốn refresh thì bấm reload sẽ load lại tất cả các post
+4.Khi ký gửi nếu không chọn sách thì vẫn cho 
+=> Fixed
+5.Text của ký gửi cần sửa lại thay vì Tạo thông tin bài đăng,...
+=> Fixed
+6.Tạo book thì ảnh bị kéo ngắn, nên giới hạn chiều ngang thay vì chiều dọc
+=> Fixed
+7.User nếu ko có quyền manage category thì bỏ luôn phần Danh mục
+=> User ko có quyền manage category cái này là điều đương nhiên 
+=> bỏ cái gì?
+8.User nếu ko có quyền accept/deny ký gửi thì bỏ luôn phần này
+=> User ko có quyền accept/deny ký gửi cái này là điều đương nhiên 
+=> bỏ cái gì?
+9.Bấm vào xem post thì lỗi hiển thị
+=> Same lỗi 12
+=> Fixed
+10.Bấm thanh toán cần có xác nhận
+=> Fixed
+11.Giỏ hàng lúc thanh toán và đơn hàng cần list rõ tiền đặt cọc + tiền thuê = total
+=> Giao diện mobile rất hạn chế việc hiển thị quá nhiều thông tin sẽ ko đủ chỗ và rất xấu
+=> Neếu thích thì tôi sẽ thêm
+=> Fixed
+12.Lỗi popup hiện 1 chút ở máy ảo 
+=> Fixed

@@ -49,8 +49,8 @@
                         </Label>
                     </Frame>
 
-                    <Label Grid.Row="1" Text="{Binding Title}" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
-                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+                    <Label Grid.Row="1" Text="{Binding Title}" Style="{StaticResource TitleLabelStyle}" FontSize="{StaticResource Title}"
+                           HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10,0,10" TextColor="White"/>
 
                     <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
                            Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10"
@@ -63,7 +63,7 @@
                     </Frame>
 
                     <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" Command="{Binding PostCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
-                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Upload}" WidthRequest="45" Margin="0,0,10,0"/>
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Upload}" WidthRequest="50" Margin="0,0,10,0"/>
                     
                 </Grid>
                 <!--#endregion-->
@@ -89,7 +89,7 @@
                                                         <MultiTrigger.Conditions>
                                                             <BindingCondition Binding="{Binding NewPost.IsAdmin}" Value="false"/>
                                                         </MultiTrigger.Conditions>
-                                                        <Setter Property="LabelText" Value="% Phí thu (0 - 100%)" />
+                                                        <Setter Property="LabelText" Value="% Phí thu" />
                                                         <Setter Property="MaxLength" Value="2" />
                                                         <Setter Property="IsEnabled" Value="false" />
                                                     </MultiTrigger>
@@ -97,7 +97,7 @@
                                                         <MultiTrigger.Conditions>
                                                             <BindingCondition Binding="{Binding NewPost.IsAdmin}" Value="true"/>
                                                         </MultiTrigger.Conditions>
-                                                        <Setter Property="LabelText" Value="Tiền phí thuê (VND)" />
+                                                        <Setter Property="LabelText" Value="(VND) Phí thuê" />
                                                         <Setter Property="MaxLength" Value="10" />
                                                         <Setter Property="IsEnabled" Value="true" />
                                                     </MultiTrigger>
@@ -134,7 +134,7 @@
                                 <DataTemplate>
                                     <ContentView>
                                         <Frame Style="{StaticResource FrameShadow}">
-                                            <Image Source="{Binding}" Aspect="Fill"/>
+                                            <Image Source="{Binding}" Aspect="AspectFit"/>
                                         </Frame>
                                     </ContentView>
                                 </DataTemplate>

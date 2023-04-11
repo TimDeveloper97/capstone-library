@@ -73,7 +73,10 @@ namespace xfLibrary.ViewModels
             }
             else
             {
-                Title = "Tạo thông tin bài";
+                if(IsUser())
+                    Title = "Đăng bài ký gửi";
+                else
+                    Title = "Đăng bài thuê sách";
             }
 
             NewPost.IsAdmin = !IsUser();
@@ -90,6 +93,12 @@ namespace xfLibrary.ViewModels
             else
                 books = await _accountService.GetUserBookAsync(_token);
 
+            if (books == null)
+            {
+                _message.ShortAlert("Bạn không có sách");
+                return;
+            } 
+                
             //push sach update vao popup
             if (NewPost.Order != null && NewPost.Order.Count > 0)
             {
@@ -112,6 +121,7 @@ namespace xfLibrary.ViewModels
                     book.Quantity = book.InStock.ToString();
             }
 
+            books = books.OrderBy(x => x.Name).ToList();
             //show popup
             var orders = await Shell.Current.ShowPopupAsync(new OrderBookPopup(new ListBook { Books = new ObservableCollection<Book>(books) }, isUpdate));
 
@@ -174,6 +184,12 @@ namespace xfLibrary.ViewModels
             if (NewPost.Fee > 100 && NewPost.IsAdmin == false)
             {
                 _message.ShortAlert("% phí thêm phải thuộc (1,100)%");
+                return;
+            }
+
+            if (NewPost.Order == null || NewPost.Order.Count == 0)
+            {
+                _message.ShortAlert("Phải có sách ký gửi");
                 return;
             }
 

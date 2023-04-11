@@ -117,7 +117,7 @@
                                 <DataTemplate>
                                     <ContentView>
                                         <Frame Style="{StaticResource FrameShadow}">
-                                            <Image Source="{Binding Converter={StaticResource StreamsToImageConverter}}" Aspect="Fill"/>
+                                            <Image Source="{Binding Converter={StaticResource StreamsToImageConverter}}" Aspect="AspectFit"/>
                                         </Frame>
                                     </ContentView>
                                 </DataTemplate>

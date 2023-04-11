@@ -37,19 +37,19 @@
                             <StackLayout  VerticalOptions="Center">
                                 <Label FontSize="Title" HorizontalOptions="Start" Text="Đăng ký" Style="{StaticResource TitleColorLabelStyle}"/>
                                 <StackLayout Orientation="Horizontal"  Margin="0,-5,0,0">
-                                    <Label VerticalOptions="Center" FontSize="Body" HorizontalOptions="Start" Text="Chào mừng bạn đến với" Style="{StaticResource TitleLabelStyle}"/>
+                                    <Label VerticalOptions="Center" FontSize="Body" HorizontalOptions="Start" Text="Chào mừng bạn đến với" Style="{StaticResource MiniLabelStyle}"/>
                                     <Label VerticalOptions="Center">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="CAPS" />
-                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource Title}" Text="TONE" TextColor="{StaticResource Yellow}" />
+                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource SubTitle}" Text="CAPS" />
+                                                <Span FontFamily="MuliBlack" FontSize="{StaticResource SubTitle}" Text="TONE" TextColor="{StaticResource Yellow}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
                                 </StackLayout>
                             </StackLayout>
                             <Image Grid.Column="1" Source="logoicon.png" Aspect="Fill"  VerticalOptions="Center" HorizontalOptions="Center"
-                                   HeightRequest="60" WidthRequest="60"/>
+                                   HeightRequest="40" WidthRequest="40"/>
                         </Grid>
 
                         <StackLayout Margin="20,0">

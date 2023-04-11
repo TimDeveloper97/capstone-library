@@ -46,8 +46,8 @@
                     </Label>
                 </Frame>
 
-                <Label Grid.Row="1" Text="Thông kê lịch sử nạp tiền" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
-                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+                <Label Grid.Row="1" Text="Thông kê lịch sử nạp tiền" Style="{StaticResource TitleLabelStyle}" FontSize="{StaticResource Title}"
+                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10,0,10" TextColor="White"/>
             </Grid>
             <!--#endregion-->
 

@@ -34,7 +34,7 @@
                 Command="{Binding RefreshCommand}" />
     </ContentPage.Behaviors>
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, auto, *, 70" RowSpacing="0">
+        <Grid RowDefinitions="auto, auto, *, 90" RowSpacing="0">
             <!--#region Navigator -->
             <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
                 <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
@@ -48,12 +48,12 @@
                     </Label>
                 </Frame>
 
-                <Label Grid.Row="1" Text="Giỏ hàng của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="Title"
-                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10" TextColor="White"/>
+                <Label Grid.Row="1" Text="Giỏ hàng của bạn" Style="{StaticResource TitleLabelStyle}" FontSize="{StaticResource Title}"
+                       HorizontalOptions="Start" FontFamily="MuliBlack" Margin="30,10,0,10" TextColor="White"/>
 
                 <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
                     <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" VerticalOptions="End" TextColor="White" BusyColor="White"
-                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="45" Margin="0,-5,0,0"/>
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="50" Margin="0,-5,0,0"/>
                     <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Filter}"
                         TextColor="White" Margin="0,0,20,0">
                         <Label.GestureRecognizers>
@@ -115,22 +115,40 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
-            <Grid Grid.Row="3" ColumnDefinitions="auto, *, 100">
+            <Grid Grid.Row="3" ColumnDefinitions="auto, *, 110" ColumnSpacing="0">
                 <StackLayout Orientation="Horizontal" Margin="10,0">
                     <CheckBox IsChecked="{Binding IsCheckedAll}" />
                     <Label Style="{StaticResource MiniLabelStyle}" Text="Tất cả" VerticalOptions="Center"/>
                 </StackLayout>
 
-                <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Style="{StaticResource MiniLabelStyle}">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Thanh toán: " />
-                            <Span x:Name="sTotalMoney" FontFamily="MuliBold" FontSize="{StaticResource SubTitle}" TextColor="{StaticResource AppColor}"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                <Grid Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" RowDefinitions="*,*,*" RowSpacing="0">
+                    <Label Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Tiền cọc: " />
+                                <Span x:Name="sCoc" FontFamily="MuliBold" FontSize="{StaticResource MiniTitle}" TextColor="{StaticResource AppColor}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Tiền thuê: " />
+                                <Span x:Name="sThue" FontFamily="MuliBold" FontSize="{StaticResource MiniTitle}" TextColor="{StaticResource AppColor}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Row="2" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Thanh toán: " />
+                                <Span x:Name="sTotalMoney" FontFamily="MuliBold" FontSize="{StaticResource MiniTitle}" TextColor="{StaticResource AppColor}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Grid>
 
-                <mdc:MaterialButton Grid.Column="2" Margin="0,0,-3,-3" Text="Mua hàng" FontFamily="MuliBold"
+                <mdc:MaterialButton Grid.Column="2" Margin="0,0,-3,-3" Text="Mua hàng" FontFamily="MuliBold" Padding="0"
                                     Command="{Binding BuyCommand}" IsBusy="{Binding IsBusy}"/>
             </Grid>
         </Grid>

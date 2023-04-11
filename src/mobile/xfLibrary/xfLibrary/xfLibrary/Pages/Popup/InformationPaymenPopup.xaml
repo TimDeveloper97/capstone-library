@@ -15,41 +15,42 @@
     <xct:Popup.Content>
         <Grid>
             <Frame HorizontalOptions="FillAndExpand" Style="{StaticResource FrameNoBorder}" CornerRadius="0">
-                <StackLayout Spacing="0">
-                    <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
-                        <Label Text="Thông tin thanh toán" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
-                    </Grid>
-                    <Grid Margin="20,15,20,5">
-                        <Frame>
-                            <StackLayout Padding="10" Spacing="0">
-                                <Label Text="1.Tiền thuê bài là gì?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
-                                <Label Text="Trả lời: Tiền được chủ tiệm sách đăng bài cho thuê với mỗi mức giá khác nhau và được hiển thị trên bài đăng." FontFamily="MuliBold" FontSize="Medium"/>
+                <ScrollView>
+                    <StackLayout Spacing="0">
+                        <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
+                            <Label Text="Thông tin thanh toán" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                        </Grid>
+                        <Grid Margin="20,15,20,5">
+                            <Frame>
+                                <StackLayout Padding="10" Spacing="0">
+                                    <Label Text="1.Tiền thuê bài là gì?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
+                                    <Label Text="Trả lời: Tiền được chủ tiệm sách đăng bài cho thuê với mỗi mức giá khác nhau và được hiển thị trên bài đăng." FontFamily="MuliBold" FontSize="Medium"/>
 
-                                <Label Text="2.Tiền cọc là gì?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
-                                <Label Text="Trả lời: Tiền người thuê cần trả để có thể thuê sách nhằm tránh trường hợp làm hư, hỏng sách,..." FontFamily="MuliBold" FontSize="Medium"/>
+                                    <Label Text="2.Tiền cọc là gì?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
+                                    <Label Text="Trả lời: Tiền người thuê cần trả để có thể thuê sách nhằm tránh trường hợp làm hư, hỏng sách,..." FontFamily="MuliBold" FontSize="Medium"/>
 
-                                <Label Text="3.Số tiền người dùng cần trả để thuê sách là bao nhiêu?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
-                                <Label Text="Trả lời: Tổng số tiền khách cần trả = Tiền thuê bài + tiền cọc." FontFamily="MuliBold" FontSize="Medium"/>
+                                    <Label Text="3.Số tiền người dùng cần trả để thuê sách là bao nhiêu?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
+                                    <Label Text="Trả lời: Tổng số tiền khách cần trả = Tiền thuê bài + tiền cọc." FontFamily="MuliBold" FontSize="Medium"/>
 
-                                <Label Text="4.Thanh toán như nào?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
-                                <Label Text="Trả lời: Tiền sẽ được trừ trực tiếp vào tài khoản của người dùng." FontFamily="MuliBold" FontSize="Medium"/>
+                                    <Label Text="4.Thanh toán như nào?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
+                                    <Label Text="Trả lời: Tiền sẽ được trừ trực tiếp vào tài khoản của người dùng." FontFamily="MuliBold" FontSize="Medium"/>
 
-                                <Label Text="5.Làm thế nào để lấy sách?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
-                                <Label Text="Trả lời: Sau khi đã thanh toán thành công, người dùng đến địa điểm trên hóa đơn và nhận sách với mã hóa đơn." FontFamily="MuliBold" FontSize="Medium"/>
-
-                            </StackLayout>
-                        </Frame>
-                        <Label Text="Hình thức thanh toán" Margin="15,-7,0,0" BackgroundColor="White" VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
-                    </Grid>
-                    <Label Margin="20,5,20,0">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Lưu ý: " FontSize="Medium"/>
-                                <Span Text="Việc khách hàng thanh toán nhưng không nhận sách trong vòng 3 ngày kể từ ngày đặt sách. Thì hóa đơn sẽ bị hủy và không thể hoàn tiền. Quý khách vui lòng đến nhận sách sau khi đặt hàng. Cảm ơn" FontSize="Medium" TextColor="{StaticResource Red}"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                </StackLayout>
+                                    <Label Text="5.Làm thế nào để lấy sách?" FontSize="Medium" TextColor="{StaticResource Gray400}"/>
+                                    <Label Text="Trả lời: Sau khi đã thanh toán thành công, người dùng đến địa điểm trên hóa đơn và nhận sách với mã hóa đơn." FontFamily="MuliBold" FontSize="Medium"/>
+                                </StackLayout>
+                            </Frame>
+                            <Label Text="Hình thức thanh toán" Margin="15,-7,0,0" BackgroundColor="White" VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
+                        </Grid>
+                        <Label Margin="20,5,20,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Lưu ý: " FontSize="Medium"/>
+                                    <Span Text="Việc khách hàng thanh toán nhưng không nhận sách trong vòng 3 ngày kể từ ngày đặt sách. Thì hóa đơn sẽ bị hủy và không thể hoàn tiền. Quý khách vui lòng đến nhận sách sau khi đặt hàng. Cảm ơn" FontSize="Medium" TextColor="{StaticResource Red}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+                </ScrollView>
             </Frame>
         </Grid>
     </xct:Popup.Content>
