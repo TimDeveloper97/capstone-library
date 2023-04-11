@@ -72,7 +72,7 @@ public class BookController {
         }
         book.setCategories(categorySet);
         book.setUser(userService.getUserById(auth.getName()).get());
-        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN")){
+        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")){
             book.setInStock(book.getQuantity());
             book.setQuantity(0);
         }
