@@ -25,7 +25,7 @@
                             <Label Text="Thông tin bài" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
                         </Grid>
 
-                        <xct:TabView IsTabStripVisible="False" IsTabTransitionEnabled="False">
+                        <xct:TabView IsTabStripVisible="False" IsTabTransitionEnabled="True" TabContentHeight="340">
                             <xct:TabViewItem>
                                 <ScrollView>
                                     <StackLayout>
@@ -41,7 +41,7 @@
                                                                VerticalOptions="End" HorizontalTextAlignment="Start"/>
 
                                                         <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="0,-5,0,0" VerticalOptions="Start" HorizontalOptions="Start">
-                                                            <Label x:Name="lCreateDate" Text="28 ngày trước" Style="{StaticResource MiniLabelStyle}"/>
+                                                            <Label x:Name="lCreateDate" Style="{StaticResource MiniLabelStyle}"/>
                                                             <Label x:Name="lReturnDate" Style="{StaticResource MiniLabelStyle}"/>
                                                         </StackLayout>
                                                     </Grid>
@@ -64,7 +64,7 @@
                                                     <DataTemplate>
                                                         <ContentView>
                                                             <Frame Style="{StaticResource FrameShadow}">
-                                                                <Image Source="{Binding .}" Aspect="Fill"/>
+                                                                <Image Source="{Binding .}" Aspect="AspectFit"/>
                                                             </Frame>
                                                         </ContentView>
                                                     </DataTemplate>

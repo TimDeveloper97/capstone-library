@@ -32,8 +32,8 @@
                     <Label FontSize="Title" Text="Danh sách ký gửi" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" HorizontalOptions="Start" VerticalOptions="Center"/>
                     <material:MaterialMenuButton Grid.Column="2" Margin="0" BackgroundColor="Transparent" Image="filter.png" ButtonType="Text" HorizontalOptions="End" CornerRadius="24"
                                                  Choices="{Binding Actions}" Command="{Binding MenuCommand}"/>
-                    <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" Margin="0,2" VerticalOptions="End"
-                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="45"/>
+                    <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" Margin="0,4" VerticalOptions="End"
+                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}" WidthRequest="50" />
                 </Grid>
 
                 <CollectionView Grid.Row="1" ItemsSource="{Binding Posts}" Margin="10,0,10,5">

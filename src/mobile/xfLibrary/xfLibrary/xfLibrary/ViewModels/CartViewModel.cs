@@ -36,6 +36,16 @@ namespace xfLibrary.ViewModels
         public ICommand BuyCommand => new Command(async () =>
         {
             IsBusy = true;
+            
+            var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: "Bạn chắc chắn muốn thanh toán đơn hàng?",
+                                    confirmingText: "Đồng ý",
+                                    dismissiveText: "Hủy");
+
+            if(isOk == null || isOk == false)
+            {
+                IsBusy = false;
+                return;
+            }    
 
             var mycart = Posts.Where(x => x.IsChecked).ToList();
             var res = await _mainService.CheckoutCartAsync(mycart, _token);

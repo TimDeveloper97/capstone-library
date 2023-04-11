@@ -103,7 +103,7 @@ public class CartController {
         List<Order> orders = null;
         List<OrderDto> orderDtos = new ArrayList<>();
         try{
-            if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN")) {
+            if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
                 logger.info("Return all admin posts");
                 orders = orderService.getOrderByStatus();
             }
