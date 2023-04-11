@@ -175,7 +175,7 @@ public class PostController {
     @PostMapping("/add")
     public ResponseEntity<?> createNewPost(Authentication auth, @RequestBody PostDto postDto) {
         logger.info("[API-Post] createNewPost - START");
-        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN"))
+        if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST"))
             postDto.setStatus(CustomStatus.ADMIN_POST);
         else postDto.setStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
         Post p = null;
@@ -297,7 +297,7 @@ public class PostController {
                     if(isAnAdminBook(book) == false){
                         PostDetail pdHasBook = postDetailService.findByBookId(book.getId());
                         Post oldPost = pdHasBook.getPost();
-                        if(checkBookNotExpired(book, postDto, oldPost.getNoDays()) == false){
+                        if(checkBookNotExpired(postDto, oldPost.getNoDays()) == false){
                             throw new Exception("Số ngày cho thuê vượt quá số ngày ký gửi của cuốn sách.");
                         }
                     }
@@ -374,7 +374,7 @@ public class PostController {
         return false;
     }
 
-    boolean checkBookNotExpired(Book book, PostDto p, int noDaysInOldPost){
+    boolean checkBookNotExpired(PostDto p, int noDaysInOldPost){
         /*if(isAnAdminBook(book)){
             return true;
         }*/

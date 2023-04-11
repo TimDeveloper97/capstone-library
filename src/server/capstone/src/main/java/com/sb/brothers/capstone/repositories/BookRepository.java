@@ -37,7 +37,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "(Select Distinct category_id from favourite_book as fb join book_category as bc on fb.book_id = bc.book_id where fb.user_id = :uId and fb.rating >= 7))", nativeQuery = true)
     Set<Book> recommendBooks(@Param("uId") String uId);
 
-    @Query(value = "Select * from books where in_stock > 0 and (id in (select book_id from post_detail where sublet = 1) OR user_id in (Select user_Id from user_role where user_role.role_id  = 1))",
+    @Query(value = "Select * from books where in_stock > 0 and (id in (select book_id from post_detail where sublet >0) OR user_id in (Select user_Id from user_role where user_role.role_id  = 1 OR user_role.role_id = 3))",
             nativeQuery = true)
     List<Book> findAllBooksInStock();
 }
