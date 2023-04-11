@@ -136,10 +136,10 @@ DROP TABLE IF EXISTS `configuration`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `configuration` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `key` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `value` int NOT NULL,
+  `key_cfg` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `value_cfg` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `key_UNIQUE` (`key`)
+  UNIQUE KEY `key_cfg_UNIQUE` (`key_cfg`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -641,7 +641,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES ('admin',1),('admin',2),('admin',4),('admin',5),('son',2);
+INSERT INTO `user_role` VALUES ('admin',1),('admin',2),('admin',3),('admin',4),('admin',5),('admin5',1),('admin5',2),('son',2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
