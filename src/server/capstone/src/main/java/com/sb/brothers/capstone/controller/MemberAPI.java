@@ -108,7 +108,7 @@ public class MemberAPI {
     boolean checkAccount(int bookId){
         List<Role> roles = roleService.getAllRoleByBookId(bookId);
         for (Role role : roles){
-            if(role.getName().compareTo("ROLE_ADMIN") == 0)
+            if(role.getName().compareTo("ROLE_ADMIN") == 0 || role.getName().compareTo("ROLE_MANAGER_POST") == 0)
                 return true;
         }
         return false;

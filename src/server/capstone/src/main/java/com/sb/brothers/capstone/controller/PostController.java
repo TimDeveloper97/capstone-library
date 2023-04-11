@@ -219,7 +219,7 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Xóa bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.OK);
             }
-            if(post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN")) {
+            if(post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
                 postService.removePostById(id);
             }
             else throw new Exception("Bạn không phải người đăng bài viết hoặc người quản lý tin.");
@@ -367,7 +367,7 @@ public class PostController {
     boolean isAnAdminBook(Book book){
         User owner = book.getUser();
         for(Role role : owner.getRoles()){
-            if(role.getName().compareTo("ROLE_ADMIN") == 0){
+            if(role.getName().compareTo("ROLE_ADMIN") == 0 || role.getName().compareTo("ROLE_MANAGER_POST") == 0){
                 return true;
             }
         }
