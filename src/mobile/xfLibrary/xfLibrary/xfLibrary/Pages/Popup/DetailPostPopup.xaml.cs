@@ -46,7 +46,7 @@ namespace xfLibrary.Pages.Popup
             #endregion
 
             #region infor
-            content.Text = "    " + _model.Content + "\n\n🗺 " + _model.Address;
+            content.Text = "    " + _model.Content + "\n🗺 " + _model.Address;
             money.Text = "💲 " + _model.Fee.ToString("#,###", cul.NumberFormat) + "VND";
 
             lUser.Text = _model.User;
@@ -59,6 +59,20 @@ namespace xfLibrary.Pages.Popup
                 tvBook.IsVisible = false;
             else
             {
+                foreach (var order in _model.Order)
+                {
+                    if(order.Book.Categories != null && order.Book.Categories.Count != 0)
+                    {
+                        foreach (var cate in order.Book.Categories)
+                        {
+                            order.Book.StringCategories += cate + ",";
+                        } 
+                    }
+
+                    if (!string.IsNullOrEmpty(order.Book.StringCategories))
+                        order.Book.StringCategories = order.Book.StringCategories.Substring(0, order.Book.StringCategories.Length - 1);
+                }
+
                 books.ItemsSource = _model.Order;
             }    
         }
