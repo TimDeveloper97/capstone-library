@@ -10,11 +10,11 @@ import "./header.css";
 
 export default function Header() {
   const dispatch = useDispatch();
-  const [roleAdmin, setRoleAdmin] = useState(false);
+  //const [roleAdmin, setRoleAdmin] = useState(false);
   const curUser = JSON.parse(window.localStorage.getItem("user"));
   useEffect(() => {
     curUser && dispatch(getUser(curUser.id));
-    setRoleAdmin(curUser?.roles[0] === "ROLE_ADMIN");
+    //setRoleAdmin(curUser?.roles[0] === "ROLE_ADMIN");
   }, []);
 
   const user = useSelector((state) => state.user);
@@ -64,7 +64,7 @@ export default function Header() {
                     <Link to={"/post"}>
                       Post <i className="la la-angle-down fs-11"></i>
                     </Link>
-                    {roleAdmin ? (
+                    {curUser?.roles[0] === "ROLE_MANAGER_POST" ? (
                       <ul className="dropdown-menu-item">
                         <li>
                           <Link to={"/user/add-post"}>Tạo post</Link>
@@ -72,31 +72,40 @@ export default function Header() {
                       </ul>
                     ) : null}
                   </li>
-                  {roleAdmin && (
+                  {curUser && curUser.roles[0] !== "ROLE_USER" && (
                     <li>
                       <a href="#">
                         Quản lý <i className="la la-angle-down fs-11"></i>
                       </a>
                       <ul className="dropdown-menu-item">
-                        <li>
-                          <Link to={"/user/category"}>Quản lý thể loại</Link>
-                        </li>
-                        <li>
-                          <Link to={"/user/order-status"}>
-                            Quản lý đơn hàng
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to={"/user/post-request"}>Quản lý post</Link>
-                        </li>
-                        <li>
-                          <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
-                        </li>
-                        <li>
-                          <Link to={"/user/user-management"}>
-                            Quản lý người dùng
-                          </Link>
-                        </li>
+                        {curUser?.roles[0] === "ROLE_ADMIN" ? (
+                          <li>
+                            <Link to={"/user/user-management"}>
+                              Quản lý người dùng
+                            </Link>
+                          </li>
+                        ) : (
+                          <>
+                            <li>
+                              <Link to={"/user/category"}>
+                                Quản lý thể loại
+                              </Link>
+                            </li>
+                            <li>
+                              <Link to={"/user/order-status"}>
+                                Quản lý đơn hàng
+                              </Link>
+                            </li>
+                            <li>
+                              <Link to={"/user/post-request"}>
+                                Quản lý post
+                              </Link>
+                            </li>
+                            <li>
+                              <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
+                            </li>
+                          </>
+                        )}
                       </ul>
                     </li>
                   )}
@@ -163,23 +172,31 @@ export default function Header() {
           <li>
             <Link to={"/post"}>Post</Link>
           </li>
-          {roleAdmin && (
+          {curUser && curUser.roles[0] !== "ROLE_USER" && (
             <>
-              <li>
-                <Link to={"/user/add-post"}>Tạo post</Link>
-              </li>
-              <li>
-                <Link to={"/user/category"}>Quản lý thể loại</Link>
-              </li>
-              <li>
-                <Link to={"/user/order-status"}>Quản lý đơn hàng</Link>
-              </li>
-              <li>
-                <Link to={"/user/post-request"}>Quản lý post</Link>
-              </li>
-              <li>
-                <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
-              </li>
+              {curUser?.roles[0] === "ROLE_ADMIN" ? (
+                <li>
+                  <Link to={"/user/user-management"}>Quản lý người dùng</Link>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <Link to={"/user/add-post"}>Tạo post</Link>
+                  </li>
+                  <li>
+                    <Link to={"/user/category"}>Quản lý thể loại</Link>
+                  </li>
+                  <li>
+                    <Link to={"/user/order-status"}>Quản lý đơn hàng</Link>
+                  </li>
+                  <li>
+                    <Link to={"/user/post-request"}>Quản lý post</Link>
+                  </li>
+                  <li>
+                    <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
+                  </li>
+                </>
+              )}
             </>
           )}
         </ul>
