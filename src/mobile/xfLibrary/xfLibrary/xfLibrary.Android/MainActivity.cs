@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace xfLibrary.Droid
 {
-    [Activity(Label = "Capstone", Icon = "@mipmap/logoC", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+    [Activity(Label = "Capstone", Icon = "@mipmap/logoC", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize , Logo = "@mipmap/logoC", RoundIcon = "@mipmap/logoC")]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         internal static MainActivity Instance { get; private set; }
@@ -25,6 +25,7 @@ namespace xfLibrary.Droid
             XF.Material.Droid.Material.Init(this, savedInstanceState);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             CardsViewRenderer.Preserve();
+            Window.SetStatusBarColor(Android.Graphics.Color.Rgb(21, 47, 62));
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

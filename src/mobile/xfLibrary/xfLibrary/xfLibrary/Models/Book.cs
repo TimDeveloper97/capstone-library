@@ -20,6 +20,9 @@ namespace xfLibrary.Models
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("owner")]
+        public string Owner { get; set; }
+
         [JsonProperty("publisher")]
         public string Publisher { get; set; }
 
@@ -45,13 +48,15 @@ namespace xfLibrary.Models
 
 
         private int number = 0;
-        private bool isChecked = false;
+        private bool isChecked = false, isNotUser = false;
         [JsonIgnore]
         public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
         [JsonIgnore]
         public int PreTotal { get; set; } = 0;
         [JsonIgnore]
         public int Number { get => number; set => SetProperty(ref number, value); }
+        [JsonIgnore]
+        public bool IsNotUser { get => isNotUser; set => SetProperty(ref isNotUser, value); }
         [JsonIgnore]
         public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]

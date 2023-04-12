@@ -14,16 +14,19 @@
              xmlns:view="clr-namespace:xfLibrary.Views"
              xmlns:xf="clr-namespace:BottomBar.XamarinForms"
              xmlns:vm="clr-namespace:xfLibrary.ViewModels"
+             xmlns:converter="clr-namespace:xfLibrary.Converters"
              x:Name="self"
              
              x:Class="xfLibrary.Pages.BookView">
     <ContentPage.Resources>
-        <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
-            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
-            <Setter Property="HeightRequest" Value="30" />
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
-        </Style>
+        <ResourceDictionary>
+            <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
+                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+                <Setter Property="HeightRequest" Value="30" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
+            </Style>
+        </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Behaviors>
@@ -82,10 +85,10 @@
                                     </SwipeView.RightItems>
                                     <!-- Content -->
 
-                                    <Grid ColumnDefinitions="50, *" Padding="5,10">
+                                    <Grid ColumnDefinitions="50, *, auto" Padding="5,10">
                                         <Image Source="{Binding ImageSource}" HeightRequest="50" WidthRequest="50"/>
                                         <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                            <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                            <Label Text="{Binding Name, Converter={StaticResource UpperOneStringConverter}}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
                                                        Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
                                             <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
                                                 <Label.FormattedText>
@@ -95,10 +98,15 @@
                                                     </FormattedString>
                                                 </Label.FormattedText>
                                             </Label>
-                                            <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
+                                            <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource        MiniLabelStyle}" Margin="0,-5,0,0"
                                                    TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                    HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation" FontFamily="MuliBold"/>
                                         </Grid>
+                                        <Frame Grid.Column="2" Style="{StaticResource FrameNoBorder}" BackgroundColor="{StaticResource AppColor}" 
+                                               CornerRadius="10" VerticalOptions="Center" BorderColor="{StaticResource AppColor}" IsVisible="{Binding IsNotUser}">
+                                            <Label Text="{Binding Owner, Converter={StaticResource UpperOneStringConverter}}" 
+                                                   TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                        </Frame>
                                     </Grid>
                                 </SwipeView>
                             </Grid>
