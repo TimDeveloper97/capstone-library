@@ -10,8 +10,8 @@ Ký gửi sách:
 9. Sách của user đem ký gửi sau khi đã được thuê thì sẽ trừ số lượng trong kho sách của manager (nếu số lượng bằng 0 thì không thể đăng bài post cho thuê có sách đó nữa)
 10. Sách của user đem ký gửi sau khi đã được thuê xong và trả về chổ của manager sẽ xác nhận bằng cách quét mã QR và số lượng sách sẽ được cập nhật lại trong kho sách của manager
 11. Sau khi hết thời gian ký gửi user sẽ đến điểm ký gửi nhận lại sách, xác nhận bằng mã QR và cuốn sách đó sẽ được xóa khỏi kho của manager
-
-Mobile   4, 7, 10, 11
+12. Trường hợp đã quá hạn ký gửi mà user vẫn chưa đến lấy sách về cụ thể là sau 30 ngày thì sách sẽ thuộc sở hữu của thư viện (phần này hiển thị bằng một notification trước khi user bấm nút gửi request ký gửi cho manager nhé)
+Mobile   4, 7, 10, 11, 5
 
 4(fixed)
 10(fixed)

@@ -62,8 +62,9 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
-                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" Command="{Binding PostCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
-                                        Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Upload}" WidthRequest="50" Margin="0,0,10,0"/>
+                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" Command="{Binding PostCommand}" 
+                                        VerticalOptions="Center" TextColor="White" BusyColor="White"
+                                        Text="Gửi" FontFamily="MuliBold" FontSize="{StaticResource Title}" WidthRequest="50" Margin="0,0,10,0"/>
                     
                 </Grid>
                 <!--#endregion-->
