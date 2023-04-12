@@ -123,6 +123,9 @@ namespace xfLibrary.ViewModels
                 //show only manager
                 book.IsNotUser = !IsUser();
 
+                //update extendheigh
+                book.ExpanderHeight = book.States.Count * 60 + 10;
+
                 //update view
                 ItemsSource.Add(book);
             }
