@@ -53,6 +53,16 @@
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar1" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar1}}"/>
+            
+            <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Margin="13,5,0,10">
+                <Label Text="Bạn cần phải"/>
+                <Label Text="Đăng nhập/Đăng ký" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}" TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.LoginCommand, Source={x:Reference Name=self}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            
             <pages:PostView Margin="0,-7" Grid.Row="1" IsVisible="{Binding BindingContext.IsVisible, Source={x:Reference self}}"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="{Binding Height}" Margin="0,-22,0,0"
@@ -73,6 +83,16 @@
         <Grid RowDefinitions="auto, *" Style="{StaticResource GridBackground}">
             <view:HeaderView x:Name="searchBar3" SearchCommand="{Binding SearchCommand}" BackgroundColor="{StaticResource AppColor}"
                              TextChangedCommand="{Binding TextChangedCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar3}}"/>
+
+            <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Margin="13,5,0,10">
+                <Label Text="Bạn cần phải"/>
+                <Label Text="Đăng nhập/Đăng ký" TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource White}}" TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.LoginCommand, Source={x:Reference Name=self}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            
             <pages:NotificationView Margin="0,-7" Grid.Row="1" IsVisible="{Binding BindingContext.IsVisible, Source={x:Reference self}}"/>
 
             <view:SearchBarSuggestionView Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Fill" WidthRequest="300" HeightRequest="{Binding Height}" Margin="0,-22,0,0"

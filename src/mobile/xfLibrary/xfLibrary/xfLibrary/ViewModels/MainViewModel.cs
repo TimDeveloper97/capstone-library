@@ -126,6 +126,9 @@ namespace xfLibrary.ViewModels
                 }
             }
 
+            BadgeNotification = 0;
+            BadgePost = 0;
+
             //cập nhật tất cả thông báo
             if (!string.IsNullOrEmpty(_token))
             {
@@ -205,6 +208,11 @@ namespace xfLibrary.ViewModels
             MessagingCenter.Send<object, bool>(this, "haslogin", IsVisible);
         });
 
+
+        public ICommand LoginCommand => new Command(async () =>
+        {
+            await Login();
+        });
         #endregion
 
 
