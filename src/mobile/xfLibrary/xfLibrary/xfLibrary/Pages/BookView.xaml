@@ -20,6 +20,10 @@
              x:Class="xfLibrary.Pages.BookView">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converter:StatusValueToBoolConverter x:Key="EmptyList" Value="0"/>
+            <converter:StatusToBoolConverter x:Key="StatusToBool0Converter" Value="0"/>
+            <converter:StatusToTextConverter x:Key="State" Value="0" TRUE="Chưa thuê" FALSE="Đã thuê"/>
+            
             <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
                 <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
                 <Setter Property="HeightRequest" Value="30" />
@@ -106,11 +110,37 @@
                                                    TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                    HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation" FontFamily="MuliBold"/>
                                                     </Grid>
-                                                    <Frame Grid.Column="2" Style="{StaticResource FrameNoBorder}" BackgroundColor="{StaticResource AppColor}" 
-                                               CornerRadius="10" VerticalOptions="Center" BorderColor="{StaticResource AppColor}" IsVisible="{Binding IsNotUser}">
-                                                        <Label Text="{Binding Owner, Converter={StaticResource UpperOneStringConverter}}" 
-                                                   TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
-                                                    </Frame>
+
+                                                    <StackLayout Grid.Column="2" Orientation="Vertical">
+                                                        <Frame  Style="{StaticResource FrameNoBorder}" BackgroundColor="{StaticResource Yellow}" 
+                                                                CornerRadius="10" HorizontalOptions="End" BorderColor="{StaticResource Yellow}"
+                                                                IsVisible="{Binding IsNotUser}">
+                                                            <Label Text="{Binding Owner, Converter={StaticResource UpperOneStringConverter}}" 
+                                                                   TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                                        </Frame>
+
+                                                        <Frame Style="{StaticResource FrameNoBorder}"  
+                                                                CornerRadius="10" VerticalOptions="Center">
+                                                            <Label Text="{Binding States.Count, Converter={StaticResource State}}" 
+                                                                   TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
+                                                            <Frame.Triggers>
+                                                                <MultiTrigger TargetType="Frame">
+                                                                    <MultiTrigger.Conditions>
+                                                                        <BindingCondition Binding="{Binding States.Count, Converter={StaticResource StatusToBool0Converter}}" Value="true"/>
+                                                                    </MultiTrigger.Conditions>
+                                                                    <Setter Property="BackgroundColor" Value="{StaticResource Green}" />
+                                                                    <Setter Property="BorderColor" Value="{StaticResource Green}" />
+                                                                </MultiTrigger>
+                                                                <MultiTrigger TargetType="Frame">
+                                                                    <MultiTrigger.Conditions>
+                                                                        <BindingCondition Binding="{Binding States.Count}" Value="0"/>
+                                                                    </MultiTrigger.Conditions>
+                                                                    <Setter Property="BackgroundColor" Value="{StaticResource Red}" />
+                                                                    <Setter Property="BorderColor" Value="{StaticResource Red}" />
+                                                                </MultiTrigger>
+                                                            </Frame.Triggers>
+                                                        </Frame>
+                                                    </StackLayout>
                                                 </Grid>
                                             </xct:Expander.Header>
 
