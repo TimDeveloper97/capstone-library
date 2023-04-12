@@ -1,0 +1,20 @@
+Ký gửi sách:
+1. User thêm sách vào kho sách của user đó
+2. User gửi request muốn ký gửi sách trong kho của mình (số lượng tình trạng tùy theo ý user)
+3. Manager nhận request muốn ký gửi sách từ user
+4. User đem sách đến cho manager kiểm tra rồi xác nhận đã ký gửi thành công bằng cách đưa sách và quét mã QR để xác nhận
+5. Sách manager đã nhận ký gửi từ user sẽ được thêm vào kho sách của manager (làm cho sách được ký gửi và sách của manager sở hữu được phân biệt với nhau)
+6. Manager sẽ tạo bài post cho thuê với item là sách mà user đã đem ký gửi, sau khi tạo xong bài post cho thuê sẽ gửi thông báo cho user
+7. Sách của user đem ký gửi sau khi được post cho thuê sẽ phải hiển thị trạng thái sách đã được thuê hay chưa (cả manager và user sở hữu cuốn sách đó đều có thể theo dõi được)
+8. Sách của user đem ký gửi sau khi đã được thuê rồi sẽ thông báo về cho user và user sẽ nhận được tiền cho thuê
+9. Sách của user đem ký gửi sau khi đã được thuê thì sẽ trừ số lượng trong kho sách của manager (nếu số lượng bằng 0 thì không thể đăng bài post cho thuê có sách đó nữa)
+10. Sách của user đem ký gửi sau khi đã được thuê xong và trả về chổ của manager sẽ xác nhận bằng cách quét mã QR và số lượng sách sẽ được cập nhật lại trong kho sách của manager
+11. Sau khi hết thời gian ký gửi user sẽ đến điểm ký gửi nhận lại sách, xác nhận bằng mã QR và cuốn sách đó sẽ được xóa khỏi kho của manager
+
+Mobile   4, 7, 10, 11
+
+4(fixed)
+10(fixed)
+11(fixed) 
+thêm 1 status nữa là user đến lấy sách và quét mã QR
+7 => hiển thị trạng thái ở ngay phần ký gửi của user (manager và user đều có thể xem đc trạng thái)

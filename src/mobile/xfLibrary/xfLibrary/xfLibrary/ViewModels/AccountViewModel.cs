@@ -35,6 +35,8 @@ namespace xfLibrary.ViewModels
 
         public ICommand CategoryCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(CategoryView)));
 
+        public ICommand QRCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(ScanQRView)));
+
         public ICommand TransactionCommand => new Command(async () =>
         {
             if (!IsUser())

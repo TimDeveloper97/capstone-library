@@ -17,7 +17,7 @@ namespace xfLibrary.Models
         public string Token { get; set; }
 
         [JsonProperty("orderId")]
-        public string OrderId { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("status")]
         public int Status { get; set; }
@@ -35,7 +35,7 @@ namespace xfLibrary.Models
                 Time = m.Time;
                 Token = m.Token;
                 Status = m.Status;
-                OrderId = m.OrderId;
+                Id = m.Id;
                 Start = start.AddMilliseconds(m.Time).ToLocalTime();
             }
             catch (Exception)

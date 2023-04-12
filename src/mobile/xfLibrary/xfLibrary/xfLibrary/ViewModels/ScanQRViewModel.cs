@@ -35,7 +35,7 @@ namespace xfLibrary.ViewModels
             _qrCode = result.Text.Trim();
             var qr = new QRCode(_qrCode);
             if (qr == null || string.IsNullOrEmpty(qr.Token)
-            || string.IsNullOrEmpty(qr.OrderId))
+            || string.IsNullOrEmpty(qr.Id))
             {
                 IsBusy = false;
                 _message.ShortAlert("Sai format QR Code");
@@ -50,41 +50,46 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
+            Response res = null;
             //call api
-            //lấy sách => trả sách 64 -> 128
-            if (qr.Status == Services.Api.USER_TAKE_BOOK)
+            //user ký gửi sách => 4 -> 16 manager xác nhận đã lấy sách
+            if (qr.Status == Services.Api.USER_POST_IS_NOT_APPROVED)
             {
-                var res = await _mainService.ReceivedAsync(qr.OrderId, qr.Token);
-
-                if (res != null && !string.IsNullOrEmpty(res.Message))
-                    _message.ShortAlert(res.Message);
-
-                if (res != null && res.Success)
-                {
-                    IsBusy = false;
-                    BackCommand.Execute(null);
-                }
+                res = await _mainService.AcceptPostAsync(qr.Id, qr.Token);
+            }    
+            //lấy sách => trả sách 64 -> 128
+            else if (qr.Status == Services.Api.USER_TAKE_BOOK)
+            {
+                res = await _mainService.ReceivedAsync(qr.Id, qr.Token);
             }
             //trả sách => sang trạng thái trả sách thành công 128 -> 256
             else if (qr.Status == Services.Api.USER_RETURN_IS_NOT_APPROVED)
             {
-                var res = await _mainService.SuccessAsync(qr.OrderId, qr.Token);
+                res = await _mainService.SuccessAsync(qr.Id, qr.Token);
+            }
+            //thành công => user ký gửi sách đến lấy sách 256 -> 512
+            else if (qr.Status == Services.Api.USER_GETBACK_BOOK)
+            {
+                res = await _mainService.SuccessAsync(qr.Id, qr.Token);
+            }
 
-                if (res != null && !string.IsNullOrEmpty(res.Message))
+            if (res != null)
+            {
+                if (!string.IsNullOrEmpty(res.Message))
                     _message.ShortAlert(res.Message);
 
-                if (res != null && res.Success)
+                if (res.Success)
                 {
                     IsBusy = false;
                     BackCommand.Execute(null);
                 }
-            }
+            }    
 
             IsBusy = false;
-            _message.ShortAlert(_qrCode);
+            Console.WriteLine("QRCode: " + _qrCode);
         });
 
-        public ICommand FlashCommand => new Command(async () => IsTorchOn = !IsTorchOn);
+        public ICommand FlashCommand => new Command(() => IsTorchOn = !IsTorchOn);
         #endregion
 
         public ScanQRViewModel()
