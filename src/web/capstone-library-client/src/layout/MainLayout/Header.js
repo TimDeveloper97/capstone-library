@@ -21,7 +21,7 @@ export default function Header() {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <header className="header-area bg-dark" style={{backgroundColor: "#576CBC !important"}}>
+    <header className="header-area" style={{backgroundColor: curUser.roles[0] === "ROLE_USER" ? "#343a40" : "#576CBC"}}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-2">
@@ -113,10 +113,12 @@ export default function Header() {
                   )}
                 </ul>
               </nav>
+              {/* <div className="form-group mb-0">
+                {curUser && <Notification />}
+              </div> */}
               <div className="form-group mb-0">
                 {curUser && <Notification />}
-              </div>
-
+              </div>            
               <div className="nav-right-button">
                 {user?.firstName ? (
                   <span className="user-fullname">
