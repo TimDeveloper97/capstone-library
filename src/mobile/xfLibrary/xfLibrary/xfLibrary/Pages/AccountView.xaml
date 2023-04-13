@@ -87,6 +87,7 @@
                             <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}" IsVisible="{Binding Profile.Level, Converter={StaticResource NotAdmin}}"/>
                             <view:ItemView Text="Nạp tiền" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Cash}" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" Color="{StaticResource Yellow}"/>
                             <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding Profile.Level, Converter={StaticResource User}}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
+                            <view:ItemView Text="QR Code" Icon="{Static icon:FontIcons.Qrcode}" IsVisible="{Binding Profile.Level, Converter={StaticResource User}}" Color="DarkGreen" TabCommand="{Binding QRCommand}"/>
                         </StackLayout>
                         
                         <StackLayout Spacing="0">

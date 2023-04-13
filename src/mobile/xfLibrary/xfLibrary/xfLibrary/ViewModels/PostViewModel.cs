@@ -97,6 +97,21 @@ namespace xfLibrary.ViewModels
 
         public ICommand AddCommand => new Command(async () =>
         {
+            IsBusy = true;
+            if (IsUser())
+            {
+                var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(title: "Thông báo", message: "Sách khi hết hạn ký gửi trong vòng 30 ngày kể từ ngày hết hạn sẽ thuộc quyền của kho sách, bạn chắn chắn đồng ý với điều khoản chứ?",
+                                    confirmingText: "Đồng ý",
+                                    dismissiveText: "Hủy");
+
+                if (isOk == null || isOk == false)
+                {
+                    IsBusy = false;
+                    return;
+                }
+            }
+
+            IsBusy = false;
             await Shell.Current.GoToAsync(nameof(DetailPostView));
         });
 

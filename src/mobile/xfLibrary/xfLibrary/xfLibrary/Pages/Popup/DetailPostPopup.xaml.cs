@@ -23,6 +23,7 @@ namespace xfLibrary.Pages.Popup
             InitializeComponent();
             _model = m;
 
+            lMore.IsVisible = true;
             if (isView || m.IsAdmin)
                 action.IsVisible = false;
             else
@@ -92,9 +93,15 @@ namespace xfLibrary.Pages.Popup
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             if (content.MaxLines == 3)
+            {
                 content.MaxLines = 99;
+                lMore.IsVisible = false;
+            }    
             else
+            {
                 content.MaxLines = 3;
+                lMore.IsVisible = true;
+            }    
         }
     }
 }

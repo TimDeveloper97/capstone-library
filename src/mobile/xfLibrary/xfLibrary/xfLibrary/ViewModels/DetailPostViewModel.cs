@@ -49,7 +49,7 @@ namespace xfLibrary.ViewModels
         {
             if (isUpdate)
             {
-                Title = "Sửa thông tin bài";
+                Title = "Sửa thông tin ký gửi";
 
                 //slide image
                 var order = NewPost.Order;

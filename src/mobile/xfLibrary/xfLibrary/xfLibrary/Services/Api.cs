@@ -61,6 +61,7 @@ namespace xfLibrary.Services
         public const string Cancellation = "order/cancellation"; 
         public const string Received = "order/received"; 
         public const string Success = "order/book-returns"; 
+        public const string ReturnBook = "posts/return-books"; 
 
         public const string Cart = "cart"; 
         /// <summary>
@@ -122,6 +123,9 @@ namespace xfLibrary.Services
         public const int USER_RETURN_IS_NOT_APPROVED = 128; // Chưa trả sách
         public const int USER_RETURN_IS_APPROVED = 256; // Thành công
 
+        //USER LẤY LẠI SÁCH KÝ GỬI
+        public const int USER_GETBACK_BOOK = 512; // Trả sách cho ký gửi
+
         /**
           * USER STATUS
           * BIT 5:   0 - DEACTIVATE, 1 - ACTIVATE
@@ -143,8 +147,8 @@ namespace xfLibrary.Services
         public static string[] ADMIN_ROLES = { "ROLE_ADMIN", "ROLE_USER" };
 
         //state of status
-        public static readonly string[] COLORS = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E" };
-        public static readonly string[] STATES = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công" };
+        public static readonly string[] COLORS = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E", "#7149C6" };
+        public static readonly string[] STATES = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công", "Đã trả sách" };
     }
 
     public class Service : Api

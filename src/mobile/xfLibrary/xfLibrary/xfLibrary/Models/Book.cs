@@ -20,6 +20,9 @@ namespace xfLibrary.Models
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("owner")]
+        public string Owner { get; set; }
+
         [JsonProperty("publisher")]
         public string Publisher { get; set; }
 
@@ -40,18 +43,26 @@ namespace xfLibrary.Models
 
         [JsonProperty("percent")]
         public int Percent { get; set; }
+
         [JsonProperty("inStock")]
         public int InStock { get; set; }
 
+        [JsonProperty("bookInfoDtos")]
+        public List<State> States { get; set; }
 
-        private int number = 0;
-        private bool isChecked = false;
+
+        private int number = 0, expanderHeight = 0; 
+        private bool isChecked = false, isNotUser = false;
         [JsonIgnore]
         public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
+        [JsonIgnore]
+        public int ExpanderHeight { get => expanderHeight; set => SetProperty(ref expanderHeight, value); }
         [JsonIgnore]
         public int PreTotal { get; set; } = 0;
         [JsonIgnore]
         public int Number { get => number; set => SetProperty(ref number, value); }
+        [JsonIgnore]
+        public bool IsNotUser { get => isNotUser; set => SetProperty(ref isNotUser, value); }
         [JsonIgnore]
         public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
@@ -70,5 +81,20 @@ namespace xfLibrary.Models
 
         [JsonProperty("data")]
         public string Data { get; set; }
+    }
+
+    public class State
+    {
+        [JsonProperty("quantity")]
+        public int Quantity { get; set; }
+
+        [JsonProperty("renterId")]
+        public string RenterId { get; set; }
+
+        [JsonProperty("renter")]
+        public string Renter { get; set; }
+
+        [JsonProperty("status")]
+        public int Status { get; set; }
     }
 }

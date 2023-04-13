@@ -28,7 +28,7 @@ namespace xfLibrary.ViewModels
         {
             IsBusy = true;
 
-            if(_categorys == null || _categorys?.Count == 0)
+            if (_categorys == null || _categorys?.Count == 0)
                 _categorys = await _mainService.CategoryAsync();
 
             await AddBook();
@@ -101,6 +101,7 @@ namespace xfLibrary.ViewModels
 
             ItemsSource.Clear();
             if (books == null) { IsBusy = false; return; }
+            books = books.OrderBy(x => x.Name).ToList();
             foreach (var book in books)
             {
                 //set fee statis
@@ -118,6 +119,13 @@ namespace xfLibrary.ViewModels
                 //format to view
                 if (book.Categories != null && book.Categories.Count != 0)
                     book.StringCategories = ListToString(book.Categories);
+
+                //show only manager
+                book.IsNotUser = !IsUser();
+
+                //update extendheigh
+                if (book.States.Count != 0)
+                    book.ExpanderHeight = book.States.Count * 60 + 10;
 
                 //update view
                 ItemsSource.Add(book);

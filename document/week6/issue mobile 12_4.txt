@@ -1,0 +1,19 @@
+Mobile:
+1. Thay đổi hình ảnh slider thành các truyện tranh
+=> thành các truyện tranh????????
+
+2. phần trang trắng khi chưa đăng nhập nên để text thông báo "cần người dùng đăng nhập"
+=> làm gì có trang nào là trang trắng
+
+3. thông báo khi đăng xuất vẫn còn đỏ 
+=> thông báo khí đăng xuất vẫn còn đỏ?
+
+4. post khi list ra nên để các record ngang như cái “gợi ý cho bạn”
+=> ?????
+
+5. thông tin bài post cần ghi rõ: các sách có trong post, tình trạng, tiền thuê và tiền sách cần có text để ghi rõ
+=> vuốt sang bên để xem thông tin sách
+
+6. Tìm sách theo post , hiển thị thông tin sách đó đang nằm trong post nào. Xem chi tiết sách trong post ntn. “Gợi ý cho bạn làm hơn
+=> đây là 1 yêu cầu thêm???
+

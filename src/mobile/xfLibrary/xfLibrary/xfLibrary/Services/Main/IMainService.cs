@@ -44,5 +44,6 @@ namespace xfLibrary.Services.Main
         Task<Response> ConfirmationAsync(string id, string token);
         Task<Response> ReceivedAsync(string id, string token);
         Task<Response> SuccessAsync(string id, string token);
+        Task<Response> ReturnBookAsync(string id, string token);
     }
 }

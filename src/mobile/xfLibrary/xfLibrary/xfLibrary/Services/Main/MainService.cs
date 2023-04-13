@@ -235,6 +235,12 @@ namespace xfLibrary.Services.Main
             var res = await Service.PutParameter(id, Api.Success, token);
             return res;
         }
+
+        public async Task<Response> ReturnBookAsync(string id, string token)
+        {
+            var res = await Service.PutParameter(id, Api.ReturnBook, token);
+            return res;
+        }
         #endregion
 
     }
