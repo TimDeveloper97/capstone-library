@@ -21,7 +21,7 @@ export default function Header() {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <header className="header-area bg-dark">
+    <header className="header-area bg-dark" style={{backgroundColor: "#576CBC !important"}}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-2">

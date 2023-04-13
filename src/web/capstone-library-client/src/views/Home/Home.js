@@ -6,6 +6,7 @@ import "./home.css";
 import Instruct from "./Instruct";
 import Member from "./Member";
 import Quotes from "./Quotes";
+import NewestPost from "./NewestPost";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -66,18 +67,18 @@ export default function Home() {
           </div>
         </div>
         <div className="generic-img-box generic-img-box-layout-2">
-          <img className="lazy" src="./images/harry-potter.jpg" alt="image1" />
+          <img className="lazy" src="./images/binh-ngo-1.jpeg" alt="image1" />
           <img
             className="lazy"
             src="./images/sherlock-holmes-toan-tap.jpg"
             alt="image2"
           />
           <img className="lazy" src="./images/de-men-1.jpeg" alt="image1" />
-          <img className="lazy" src="./images/binh-ngo-1.jpeg" alt="image2" />
         </div>
       </section>
       <Funfact />
       <Instruct />
+      <NewestPost />
       <Guest />
       <Member />
     </>
