@@ -101,4 +101,8 @@ const removeTones = (str) => {
     return str;
 }
 
-export { getImgUrl, isAdmin, getColorStatus, getTimeAgo, removeTones };
+const formatMoney = (money) => {
+  return money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
+}
+
+export { getImgUrl, isAdmin, getColorStatus, getTimeAgo, removeTones, formatMoney };
