@@ -413,7 +413,7 @@ public class User implements Serializable {
 		return book;
 	}
 
-	public void lazyLoad(){
+	/*public void lazyLoad(){
 		this.setPassword("");
 		this.setNotifications(null);
 		this.setReports(null);
@@ -422,5 +422,5 @@ public class User implements Serializable {
 		//this.setPosts1(null);
 		this.setMessages1(null);
 		this.setMessages2(null);
-	}
+	}*/
 }

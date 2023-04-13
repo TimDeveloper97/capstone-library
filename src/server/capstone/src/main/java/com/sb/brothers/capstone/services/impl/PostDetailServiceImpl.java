@@ -30,6 +30,11 @@ public class PostDetailServiceImpl implements PostDetailService {
     }
 
     @Override
+    public List<PostDetail> findPostDetailByBookAndStatus(int bookId) {
+        return postDetailRepository.findPostDetailByBookAndStatus(bookId);
+    }
+
+    @Override
     public PostDetail findByBookId(int id) {
         return postDetailRepository.findByBookId(id).get();
     }

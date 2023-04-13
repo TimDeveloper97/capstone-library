@@ -3,7 +3,12 @@ package com.sb.brothers.capstone.dto;
 import com.sb.brothers.capstone.configuration.BeanClass;
 import com.sb.brothers.capstone.entities.Book;
 import com.sb.brothers.capstone.entities.Category;
+import com.sb.brothers.capstone.entities.Order;
+import com.sb.brothers.capstone.entities.PostDetail;
 import com.sb.brothers.capstone.services.CategoryService;
+import com.sb.brothers.capstone.services.OrderService;
+import com.sb.brothers.capstone.services.PostDetailService;
+import com.sb.brothers.capstone.services.PostService;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,6 +20,12 @@ import java.util.Set;
 public class BookDTO {
 
     private static CategoryService categoryService = BeanClass.getBean(CategoryService.class);
+
+    private static PostDetailService postDetailService = BeanClass.getBean(PostDetailService.class);
+
+    private static OrderService orderService = BeanClass.getBean(OrderService.class);
+
+    private static PostService postService = BeanClass.getBean(PostService.class);
 
     private int id;
 
@@ -40,6 +51,10 @@ public class BookDTO {
 
     private int inStock;
 
+    private String owner;
+
+    private List<BookInfoDto> bookInfoDtos;
+
     public void convertBook(Book book){
         this.id = book.getId();
         this.name = book.getName();
@@ -56,7 +71,22 @@ public class BookDTO {
         this.imgs = new ArrayList<>();
         this.percent = book.getPercent();
         this.inStock = book.getInStock();
+        if(book.getUser() != null){
+            this.owner = book.getUser().getId();
+        }
         book.getImages().stream().forEach(img -> imgs.add(new ImageDto(img.getId(), img.getLink(), null)));
+        this.bookInfoDtos = new ArrayList<>();
+        List<PostDetail> postDetails = postDetailService.findPostDetailByBookAndStatus(book.getId());
+        postDetails.stream().forEach(postDetail -> {
+            BookInfoDto bookInfoDto = new BookInfoDto();
+            bookInfoDto.setQuantity(postDetail.getQuantity());
+            Order order = orderService.findByPostId(postDetail.getPost().getId()).get();
+            bookInfoDto.setRenterId(order.getUser().getId());
+            bookInfoDto.setRenter(order.getUser().getFirstName() + " " + order.getUser().getLastName());
+            bookInfoDto.setStatus(order.getPost().getStatus());
+            bookInfoDtos.add(bookInfoDto);
+        });
+
     }
 
     /**

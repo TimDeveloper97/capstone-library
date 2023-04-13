@@ -10,6 +10,6 @@ public interface PostDetailService {
     void save(PostDetail postDetail);
     List<PostDetail> findAllByPostId(int id);
     void deleteAllByPostId(int postId);
-
+    List<PostDetail> findPostDetailByBookAndStatus(int bookId);
     PostDetail findByBookId(int id);
 }

@@ -24,8 +24,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAllByUser(String uId) {
-        return orderRepository.findAllByUser(uId);
+    public Optional<Order> findByPostId(int pId) {
+        return orderRepository.findByPostId(pId);
     }
 
     @Override

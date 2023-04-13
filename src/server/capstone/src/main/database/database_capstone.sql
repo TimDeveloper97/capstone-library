@@ -426,6 +426,7 @@ DELIMITER ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `post_AFTER_UPDATE` AFTER UPDATE ON `post` FOR EACH ROW BEGIN
     SET @ADMIN_POST                  = 0;
+    SET @RETURNED_THE_BOOK_TO_THE_USER		 = 1;
     SET @USER_REQUEST_IS_DENY        = 2;
     SET @USER_POST_IS_NOT_APPROVED   = 4;
     SET @ADMIN_DISABLE_POST          = 8;
@@ -450,7 +451,7 @@ DELIMITER ;;
 		IF done THEN
 		  LEAVE read_loop;
 		END IF;
-		if(OLD.status = @USER_POST_IS_APPROVED AND NEW.status = @USER_POST_IS_EXPIRED) THEN
+			if(OLD.status = @USER_POST_IS_EXPIRED AND NEW.status = @RETURNED_THE_BOOK_TO_THE_USER) THEN
 			update books set quantity = (quantity + subQ) where id = pBookId;
     		END IF;
 	END LOOP;	
@@ -744,7 +745,7 @@ DELIMITER ;;
 	select 0, null into @pId, @uId;
 
         -- get notify days before expired day
-	select `value` into @ntf_day from configuration where `key` = "days";
+	select `value_cfg` into @ntf_day from configuration where `key_cfg` = "days";
 
         SELECT `id`, `user_id` into @pId, @uId  FROM Post where  (SELECT DATE_ADD(created_date, INTERVAL (`no_days` - @ntf_day) DAY))  = now() AND `status` = 16;
         -- select @pId, @uId;
@@ -755,6 +756,12 @@ DELIMITER ;;
         SET SQL_SAFE_UPDATES = 0;
 	Update post Set `status` = 512
 		where  (SELECT DATE_ADD(created_date, INTERVAL no_days DAY))  < now() AND `status` = 16;
+
+        Update book Set `user_id` = "admin" 
+        Where id In (
+			Select book_id from post_detail where sublet > 0 And post_id in
+				(Select id From post 
+					where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512));
 	SET SQL_SAFE_UPDATES = 1;
 END */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
