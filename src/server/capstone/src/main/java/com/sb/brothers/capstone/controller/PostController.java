@@ -45,6 +45,9 @@ public class PostController {
     @Autowired
     private TokenProvider tokenProvider;
 
+    @Autowired
+    private NotificationService notificationService;
+
     //posts session
     @GetMapping("")
     public ResponseEntity<?> getAllAdminPosts(){
@@ -155,7 +158,7 @@ public class PostController {
         try{
             post = postService.getPostById(id).get();
             String user = userService.getUserByPostId(id).get();
-            if(post.getStatus() != CustomStatus.ADMIN_POST && !user.equals(auth.getName())){
+            if((post.getStatus() == CustomStatus.ADMIN_DISABLE_POST || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED || post.getStatus() == CustomStatus.USER_POST_IS_APPROVED) && !user.equals(auth.getName())){
                 logger.info("[API-Post] getPostById - END");
                 throw new Exception("Bạn không phải người đăng bài ký gửi.");
             }
@@ -187,7 +190,9 @@ public class PostController {
                 p.setUser(user);
                 p.setCreatedDate(new Date());
                 postService.updatePost(p);
-                setPostDetail(auth, postDto, p);
+                List<Notification> ntfs = new ArrayList<>();
+                setPostDetail(auth, postDto, p, ntfs);
+                ntfs.stream().forEach(ntf -> notificationService.updateNotification(ntf));
             }
             else{
                 logger.warn("Unable to create new post. User has been blocked from posting.");
@@ -256,7 +261,9 @@ public class PostController {
                 currPost.setModifiedDate(new Date());
                 postService.updatePost(currPost);
                 postDetailService.deleteAllByPostId(postDto.getId());
-                setPostDetail(auth, postDto, currPost);
+                List<Notification> ntfs = new ArrayList<>();
+                setPostDetail(auth, postDto, currPost, ntfs);
+                ntfs.stream().forEach(ntf -> notificationService.updateNotification(ntf));
             }
             catch (Exception ex){
                 logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
@@ -270,7 +277,7 @@ public class PostController {
         return new ResponseEntity<>(new CustomErrorType("Dữ liệu đầu vào không chính xác. Vui lòng kiểm tra lại."), HttpStatus.OK);
     }//form edit post, fill old data into form
 
-    public void setPostDetail(Authentication auth, PostDto postDto, Post currPost) throws Exception {
+    public void setPostDetail(Authentication auth, PostDto postDto, Post currPost, List<Notification> ntfs) throws Exception {
         for (PostDetailDto pdDto : postDto.getPostDetailDtos()) {
             PostDetail postDetail = new PostDetail();
             postDetail.setPost(currPost);
@@ -300,6 +307,10 @@ public class PostController {
                         if(checkBookNotExpired(postDto, oldPost.getNoDays()) == false){
                             throw new Exception("Số ngày cho thuê vượt quá số ngày ký gửi của cuốn sách.");
                         }
+                        Notification ntf = new Notification();
+                        ntf.setUser(book.getUser());
+                        ntf.setDescription("Cuốn sách có tên: "+ book.getName()+" của bạn đã được đăng cho thuê (mã bài đăng: P"+ currPost.getId()+ ", số lượng:"+postDetail.getQuantity() +")");
+                        ntfs.add(ntf);
                     }
                     book.setInStock(book.getInStock() - postDetail.getQuantity());
                     bookService.updateBook(book);
@@ -323,6 +334,12 @@ public class PostController {
         return changePostStatus(auth, id, CustomStatus.USER_REQUEST_IS_DENY);
     }//form edit post, fill old data into form
 
+    @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
+    @PutMapping("/return-books/{id}")
+    public ResponseEntity<?> returnTheBookToTheUser(Authentication auth, @PathVariable("id") int id){
+        return changePostStatus(auth, id, CustomStatus.RETURNED_THE_BOOK_TO_THE_USER);
+    }//form edit post, fill old data into form
+
     ResponseEntity<?> changePostStatus(Authentication auth, int id, int status){
         logger.info("[API-Post] changePostStatus - START");
         Post currPost = null;
@@ -342,7 +359,19 @@ public class PostController {
             if (currPost.getStatus() == status){
                 return new ResponseEntity<>(new CustomErrorType("Trạng thái bài đăng không thay đổi."), HttpStatus.OK);
             }
-            else postService.updateStatus(id , status);
+            else if(currPost.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED){
+                if(status == CustomStatus.USER_POST_IS_APPROVED || status == CustomStatus.USER_REQUEST_IS_DENY) {
+                    postService.updateStatus(id, status);
+                }
+                else throw new Exception("Không thể thay đổi trạng thái của bài đăng.");
+            }
+            else if(currPost.getStatus() == CustomStatus.USER_POST_IS_EXPIRED){
+                if(status == CustomStatus.RETURNED_THE_BOOK_TO_THE_USER) {
+                    postService.updateStatus(id, status);
+                }
+                else throw new Exception("Không thể thay đổi trạng thái của bài đăng.");
+            }
+            else throw new Exception("Không thể thay đổi trạng thái của bài đăng.");
         }
         catch (Exception ex){
             logger.warn("Exception: " + ex.getMessage() + (ex.getCause() != null ? ". " + ex.getCause() : "" ));
