@@ -56,11 +56,9 @@ public class PostDto {
             PostDetailDto detailDto = new PostDetailDto();
             //detailDto.setPostId(pd.getPost().getId());
             Book book = bookService.getBookById(pd.getBook().getId()).get();
-            BookPostDto b = new BookPostDto();
+            BookDTO b = new BookDTO();
             b.convertBook(book);
             detailDto.setBookDto(b);
-            //detailDto.setBookId();
-            //detailDto.setFee(pd.getFee());
             detailDto.setQuantity(pd.getQuantity());
             postDetailDtos.add(detailDto);
         }
