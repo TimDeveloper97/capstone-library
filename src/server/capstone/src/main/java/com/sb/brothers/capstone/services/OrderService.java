@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public interface OrderService {
     void save(Order order);
-    List<Order> findAllByUser(String uId);
+    Optional<Order> findByPostId(int pId);
     List<Order> getOrderByStatus();
     Optional<Order> getOrderById(int oId);
     List<Order> getOrderByStatusForUser(String userId);
