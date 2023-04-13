@@ -70,7 +70,7 @@ namespace xfLibrary.ViewModels
             //thành công => user ký gửi sách đến lấy sách 256 -> 512
             else if (qr.Status == Services.Api.USER_GETBACK_BOOK)
             {
-                res = await _mainService.SuccessAsync(qr.Id, qr.Token);
+                res = await _mainService.ReturnBookAsync(qr.Id, qr.Token);
             }
 
             if (res != null)
