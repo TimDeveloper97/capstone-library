@@ -35,6 +35,7 @@ public class CustomStatus {
      * ADMIN_POST               : Bài đăng của admin
      */
     public static final int ADMIN_POST                  = 0;
+    public static final int RETURNED_THE_BOOK_TO_THE_USER           = 1;
     public static final int USER_REQUEST_IS_DENY        = 2;
     public static final int USER_POST_IS_NOT_APPROVED   = 4;
     public static final int ADMIN_DISABLE_POST          = 8;
@@ -56,4 +57,5 @@ public class CustomStatus {
      */
     public static final int USER_RETURN_IS_NOT_APPROVED = 128;
     public static final int USER_RETURN_IS_APPROVED     = 256;
+    public static final int USER_POST_IS_EXPIRED        = 512;
 }
