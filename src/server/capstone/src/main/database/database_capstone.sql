@@ -441,18 +441,19 @@ DELIMITER ;;
 
     -- Xử lý hết hạn ký gửi sách
     begin
-	DECLARE pBookId, subQ int;
+	DECLARE pBookId, subQ, pdId int;
 	DECLARE done INT DEFAULT FALSE;
-	DECLARE cur CURSOR FOR select sublet, quantity from post_detail where  post_id = OLD.id and sublet > 0;
+	DECLARE cur CURSOR FOR select id, sublet, quantity from post_detail where  post_id = OLD.id and sublet > 0;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 	open cur;
 	read_loop: LOOP
-		FETCH cur INTO pBookId, subQ;
+		FETCH cur INTO pdId, pBookId, subQ;
 		IF done THEN
 		  LEAVE read_loop;
 		END IF;
 			if(OLD.status = @USER_POST_IS_EXPIRED AND NEW.status = @RETURNED_THE_BOOK_TO_THE_USER) THEN
 			update books set quantity = (quantity + subQ) where id = pBookId;
+                		delete from post_detail where  id = pdId;
     		END IF;
 	END LOOP;	
 	CLOSE cur;
@@ -757,11 +758,16 @@ DELIMITER ;;
 	Update post Set `status` = 512
 		where  (SELECT DATE_ADD(created_date, INTERVAL no_days DAY))  < now() AND `status` = 16;
 
-        Update book Set `user_id` = "admin" 
+        Update books Set `user_id` = "admin" 
         Where id In (
 			Select book_id from post_detail where sublet > 0 And post_id in
 				(Select id From post 
 					where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512));
+	update post_detail set sublet = 0 where sublet > 0 And post_id in
+			(Select id From post 
+				where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512);
+	update post set `status` = 1024
+				where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512;
 	SET SQL_SAFE_UPDATES = 1;
 END */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
