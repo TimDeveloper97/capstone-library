@@ -423,4 +423,12 @@ public class User implements Serializable {
 		this.setMessages1(null);
 		this.setMessages2(null);
 	}*/
+
+	public boolean checkManager(){
+		for (Role r : this.roles){
+			if(r.getName().compareTo("ROLE_ADMIN") == 0 || r.getName().compareTo("ROLE_MANAGER_POST") == 0)
+				return true;
+		}
+		return false;
+	}
 }
