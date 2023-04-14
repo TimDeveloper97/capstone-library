@@ -19,10 +19,12 @@ import {
 } from "react-notifications";
 import "./post.css";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+import { formatMoney } from "../../helper/helpFunction";
 
 export default function DetailPost() {
   const [currentPost, setCurrentPost] = useState();
   const [listImg, setListImg] = useState([]);
+  const [sum, setSum] = useState(0);
 
   const dispatch = useDispatch();
   const isAdmin =
@@ -35,23 +37,15 @@ export default function DetailPost() {
       const { data } = await getPostById(id);
       setCurrentPost(data.value);
       let tempList = [];
+      let tempSum = 0;
       data.value.postDetailDtos.forEach((post) => {
-        //console.log(post);
         post.bookDto.imgs.forEach((img) => {
           tempList.push(img.fileName);
         });
+        tempSum += post.bookDto.price * post.quantity;
       });
       setListImg(tempList);
-      //   const tempLink = data.value.imgs.map((img, index) => {
-      //     return {
-      //       id: index,
-      //       className: "img-button",
-      //       link: getImgUrl(img.fileName)
-      //     }
-      //   });
-      //   console.log(tempLink);
-      //   setLinks(tempLink);
-      //   setImgShow(getImgUrl(data.value.imgs[0].fileName));
+      setSum(tempSum);
     };
     fetchPost();
   }, [id]);
@@ -122,7 +116,7 @@ export default function DetailPost() {
                                 </h6>
                               </div>
                               <p className="price">
-                                {currentPost?.fee}{" "}
+                                <span style={{color: '#0D233E'}}>Tổng tiền:</span> {formatMoney(sum + currentPost?.fee)}{" "}
                                 <FontAwesomeIcon icon={faDongSign} />
                               </p>
                               <p className="description">
@@ -156,11 +150,15 @@ export default function DetailPost() {
                                                 </div>
                                               </div>
                                             </th>
-                                            <td>{post.bookDto.price}</td>
+                                            <td>
+                                              {formatMoney(post.bookDto.price)}
+                                            </td>
                                             <td>{post.quantity}</td>
                                             <td>
-                                              {post.bookDto.price *
-                                                post.quantity}
+                                              {formatMoney(
+                                                post.bookDto.price *
+                                                  post.quantity
+                                              )}
                                             </td>
                                           </tr>
                                         );

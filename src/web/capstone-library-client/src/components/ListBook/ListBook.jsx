@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getBooks, getUserBooks } from "../../actions/book";
-import { getImgUrl } from "../../helper/helpFunction";
+import { formatMoney, getImgUrl } from "../../helper/helpFunction";
 import Loading from "../Loading/Loading";
 import "./listbook.css";
 export default function ListBook() {
@@ -67,7 +67,7 @@ export default function ListBook() {
                     <div className="part-2">
                       <h3 className="product-title">{item.name}</h3>
                       <h4 className="product-price">
-                        {item.price} <FontAwesomeIcon icon={faDongSign} />
+                        {formatMoney(item.price)} <FontAwesomeIcon icon={faDongSign} />
                       </h4>
                       <p className="available">
                         Còn lại: {role ? item.inStock : item.quantity}
