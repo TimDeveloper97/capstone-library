@@ -105,4 +105,9 @@ const formatMoney = (money) => {
   return money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
 }
 
+
+const linkDictionary = {
+  
+}
+
 export { getImgUrl, isAdmin, getColorStatus, getTimeAgo, removeTones, formatMoney };

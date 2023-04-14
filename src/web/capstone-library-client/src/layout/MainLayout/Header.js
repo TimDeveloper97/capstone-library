@@ -21,7 +21,7 @@ export default function Header() {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <header className="header-area" style={{backgroundColor: curUser.roles[0] === "ROLE_USER" ? "#343a40" : "#576CBC"}}>
+    <header className="header-area" style={{backgroundColor: curUser?.roles[0] === "ROLE_MANAGER_POST" ? "#576CBC" : "#343a40"}}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-2">
@@ -74,10 +74,10 @@ export default function Header() {
                   </li>
                   {curUser && curUser.roles[0] !== "ROLE_USER" && (
                     <li>
-                      <a href="#">
-                        Quản lý <i className="la la-angle-down fs-11"></i>
-                      </a>
-                      <ul className="dropdown-menu-item">
+                      <Link to={curUser?.roles[0] === "ROLE_ADMIN" ? "/user/user-management" : "/user/category"}>
+                        Quản lý
+                      </Link>
+                      {/* <ul className="dropdown-menu-item">
                         {curUser?.roles[0] === "ROLE_ADMIN" ? (
                           <>
                             <li>
@@ -108,7 +108,7 @@ export default function Header() {
                             </li>
                           </>
                         )}
-                      </ul>
+                      </ul> */}
                     </li>
                   )}
                 </ul>
