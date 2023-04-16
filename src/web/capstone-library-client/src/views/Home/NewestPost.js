@@ -21,16 +21,18 @@ export default function NewestPost() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const fetchPost = async () => {
-        const {data} = await getPosts();
-        setPosts(data.value.sort((a, b) => a.id - b.id).slice(0, 5));
-    }
+      const { data } = await getPosts();
+      setPosts(data.value.sort((a, b) => a.id - b.id).slice(0, 5));
+    };
     fetchPost();
   }, []);
 
   return (
     <section className="newest-post-section">
       <div className="container">
-        <h5 className="newpost-title"><FontAwesomeIcon icon={faBolt} color="#FD8A8A"/> Post mới đăng</h5>
+        <h5 className="newpost-title">
+          <FontAwesomeIcon icon={faBolt} color="#FD8A8A" /> Post mới đăng
+        </h5>
         <ReactOwlCarousel items={4} className="owl-theme" loop nav margin={30}>
           {posts &&
             posts.map((item, index) => {
@@ -38,10 +40,19 @@ export default function NewestPost() {
                 <div
                   className="book-item"
                   key={index}
+                  style={{ height: "360px" }}
                 >
-                  <div id="product-1" className="single-product card card-item" style={{textAlign: 'center'}}>
+                  <div
+                    id="product-1"
+                    className="single-product card card-item"
+                    style={{ textAlign: "center", height: "100%" }}
+                  >
                     <div className="part-1">
-                      <img src={getOneImg(item)} alt="thumbnail" style={{minHeight: '250px'}} />
+                      <img
+                        src={getOneImg(item)}
+                        alt="thumbnail"
+                        style={{ minHeight: "250px" }}
+                      />
                     </div>
                     <div className="part-2">
                       <h4 className="product-title">{item.title}</h4>

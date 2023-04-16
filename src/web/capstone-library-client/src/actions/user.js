@@ -8,7 +8,6 @@ export const updateUser = (data) => async (dispatch) => {
 };
 
 export const getUser = (id) => async (dispatch) => {
-  console.log(id);
   const { data } = await api.viewProfile(id);
   dispatch({ type: "GET_USER", payload: data.value });
 };

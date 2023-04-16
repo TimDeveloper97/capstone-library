@@ -79,7 +79,6 @@ export default function Home() {
       <Funfact />
       <Instruct />
       <NewestPost />
-      <Guest />
       <Member />
     </>
   );

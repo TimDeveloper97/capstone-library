@@ -13,8 +13,7 @@ export const getOrder = () => async (dispatch) => {
 };
 
 export const removeOrder = (id) => async (dispatch) => {
-  const response = await api.removeOrder(id);
-  console.log(response);
+  await api.removeOrder(id);
   dispatch({ type: "REMOVE_ORDER", payload: id });
 };
 

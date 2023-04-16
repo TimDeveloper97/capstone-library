@@ -7,6 +7,7 @@ export default function Member() {
       <section
         className="get-started-area section--padding bg-gray"
         id="for-member"
+        style={{ marginTop: "50px" }}
       >
         <div className="container">
           <div className="text-center">

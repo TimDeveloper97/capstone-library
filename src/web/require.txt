@@ -1,0 +1,6 @@
+post detail: - box shadow field
+			 - tên sách to lên
+management side bar: dính vào header
+16 item per page
+manager: bỏ trang chủ
+table: header to hơn

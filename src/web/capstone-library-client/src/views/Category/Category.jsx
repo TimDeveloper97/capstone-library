@@ -147,7 +147,7 @@ export default function Category() {
                   <tr>
                     <th scope="col">Tên</th>
                     <th scope="col">Mã</th>
-                    <th scope="col">Chọn</th>
+                    <th scope="col">Thao tác</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -168,7 +168,7 @@ export default function Category() {
                               className="btn btn-danger"
                               onClick={() => handleDelete(cate.nameCode)}
                             >
-                              <FontAwesomeIcon icon={faTrash} />
+                              <FontAwesomeIcon icon={faTrash} /> Xóa
                             </button>
                           </td>
                         </tr>

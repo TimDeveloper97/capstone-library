@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { getBookById } from "../../apis/book";
 import Loading from "../../components/Loading/Loading";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { getImgUrl } from "../../helper/helpFunction";
+import { formatMoney, getImgUrl } from "../../helper/helpFunction";
 import "./detailbook.css";
 
 export default function DetailBook() {
@@ -83,41 +83,54 @@ export default function DetailBook() {
                             </div>
                           </div>
                           <div className="col-md-6 book-info">
-                            <h5 className="book-title">{currentBook?.name}</h5>
-                            <div className="number">
-                              <h6 className="publisher">
-                                Tác giả: {currentBook?.author}
-                              </h6>
-                            </div>
-                            <div className="number">
-                              <h6 className="publisher">
-                                {currentBook?.publisher}
-                              </h6>
-                              <h6 className="publisher">
-                                Xuất bản năm: {currentBook?.publishYear}
-                              </h6>
+                            <h4 className="book-title">{currentBook?.name}</h4>
+                            <div className="info">
+                              <div className="number">
+                                <h5 className="publisher">
+                                  Tác giả: {currentBook?.author}
+                                </h5>
+                              </div>
+                              <div className="number">
+                                <h5 className="publisher">
+                                  {currentBook?.publisher}
+                                </h5>
+                              </div>
+                              <div className="number">
+                                <h5 className="publisher">
+                                  {currentBook?.publishYear}
+                                </h5>
+                              </div>
                             </div>
                             <p className="price">
-                              Giá: {currentBook?.price}{" "}
-                              <FontAwesomeIcon icon={faDongSign} />
+                              <span
+                                className="description"
+                                style={{
+                                  background: "#E5B8F4",
+                                }}
+                              >
+                                Giá: {formatMoney(currentBook?.price)}{" "}
+                                <FontAwesomeIcon icon={faDongSign} />
+                              </span>
                             </p>
                             <p className="description">
                               {currentBook?.description}
                             </p>
                           </div>
                         </div>
-                        {userRole === "ROLE_MANAGER_POST" && <div className="row">
-                          <div className="col-md-10">
-
-                          </div>
-                          <div className="col-md-2">
-                            <button className="btn btn-success">
-                                <Link to={`/user/update-book/${currentBook.id}`}>
+                        {userRole === "ROLE_MANAGER_POST" && (
+                          <div className="row">
+                            <div className="col-md-10"></div>
+                            <div className="col-md-2">
+                              <button className="btn btn-success">
+                                <Link
+                                  to={`/user/update-book/${currentBook.id}`}
+                                >
                                   Cập nhật sách
                                 </Link>
-                            </button>
+                              </button>
+                            </div>
                           </div>
-                        </div>}
+                        )}
                       </div>
                     </div>
                   </div>

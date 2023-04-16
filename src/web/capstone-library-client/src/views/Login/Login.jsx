@@ -48,7 +48,15 @@ export default function Login() {
           window.localStorage.setItem("token", token);
           window.localStorage.setItem("user", JSON.stringify(value));
           dispatch(getUser(value));
-          window.location.href = from.pathname;
+          if (from.pathname === "/") {
+            if (value.roles[0] !== "ROLE_USER") {
+              window.location.href = "/user/user-management";
+            } else {
+              window.location.href = from.pathname;
+            }
+          } else {
+            window.location.href = from.pathname;
+          }
         }
       })
       .catch((err) => {

@@ -20,6 +20,7 @@ import {
 import "./post.css";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import { formatMoney } from "../../helper/helpFunction";
+import { addToCart } from "../../actions/cart";
 
 export default function DetailPost() {
   const [currentPost, setCurrentPost] = useState();
@@ -51,8 +52,8 @@ export default function DetailPost() {
   }, [id]);
   const handleRentBook = async () => {
     const response = await dispatch(orderBook(currentPost.id));
-    console.log(response);
     if (response.success) {
+      dispatch(addToCart());
       NotificationManager.success(response.message, "Thông báo", 2000);
     } else {
       NotificationManager.error(response.message, "Lỗi", 2000);
@@ -104,20 +105,25 @@ export default function DetailPost() {
                               <Carousel images={listImg} />
                             </div>
                             <div className="col-md-6 book-info">
-                              <h5 className="book-title">
+                              <h4 className="book-title">
                                 {currentPost?.title}
-                              </h5>
+                              </h4>
                               <div className="number">
-                                <h6 className="publisher">
+                                <h5 className="publisher">
                                   Đăng bởi: {currentPost?.user}
-                                </h6>
-                                <h6 className="publisher">
+                                </h5>
+                                <h5 className="publisher">
                                   Ngày cho thuê: {currentPost?.noDays}
-                                </h6>
+                                </h5>
                               </div>
                               <p className="price">
-                                <span style={{color: '#0D233E'}}>Tổng tiền:</span> {formatMoney(sum + currentPost?.fee)}{" "}
-                                <FontAwesomeIcon icon={faDongSign} />
+                                <span className="description">
+                                  <span style={{ color: "#0D233E" }}>
+                                    Tổng tiền:
+                                  </span>{" "}
+                                  {formatMoney(sum + currentPost?.fee)}{" "}
+                                  <FontAwesomeIcon icon={faDongSign} />
+                                </span>
                               </p>
                               <p className="description">
                                 {currentPost?.content}
