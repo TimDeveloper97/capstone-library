@@ -90,6 +90,7 @@ public class PostController {
         List<Post> posts = null;
         try{
             posts = postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
+            posts.addAll(postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_APPROVED));
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
             logger.info("[API-Post] getAllUserPosts - END");
@@ -224,10 +225,13 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Xóa bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.OK);
             }
-            if(post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
-                postService.removePostById(id);
+            if(post.getStatus() == CustomStatus.ADMIN_POST || post.getStatus() == CustomStatus.USER_POST_IS_APPROVED || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED) {
+                if (post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
+                    postService.removePostById(id);
+                }
+                else throw new Exception("Bạn không phải người đăng bài viết hoặc người quản lý tin.");
             }
-            else throw new Exception("Bạn không phải người đăng bài viết hoặc người quản lý tin.");
+            else throw new Exception("Không thể xóa bài đăng đã và đang được cho thuê.");
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
             logger.info("[API-Post] deletePost - END");

@@ -60,7 +60,7 @@ public class CategoryController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> deleteCat(@PathVariable String id){
+    public ResponseEntity<?> deleteCat(@PathVariable("id") String id){
         logger.info("[API-Category] deleteCat - START");
         logger.info("Fetching & Deleting Category with name code " + id);
         if(!categoryService.isCategoryExist(id)){
@@ -75,7 +75,7 @@ public class CategoryController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> updateCat(@PathVariable String id, @RequestBody Category category){
+    public ResponseEntity<?> updateCat(@PathVariable("id") String id, @RequestBody Category category){
         logger.info("[API-Category] updateCat - START");
         logger.info("Fetching & Updating category with id" + id);
         Category currCategory = categoryService.getCategoryById(id).get();
