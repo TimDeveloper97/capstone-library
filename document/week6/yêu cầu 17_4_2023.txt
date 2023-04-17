@@ -1,0 +1,77 @@
+1. Phần thêm sách thêm 1 field mô tả tình trạng sách và bổ phần số lượng
+=> cái này phải sửa lại DB
+=> nếu bỏ phần số lượng sẽ lại sửa lại hết các phần khác
+2. Phần xem thông tin sách vẫn edit được (bỏ phần edit đi chỉ xem thôi)
+=> tại sao lại bỏ phần edit trong khi sách đăng nên có thể đăng sai, phải để họ sửa thông tin chứ?
+3. Phần sửa sách không sửa được
+=> đã xem sách đó của ai chưa? chỉ sách của người đó mới có thể sửa/xóa
+4. Phần xóa sách không xóa được
+=> đã xem sách đó của ai chưa? chỉ sách của người đó mới có thể sửa/xóa
+5. Sửa lại text trang "Danh sách ký gửi" thành "Tạo bài cho thuê"
+=> tạo là động từ. nó chỉ dùng khi action 1 cái gì đó????
+6. Phần đăng bài thuê sách bị lỗi phần mô tả
+=> phần mô tả phải đủ 100 chữ ms cho đăng chứ ko phải lỗi??
+
+
+7. Phần xem lại bài đăng cho thuê thêm phần xóa sửa (hiện tại chỉ tạo và xem được không xóa sửa được)
+=> fixed
+8. Phần danh mục không xóa được và thêm chức năng sửa vào
+=> check kỹ lại xem cái quyền là gì? ai đang login
+=> giờ tạo 1 category có 1 dòng, rồi code của nó đc gen ra từ name
+=> giờ muốn thêm cái sửa thì nghĩ xem nó có thừa vs nó có khó khăn khổ sở ra không?? 
+
+9. Phần giỏ hàng thêm chức năng xem chi tiết từng sản phẩm thay vì chỉ show list các cuốn sách đã thêm vào giỏ
+=> fixed
+10. Text "Mua hàng" sửa lại thành "Thuê"
+=> fixed
+11. Bỏ phần xem danh mục của account customer vì không cần thiết
+=> fixed
+
+12. Sách mới tạo khi chưa ký gửi hiển thị trạng thái là "Chưa ký gửi thay vì chưa thuê" 
+sách nào đã ký gửi rồi thì hiển thị là "chưa thuê" và nếu đã được thuê rồi thì hiển thị là "đã được thuê".
+=>
+
+13. Phần tạo request ký gửi của customer bị lỗi
+=> kiểm tra kỹ lại 
+=> đã test vẫn bình thường
+
+14. Cho phép customer được set phí thu theo giới hạn mà admin đưa ra trong phần tạo request ký gửi 
+=> làm như vậy lại thay đổi yêu cầu như ban đầu là đã yêu cầu admin sẽ cấu hình thông tin phí thu
+=> giờ lại bảo customer có thể set phí thu vậy tức là khác với ban đầu hơn thế admin phải thêm phần set range
+
+15. Màn hình chính hướng dẫn tụi mình folder dùng để thay đổi ảnh của phần slide show
+=> Slide = new ObservableCollection<string> { "slide3.jpg", "slide4.jpg", "slide5.jpg", "slide6.jpg",
+            "slide7.jpeg", "slide8.jpg", "slide9.jpg", "slide10.png"};
+
+=> ảnh được cho vào Resources/drawable-hdpi 
+=> thêm ảnh vào đó và ghi tên các ảnh cần chạy vào Properties bên trên HomeViewModel.cs 
+
+16. Phần khám phá danh mục chỉ cần để tên không cần hình ảnh
+=> nếu mà để tên không cần hình ảnh mà còn để horizontall thì rất là xấu nếu ko có hình ảnh
+
+17. Phần “gợi ý cho bạn” ở role của manager khi bấm vào 1 mục sẽ hiện ra các sách của mục đó ở 
+phần “tin đăng mới” nhưng sẽ bị mất hình ảnh của sách và bỏ nút thêm vào giỏ và nút cho thuê vì ở role manager không cần
+=> không phải mất hình ảnh của sách mà đã filter và ko có item nào cả
+=> fixed
+
+---------------------------------------------------------------------------------------
+1. Cái này nhóm mình đã họp và yêu cầu sửa từ tuần trước rồi.
+=> sao nhắc từ tuần trước ở phần note không có chút thông tin gì về việc loại bỏ số lượng
+=> trong note chỉ chú trọng vào quét mã QR vs phân role. Ngoài ra cũng ko có phần sách cũ và mới. Nếu có nói chỉ nói 1 lần và chỉ là để cập chứ ko có ghi vào note hay gì cả
+2. Cái khung hiển thị nội dung của sách mình ko biết bạn dùng loại gì nhưng tất cả user (cả guest và user thường) đều có thể nhập vào được. Mình muốn bạn khóa cái khung này lại đc ko?
+=> sao guest lại vào đc phần này? phần này là phần kho sách của mỗi người dùng, chỉ đăng nhập mới có thì sao guest lại vào đc
+=> Hiển thị nội dung của sách là file: DetailBookView.xaml cái này sẽ hiển thị sách thêm vào và sách sửa
+=> cái khung là cái khung nào
+
+3. 4. Tất nhiên mình biết chữ và đã đọc cái thông báo "user có id:..." nên mình đã tự tạo 1 sách mới và vẫn ko thể sửa xóa đc. Bạn đã test phần này trước khi hỏi câu đấy chưa?
+=> confirm 
+=> fixed
+
+5. Text này bạn có thể sửa thành "Danh sách bài cho thuê" thay vì "Danh sách ký gửi" ko? Vì đây là màn hình tạo post của manager và ko liên quan gì đến ký gửi cả. 
+=> fixed
+
+6. Theo thông báo thì mô tả phải đủ 100 chữ nhưng mình thấy thì lúc tạo ko có cái nào là mô tả. Vậy bạn có thể sửa thông báo rõ ràng hơn đc ko? Theo mình đang hiểu là Nội dung nhưng có lẽ không phải, mà lại là Tiêu đề.
+=> tiêu đề thì phải để là tối thiểu 10 chứ
+=> mô tả phải để tối thiểu 100 chữ
+=> có message hiện nên nếu ko đủ 100 chữ
+=> fixed

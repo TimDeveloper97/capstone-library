@@ -122,6 +122,15 @@ namespace xfLibrary.ViewModels
             _message.ShortAlert(res.Message);
             IsBusy = false;
         });
+
+        public ICommand ViewCommand => new Command<Post>(async (post) =>
+        {
+            IsBusy = true;
+
+            await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, true));
+
+            IsBusy = false;
+        });
         #endregion
 
         public CartViewModel()

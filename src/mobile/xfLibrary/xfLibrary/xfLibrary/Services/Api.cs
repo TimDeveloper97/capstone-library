@@ -38,6 +38,7 @@ namespace xfLibrary.Services
 
         public const string Category = "admin/categories";
         public const string AddCategory = "admin/categories/add";
+        public const string UpdateCategory = "admin/categories/update";
         public const string DeleteCategory = "admin/categories/delete";
         public const string SuggestBook = "books/suggest";
         public const string GetSuggestPost = "posts/has-book";
@@ -107,6 +108,9 @@ namespace xfLibrary.Services
         //ADMIN
         public const int ADMIN_POST = 0; // Admin
 
+        //USER LẤY LẠI SÁCH KÝ GỬI
+        public const int USER_GETBACK_BOOK = 1; // Trả sách cho ký gửi
+
         //DISABLE
         public const int USER_REQUEST_IS_DENY = 2; // Từ chối
 
@@ -123,8 +127,8 @@ namespace xfLibrary.Services
         public const int USER_RETURN_IS_NOT_APPROVED = 128; // Chưa trả sách
         public const int USER_RETURN_IS_APPROVED = 256; // Thành công
 
-        //USER LẤY LẠI SÁCH KÝ GỬI
-        public const int USER_GETBACK_BOOK = 512; // Trả sách cho ký gửi
+        //USER KHÔNG LẤY LẠI SÁCH KÝ GỬI
+        public const int USER_NOT_GETBACK_BOOK = 512; // Hết hạn ký gửi
 
         /**
           * USER STATUS
@@ -147,8 +151,10 @@ namespace xfLibrary.Services
         public static string[] ADMIN_ROLES = { "ROLE_ADMIN", "ROLE_USER" };
 
         //state of status
-        public static readonly string[] COLORS = { "#DF2E38", "#EA5455", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E", "#7149C6" };
-        public static readonly string[] STATES = { "Admin", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công", "Đã trả sách" };
+        public static readonly string[] COLORS = { "#539165", "#DF2E38", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E", "#EB455F" };
+        public static readonly string[] STATES = { "Đã hoàn trả", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công", "Hết hạn" };
+
+        public static readonly string[] BOOKSSTATE = { "Trong kho", "Đang sử dụng", "Đã thuê" };
     }
 
     public class Service : Api

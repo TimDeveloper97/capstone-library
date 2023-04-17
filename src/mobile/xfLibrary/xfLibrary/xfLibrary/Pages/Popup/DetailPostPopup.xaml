@@ -53,7 +53,7 @@
                                             <!--#region Content -->
                                             <StackLayout Grid.Row="2" Margin="10,0" Padding="10,0,10,10">
                                                 <Label x:Name="content"/>
-                                                <Label x:Name="lMore" Text="Xem thêm" TextColor="{StaticResource Blue}" HorizontalOptions="End" Margin="0,-15,10,0"/>
+                                                <Label x:Name="lMore" Text="Xem thêm" TextColor="{StaticResource Blue}" HorizontalOptions="End" Margin="0,-5,10,0"/>
                                                 <StackLayout.GestureRecognizers>
                                                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped"/>
                                                 </StackLayout.GestureRecognizers>
@@ -95,7 +95,7 @@
                                                         <StackLayout Padding="10,5,10,15" Spacing="0">
                                                             <StackLayout Margin="20,0">
                                                                 <view:FieldLabel Text="{Binding Book.Name}" Title="Tên sách *"/>
-                                                                <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Book.Description}"/>
+                                                                <mdc:MaterialEditor IsEnabled="False" LabelText="Mô tả *" Text="{Binding Book.Description}"/>
 
                                                                 <Grid ColumnDefinitions="3*,7*">
                                                                     <view:FieldLabel Text="{Binding Quantity}" Title="Số lượng *"/>

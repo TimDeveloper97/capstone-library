@@ -22,7 +22,8 @@
         <ResourceDictionary>
             <converter:StatusValueToBoolConverter x:Key="EmptyList" Value="0"/>
             <converter:StatusToBoolConverter x:Key="StatusToBool0Converter" Value="0"/>
-            <converter:StatusToTextConverter x:Key="State" Value="0" TRUE="Chưa thuê" FALSE="Đã thuê"/>
+            <converter:StatusToStateConverter x:Key="StatusToStateConverter"/>
+            <converter:StatusToTextConverter x:Key="State" Value="0" TRUE="Chưa ký gửi" FALSE="Đã ký gửi"/>
             
             <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
                 <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
@@ -106,7 +107,7 @@
                                                                 </FormattedString>
                                                             </Label.FormattedText>
                                                         </Label>
-                                                        <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource        MiniLabelStyle}" Margin="0,-5,0,0"
+                                                        <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
                                                    TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                    HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation" FontFamily="MuliBold"/>
                                                     </Grid>
@@ -120,10 +121,12 @@
                                                         </Frame>
 
                                                         <Frame Style="{StaticResource FrameNoBorder}"  
-                                                                CornerRadius="10" VerticalOptions="Center">
-                                                            <Label Text="{Binding States.Count, Converter={StaticResource State}}" 
+                                                               BackgroundColor="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
+                                                               BorderColor="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
+                                                               CornerRadius="10" VerticalOptions="Center">
+                                                            <Label Text="{Binding Status, Converter={StaticResource StatusToStateConverter}}" 
                                                                    TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
-                                                            <Frame.Triggers>
+                                                            <!--<Frame.Triggers>
                                                                 <MultiTrigger TargetType="Frame">
                                                                     <MultiTrigger.Conditions>
                                                                         <BindingCondition Binding="{Binding States.Count, Converter={StaticResource StatusToBool0Converter}}" Value="true"/>
@@ -138,7 +141,7 @@
                                                                     <Setter Property="BackgroundColor" Value="{StaticResource Red}" />
                                                                     <Setter Property="BorderColor" Value="{StaticResource Red}" />
                                                                 </MultiTrigger>
-                                                            </Frame.Triggers>
+                                                            </Frame.Triggers>-->
                                                         </Frame>
                                                     </StackLayout>
                                                 </Grid>

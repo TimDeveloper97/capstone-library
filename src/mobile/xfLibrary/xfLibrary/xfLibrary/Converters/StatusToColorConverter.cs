@@ -47,6 +47,22 @@ namespace xfLibrary.Converters
         }
     }
 
+    class StatusToStateConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return "N/A";
+            var status = (int)value;
+
+            return Resources.ExtentionHelper.StatusToState(status);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     class StatusToBoolConverter : ValueConverterExtension, IValueConverter
     {
         public int Value { get; set; } = 0;

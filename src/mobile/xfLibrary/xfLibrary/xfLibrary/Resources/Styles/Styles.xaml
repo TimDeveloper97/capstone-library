@@ -703,6 +703,8 @@
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="KeyboardFlags" Value="CapitalizeSentence"/>
         <Setter Property="FieldHeightRequest" Value="150"/>
+        <Setter Property="DisabledTextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        <Setter Property="DisabledBackgroundColor" Value="Transparent"/>
     </Style>
 
     <Style x:Key="EditorTransperent" TargetType="mdc:MaterialEditor">
