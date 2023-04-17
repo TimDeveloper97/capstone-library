@@ -26,6 +26,12 @@ namespace xfLibrary.Services.Main
             return res;
         }
 
+        public async Task<Response> UpdateCategoryAsync(string name, string code, string token)
+        {
+            var res = await Service.Put(new { name = name, nameCode = code }, Api.UpdateCategory, token);
+            return res;
+        }
+
         public async Task<Response> DeleteCategoryAsync(string id, string token)
         {
             var res = await Service.Delete(id, Api.DeleteCategory, token);

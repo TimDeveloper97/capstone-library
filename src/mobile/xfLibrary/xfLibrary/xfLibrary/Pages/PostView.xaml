@@ -29,7 +29,7 @@
         <Grid HorizontalOptions="FillAndExpand" Style="{StaticResource GridBackground}">
             <Grid RowDefinitions="auto, *" Margin="0,0,0,10">
                 <Grid ColumnDefinitions="*, auto, auto" Margin="10,0">
-                    <Label FontSize="Title" Text="Danh sách ký gửi" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <Label FontSize="Title" Text="{Binding Title}" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" HorizontalOptions="Start" VerticalOptions="Center"/>
                     <material:MaterialMenuButton Grid.Column="2" Margin="0" BackgroundColor="Transparent" Image="filter.png" ButtonType="Text" HorizontalOptions="End" CornerRadius="24"
                                                  Choices="{Binding Actions}" Command="{Binding MenuCommand}"/>
                     <mdc:MaterialButton Grid.Column="1" IsBusy="{Binding IsBusy}" Command="{Binding RefreshCommand}" Margin="0,4" VerticalOptions="End"
@@ -81,24 +81,6 @@
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=64}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=128}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=256}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
-                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=512}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>-->
-
-                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=0}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}" Margin="15,0,0,0">
-                                                        <BoxView.Triggers>
-                                                            <MultiTrigger TargetType="BoxView">
-                                                                <MultiTrigger.Conditions>
-                                                                    <BindingCondition Binding="{Binding Status}" Value="0"/>
-                                                                </MultiTrigger.Conditions>
-                                                                <Setter Property="IsVisible" Value="true" />
-                                                            </MultiTrigger>
-                                                            <MultiTrigger TargetType="BoxView">
-                                                                <MultiTrigger.Conditions>
-                                                                    <BindingCondition Binding="{Binding Status, Converter={StaticResource StatusToBoolZeroConverter}}" Value="true"/>
-                                                                </MultiTrigger.Conditions>
-                                                                <Setter Property="IsVisible" Value="false" />
-                                                            </MultiTrigger>
-                                                        </BoxView.Triggers>
-                                                    </BoxView>-->
                                                 </StackLayout>
 
                                                 <StackLayout Grid.Row="1" Spacing="0">

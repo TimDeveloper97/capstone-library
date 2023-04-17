@@ -115,7 +115,7 @@ namespace xfLibrary.Services.Account
 
         public async Task<Response> DeleteBookAsync(string id, string token)
         {
-            var res = await Service.PostParameter(id, Api.DeleteBook, token);
+            var res = await Service.Delete(id, Api.DeleteBook, token);
             return res;
         }
 

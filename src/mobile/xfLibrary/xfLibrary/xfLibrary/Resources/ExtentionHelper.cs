@@ -74,5 +74,17 @@ namespace xfLibrary.Resources
 
             return Api.USER;
         }
+
+        public static string StatusToState(int status)
+        {
+            if (status == 0)
+                return Api.BOOKSSTATE[0];
+            else if(status == 16)
+                return Api.BOOKSSTATE[1];
+            else if(status == 512)
+                return Api.BOOKSSTATE[2];
+
+            return Api.BOOKSSTATE[0];
+        }
     }
 }

@@ -50,6 +50,9 @@ namespace xfLibrary.Models
         [JsonProperty("bookInfoDtos")]
         public List<State> States { get; set; }
 
+        [JsonProperty("status")]
+        public int Status { get; set; }
+
 
         private int number = 0, expanderHeight = 0; 
         private bool isChecked = false, isNotUser = false;

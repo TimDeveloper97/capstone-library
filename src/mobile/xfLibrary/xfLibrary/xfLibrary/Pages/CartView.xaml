@@ -34,7 +34,7 @@
                 Command="{Binding RefreshCommand}" />
     </ContentPage.Behaviors>
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, auto, *, 90" RowSpacing="0">
+        <Grid RowDefinitions="auto, auto, *, 70" RowSpacing="0">
             <!--#region Navigator -->
             <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{StaticResource AppColor}">
                 <Frame CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
@@ -107,6 +107,9 @@
                                             </Label>
                                             <Label Grid.Row="2" Text="{Binding Content}" Style="{StaticResource MiniLabelStyle}" Margin="0,-4,0,0"
                                                    HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation"/>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.ViewCommand, Source={x:Reference Name=self}}"/>
+                                            </Grid.GestureRecognizers>
                                         </Grid>
                                     </Grid>
                                 </SwipeView>
@@ -115,7 +118,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
-            <Grid Grid.Row="3" ColumnDefinitions="auto, *, 110" ColumnSpacing="0">
+            <Grid Grid.Row="3" ColumnDefinitions="auto, *, 100" ColumnSpacing="0">
                 <StackLayout Orientation="Horizontal" Margin="10,0">
                     <CheckBox IsChecked="{Binding IsCheckedAll}" />
                     <Label Style="{StaticResource MiniLabelStyle}" Text="Tất cả" VerticalOptions="Center"/>
@@ -148,7 +151,7 @@
                     </Label>
                 </Grid>
 
-                <mdc:MaterialButton Grid.Column="2" Margin="0,0,-3,-3" Text="Mua hàng" FontFamily="MuliBold" Padding="0"
+                <mdc:MaterialButton Grid.Column="2" Margin="0,0,-3,-3" Text="Thuê" FontFamily="MuliBold" Padding="0"
                                     Command="{Binding BuyCommand}" IsBusy="{Binding IsBusy}"/>
             </Grid>
         </Grid>

@@ -26,7 +26,7 @@ namespace xfLibrary.ViewModels
         private int numberItemDisplay = 8, currentTab = 1, heightRequest = 200;
         private bool isPrevious, isNext, isVisibleMore;
         private GridItemsLayout orientation;
-        
+
 
         public ObservableCollection<Category> Category { get => category; set => SetProperty(ref category, value); }
         public ObservableCollection<Post> Posts { get => posts; set => SetProperty(ref posts, value); }
@@ -115,22 +115,48 @@ namespace xfLibrary.ViewModels
         public ICommand SelectedPostCommand => new Command<Post>(async (post) =>
         {
             IsBusy = false;
-            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
-            if (item == null) return;
-            Response res = null;
-            //Thêm vào giỏ
-            if (item.IsChecked)
-                res = await _mainService.OrderCartAsync(item.Id, _token);
+            if (IsUser())
+            {
+                var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
-            //thanh toán luôn
+                if (item == null) return;
+                Response res = null;
+                //Thêm vào giỏ
+                if (item.IsChecked)
+                    res = await _mainService.OrderCartAsync(item.Id, _token);
+
+                //thanh toán luôn
+                else
+                    res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+
+                IsBusy = false;
+                if (res == null) return;
+                if (!string.IsNullOrEmpty(res.Message))
+                    _message.ShortAlert(res.Message);
+            }
             else
-                res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+            {
+                var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: $"Bạn muốn sửa/xóa bài: {post.Title}?",
+                                    confirmingText: "Sửa",
+                                    dismissiveText: "xóa");
+                IsBusy = false;
+                if (isOk == false)
+                {
+                    var res = await _mainService.DeletePostAsync(post.Id, _token);
+                    if (res == null) return;
 
-            IsBusy = false;
-            if (res == null) return;
-
-            _message.ShortAlert(res.Message);
+                    if (res.Success)
+                        Posts.Remove(post);
+                    if (!string.IsNullOrEmpty(res.Message))
+                        _message.ShortAlert(res.Message);
+                }
+                else if (isOk == true)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
+                    $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(post)}");
+                }
+            }
         });
 
         public ICommand SelectedBookCommand => new Command<Book>(async (book) =>
@@ -138,7 +164,7 @@ namespace xfLibrary.ViewModels
             IsBusy = true;
 
             var posts = await _mainService.GetSuggestPostAsync(book.Id);
-            if (posts == null) 
+            if (posts == null)
                 _allPosts.Clear();
             else
                 _allPosts = posts;
@@ -192,7 +218,7 @@ namespace xfLibrary.ViewModels
                       if (arg == null)
                       {
                           _message.ShortAlert("Kết nối bị gián đoạn");
-                      }    
+                      }
                       else
                       {
                           var category = (IList<Category>)arg;
@@ -216,7 +242,7 @@ namespace xfLibrary.ViewModels
                       if (arg == null)
                       {
                           //_message.ShortAlert("Kết nối bị gián đoạn");
-                      }    
+                      }
                       else
                       {
                           var posts = (IList<Post>)arg;
@@ -243,7 +269,7 @@ namespace xfLibrary.ViewModels
                       if (arg == null)
                       {
                           //_message.ShortAlert("Kết nối bị gián đoạn");
-                      }    
+                      }
                       else
                       {
                           var books = (IList<Book>)arg;
@@ -279,20 +305,24 @@ namespace xfLibrary.ViewModels
             //}
 
             //ItemDisplayToView(currentTab);
-            if(IsVisibleMore)
+            if (IsVisibleMore)
             {
-                for (int i = 0; i < numberItemDisplay; i++)
+                var l = numberItemDisplay > _allPosts.Count ? _allPosts.Count : numberItemDisplay;
+                for (int i = 0; i < l; i++)
                 {
                     Posts.Add(_allPosts[i]);
                 }
-            }   
+            }
             else
             {
                 foreach (var item in _allPosts)
                 {
                     Posts.Add(item);
                 }
-            }    
+            }
+
+            if (Posts.Count == 0) IsVisibleMore = false;
+            else IsVisibleMore = true;
         }
 
         void FakeData()

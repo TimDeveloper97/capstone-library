@@ -154,7 +154,7 @@
                             <Frame Grid.Row="2" BackgroundColor="Transparent" BorderColor="{StaticResource Blue}" 
                                    CornerRadius="0" Padding="5"
                                    VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsVisibleMore}">
-                                <Label Text="Xem thêm"/>
+                                <Label Text="Xem thêm" TextColor="{StaticResource Blue}"/>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.OrientationCommand, Source={x:Reference Name=self}}"/>
                                 </Frame.GestureRecognizers>

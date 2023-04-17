@@ -87,6 +87,7 @@ namespace xfLibrary.ViewModels
             if (string.IsNullOrEmpty(Book.Name) || Book.Categories.Count == 0)
             {
                 _message.ShortAlert("Không được để trống");
+                IsBusy = false;
                 return;
             }
 

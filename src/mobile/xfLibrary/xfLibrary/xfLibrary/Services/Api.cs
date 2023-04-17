@@ -38,6 +38,7 @@ namespace xfLibrary.Services
 
         public const string Category = "admin/categories";
         public const string AddCategory = "admin/categories/add";
+        public const string UpdateCategory = "admin/categories/update";
         public const string DeleteCategory = "admin/categories/delete";
         public const string SuggestBook = "books/suggest";
         public const string GetSuggestPost = "posts/has-book";
@@ -152,6 +153,8 @@ namespace xfLibrary.Services
         //state of status
         public static readonly string[] COLORS = { "#539165", "#DF2E38", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E", "#EB455F" };
         public static readonly string[] STATES = { "Đã hoàn trả", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công", "Hết hạn" };
+
+        public static readonly string[] BOOKSSTATE = { "Trong kho", "Đang sử dụng", "Đã thuê" };
     }
 
     public class Service : Api
