@@ -1,0 +1,19 @@
+1. Phần thêm sách thêm 1 field mô tả tình trạng sách và bổ phần số lượng
+2.Phần xem thông tin sách vẫn edit được (bỏ phần edit đi chỉ xem thôi)
+3. Phần sửa sách không sửa được
+4. Phần xóa sách không xóa được
+5. Sửa lại text trang "Danh sách ký gửi" thành "Tạo bài cho thuê"
+6. Phần đăng bài thuê sách bị lỗi phần mô tả
+7. Phần xem lại bài đăng cho thuê thêm phần xóa sửa (hiện tại chỉ tạo và xem được không xóa sửa được)
+8. Phần danh mục không xóa được và thêm chức năng sửa vào
+9. Phần giỏ hàng thêm chức năng xem chi tiết từng sản phẩm thay vì chỉ show list các cuốn sách đã thêm vào giỏ
+10. Text "Mua hàng" sửa lại thành "Thuê"
+11. Bỏ phần xem danh mục của account customer vì không cần thiết
+12. Sách mới tạo khi chưa ký gửi hiển thị trạng thái là "Chưa ký gửi thay vì chưa thuê" 
+sách nào đã ký gửi rồi thì hiển thị là "chưa thuê" và nếu đã được thuê rồi thì hiển thị là "đã được thuê".
+13. Phần tạo request ký gửi của customer bị lỗi
+14. Cho phép customer được set phí thu theo giới hạn mà admin đưa ra trong phần tạo request ký gửi 
+15. Màn hình chính hướng dẫn tụi mình folder dùng để thay đổi ảnh của phần slide show
+16. Phần khám phá danh mục chỉ cần để tên không cần hình ảnh
+17. Phần “gợi ý cho bạn” ở role của manager khi bấm vào 1 mục sẽ hiện ra các sách của mục đó ở 
+phần “tin đăng mới” nhưng sẽ bị mất hình ảnh của sách và bỏ nút thêm vào giỏ và nút cho thuê vì ở role manager không cần

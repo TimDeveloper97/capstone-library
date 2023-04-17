@@ -72,6 +72,7 @@
                                             <!--#region Content -->
                                             <Grid Grid.Column="1" RowDefinitions="auto, *, auto" Margin="10" Style="{StaticResource GroupGridStyle}">
                                                 <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=1}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>-->
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=2}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=4}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=8}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
@@ -97,7 +98,7 @@
                                                                 <Setter Property="IsVisible" Value="false" />
                                                             </MultiTrigger>
                                                         </BoxView.Triggers>
-                                                    </BoxView>
+                                                    </BoxView>-->
                                                 </StackLayout>
 
                                                 <StackLayout Grid.Row="1" Spacing="0">
