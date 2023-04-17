@@ -104,6 +104,7 @@
                                             <!--#region Content -->
                                             <Grid Grid.Column="1" RowDefinitions="auto, *, auto" Margin="10" Style="{StaticResource GroupGridStyle}">
                                                 <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=1}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=2}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=4}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=8}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
@@ -112,8 +113,9 @@
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=64}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=128}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=256}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=512}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>-->
 
-                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=0}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}" Margin="15,0,0,0">
+                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=0}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}" Margin="15,0,0,0">
                                                         <BoxView.Triggers>
                                                             <MultiTrigger TargetType="BoxView">
                                                                 <MultiTrigger.Conditions>
@@ -128,7 +130,7 @@
                                                                 <Setter Property="IsVisible" Value="false" />
                                                             </MultiTrigger>
                                                         </BoxView.Triggers>
-                                                    </BoxView>
+                                                    </BoxView>-->
                                                 </StackLayout>
 
                                                 <StackLayout Grid.Row="1" Spacing="0">

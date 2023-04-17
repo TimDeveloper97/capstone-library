@@ -9,6 +9,7 @@ import com.sb.brothers.capstone.services.CategoryService;
 import com.sb.brothers.capstone.services.OrderService;
 import com.sb.brothers.capstone.services.PostDetailService;
 import com.sb.brothers.capstone.services.PostService;
+import com.sb.brothers.capstone.util.CustomStatus;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -76,6 +77,15 @@ public class BookDTO {
         }
         book.getImages().stream().forEach(img -> imgs.add(new ImageDto(img.getId(), img.getLink(), null)));
         this.bookInfoDtos = new ArrayList<>();
+        if(book.getUser().checkManager() == false){
+            PostDetail postDeposit = postDetailService.findByBookId(book.getId());
+            if(postDeposit != null && postDeposit.getPost().getStatus() == CustomStatus.USER_POST_IS_EXPIRED){
+                BookInfoDto bookInfoDto = new BookInfoDto();
+                bookInfoDto.setStatus(CustomStatus.USER_POST_IS_EXPIRED);
+                bookInfoDtos.add(bookInfoDto);
+                return;
+            }
+        }
         List<PostDetail> postDetails = postDetailService.findPostDetailByBookAndStatus(book.getId());
         postDetails.stream().forEach(postDetail -> {
             BookInfoDto bookInfoDto = new BookInfoDto();
@@ -86,7 +96,6 @@ public class BookDTO {
             bookInfoDto.setStatus(order.getPost().getStatus());
             bookInfoDtos.add(bookInfoDto);
         });
-
     }
 
     /**

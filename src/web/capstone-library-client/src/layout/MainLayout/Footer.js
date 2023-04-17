@@ -1,8 +1,9 @@
 import React from "react";
 
 export default function Footer() {
+  const curUser = JSON.parse(window.localStorage.getItem("user"));
   return (
-    <section className="footer-area pt-20px bg-dark position-relative">
+    <section className="footer-area pt-20px position-relative" style={{backgroundColor: curUser?.roles[0] === "ROLE_MANAGER_POST" ? "#576CBC" : "#343a40"}}>
       <span className="vertical-bar-shape vertical-bar-shape-1"></span>
       <span className="vertical-bar-shape vertical-bar-shape-2"></span>
       <span className="vertical-bar-shape vertical-bar-shape-3"></span>

@@ -100,7 +100,7 @@
                         <!--#endregion-->
 
                         <!--#region Recent -->
-                        <Grid Grid.Row="3" RowDefinitions="auto,*" Padding="15,10" Margin="0,5,0,-50">
+                        <Grid Grid.Row="3" RowDefinitions="auto, *, auto" Padding="15,10" Margin="0,5,0,10" HeightRequest="{Binding HeightRequest}">
                             <Grid ColumnDefinitions="*, 50">
                                 <Label FontSize="Title" Text="Tin đăng mới" Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold"
                                        HorizontalOptions="Start" VerticalOptions="Center"/>
@@ -108,13 +108,12 @@
                                                     Style="{StaticResource IconButtonStyle}" Text="{Static icon:FontIcons.Reload}"/>
                             </Grid>
 
-                            <CollectionView Grid.Row="1" ItemsSource="{Binding Posts}">
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" Span="2"/>
-                                </CollectionView.ItemsLayout>
+                            <CollectionView Grid.Row="1" ItemsSource="{Binding Posts}"
+                                            ItemsLayout="{Binding Orientation}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid RowDefinitions="*, 15" Padding="10" VerticalOptions="Start" HorizontalOptions="Start">
+                                        <Grid RowDefinitions="*, 15" Padding="10" WidthRequest="90"
+                                              VerticalOptions="Start" HorizontalOptions="Start">
                                             <Frame HeightRequest="130">
                                                 <Image Source="{Binding ImageSource}" Aspect="Fill"/>
                                             </Frame>
@@ -126,7 +125,7 @@
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
-                                <CollectionView.Footer>
+                                <!--<CollectionView.Footer>
                                     <Grid>
                                         <StackLayout  VerticalOptions="Center" HorizontalOptions="Center" Orientation="Horizontal">
                                             <Frame HeightRequest="50" WidthRequest="50" BorderColor="Transparent" IsVisible="{Binding IsPrevious}"
@@ -149,8 +148,17 @@
                                             </Frame>
                                         </StackLayout>
                                     </Grid>
-                                </CollectionView.Footer>
+                                </CollectionView.Footer>-->
                             </CollectionView>
+
+                            <Frame Grid.Row="2" BackgroundColor="Transparent" BorderColor="{StaticResource Blue}" 
+                                   CornerRadius="0" Padding="5"
+                                   VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsVisibleMore}">
+                                <Label Text="Xem thêm"/>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.OrientationCommand, Source={x:Reference Name=self}}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
                         </Grid>
                         <!--#endregion-->
                     </Grid>

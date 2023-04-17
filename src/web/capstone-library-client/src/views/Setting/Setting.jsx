@@ -106,10 +106,10 @@ export default function Setting() {
                     <img src="/images/img4.jpg" alt="avatar" />
                   </div>
                   <div className="media-body">
-                    <h5>{userInfo.lastName + " " + userInfo.firstName}</h5>
+                    <h5>{userInfo?.lastName + " " + userInfo?.firstName}</h5>
                     <small className="meta d-block lh-20 pb-2">
                       <span>
-                        {userInfo.address}, thành viên từ 1 tháng trước
+                        {userInfo?.address}, thành viên từ 1 tháng trước
                       </span>
                     </small>
                     <div className="stats fs-14 fw-medium d-flex align-items-center lh-18">
@@ -118,7 +118,7 @@ export default function Setting() {
                           icon={faWallet}
                           style={{ color: "green" }}
                         />{" "}
-                        {userInfo.balance}
+                        {userInfo?.balance}
                       </span>
                     </div>
                   </div>
@@ -207,7 +207,7 @@ export default function Setting() {
                                       label="Họ"
                                       type="text"
                                       variant="standard"
-                                      defaultValue={userInfo.lastName}
+                                      defaultValue={userInfo?.lastName}
                                       {...register("lastName")}
                                       style={{ marginRight: "30px" }}
                                     />
@@ -217,15 +217,15 @@ export default function Setting() {
                                       label="Tên"
                                       type="text"
                                       variant="standard"
-                                      defaultValue={userInfo.firstName}
+                                      defaultValue={userInfo?.firstName}
                                       {...register("firstName")}
                                     />
                                   </>
                                 ) : (
                                   <p className="text-muted mb-0">
-                                    {userInfo.lastName +
+                                    {userInfo?.lastName +
                                       " " +
-                                      userInfo.firstName}
+                                      userInfo?.firstName}
                                   </p>
                                 )}
                               </div>
@@ -242,12 +242,12 @@ export default function Setting() {
                                     label="Email"
                                     type="email"
                                     variant="standard"
-                                    defaultValue={userInfo.email}
+                                    defaultValue={userInfo?.email}
                                     {...register("email")}
                                   />
                                 ) : (
                                   <p className="text-muted mb-0">
-                                    {userInfo.email}
+                                    {userInfo?.email}
                                   </p>
                                 )}
                               </div>
@@ -264,12 +264,12 @@ export default function Setting() {
                                     label="Số điện thoại"
                                     type="tel"
                                     variant="standard"
-                                    defaultValue={userInfo.phone}
+                                    defaultValue={userInfo?.phone}
                                     {...register("phone")}
                                   />
                                 ) : (
                                   <p className="text-muted mb-0">
-                                    {userInfo.phone}
+                                    {userInfo?.phone}
                                   </p>
                                 )}
                               </div>
@@ -281,7 +281,7 @@ export default function Setting() {
                               </div>
                               <div className="col-sm-9">
                                 <p className="text-muted mb-0">
-                                  {userInfo.balance}
+                                  {userInfo?.balance}
                                 </p>
                               </div>
                             </div>
@@ -297,12 +297,12 @@ export default function Setting() {
                                     label="Địa chỉ"
                                     type="text"
                                     variant="standard"
-                                    defaultValue={userInfo.address}
+                                    defaultValue={userInfo?.address}
                                     {...register("address")}
                                   />
                                 ) : (
                                   <p className="text-muted mb-0">
-                                    {userInfo.address}
+                                    {userInfo?.address}
                                   </p>
                                 )}
                               </div>

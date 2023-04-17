@@ -22,9 +22,16 @@ import {
   NotificationManager,
   NotificationContainer,
 } from "react-notifications";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import QRCode from "react-qr-code";
 import { useNavigate } from "react-router-dom";
+import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
 
 export default function OrderStatus() {
   const [listOrderStatus, setlistOrderStatus] = useState([]);
@@ -47,7 +54,7 @@ export default function OrderStatus() {
 
   const handleConfirmOrder = async (e, id, index) => {
     e.preventDefault();
-    const {data} = await confirmOrder(id);
+    const { data } = await confirmOrder(id);
     if (data.success) {
       let temp = listOrderStatus;
       temp[index].statusColor = getColorStatus(64);
@@ -61,7 +68,7 @@ export default function OrderStatus() {
 
   const handleDenyOrder = async (e, id, index) => {
     e.preventDefault();
-    const {data} = await denyOrder(id);
+    const { data } = await denyOrder(id);
     if (data.success) {
       let temp = listOrderStatus;
       temp[index].statusColor = getColorStatus(2);
@@ -80,12 +87,12 @@ export default function OrderStatus() {
     //const user = JSON.parse(window.localStorage.getItem("user"));
     const token = window.localStorage.getItem("token");
     const data = {
-      time: (new Date()).getTime(),
+      time: new Date().getTime(),
       token: token,
       orderId: id,
-      status: 64
-    }
-    const input = JSON.stringify(data)
+      status: 64,
+    };
+    const input = JSON.stringify(data);
     setQrValue(input);
     setOpen(true);
     // const {data} = await receivedOrder(id);
@@ -101,14 +108,14 @@ export default function OrderStatus() {
   };
   const handleClose = () => {
     setOpen(false);
-  }
+  };
   const checkResult = () => {
     navigate(0);
-  }
+  };
 
   const handleBookReturn = async (e, id, index) => {
     e.preventDefault();
-    const {data} = await bookReturn(id);
+    const { data } = await bookReturn(id);
     if (data.success) {
       let temp = listOrderStatus;
       temp[index].statusColor = getColorStatus(256);
@@ -144,10 +151,15 @@ export default function OrderStatus() {
       <section className="cart-area pt-80px pb-80px position-relative">
         <div className="container">
           <div className="row">
+            <div className="col-md-2">
+              <ManagementSidebar />
+            </div>
+            <div className="col-md-10">
+            <div className="row">
             {listOrderStatus.map((los, index) => {
               return (
                 <div
-                  className="col-md-4 col-sm-12 col-xs-12"
+                  className="col-md-6 col-sm-12 col-xs-12"
                   key={index}
                   style={{ padding: "10px 20px" }}
                 >
@@ -185,7 +197,9 @@ export default function OrderStatus() {
                           <div className="tooltip-action">
                             <button
                               className="btn btn-success"
-                              onClick={(e) => handleConfirmOrder(e, los.id, index)}
+                              onClick={(e) =>
+                                handleConfirmOrder(e, los.id, index)
+                              }
                             >
                               <FontAwesomeIcon icon={faCheck} /> Chấp thuận
                             </button>
@@ -240,21 +254,21 @@ export default function OrderStatus() {
               );
             })}
           </div>
+            </div>
+          </div>
         </div>
         <Dialog open={open} onClose={handleClose}>
-                              <DialogTitle>Xác nhận thuê ngay?</DialogTitle>
-                              <DialogContent>
-                              <div style={{ background: 'white', padding: '16px' }}>
-    <QRCode value={qrValue} />
-</div>
-                              </DialogContent>
-                              <DialogActions>
-                                <Button onClick={checkResult}>
-                                  Xem kết quả
-                                </Button>
-                                <Button onClick={handleClose}>Hủy</Button>
-                              </DialogActions>
-                            </Dialog>
+          <DialogTitle>Xác nhận thuê ngay?</DialogTitle>
+          <DialogContent>
+            <div style={{ background: "white", padding: "16px" }}>
+              <QRCode value={qrValue} />
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={checkResult}>Xem kết quả</Button>
+            <Button onClick={handleClose}>Hủy</Button>
+          </DialogActions>
+        </Dialog>
       </section>
     </>
   ) : (

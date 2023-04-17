@@ -19,10 +19,13 @@ import {
 } from "react-notifications";
 import "./post.css";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+import { formatMoney } from "../../helper/helpFunction";
+import { addToCart } from "../../actions/cart";
 
 export default function DetailPost() {
   const [currentPost, setCurrentPost] = useState();
   const [listImg, setListImg] = useState([]);
+  const [sum, setSum] = useState(0);
 
   const dispatch = useDispatch();
   const isAdmin =
@@ -35,30 +38,22 @@ export default function DetailPost() {
       const { data } = await getPostById(id);
       setCurrentPost(data.value);
       let tempList = [];
+      let tempSum = 0;
       data.value.postDetailDtos.forEach((post) => {
-        //console.log(post);
         post.bookDto.imgs.forEach((img) => {
           tempList.push(img.fileName);
         });
+        tempSum += post.bookDto.price * post.quantity;
       });
       setListImg(tempList);
-      //   const tempLink = data.value.imgs.map((img, index) => {
-      //     return {
-      //       id: index,
-      //       className: "img-button",
-      //       link: getImgUrl(img.fileName)
-      //     }
-      //   });
-      //   console.log(tempLink);
-      //   setLinks(tempLink);
-      //   setImgShow(getImgUrl(data.value.imgs[0].fileName));
+      setSum(tempSum);
     };
     fetchPost();
   }, [id]);
   const handleRentBook = async () => {
     const response = await dispatch(orderBook(currentPost.id));
-    console.log(response);
     if (response.success) {
+      dispatch(addToCart());
       NotificationManager.success(response.message, "Thông báo", 2000);
     } else {
       NotificationManager.error(response.message, "Lỗi", 2000);
@@ -110,20 +105,25 @@ export default function DetailPost() {
                               <Carousel images={listImg} />
                             </div>
                             <div className="col-md-6 book-info">
-                              <h5 className="book-title">
+                              <h4 className="book-title">
                                 {currentPost?.title}
-                              </h5>
+                              </h4>
                               <div className="number">
-                                <h6 className="publisher">
+                                <h5 className="publisher">
                                   Đăng bởi: {currentPost?.user}
-                                </h6>
-                                <h6 className="publisher">
+                                </h5>
+                                <h5 className="publisher">
                                   Ngày cho thuê: {currentPost?.noDays}
-                                </h6>
+                                </h5>
                               </div>
                               <p className="price">
-                                {currentPost?.fee}{" "}
-                                <FontAwesomeIcon icon={faDongSign} />
+                                <span className="description">
+                                  <span style={{ color: "#0D233E" }}>
+                                    Tổng tiền:
+                                  </span>{" "}
+                                  {formatMoney(sum + currentPost?.fee)}{" "}
+                                  <FontAwesomeIcon icon={faDongSign} />
+                                </span>
                               </p>
                               <p className="description">
                                 {currentPost?.content}
@@ -156,11 +156,15 @@ export default function DetailPost() {
                                                 </div>
                                               </div>
                                             </th>
-                                            <td>{post.bookDto.price}</td>
+                                            <td>
+                                              {formatMoney(post.bookDto.price)}
+                                            </td>
                                             <td>{post.quantity}</td>
                                             <td>
-                                              {post.bookDto.price *
-                                                post.quantity}
+                                              {formatMoney(
+                                                post.bookDto.price *
+                                                  post.quantity
+                                              )}
                                             </td>
                                           </tr>
                                         );

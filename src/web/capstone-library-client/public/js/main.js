@@ -245,7 +245,11 @@
         }
         e(".dropdown-menu.keep-open").on("click", function(e) {
             e.stopPropagation()
-        }), b.length && b.fancybox()
+        }), b.length && b.fancybox();  
     })
 // eslint-disable-next-line no-undef
 }(jQuery);
+
+// $(document).ready(function(){
+//     $(".newest-post").owlCarousel();
+//   });

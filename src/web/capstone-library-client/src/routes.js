@@ -42,14 +42,6 @@ export default function Route() {
           element: <Register />,
         },
         {
-          path: "/book",
-          element: <BookPage />,
-        },
-        {
-          path: "/detail-book/:id",
-          element: <DetailBook />,
-        },
-        {
           path: "/forgot-password",
           element: <ForgotPassword />,
         },
@@ -65,6 +57,14 @@ export default function Route() {
           path: "/user",
           element: <PrivateRoute />,
           children: [
+            {
+              path: "book",
+              element: <BookPage />,
+            },
+            {
+              path: "detail-book/:id",
+              element: <DetailBook />,
+            },
             {
               path: "profile",
               element: <Setting />,

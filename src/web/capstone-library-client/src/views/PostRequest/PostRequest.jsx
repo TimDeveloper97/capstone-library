@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { acceptPost, denyPost, getPostRequest } from "../../apis/post";
 import Loading from "../../components/Loading/Loading";
 import { getColorStatus } from "../../helper/helpFunction";
+import { NotificationContainer } from "react-notifications";
+import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
 
 export default function PostRequest() {
   const [listPostRequest, setListPostRequest] = useState([]);
@@ -45,7 +47,7 @@ export default function PostRequest() {
   return listPostRequest ? (
     <>
       <section className="hero-area bg-white shadow-sm pt-80px pb-80px">
-        {/* <NotificationContainer /> */}
+        <NotificationContainer />
         <span className="icon-shape icon-shape-1"></span>
         <span className="icon-shape icon-shape-2"></span>
         <span className="icon-shape icon-shape-3"></span>
@@ -62,10 +64,15 @@ export default function PostRequest() {
       <section className="cart-area pt-80px pb-80px position-relative">
         <div className="container">
           <div className="row">
-            {listPostRequest.map((los, index) => {
+            <div className="col-md-2">
+              <ManagementSidebar />
+            </div>
+            <div className="col-md-10">
+            <div className="row">
+            {listPostRequest && listPostRequest.map((los, index) => {
               return (
                 <div
-                  className="col-md-4 col-sm-12 col-xs-12"
+                  className="col-md-6 col-sm-12 col-xs-12"
                   key={index}
                   style={{ padding: "10px 20px" }}
                 >
@@ -121,6 +128,8 @@ export default function PostRequest() {
                 </div>
               );
             })}
+          </div>
+            </div>
           </div>
         </div>
       </section>

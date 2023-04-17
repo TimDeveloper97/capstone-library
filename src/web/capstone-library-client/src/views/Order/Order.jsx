@@ -14,6 +14,8 @@ import {
   NotificationManager,
   NotificationContainer,
 } from "react-notifications";
+import { Link } from "react-router-dom";
+import { removeFromCart } from "../../actions/cart";
 
 export default function Order() {
   const dispatch = useDispatch();
@@ -46,6 +48,7 @@ export default function Order() {
   };
   const removePostInOrder = (id) => {
     dispatch(removeOrder(id));
+    dispatch(removeFromCart());
   };
 
   const [sumTotal, setSumTotal] = useState(0);
@@ -176,18 +179,20 @@ export default function Order() {
                       </th>
                       <th scope="row">
                         <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
-                          <a
-                            href="#"
+                          <Link
+                            to={`/detail-post/${post.id}`}
                             className="media-img d-block media-img-sm"
                           >
                             <img
                               src="/images/default_img.jpeg"
-                              alt="Product image"
+                              alt="productImage"
                             />
-                          </a>
+                          </Link>
                           <div className="media-body">
                             <h5 className="fs-15 fw-medium">
-                              <a href="#">{post.title}</a>
+                              <Link to={`/detail-post/${post.id}`}>
+                                {post.title}
+                              </Link>
                             </h5>
                           </div>
                         </div>

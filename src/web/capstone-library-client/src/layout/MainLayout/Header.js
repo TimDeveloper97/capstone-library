@@ -7,6 +7,7 @@ import { getUser } from "../../actions/user";
 import Notification from "../../components/Notification/Notification";
 import DetailAccount from "./DetailAccount";
 import "./header.css";
+import Cart from "../../components/Cart/Cart";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -21,7 +22,13 @@ export default function Header() {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <header className="header-area bg-dark">
+    <header
+      className="header-area"
+      style={{
+        backgroundColor:
+          curUser?.roles[0] === "ROLE_MANAGER_POST" ? "#576CBC" : "#343a40",
+      }}
+    >
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-2">
@@ -47,11 +54,13 @@ export default function Header() {
             <div className="menu-wrapper">
               <nav className="menu-bar mr-auto menu-bar-white">
                 <ul>
-                  <li>
-                    <Link to={"/"}>Trang chủ</Link>
-                  </li>
+                  {(!curUser || curUser?.roles[0] === "ROLE_USER") && (
+                    <li>
+                      <Link to={"/"}>Trang chủ</Link>
+                    </li>
+                  )}
                   <li className="is-mega-menu">
-                    <Link to={"/book"}>
+                    <Link to={"/user/book"}>
                       Kho sách <i className="la la-angle-down fs-11"></i>
                     </Link>
                     <ul className="dropdown-menu-item">
@@ -74,49 +83,25 @@ export default function Header() {
                   </li>
                   {curUser && curUser.roles[0] !== "ROLE_USER" && (
                     <li>
-                      <a href="#">
-                        Quản lý <i className="la la-angle-down fs-11"></i>
-                      </a>
-                      <ul className="dropdown-menu-item">
-                        {curUser?.roles[0] === "ROLE_ADMIN" ? (
-                          <>
-                            <li>
-                              <Link to={"/user/user-management"}>
-                                Quản lý người dùng
-                              </Link>
-                            </li>
-                            <li>
-                              <Link to={"/user/charge"}>Quản lý nạp tiền</Link>
-                            </li>
-                          </>
-                        ) : (
-                          <>
-                            <li>
-                              <Link to={"/user/category"}>
-                                Quản lý thể loại
-                              </Link>
-                            </li>
-                            <li>
-                              <Link to={"/user/order-status"}>
-                                Quản lý đơn hàng
-                              </Link>
-                            </li>
-                            <li>
-                              <Link to={"/user/post-request"}>
-                                Quản lý post
-                              </Link>
-                            </li>
-                          </>
-                        )}
-                      </ul>
+                      <Link
+                        to={
+                          curUser?.roles[0] === "ROLE_ADMIN"
+                            ? "/user/user-management"
+                            : "/user/category"
+                        }
+                      >
+                        Quản lý
+                      </Link>
                     </li>
                   )}
                 </ul>
               </nav>
               <div className="form-group mb-0">
+                {curUser && curUser.roles[0] === "ROLE_USER" && <Cart />}
+              </div>
+              <div className="form-group mb-0">
                 {curUser && <Notification />}
               </div>
-
               <div className="nav-right-button">
                 {user?.firstName ? (
                   <span className="user-fullname">

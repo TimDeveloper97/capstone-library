@@ -7,7 +7,7 @@ import * as api from "../../apis/book";
 
 export default function Sidebar() {
   const role =
-    JSON.parse(window.localStorage.getItem("user")).roles[0] === "ROLE_ADMIN";
+    JSON.parse(window.localStorage.getItem("user"))?.roles[0] === "ROLE_ADMIN";
   useEffect(() => {
     dispatch(getCategories());
     const getBooks = async () => {
