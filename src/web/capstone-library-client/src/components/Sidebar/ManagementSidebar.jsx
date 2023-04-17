@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function ManagementSidebar() {
+  const user = JSON.parse(window.localStorage.getItem("user"));
   const manageLinks = [
     {
       value: "/user/category",
@@ -16,25 +17,46 @@ export default function ManagementSidebar() {
       text: "Quản lí yêu cầu ký gửi",
     },
   ];
+  const adminManageLinks = [
+    {
+      value: "/user/user-management",
+      text: "Quản lí người dùng",
+    },
+    {
+      value: "/user/charge",
+      text: "Quản lí nạp tiền",
+    },
+  ];
   const location = useLocation();
-  console.log(location.pathname);
 
   return (
     <div className="sidebar pb-45px position-sticky top-0 mt-2 pt-30px">
       <ul className="generic-list-item generic-list-item-highlight fs-15">
-        {manageLinks &&
-          manageLinks.map((link) => {
-            return (
-              <li
-                className={
-                  location.pathname === link.value ? "lh-26 active" : "lh-26"
-                }
-                key={link.value}
-              >
-                <Link to={link.value}>{link.text}</Link>
-              </li>
-            );
-          })}
+        {user.roles[0] === "ROLE_ADMIN"
+          ? adminManageLinks.map((link) => {
+              return (
+                <li
+                  className={
+                    location.pathname === link.value ? "lh-26 active" : "lh-26"
+                  }
+                  key={link.value}
+                >
+                  <Link to={link.value}>{link.text}</Link>
+                </li>
+              );
+            })
+          : manageLinks.map((link) => {
+              return (
+                <li
+                  className={
+                    location.pathname === link.value ? "lh-26 active" : "lh-26"
+                  }
+                  key={link.value}
+                >
+                  <Link to={link.value}>{link.text}</Link>
+                </li>
+              );
+            })}
       </ul>
     </div>
   );

@@ -26,3 +26,6 @@ body {
   display: flex;
   flex-direction: column;
 }
+.mr-15px{
+  margin-right: 15px;
+}

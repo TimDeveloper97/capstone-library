@@ -63,3 +63,11 @@
   width: 100px;
 }
 
+.back-button{
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  top: 20%;
+  right: 0;
+  cursor: pointer;
+}

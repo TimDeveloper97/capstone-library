@@ -18,6 +18,7 @@ import {
   NotificationContainer,
 } from "react-notifications";
 import { useNavigate } from "react-router-dom";
+import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
 
 const schema = yup.object({
   user: yup.string().required("Tên user không được để trống"),
@@ -113,96 +114,102 @@ export default function Charge() {
         <NotificationContainer />
         <div className="container">
           <div className="row">
-            <div
-              className="col-md-3"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingLeft: "20px",
-                marginBottom: "20px",
-              }}
-            >
-              <button
-                className="btn btn-primary"
-                onClick={() => setShowChargeState(0)}
-              >
-                Tất cả
-              </button>
-              <button
-                className="btn btn-info"
-                onClick={() => setShowChargeState(1)}
-              >
-                Đơn nạp
-              </button>
-              <button
-                className="btn btn-secondary"
-                onClick={() => setShowChargeState(-1)}
-              >
-                Đơn rút
-              </button>
-            </div>
-            <div className="col-md-7"></div>
-            <div
-              className="col-md-2"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingRight: "20px",
-                marginBottom: "20px",
-              }}
-            >
-              <button
-                className="btn btn-success"
-                onClick={() => handleClickOpen(true)}
-              >
-                Nạp tiền
-              </button>
-              <button
-                className="btn btn-danger"
-                onClick={() => handleClickOpen(false)}
-              >
-                Rút tiền
-              </button>
-            </div>
+          <div className="col-md-2">
+            <ManagementSidebar />
           </div>
-          <div className="row">
-            <div className="container">
-              <div className="cart-form mb-50px table-responsive px-2">
-                <table className="table generic-table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Ngày nạp</th>
-                      <th scope="col">Nội dung</th>
-                      <th scope="col">Số tiền</th>
-                      <th scope="col">Người nhận</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {showCharge &&
-                      showCharge.map((charge, index) => {
-                        return (
-                          <tr key={index} className="fw-normal">
-                            <th scope="row">
-                              <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
-                                <div className="media-body">
-                                  {convertToDay(charge.createdDate)}
-                                </div>
-                              </div>
-                            </th>
-                            <td>{charge.content}</td>
-                            <td>
-                              <div className="quantity-item d-inline-flex align-items-center">
-                                {charge.transferAmount}
-                              </div>
-                            </td>
-                            <td>{charge.user}</td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+          <div className="col-md-10">
+            <div className="row">
+              <div
+                className="col-md-5"
+                style={{
+                  display: "flex",
+                  paddingLeft: "20px",
+                  marginBottom: "10px",
+                }}
+              >
+                <button
+                  className="btn btn-primary mr-15px"
+                  onClick={() => setShowChargeState(0)}
+                >
+                  Tất cả
+                </button>
+                <button
+                  className="btn btn-info mr-15px"
+                  onClick={() => setShowChargeState(1)}
+                >
+                  Đơn nạp
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowChargeState(-1)}
+                >
+                  Đơn rút
+                </button>
+              </div>
+              <div className="col-md-4"></div>
+              <div
+                className="col-md-3"
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  paddingRight: "20px",
+                  marginBottom: "10px",
+                }}
+              >
+                <button
+                  className="btn btn-success mr-15px"
+                  onClick={() => handleClickOpen(true)}
+                >
+                  Nạp tiền
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleClickOpen(false)}
+                >
+                  Rút tiền
+                </button>
               </div>
             </div>
+            <div className="row">
+              <div className="container">
+                <div className="cart-form mb-50px table-responsive px-2">
+                  <table className="table generic-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Ngày nạp</th>
+                        <th scope="col">Nội dung</th>
+                        <th scope="col">Số tiền</th>
+                        <th scope="col">Người nhận</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {showCharge &&
+                        showCharge.map((charge, index) => {
+                          return (
+                            <tr key={index} className="fw-normal">
+                              <th scope="row">
+                                <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                  <div className="media-body">
+                                    {convertToDay(charge.createdDate)}
+                                  </div>
+                                </div>
+                              </th>
+                              <td>{charge.content}</td>
+                              <td>
+                                <div className="quantity-item d-inline-flex align-items-center">
+                                  {charge.transferAmount}
+                                </div>
+                              </td>
+                              <td>{charge.user}</td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
         <Dialog open={open} onClose={handleClose}>

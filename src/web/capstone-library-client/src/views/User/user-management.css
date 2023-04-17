@@ -13,3 +13,12 @@
 .user-item p{
   padding: 5px 0;
 }
+.table-paging{
+  display: flex;
+  justify-content: flex-end;
+}
+.table-paging button{
+  margin: 0 5px 0 10px;
+  background: transparent;
+  border: none;
+}
