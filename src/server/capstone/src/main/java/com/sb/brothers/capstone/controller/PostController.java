@@ -133,6 +133,7 @@ public class PostController {
         List<Post> posts = null;
         try{
             posts = postService.getAllPostsByUserId(auth.getName());
+            posts.removeIf(post -> post.getStatus()==CustomStatus.USER_POST_IS_EXPIRED_AND_NOT_RETURN);
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
             logger.info("[API-Post] getPostByUserId - END");
