@@ -125,7 +125,20 @@ namespace xfLibrary.ViewModels
 
                 //update extendheigh
                 if (book.States.Count != 0)
-                    book.ExpanderHeight = book.States.Count * 60 + 10;
+                    book.ExpanderHeight = book.States.Count * 60 + 25;
+                else
+                    book.ExpanderHeight = 0;
+
+                //update infor book
+                if (book.Status == 0)
+                    book.Info = 0;
+                else if(book.Status == 16)
+                    book.Info = 1;
+                else if(book.Status == 512)
+                    book.Info = 3;
+                
+                if(book.States.Count != 0)
+                    book.Info = 2;
 
                 //update view
                 ItemsSource.Add(book);
