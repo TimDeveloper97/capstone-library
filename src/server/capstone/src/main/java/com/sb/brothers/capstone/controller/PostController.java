@@ -90,7 +90,7 @@ public class PostController {
         List<Post> posts = null;
         try{
             posts = postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
-            posts.addAll(postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_APPROVED));
+            //posts.addAll(postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_APPROVED));
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
             logger.info("[API-Post] getAllUserPosts - END");
