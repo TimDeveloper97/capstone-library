@@ -56,6 +56,8 @@ public class BookDTO {
 
     private List<BookInfoDto> bookInfoDtos;
 
+    private int status;
+
     public void convertBook(Book book){
         this.id = book.getId();
         this.name = book.getName();
@@ -75,27 +77,32 @@ public class BookDTO {
         if(book.getUser() != null){
             this.owner = book.getUser().getId();
         }
+        this.status = 0;
         book.getImages().stream().forEach(img -> imgs.add(new ImageDto(img.getId(), img.getLink(), null)));
         this.bookInfoDtos = new ArrayList<>();
-        if(book.getUser().checkManager() == false){
+        if(book.getUser().checkManager() == false && book.getInStock() > 0){
             PostDetail postDeposit = postDetailService.findByBookId(book.getId());
             if(postDeposit != null && postDeposit.getPost().getStatus() == CustomStatus.USER_POST_IS_EXPIRED){
+                this.status = 512;
                 BookInfoDto bookInfoDto = new BookInfoDto();
                 bookInfoDto.setStatus(CustomStatus.USER_POST_IS_EXPIRED);
                 bookInfoDtos.add(bookInfoDto);
                 return;
             }
         }
+        this.status = 16;
         List<PostDetail> postDetails = postDetailService.findPostDetailByBookAndStatus(book.getId());
-        postDetails.stream().forEach(postDetail -> {
-            BookInfoDto bookInfoDto = new BookInfoDto();
-            bookInfoDto.setQuantity(postDetail.getQuantity());
-            Order order = orderService.findByPostId(postDetail.getPost().getId()).get();
-            bookInfoDto.setRenterId(order.getUser().getId());
-            bookInfoDto.setRenter(order.getUser().getFirstName() + " " + order.getUser().getLastName());
-            bookInfoDto.setStatus(order.getPost().getStatus());
-            bookInfoDtos.add(bookInfoDto);
-        });
+        if(postDetails != null) {
+            postDetails.stream().forEach(postDetail -> {
+                BookInfoDto bookInfoDto = new BookInfoDto();
+                bookInfoDto.setQuantity(postDetail.getQuantity());
+                Order order = orderService.findByPostId(postDetail.getPost().getId()).get();
+                bookInfoDto.setRenterId(order.getUser().getId());
+                bookInfoDto.setRenter(order.getUser().getFirstName() + " " + order.getUser().getLastName());
+                bookInfoDto.setStatus(order.getPost().getStatus());
+                bookInfoDtos.add(bookInfoDto);
+            });
+        }
     }
 
     /**
