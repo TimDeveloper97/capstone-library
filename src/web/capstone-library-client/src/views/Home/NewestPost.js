@@ -33,7 +33,7 @@ export default function NewestPost() {
         <h5 className="newpost-title">
           <FontAwesomeIcon icon={faBolt} color="#FD8A8A" /> Post mới đăng
         </h5>
-        <ReactOwlCarousel items={4} className="owl-theme" loop nav margin={30}>
+        <ReactOwlCarousel items={4} className="owl-theme" loop nav autoPlay={true} margin={30}>
           {posts &&
             posts.map((item, index) => {
               return (
