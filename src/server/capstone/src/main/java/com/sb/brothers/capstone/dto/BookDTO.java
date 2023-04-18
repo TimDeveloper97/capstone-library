@@ -82,7 +82,6 @@ public class BookDTO {
         this.bookInfoDtos = new ArrayList<>();
         if(book.getUser().checkManager() == false && book.getInStock() > 0){
             PostDetail postDeposit = postDetailService.findByBookId(book.getId());
-            this.status = 16;
             if(postDeposit != null && postDeposit.getPost().getStatus() == CustomStatus.USER_POST_IS_EXPIRED){
                 this.status = 512;
                 BookInfoDto bookInfoDto = new BookInfoDto();
@@ -91,6 +90,7 @@ public class BookDTO {
                 return;
             }
         }
+        this.status = 16;
         List<PostDetail> postDetails = postDetailService.findPostDetailByBookAndStatus(book.getId());
         if(postDetails != null) {
             postDetails.stream().forEach(postDetail -> {
