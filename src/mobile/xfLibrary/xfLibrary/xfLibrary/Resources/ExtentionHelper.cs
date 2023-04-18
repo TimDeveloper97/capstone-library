@@ -75,16 +75,14 @@ namespace xfLibrary.Resources
             return Api.USER;
         }
 
-        public static string StatusToState(int status)
+        public static string StateToString(int info)
         {
-            if (status == 0)
-                return Api.BOOKSSTATE[0];
-            else if(status == 16)
-                return Api.BOOKSSTATE[1];
-            else if(status == 512)
-                return Api.BOOKSSTATE[2];
+            return Api.BOOKSSTATE[info];
+        }
 
-            return Api.BOOKSSTATE[0];
+        public static string StateToColor(int info)
+        {
+            return Api.BOOKSCOLOR[info];
         }
     }
 }

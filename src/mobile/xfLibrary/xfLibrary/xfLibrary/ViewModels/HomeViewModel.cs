@@ -321,8 +321,12 @@ namespace xfLibrary.ViewModels
                 }
             }
 
-            if (Posts.Count == 0) IsVisibleMore = false;
-            else IsVisibleMore = true;
+            if(Orientation.Orientation == ItemsLayoutOrientation.Horizontal)
+            {
+                if (Posts.Count == 0) IsVisibleMore = false;
+                else if (Posts.Count != 0)
+                    IsVisibleMore = true;
+            }    
         }
 
         void FakeData()

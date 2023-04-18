@@ -154,7 +154,8 @@ namespace xfLibrary.Services
         public static readonly string[] COLORS = { "#539165", "#DF2E38", "#F0EB8D", "#E4DCCF", "#16FF00", "#FC7300", "#1C82AD", "#D4D925", "#3CCF4E", "#EB455F" };
         public static readonly string[] STATES = { "Đã hoàn trả", "Từ chối", "Đợi chấp thuận", "Tắt bài", "Chấp thuận", "Đã thanh toán", "Đợi lấy sách", "Chưa trả sách", "Thành công", "Hết hạn" };
 
-        public static readonly string[] BOOKSSTATE = { "Trong kho", "Đang sử dụng", "Đã thuê" };
+        public static readonly string[] BOOKSSTATE = { "Trong kho", "Đang sử dụng", "Đã thuê", "Hết hạn" };
+        public static readonly string[] BOOKSCOLOR = { "#675D50", "#FFD93D", "#5D9C59", "#DF2E38" };
     }
 
     public class Service : Api

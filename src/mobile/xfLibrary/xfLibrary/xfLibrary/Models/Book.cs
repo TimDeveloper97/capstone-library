@@ -70,6 +70,8 @@ namespace xfLibrary.Models
         public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
         public string StringCategories { get; set; }
+        [JsonIgnore]
+        public int Info { get; set; }
     }
 
     public class ListBook

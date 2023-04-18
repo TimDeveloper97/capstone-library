@@ -748,7 +748,7 @@ DELIMITER ;;
         -- get notify days before expired day
 	select `value_cfg` into @ntf_day from configuration where `key_cfg` = "days";
 
-        SELECT `id`, `user_id` into @pId, @uId  FROM Post where  (SELECT DATE_ADD(created_date, INTERVAL (`no_days` - @ntf_day) DAY))  = now() AND `status` = 16;
+        SELECT `id`, `user_id` into @pId, @uId  FROM Post where  (SELECT DATE_ADD(date(created_date), INTERVAL (`no_days` - @ntf_day) DAY))  = curdate() AND `status` = 16;
         -- select @pId, @uId;
         IF(@pId > 0) THEN
 		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
@@ -756,18 +756,18 @@ DELIMITER ;;
 	End if;
         SET SQL_SAFE_UPDATES = 0;
 	Update post Set `status` = 512
-		where  (SELECT DATE_ADD(created_date, INTERVAL no_days DAY))  < now() AND `status` = 16;
+		where  (SELECT DATE_ADD(date(created_date), INTERVAL no_days DAY))  < curdate() AND `status` = 16;
 
         Update books Set `user_id` = "admin" 
         Where id In (
 			Select book_id from post_detail where sublet > 0 And post_id in
 				(Select id From post 
-					where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512));
+					where  (SELECT DATE_ADD(date(created_date), INTERVAL (no_days + 30) DAY))  < curdate() AND `status` = 512));
 	update post_detail set sublet = 0 where sublet > 0 And post_id in
 			(Select id From post 
-				where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512);
+					where  (SELECT DATE_ADD(date(created_date), INTERVAL (no_days + 30) DAY))  < curdate() AND `status` = 512);
 	update post set `status` = 1024
-				where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512;
+					where  (SELECT DATE_ADD(date(created_date), INTERVAL (no_days + 30) DAY))  < curdate() AND `status` = 512;
 	SET SQL_SAFE_UPDATES = 1;
 END */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
