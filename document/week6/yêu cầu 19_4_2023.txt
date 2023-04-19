@@ -1,0 +1,6 @@
+Mobile:
+1. User tạo yêu cầu ký gửi sau khi đc chấp nhận thì không thấy sách xuất hiện bên kho của manager để tạo bài post.
+=> bạn check lại nhé. Chắc db bạn có vấn đề setup chứ test ko có lỗi gì cả
+2. Manager tạo sách thì  ko list ra đc trong kho và cả khi tạo post. Trong db thì vẫn có sách.
+Hiện tại đang gặp 2 cái này nên ko thể nào test tiếp đc các bạn xem thử giúp bọn mình.
+=> bạn check kỹ lại db và cả đường truyền mạng. test ko có lỗi
