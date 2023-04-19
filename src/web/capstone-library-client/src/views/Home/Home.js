@@ -1,12 +1,10 @@
 import { Search } from "@mui/icons-material";
 import React, { useState } from "react";
 import Funfact from "./Funfact";
-import Guest from "./Guest";
 import "./home.css";
-import Instruct from "./Instruct";
 import Member from "./Member";
-import Quotes from "./Quotes";
-import NewestPost from "./NewestPost";
+import HotBook from "./HotBook";
+import NewUploadBook from "./NewUploadBook";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -132,7 +130,8 @@ export default function Home() {
         </div>
       </section>
       <Funfact />
-      <NewestPost />
+      <HotBook />
+      <NewUploadBook />
       <Member />
     </>
   );

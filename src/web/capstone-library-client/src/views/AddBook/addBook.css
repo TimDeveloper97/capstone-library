@@ -33,3 +33,6 @@
 .image {
     position: relative;
 }
+.search-book{
+    min-height: 380px;
+}

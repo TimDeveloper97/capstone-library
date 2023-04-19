@@ -22,6 +22,8 @@ import Setting from "./views/Setting/Setting";
 import UserDeposit from "./views/UserDeposit/UserDeposit";
 import UserManagement from "./views/User/UserManagement";
 import UpdateBook from "./views/AddBook/UpdateBook";
+import Books from "./views/BookPage/Books";
+import SearchBook from "./views/BookPage/SearchBook";
 
 export default function Route() {
   return useRoutes([
@@ -50,8 +52,16 @@ export default function Route() {
           element: <Post />,
         },
         {
+          path: "/books",
+          element: <Books />,
+        },
+        {
           path: "/detail-post/:id",
           element: <DetailPost />,
+        },
+        {
+          path: "/search-book/:keyword",
+          element: <SearchBook />,
         },
         {
           path: "/user",

@@ -16,6 +16,10 @@ export default function ManagementSidebar() {
       value: "/user/post-request",
       text: "Quản lí yêu cầu ký gửi",
     },
+    {
+      value: "/user/book-management",
+      text: "Quản lí sách",
+    },
   ];
   const adminManageLinks = [
     {
