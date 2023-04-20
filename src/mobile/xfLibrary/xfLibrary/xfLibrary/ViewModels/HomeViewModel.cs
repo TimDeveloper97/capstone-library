@@ -295,16 +295,6 @@ namespace xfLibrary.ViewModels
         void RefreshData()
         {
             Posts.Clear();
-            //var r = numberItemDisplay * currentTab;
-            //var l = _allPosts.Count();
-
-            //var max = l > r ? r : l;
-            //for (int i = 0; i < max; i++)
-            //{
-            //    Posts.Add(_allPosts[i]);
-            //}
-
-            //ItemDisplayToView(currentTab);
             if (IsVisibleMore)
             {
                 var l = numberItemDisplay > _allPosts.Count ? _allPosts.Count : numberItemDisplay;
@@ -398,11 +388,11 @@ namespace xfLibrary.ViewModels
                     var url = Services.Api.BaseUrl + imgs?[0].FileName.Replace("\\", "/");
                     post.ImageSource = url;
 
-                    post.Slide.Clear();
-                    foreach (var img in imgs)
-                    {
-                        post.Slide.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
-                    }
+                    //post.Slide.Clear();
+                    //foreach (var img in imgs)
+                    //{
+                    //    post.Slide.Add(Services.Api.BaseUrl + img.FileName.Replace("\\", "/"));
+                    //}
                 }
             }
 

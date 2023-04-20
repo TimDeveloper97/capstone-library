@@ -1,0 +1,5 @@
+Mobile: 
+
+ 1. Phần detail post nên để hình của sách sang chỗ thông tin sách luôn, trang detail post thì chỉ cần để thông tin và tên các cuốn sách thôi.
+
+ 2. Phần post detail thêm icon giỏ hàng và màu cho nút thuê để dễ nhận biết
