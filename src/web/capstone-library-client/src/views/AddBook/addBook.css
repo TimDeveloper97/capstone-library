@@ -36,3 +36,20 @@
 .search-book{
     min-height: 380px;
 }
+.search-card{
+    background-color: #fff;
+    padding: 15px;
+}
+.search-card h4{
+    padding: 10px;
+}
+.search-result{
+    background-color: #fff;
+    padding: 15px;
+}
+.btn-wrapper{
+    width: fit-content;
+}
+.edit-column button{
+    margin-right:15px;
+}

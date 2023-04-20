@@ -114,17 +114,17 @@ export default function DetailBook() {
                             <div className="info">
                               <div className="number">
                                 <h5 className="publisher">
-                                  Tác giả: {currentBook?.author}
+                                  Tác giả: <span>{currentBook?.author}</span>
                                 </h5>
                               </div>
                               <div className="number">
                                 <h5 className="publisher">
-                                  {currentBook?.publisher}
+                                  Nhà xuất bản: <span>{currentBook?.publisher}</span>
                                 </h5>
                               </div>
                               <div className="number">
                                 <h5 className="publisher">
-                                  {currentBook?.publishYear}
+                                  Năm xuất bản: <span>{currentBook?.publishYear}</span>
                                 </h5>
                               </div>
                             </div>
@@ -157,7 +157,7 @@ export default function DetailBook() {
         <h5 className="newpost-title">
           <FontAwesomeIcon icon={faLink} color="#FD8A8A" /> Post chứa sách này
         </h5>
-        <Carousel
+        {postHasBook.length > 0 ? <Carousel
           responsive={responsive}
           autoPlay={true}
           swipeable={true}
@@ -167,8 +167,7 @@ export default function DetailBook() {
           removeArrowOnDeviceType={["desktop", "mobile"]}
           itemClass="carousel-item-padding-40-px"
         >
-          {postHasBook &&
-            postHasBook.map((item, index) => {
+          { postHasBook.map((item, index) => {
               return (
                 <div
                   className="book-item"
@@ -197,7 +196,7 @@ export default function DetailBook() {
                 </div>
               );
             })}
-        </Carousel>
+        </Carousel> : null}
       </div>                     
     </section>
   ) : (

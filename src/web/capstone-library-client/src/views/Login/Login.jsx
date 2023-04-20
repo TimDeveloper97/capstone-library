@@ -90,7 +90,7 @@ export default function Login() {
             </div>
             <div className="col-lg-5 mx-auto" style={{ paddingTop: "20px" }}>
               <h3 className="fs-22 pb-3 fw-bold">
-                Đăng nhập vào trang web Capstone
+                Đăng nhập vào trang web
               </h3>
               <div>
                 <div className="login-content">
@@ -133,7 +133,7 @@ export default function Login() {
                       label="Nhớ mật khẩu"
                     />
                     <span style={{ paddingTop: "5px" }}>
-                      <Link to={"/forgot-password"}>Quên mật khẩu?</Link>
+                      <Link to={"/forgot-password"} style={{textDecoration: "underline", color: "#0d6efd" }}>Quên mật khẩu?</Link>
                     </span>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ export default function Login() {
                 </div>
                 <div className="login-suggest">
                   <span>Bạn chưa có tài khoản?</span>{" "}
-                  <Link to={"/register"}>Đăng ký ngay</Link>
+                  <Link to={"/register"} style={{textDecoration: "underline", color: "#0d6efd" }}>Đăng ký ngay</Link>
                 </div>
               </div>
             </div>
