@@ -11,10 +11,8 @@ import Loading from "../Loading/Loading";
 import "./listbook.css";
 export default function ListBook() {
   const dispatch = useDispatch();
-  const role =
-    JSON.parse(window.localStorage.getItem("user"))?.roles[0] === "ROLE_ADMIN";
   useEffect(() => {
-    role ? dispatch(getBooks()) : dispatch(getUserBooks());
+    dispatch(getBooks());
   }, []);
   const books = useSelector((state) => state.book);
   const [pagination, setPagination] = useState({
@@ -53,8 +51,9 @@ export default function ListBook() {
               listBook.map((item, index) => {
                 return (
                   <div
-                    className="col-md-3 col-lg-3 col-xl-3 book-item"
+                    className="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12 book-item"
                     key={index}
+                    style={{marginBottom: "20px"}}
                   >
                     <div
                       id="product-1"
@@ -77,7 +76,7 @@ export default function ListBook() {
                           <FontAwesomeIcon icon={faDongSign} />
                         </h4>
                         <p className="available">
-                          Còn lại: {role ? item.inStock : item.quantity}
+                          Còn lại: {item.inStock}
                         </p>
                       </div>
                     </div>

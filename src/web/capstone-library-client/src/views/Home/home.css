@@ -235,3 +235,38 @@
     transition: all .4s;
     z-index: 10
 }
+
+.book-item .single-product{
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+}
+.top-notice{
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+.time-ago{
+    background-color: #56ccf2;
+    padding: 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+.top-label{
+    margin-left: 10px;
+    background-color: #f34444;
+    padding: 5px;
+    border-radius: 5px;
+    color: #fff;
+    animation: pulse 1s steps(5, start) infinite;
+}
+
+@keyframes pulse {
+    to {
+        visibility: hidden
+    }
+}

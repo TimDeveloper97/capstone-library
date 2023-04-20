@@ -24,3 +24,9 @@ export const getUserBooks = () => async (dispatch) => {
 export const getBooksByCategory = (listBook) => (dispatch) => {
   dispatch({ type: "GET_BOOKS_BY_CATEGORY", payload: listBook });
 };
+
+export const deleteBook = (id) => async (dispatch) => {
+  const response = await api.deleteBook(id);
+  dispatch({type: "DELETE_BOOK", payload: id});
+  return response.data;
+}

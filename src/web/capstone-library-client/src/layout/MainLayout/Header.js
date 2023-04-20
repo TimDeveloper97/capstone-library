@@ -2,7 +2,7 @@ import { faUserCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getUser } from "../../actions/user";
 import Notification from "../../components/Notification/Notification";
 import DetailAccount from "./DetailAccount";
@@ -20,6 +20,13 @@ export default function Header() {
 
   const user = useSelector((state) => state.user);
   const [isActive, setIsActive] = useState(false);
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+  const submitSearch = (e) => {
+    e.preventDefault();
+    setKeyword("");
+    navigate(`/search-book/${keyword}`, {replace: true});
+  }
 
   return (
     <header
@@ -96,6 +103,19 @@ export default function Header() {
                   )}
                 </ul>
               </nav>
+              <form onSubmit={e => submitSearch(e)} className="flex-grow-0 mr-3">
+                <div className="form-group mb-0" style={{width: "300px"}}>
+                  <input
+                    className="form-control form--control pl-40px"
+                    type="text"
+                    name="search"
+                    placeholder="Tìm sách..."
+                    value={keyword}
+                    onChange={e => setKeyword(e.target.value)}
+                  />
+                  <span className="la la-search input-icon"></span>
+                </div>
+              </form>
               <div className="form-group mb-0">
                 {curUser && curUser.roles[0] === "ROLE_USER" && <Cart />}
               </div>

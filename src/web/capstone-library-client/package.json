@@ -22,6 +22,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.5",
+    "react-multi-carousel": "^2.8.3",
     "react-notifications": "^1.7.4",
     "react-owl-carousel": "^2.3.3",
     "react-qr-code": "^2.0.11",
