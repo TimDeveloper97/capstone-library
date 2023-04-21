@@ -16,3 +16,9 @@ export const deleteCategory = (id) => async (dispatch) => {
   dispatch({type: "DELETE_CATEGORY", payload: id});
   return response.data;
 }
+
+export const updateCategory = (data) => async (dispatch) => {
+  const response = await api.updateCategory(data);
+  response.data.success && dispatch({type: "UPDATE_CATEGORY", payload: data});
+  return response.data;
+}

@@ -34,8 +34,10 @@ export default function ManagementSidebar() {
   const location = useLocation();
 
   return (
-    <div className="sidebar pb-45px position-sticky top-0 mt-2 pt-30px">
-      <ul className="generic-list-item generic-list-item-highlight fs-15">
+    <div className="sidebar pb-45px position-sticky top-70 mt-2 pt-30px">
+      <h5 className="text-center">{user.lastName + " " + user.firstName}</h5>
+      <h6 className="text-center">{user.roles[0] === "ROLE_ADMIN" ? "admin" : "quản lý"}</h6>
+      <ul className="generic-list-item generic-list-item-highlight fs-15" style={{marginTop: "15px"}}>
         {user.roles[0] === "ROLE_ADMIN"
           ? adminManageLinks.map((link) => {
               return (

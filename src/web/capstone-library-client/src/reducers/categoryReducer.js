@@ -6,6 +6,10 @@ const category = (state = null, action) => {
     case "ADD_CATEGORY": {
       return [...state, action.payload];
     }
+    case "UPDATE_CATEGORY":
+      return state.map(cate => {
+        
+      })
     case "DELETE_CATEGORY": {
       return state.filter(cate => cate.nameCode !== action.payload);
     }

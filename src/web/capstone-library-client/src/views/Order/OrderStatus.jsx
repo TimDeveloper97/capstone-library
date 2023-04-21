@@ -5,6 +5,7 @@ import {
   faFileInvoiceDollar,
   faPen,
   faQrcode,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment/moment";
@@ -17,7 +18,7 @@ import {
   receivedOrder,
 } from "../../apis/order";
 import Loading from "../../components/Loading/Loading";
-import { getColorStatus } from "../../helper/helpFunction";
+import { formatMoney, getColorStatus } from "../../helper/helpFunction";
 import {
   NotificationManager,
   NotificationContainer,
@@ -28,6 +29,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  TextField,
 } from "@mui/material";
 import QRCode from "react-qr-code";
 import { useNavigate } from "react-router-dom";
@@ -131,129 +133,183 @@ export default function OrderStatus() {
     const day = new Date(input);
     return moment(day).format("D/MM/YYYY");
   };
+  const handleClickSearch = () => {};
   return listOrderStatus ? (
     <>
-      <section className="hero-area bg-white shadow-sm pt-80px pb-80px">
-        <NotificationContainer />
-        <span className="icon-shape icon-shape-1"></span>
-        <span className="icon-shape icon-shape-2"></span>
-        <span className="icon-shape icon-shape-3"></span>
-        <span className="icon-shape icon-shape-4"></span>
-        <span className="icon-shape icon-shape-5"></span>
-        <span className="icon-shape icon-shape-6"></span>
-        <span className="icon-shape icon-shape-7"></span>
+      <section className="cart-area position-relative">
         <div className="container">
-          <div className="hero-content text-center">
-            <h2 className="section-title pb-3">Danh sách đơn hàng</h2>
-          </div>
-        </div>
-      </section>
-      <section className="cart-area pt-80px pb-80px position-relative">
-        <div className="container">
+          <NotificationContainer />
           <div className="row">
-            <div className="col-md-2">
+            <div className="col-md-2" style={{ backgroundColor: "#fff" }}>
               <ManagementSidebar />
             </div>
             <div className="col-md-10">
-            <div className="row">
-            {listOrderStatus.map((los, index) => {
-              return (
-                <div
-                  className="col-md-6 col-sm-12 col-xs-12"
-                  key={index}
-                  style={{ padding: "10px 20px" }}
-                >
-                  <div className="card card-item">
-                    <div className="card-body card-order">
-                      <div className="day-display">
-                        <p>{convertToDay(los.borrowedDate)}</p>
-                        <p style={{ margin: "15px 0" }}>{los.noDays} ngày</p>
-                        <p style={{ color: "red" }}>
-                          {convertToDay(
-                            +los.borrowedDate + 1000 * 60 * 60 * 24 * los.noDays
-                          )}
-                        </p>
-                      </div>
-                      <div className="item-body">
-                        <p style={{ fontWeight: "500", fontSize: "1.25rem" }}>
-                          {los.userId}
-                        </p>
-                        <p style={{ marginBottom: "10px" }}>
-                          <FontAwesomeIcon
-                            icon={faFileInvoiceDollar}
-                            color={"#7AA874"}
-                          />{" "}
-                          Tổng tiền: {los.totalPrice} VNĐ
-                        </p>
-                        <span
-                          className="order-status"
-                          style={{ backgroundColor: los.statusColor.color }}
-                        >
-                          {los.statusColor.state}
-                        </span>
-                      </div>
-                      {los.status === 2 ? null : los.status === 32 ? (
-                        <div className="button-action">
-                          <div className="tooltip-action">
-                            <button
-                              className="btn btn-success"
-                              onClick={(e) =>
-                                handleConfirmOrder(e, los.id, index)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faCheck} /> Chấp thuận
-                            </button>
-                            <button
-                              className="btn btn-danger"
-                              onClick={(e) => handleDenyOrder(e, los.id, index)}
-                            >
-                              <FontAwesomeIcon icon={faCheck} />
-                              Từ chối
-                            </button>
-                          </div>
-                          <span>
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
-                          </span>
-                        </div>
-                      ) : los.status === 64 ? (
-                        <div className="button-action">
-                          <div className="tooltip-action">
-                            <button
-                              className="btn btn-success"
-                              onClick={(e) =>
-                                handleReceivedOrder(e, los.id, index)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faQrcode} /> Tạo mã
-                            </button>
-                          </div>
-                          <span>
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
-                          </span>
-                        </div>
-                      ) : los.status === 128 ? (
-                        <div className="button-action">
-                          <div className="tooltip-action">
-                            <button
-                              className="btn btn-success"
-                              onClick={(e) =>
-                                handleBookReturn(e, los.id, index)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faCheck} /> Xác nhận
-                            </button>
-                          </div>
-                          <span>
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
-                          </span>
-                        </div>
-                      ) : null}
+              <div className="cart-form table-responsive px-2">
+                <div className="search-card">
+                  <div className="row">
+                    <h4>Lọc</h4>
+                    <div className="col-md-3">
+                      <TextField
+                        id="outlined-basic"
+                        label="Theo tiêu đề"
+                        variant="outlined"
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <TextField
+                        id="outlined-basic"
+                        label="Theo ngày thuê"
+                        variant="outlined"
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <TextField
+                        id="outlined-basic"
+                        label="Theo người thuê"
+                        variant="outlined"
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <TextField
+                        id="outlined-basic"
+                        label="Theo trạng thái"
+                        variant="outlined"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div
+                    className="row"
+                    style={{
+                      margin: "20px 0",
+                      display: "flex",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <div className="btn-wrapper">
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => handleClickSearch()}
+                      >
+                        <FontAwesomeIcon icon={faSearch} />
+                        Tìm
+                      </button>
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+                <div className="search-result">
+                  <table className="table generic-table">
+                    <thead style={{textAlign: "center"}}>
+                      <tr>
+                        <th scope="col">Ngày thuê</th>
+                        <th scope="col">Ngày đến hạn</th>
+                        <th scope="col">Tiêu đề</th>
+                        <th scope="col">Tổng giá</th>
+                        <th scope="col">Người thuê</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Thao tác</th>
+                      </tr>
+                    </thead>
+                    <tbody className="body-fw-400">
+                      {listOrderStatus &&
+                        listOrderStatus.map((los, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{convertToDay(los.borrowedDate)}</td>
+                              <td style={{color: "red"}}>{convertToDay(
+                                  +los.borrowedDate +
+                                    1000 * 60 * 60 * 24 * los.noDays
+                                )}</td>
+                              <td>{los.postDto.title}</td>
+                              <td>{formatMoney(los.totalPrice)} đ</td>
+                              <td>{los.userId}</td>
+                              <td>
+                                {" "}
+                                <span
+                                  className="order-status"
+                                  style={{
+                                    backgroundColor: los.statusColor.color,
+                                  }}
+                                >
+                                  {los.statusColor.state}
+                                </span>
+                              </td>
+                              <td style={{position: "relative"}}>
+                                {los.status === 2 ? null : los.status === 32 ? (
+                                  <div className="button-action">
+                                    <div className="tooltip-action">
+                                      <button
+                                        className="btn btn-success"
+                                        onClick={(e) =>
+                                          handleConfirmOrder(e, los.id, index)
+                                        }
+                                      >
+                                        <FontAwesomeIcon icon={faCheck} /> Chấp
+                                        thuận
+                                      </button>
+                                      <button
+                                        className="btn btn-danger"
+                                        onClick={(e) =>
+                                          handleDenyOrder(e, los.id, index)
+                                        }
+                                      >
+                                        <FontAwesomeIcon icon={faCheck} />
+                                        Từ chối
+                                      </button>
+                                    </div>
+                                    <span>
+                                      <FontAwesomeIcon
+                                        icon={faEllipsisVertical}
+                                      />
+                                    </span>
+                                  </div>
+                                ) : los.status === 64 ? (
+                                  <div className="button-action">
+                                    <div className="tooltip-action">
+                                      <button
+                                        className="btn btn-success"
+                                        onClick={(e) =>
+                                          handleReceivedOrder(e, los.id, index)
+                                        }
+                                      >
+                                        <FontAwesomeIcon icon={faQrcode} /> Tạo
+                                        mã
+                                      </button>
+                                    </div>
+                                    <span>
+                                      <FontAwesomeIcon
+                                        icon={faEllipsisVertical}
+                                      />
+                                    </span>
+                                  </div>
+                                ) : los.status === 128 ? (
+                                  <div className="button-action">
+                                    <div className="tooltip-action">
+                                      <button
+                                        className="btn btn-success"
+                                        onClick={(e) =>
+                                          handleBookReturn(e, los.id, index)
+                                        }
+                                      >
+                                        <FontAwesomeIcon icon={faCheck} /> Xác
+                                        nhận
+                                      </button>
+                                    </div>
+                                    <span>
+                                      <FontAwesomeIcon
+                                        icon={faEllipsisVertical}
+                                      />
+                                    </span>
+                                  </div>
+                                ) : null}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>

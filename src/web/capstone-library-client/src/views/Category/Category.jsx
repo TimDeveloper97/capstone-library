@@ -1,4 +1,9 @@
-import { faPen, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faPlus,
+  faSearch,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -61,7 +66,7 @@ export default function Category() {
   useEffect(() => {
     categories && setListCategories(categories.slice());
   }, [categories]);
-  
+
   const [sName, setSName] = useState("");
 
   const submitForm = async (data, e) => {
@@ -87,13 +92,21 @@ export default function Category() {
       NotificationManager.error(res.message, "Lỗi", 2000);
     }
   };
-  const handleEdit = async (name) => {
-
-  }
+  const [openEdit, setOpenEdit] = useState(false);
+  const [curCate, setCurCate] = useState("");
+  const handleEdit = (cate) => {
+    setCurCate(cate.name);
+    setOpenEdit(true);
+  };
+  const handleClickEdit = async (name) => {
+    console.log(curCate);
+  };
 
   const handleClickSearch = () => {
-    setListCategories(categories.filter(cate => cate.name.indexOf(sName) !== -1));
-  }
+    setListCategories(
+      categories.filter((cate) => cate.name.indexOf(sName) !== -1)
+    );
+  };
 
   return (
     <>
@@ -114,13 +127,23 @@ export default function Category() {
                       label="Theo tên"
                       variant="outlined"
                       value={sName}
-                      onChange={e => setSName(e.target.value)}
+                      onChange={(e) => setSName(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="row" style={{ margin: "20px 0", display: "flex", justifyContent: "flex-start" }}>
+                <div
+                  className="row"
+                  style={{
+                    margin: "20px 0",
+                    display: "flex",
+                    justifyContent: "flex-start",
+                  }}
+                >
                   <div className="btn-wrapper">
-                    <button className="btn btn-primary" onClick={() => handleClickSearch()}>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleClickSearch()}
+                    >
                       <FontAwesomeIcon icon={faSearch} />
                       Tìm
                     </button>
@@ -210,6 +233,34 @@ export default function Category() {
               <Button type="submit">Thêm</Button>
             </DialogActions>
           </form>
+        </Dialog>
+        <Dialog open={openEdit} onClose={() => setOpenEdit(false)}>
+          <div style={{ width: "500px", height: "350px" }}>
+            <DialogTitle>Sửa thể loại</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                label="Tên thể loại"
+                type="text"
+                fullWidth
+                variant="standard"
+                defaultValue={curCate}
+                onChange={(e) => setCurCate(e.target.value)}
+              />
+              {errors.name && (
+                <span className="error-message" role="alert">
+                  {errors.name?.message}
+                </span>
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setOpenEdit(false)}>Hủy</Button>
+              <Button type="submit" onClick={() => handleClickEdit()}>
+                Thêm
+              </Button>
+            </DialogActions>
+          </div>
         </Dialog>
       </div>
     </>
