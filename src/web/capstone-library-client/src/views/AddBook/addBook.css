@@ -1,55 +1,58 @@
-.list-cate-select{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 15px;
+.list-cate-select {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 15px;
 }
-.cate-select{
-    position: relative;
-    border-radius: 20px;
-    text-align: center;
-    color: black;
-    background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, .125);
-    padding: 5px 20px 5px 10px;
-    margin: 3px;
+.cate-select {
+  position: relative;
+  border-radius: 20px;
+  text-align: center;
+  color: black;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 5px 20px 5px 10px;
+  margin: 3px;
 }
 .cate-select button {
-    position: absolute;
-    top: -5px;
-    right: 10px;
-    border: none;
-    border-radius: 50%;
-    background-color: transparent;
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
 }
 .image button {
-    position: absolute;
-    top: -5px;
-    right: 10px;
-    border: none;
-    border-radius: 50%;
-    background-color: transparent;
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
 }
 .image {
-    position: relative;
+  position: relative;
 }
-.search-book{
-    min-height: 380px;
+.search-book {
+  min-height: 380px;
 }
-.search-card{
-    background-color: #fff;
-    padding: 15px;
+.search-card {
+  background-color: #fff;
+  padding: 15px;
 }
-.search-card h4{
-    padding: 10px;
+.search-card h4 {
+  padding: 10px;
 }
-.search-result{
-    background-color: #fff;
-    padding: 15px;
+.search-result {
+  background-color: #fff;
+  padding: 15px;
 }
-.btn-wrapper{
-    width: fit-content;
+.btn-wrapper {
+  width: fit-content;
 }
-.edit-column button{
-    margin-right:15px;
+.ml-10 {
+  margin-left: 10px !important;
+}
+.edit-column button {
+  margin-right: 15px;
 }

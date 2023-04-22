@@ -96,3 +96,16 @@
   font-weight: 400 !important;
   text-align: center;
 }
+.input-search {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0;
+}
+.input-param {
+  width: 200px;
+  padding: 5px;
+  margin-left: 15px;
+}
+.pd-0 {
+  padding: 0;
+}
