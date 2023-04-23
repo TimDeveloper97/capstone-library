@@ -115,7 +115,12 @@ public class BookController {
         logger.info("[API-Book] deleteBookHasId - START");
         logger.info("Fetching & Deleting book with id" + id);
         try {
-            Set<Book> books = bookService.getListBooksOfUserId(auth.getName());
+            Set<Book> books = null;
+            if(tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST") || tokenProvider.getRoles(auth).contains("ROLE_ADMIN")){
+                books = bookService.getAllByManagerId(auth.getName());
+            }else {
+                books = bookService.getListBooksOfUserId(auth.getName());
+            }
             if(books.stream().filter(b -> (b.getId() == id)).collect(Collectors.toSet()).isEmpty()){
                 logger.error("Book with id:"+ id +" not found. Unable to delete.");
                 logger.info("[API-Book] deleteBookHasId - END");
@@ -182,7 +187,11 @@ public class BookController {
         logger.info("[API-Book] updateBook - START");
         Set<Book> books = null;
         try {
-            books = bookService.getListBooksOfUserId(auth.getName());
+            if(tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST") || tokenProvider.getRoles(auth).contains("ROLE_ADMIN")){
+                books = bookService.getAllByManagerId(auth.getName());
+            }else {
+                books = bookService.getListBooksOfUserId(auth.getName());
+            }
             books = books.stream().filter(b -> (b.getId() == bookDto.getId())).collect(Collectors.toSet());
         }catch (Exception ex){
             logger.error("Exception: "+ ex.getMessage() +".\n Nguyên nhân: " + ex.getCause());
