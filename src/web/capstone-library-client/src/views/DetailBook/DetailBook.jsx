@@ -9,7 +9,10 @@ import { formatMoney, getImgUrl } from "../../helper/helpFunction";
 import "./detailbook.css";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import { deleteBook } from "../../actions/book";
-import {NotificationManager, NotificationContainer} from "react-notifications";
+import {
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
 import Carousel from "react-multi-carousel";
 
 export default function DetailBook() {
@@ -57,7 +60,7 @@ export default function DetailBook() {
     fetchBook();
   }, [id]);
   const dispatch = useDispatch();
-  
+
   const getOneImg = (post) => {
     let img = "/images/default_img.jpeg";
     post.postDetailDtos.forEach((pto) => {
@@ -119,12 +122,14 @@ export default function DetailBook() {
                               </div>
                               <div className="number">
                                 <h5 className="publisher">
-                                  Nhà xuất bản: <span>{currentBook?.publisher}</span>
+                                  Nhà xuất bản:{" "}
+                                  <span>{currentBook?.publisher}</span>
                                 </h5>
                               </div>
                               <div className="number">
                                 <h5 className="publisher">
-                                  Năm xuất bản: <span>{currentBook?.publishYear}</span>
+                                  Năm xuất bản:{" "}
+                                  <span>{currentBook?.publishYear}</span>
                                 </h5>
                               </div>
                             </div>
@@ -157,26 +162,25 @@ export default function DetailBook() {
         <h5 className="newpost-title">
           <FontAwesomeIcon icon={faLink} color="#FD8A8A" /> Post chứa sách này
         </h5>
-        {postHasBook.length > 0 ? <Carousel
-          responsive={responsive}
-          autoPlay={true}
-          swipeable={true}
-          draggable={true}
-          infinite={false}
-          transitionDuration={500}
-          removeArrowOnDeviceType={["desktop", "mobile"]}
-          itemClass="carousel-item-padding-40-px"
-        >
-          { postHasBook.map((item, index) => {
+        {postHasBook?.length > 0 ? (
+          <Carousel
+            responsive={responsive}
+            autoPlay={true}
+            swipeable={true}
+            draggable={true}
+            infinite={false}
+            transitionDuration={500}
+            removeArrowOnDeviceType={["desktop", "mobile"]}
+            itemClass="carousel-item-padding-40-px"
+          >
+            {postHasBook?.map((item, index) => {
               return (
                 <div
                   className="book-item"
                   key={index}
                   style={{ height: "360px", margin: "0 10px" }}
                 >
-                  <div
-                    className="single-product card card-item"
-                  >
+                  <div className="single-product card card-item">
                     <div className="part-1">
                       <img
                         src={getOneImg(item)}
@@ -196,8 +200,9 @@ export default function DetailBook() {
                 </div>
               );
             })}
-        </Carousel> : null}
-      </div>                     
+          </Carousel>
+        ) : null}
+      </div>
     </section>
   ) : (
     <Loading />

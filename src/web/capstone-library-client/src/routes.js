@@ -24,6 +24,7 @@ import UserManagement from "./views/User/UserManagement";
 import UpdateBook from "./views/AddBook/UpdateBook";
 import Books from "./views/BookPage/Books";
 import SearchBook from "./views/BookPage/SearchBook";
+import BookManagement from "./views/BookPage/BookManagement";
 
 export default function Route() {
   return useRoutes([
@@ -122,6 +123,10 @@ export default function Route() {
             {
               path: "user-management",
               element: <UserManagement />,
+            },
+            {
+              path: "book-management",
+              element: <BookManagement />,
             },
           ],
         },

@@ -7,14 +7,16 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../actions/category";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCross, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { addBook } from "../../actions/book";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { updateBook } from "../../actions/book";
 import {
   NotificationManager,
   NotificationContainer,
 } from "react-notifications";
 import { useParams } from "react-router-dom";
 import { getBookById } from "../../apis/book";
+import Loading from "../../components/Loading/Loading";
+import { getImgUrl } from "../../helper/helpFunction";
 
 const schema = yup.object({
   name: yup.string().required("Tên sách không được để trống"),
@@ -30,15 +32,26 @@ export default function UpdateBook() {
 
   const categories = useSelector((state) => state.category);
   const [book, setBook] = useState();
+  const [listCategories, setListCategories] = useState([]);
 
   const { id } = useParams();
   useEffect(() => {
     const getBook = async () => {
       const { data } = await getBookById(id);
       setBook(data.value);
+      setListCategories(
+        categories &&
+          data.value.categories.map((cate) => {
+            return categories.filter((c) => c.nameCode === cate)[0];
+          })
+      );
+      const imagesArray = data.value.imgs.map((file) => {
+        return getImgUrl(file.fileName);
+      });
+      setSelectedImages(imagesArray);
     };
     getBook();
-  }, []);
+  }, [id, categories]);
   const {
     register,
     handleSubmit,
@@ -51,8 +64,9 @@ export default function UpdateBook() {
   const submitForm = async (data, e) => {
     e.preventDefault();
     data.categories = listCategories.map((lc) => lc.nameCode);
-    data.imgs = imgs;
-    const res = await dispatch(addBook(data));
+    imgs.length !== 0 && (data.imgs = imgs);
+    console.log(data);
+    const res = await dispatch(updateBook(data));
     if (res.success) {
       NotificationManager.success(res.message, "Thông báo", 2000);
       resetData();
@@ -72,9 +86,7 @@ export default function UpdateBook() {
     setListCategories([]);
     setSelectedImages([]);
   };
-  const [listCategories, setListCategories] = useState(book?.categories);
   const [cate, setCate] = useState("chinhtri_phapluat");
-
   const handleChangeSelect = (event) => {
     let cateSelected = categories.filter(
       (cate) => cate.nameCode === event.target.value
@@ -105,11 +117,8 @@ export default function UpdateBook() {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
     let imgArr = [];
-    console.log(selectedFilesArray);
     selectedFilesArray.forEach(async (file, index) => {
       let data = await toBase64(file);
-      // console.log(data);
-      // console.log("img" + index);
       data = data.split(",")[1];
       imgArr.push({ fileName: file.name, data });
     });
@@ -120,12 +129,12 @@ export default function UpdateBook() {
     setSelectedImages(imagesArray);
   };
 
-  return (
+  return book ? (
     <section className="question-area pt-40px pb-40px">
       <NotificationContainer />
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
-          <h3 className="fs-22 fw-medium mr-0">Thêm mới sách</h3>
+          <h3 className="fs-22 fw-medium mr-0 color-w">Sửa sách</h3>
         </div>
         <div className="row">
           <div className="col-lg-8" style={{ position: "relative" }}>
@@ -143,6 +152,7 @@ export default function UpdateBook() {
                       label="Tên sách"
                       variant="filled"
                       fullWidth
+                      defaultValue={book.name}
                       {...register("name")}
                     />
                     {errors.name && (
@@ -158,6 +168,7 @@ export default function UpdateBook() {
                       label="Tên tác giả"
                       variant="filled"
                       fullWidth
+                      defaultValue={book.author}
                       {...register("author")}
                     />
                     {errors.author && (
@@ -174,7 +185,7 @@ export default function UpdateBook() {
                         label="Số lượng"
                         variant="filled"
                         type="number"
-                        defaultValue={1}
+                        defaultValue={book.inStock}
                         {...register("quantity")}
                       />
                     </div>
@@ -184,6 +195,7 @@ export default function UpdateBook() {
                         label="Nhà xuất bản"
                         variant="filled"
                         {...register("publisher")}
+                        defaultValue={book.publisher}
                       />
                     </div>
                     <div className="form-group col-md-3">
@@ -191,6 +203,7 @@ export default function UpdateBook() {
                         id="filled-basic"
                         label="Năm xuất bản"
                         variant="filled"
+                        defaultValue={book.publishYear}
                         {...register("publishYear")}
                       />
                     </div>
@@ -200,6 +213,7 @@ export default function UpdateBook() {
                         label="Giá"
                         variant="filled"
                         required
+                        defaultValue={book.price}
                         {...register("price")}
                       />
                       {errors.price && (
@@ -217,12 +231,13 @@ export default function UpdateBook() {
                       rows={3}
                       variant="filled"
                       fullWidth
+                      defaultValue={book.description}
                       {...register("description")}
                     />
                   </div>
                   <div className="form-group mb-0">
                     <button className="btn theme-btn" type="submit">
-                      Đăng sách
+                      Cập nhật sách
                     </button>
                   </div>
                 </div>
@@ -324,5 +339,7 @@ export default function UpdateBook() {
         </div>
       </div>
     </section>
+  ) : (
+    <Loading />
   );
 }

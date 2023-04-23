@@ -5,11 +5,18 @@ export const addBook = (data) => async (dispatch) => {
   return response.data;
 };
 
+export const updateBook = (data) => async (dispatch) => {
+  const response = await api.updateBook(data);
+  return response.data;
+};
+
 export const getBooks = () => async (dispatch) => {
   const response = await api.getBooks();
   dispatch({
     type: "GET_BOOKS",
-    payload: response.data.value ? response.data.value.sort((a, b) => a.id - b.id).slice() : [],
+    payload: response.data.value
+      ? response.data.value.sort((a, b) => a.id - b.id).slice()
+      : [],
   });
 };
 
@@ -17,7 +24,9 @@ export const getUserBooks = () => async (dispatch) => {
   const response = await api.getUserBooks();
   dispatch({
     type: "GET_BOOKS",
-    payload: response.data.value ? response.data.value.sort((a, b) => a.id - b.id).slice() : [],
+    payload: response.data.value
+      ? response.data.value.sort((a, b) => a.id - b.id).slice()
+      : [],
   });
 };
 
@@ -27,6 +36,6 @@ export const getBooksByCategory = (listBook) => (dispatch) => {
 
 export const deleteBook = (id) => async (dispatch) => {
   const response = await api.deleteBook(id);
-  dispatch({type: "DELETE_BOOK", payload: id});
+  response.success && dispatch({ type: "DELETE_BOOK", payload: id });
   return response.data;
-}
+};

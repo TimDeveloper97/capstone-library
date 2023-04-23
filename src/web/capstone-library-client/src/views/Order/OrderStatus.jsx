@@ -19,7 +19,11 @@ import {
   receivedOrder,
 } from "../../apis/order";
 import Loading from "../../components/Loading/Loading";
-import { formatMoney, getColorStatus } from "../../helper/helpFunction";
+import {
+  compareDateEqual,
+  formatMoney,
+  getColorStatus,
+} from "../../helper/helpFunction";
 import {
   NotificationManager,
   NotificationContainer,
@@ -100,7 +104,7 @@ export default function OrderStatus() {
   const [open, setOpen] = useState(false);
 
   //input search param
-  const [rentDate, setRentDate] = useState(moment(new Date()));
+  const [rentDate, setRentDate] = useState();
   const [searchTitle, setSearchTitle] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [status, setStatus] = useState(-1);
@@ -186,15 +190,16 @@ export default function OrderStatus() {
   const handleClickSearch = () => {
     let temp = listOrderStatus;
     temp = temp.filter((t) => t.postDto.title.indexOf(searchTitle) !== -1);
-    temp = temp.filter((t) => t.userId.indexOf(searchTitle) !== -1);
+    temp = temp.filter((t) => t.userId.indexOf(searchUser) !== -1);
     status !== -1 && (temp = temp.filter((t) => t.status === status));
-    temp = temp.filter((t) => {
-      return new Date(t.borrowedDate).getDate() === rentDate._d.getDate();
-    });
+    rentDate &&
+      (temp = temp.filter((t) =>
+        compareDateEqual(new Date(t.borrowedDate), rentDate._d)
+      ));
     setListOrderDisplay(temp.slice());
   };
   const handleClickReset = () => {
-    setRentDate(moment(new Date()));
+    setRentDate(null);
     setSearchTitle("");
     setSearchUser("");
     setStatus(-1);
