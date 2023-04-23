@@ -19,6 +19,10 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             nativeQuery = true)
     Set<Book> findAllByUserId(@Param("uId") String uId);
 
+    @Query(value = "Select * from books where user_id = :uId and in_stock > 0",
+            nativeQuery = true)
+    Set<Book> getAllByManagerId(@Param("uId")String uId);
+
     @Query(value = "Select * from books where user_id = :uId and in_stock = 0 and quantity > 0",
             nativeQuery = true)
     Set<Book> getListBooksOfUserId(@Param("uId") String uId);
