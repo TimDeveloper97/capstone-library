@@ -1,38 +1,51 @@
-import React from 'react'
-import { faDongSign, faSquarePollVertical } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatMoney, getImgUrl } from '../../helper/helpFunction';
-import { Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React from "react";
+import {
+  faDongSign,
+  faSquarePollVertical,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { formatMoney, getImgUrl } from "../../helper/helpFunction";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getBooks } from "../../actions/book";
 
 export default function SearchBook() {
-    const params = useParams();
-    const books = useSelector(state => state.book);
-    const [searchedBook, setSearchBook] = useState([]);
+  const params = useParams();
+  const dispatch = useDispatch();
+  const [searchedBook, setSearchBook] = useState([]);
 
-    useEffect(() => {
-        setSearchBook(books.filter(b => b.name.indexOf(params.keyword) !== -1));
-    }, [params.keyword])
+  useEffect(() => {
+    dispatch(getBooks());
+    setSearchBook(books.filter((b) => b.name.indexOf(params.keyword) !== -1));
+  }, [params.keyword]);
+  const books = useSelector((state) => state.book);
 
   return (
-    <section className="newest-post-section search-book" style={{marginTop: '40px'}}>
+    <section
+      className="newest-post-section search-book"
+      style={{ marginTop: "40px" }}
+    >
       <div className="container">
         <h5 className="newpost-title">
-          <FontAwesomeIcon icon={faSquarePollVertical} color="#FD8A8A" /> Kết quả tìm kiếm
+          <FontAwesomeIcon icon={faSquarePollVertical} color="#FD8A8A" /> Kết
+          quả tìm kiếm
         </h5>
         <div className="row">
-          {books && searchedBook.length > 0 ? searchedBook.map((item, index) => {
+          {books && searchedBook.length > 0 ? (
+            searchedBook.map((item, index) => {
               return (
                 <div
                   className="col-lg-2 col-md-4 col-sm-6 col-xs-12 book-item"
                   key={index}
-                  style={{ height: "360px", padding: "0 10px", marginBottom: "20px"}}
+                  style={{
+                    height: "360px",
+                    padding: "0 10px",
+                    marginBottom: "20px",
+                  }}
                 >
-                  <div
-                    className="single-product card card-item"
-                  >
+                  <div className="single-product card card-item">
                     <div className="part-1">
                       <img
                         src={getImgUrl(item.imgs[0]?.fileName)}
@@ -54,10 +67,12 @@ export default function SearchBook() {
                   <Link to={`/user/detail-book/${item.id}`} />
                 </div>
               );
-            }) : <h5>Không có cuốn sách nào</h5>}
-            
+            })
+          ) : (
+            <h5>Không có cuốn sách nào</h5>
+          )}
         </div>
       </div>
     </section>
-  )
+  );
 }
