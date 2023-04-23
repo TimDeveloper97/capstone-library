@@ -53,7 +53,7 @@ export default function Route() {
           element: <Post />,
         },
         {
-          path: "/books",
+          path: "/books/:cate",
           element: <Books />,
         },
         {

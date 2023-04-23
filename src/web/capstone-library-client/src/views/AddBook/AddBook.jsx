@@ -114,7 +114,9 @@ export default function AddBook() {
       <NotificationContainer />
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
-          <h3 className="fs-22 fw-medium mr-0">Thêm mới sách</h3>
+          <h3 className="fs-22 fw-medium mr-0" style={{ color: "#fff" }}>
+            Thêm mới sách
+          </h3>
         </div>
         <div className="row">
           <div className="col-lg-8" style={{ position: "relative" }}>

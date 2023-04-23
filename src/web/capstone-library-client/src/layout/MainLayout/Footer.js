@@ -1,7 +1,17 @@
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { getCategories } from "../../actions/category";
 
 export default function Footer() {
   const curUser = JSON.parse(window.localStorage.getItem("user"));
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getCategories());
+  // }, []);
+  const categories = useSelector((state) => state.category);
+
   return (
     <section
       className="footer-area pt-20px position-relative"
@@ -18,11 +28,11 @@ export default function Footer() {
         <div className="row">
           <div className="col-lg-12 responsive-column-half">
             <div className="footer-item">
-              <h3 className="fs-18 fw-bold pb-2 text-white">
-                Kết nối với chúng tôi ngay
-              </h3>
               <div className="row">
                 <div className="col-md-3">
+                  <h3 className="fs-18 fw-bold pb-2 text-white">
+                    Kết nối với chúng tôi ngay
+                  </h3>
                   <ul className="generic-list-item generic-list-item-hover-underline pt-3 generic-list-item-white">
                     <li>
                       <a href="#">
@@ -45,6 +55,19 @@ export default function Footer() {
                       </a>
                     </li>
                   </ul>
+                </div>
+                <div className="col-md-3"></div>
+                <div className="col-md-6 footer-cate">
+                  {categories &&
+                    categories.map((cate) => {
+                      return (
+                        <div className="category-bottom">
+                          <Link to={`/books/${cate.nameCode}`}>
+                            {cate.name}
+                          </Link>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>

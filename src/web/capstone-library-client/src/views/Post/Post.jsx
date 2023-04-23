@@ -97,7 +97,7 @@ export default function Post() {
   return posts ? (
     <section className="question-area pb-40px">
       <div className="container">
-        <div className="row">
+        <div className="row" style={{ backgroundColor: "#efefef" }}>
           <div className="col-lg-2"></div>
           <div className="col-lg-10">
             <div className="question-tabs mb-50px">

@@ -8,6 +8,7 @@ import Notification from "../../components/Notification/Notification";
 import DetailAccount from "./DetailAccount";
 import "./header.css";
 import Cart from "../../components/Cart/Cart";
+import { getCategories } from "../../actions/category";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -16,17 +17,19 @@ export default function Header() {
   useEffect(() => {
     curUser && dispatch(getUser(curUser.id));
     //setRoleAdmin(curUser?.roles[0] === "ROLE_ADMIN");
+    dispatch(getCategories());
   }, []);
 
   const user = useSelector((state) => state.user);
+  const categories = useSelector((state) => state.category);
   const [isActive, setIsActive] = useState(false);
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
   const submitSearch = (e) => {
     e.preventDefault();
     setKeyword("");
-    navigate(`/search-book/${keyword}`, {replace: true});
-  }
+    navigate(`/search-book/${keyword}`, { replace: true });
+  };
 
   return (
     <header
@@ -67,14 +70,31 @@ export default function Header() {
                     </li>
                   )}
                   <li className="is-mega-menu">
-                    <Link to={"/user/book"}>
-                      Kho sách <i className="la la-angle-down fs-11"></i>
-                    </Link>
-                    <ul className="dropdown-menu-item">
-                      <li>
-                        <Link to={"/user/add-book"}>Thêm sách</Link>
-                      </li>
+                    <a href="#" onClick={(e) => e.preventDefault()}>
+                      Thể loại <i className="la la-angle-down fs-11"></i>
+                    </a>
+                    <ul
+                      className="dropdown-menu-item"
+                      style={{ width: "1000px" }}
+                    >
+                      <div className="container">
+                        <div className="row">
+                          {categories &&
+                            categories.map((cate, index) => {
+                              return (
+                                <li className="col-md-2" key={index}>
+                                  <Link to={`/books/${cate.nameCode}`}>
+                                    {cate.name}
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                        </div>
+                      </div>
                     </ul>
+                  </li>
+                  <li className="is-mega-menu">
+                    <Link to={"/user/add-book"}>Thêm sách</Link>
                   </li>
                   <li>
                     <Link to={"/post"}>
@@ -103,15 +123,18 @@ export default function Header() {
                   )}
                 </ul>
               </nav>
-              <form onSubmit={e => submitSearch(e)} className="flex-grow-0 mr-3">
-                <div className="form-group mb-0" style={{width: "300px"}}>
+              <form
+                onSubmit={(e) => submitSearch(e)}
+                className="flex-grow-0 mr-3"
+              >
+                <div className="form-group mb-0" style={{ width: "300px" }}>
                   <input
                     className="form-control form--control pl-40px"
                     type="text"
                     name="search"
                     placeholder="Tìm sách..."
                     value={keyword}
-                    onChange={e => setKeyword(e.target.value)}
+                    onChange={(e) => setKeyword(e.target.value)}
                   />
                   <span className="la la-search input-icon"></span>
                 </div>

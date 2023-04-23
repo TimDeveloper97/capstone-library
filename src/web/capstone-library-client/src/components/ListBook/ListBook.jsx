@@ -5,11 +5,11 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getBooks, getUserBooks } from "../../actions/book";
+import { getBooks } from "../../actions/book";
 import { formatMoney, getImgUrl } from "../../helper/helpFunction";
 import Loading from "../Loading/Loading";
 import "./listbook.css";
-export default function ListBook() {
+export default function ListBook({ category }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBooks());
@@ -29,12 +29,20 @@ export default function ListBook() {
         numberOfPage: Math.ceil(books.length / prev.pageSize),
       };
     });
-    setListBook(books.slice(start, start + pagination.pageSize));
+    if (category.nameCode === "all") {
+      setListBook(books.slice(start, start + pagination.pageSize));
+    } else {
+      setListBook(
+        books
+          .filter((b) => b.categories.indexOf(category.nameCode) !== -1)
+          .slice(start, start + pagination.pageSize)
+      );
+    }
   };
 
   useEffect(() => {
     books && setupPage(0);
-  }, [books]);
+  }, [books, category]);
 
   const handleChangePage = (e, p) => {
     setupPage(p - 1);
@@ -53,7 +61,7 @@ export default function ListBook() {
                   <div
                     className="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12 book-item"
                     key={index}
-                    style={{marginBottom: "20px"}}
+                    style={{ marginBottom: "20px" }}
                   >
                     <div
                       id="product-1"
@@ -75,9 +83,7 @@ export default function ListBook() {
                           {formatMoney(item.price)}{" "}
                           <FontAwesomeIcon icon={faDongSign} />
                         </h4>
-                        <p className="available">
-                          Còn lại: {item.inStock}
-                        </p>
+                        <p className="available">Còn lại: {item.inStock}</p>
                       </div>
                     </div>
                     <Link to={`/user/detail-book/${item.id}`} />

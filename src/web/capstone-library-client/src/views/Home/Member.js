@@ -11,8 +11,10 @@ export default function Member() {
       >
         <div className="container">
           <div className="text-center">
-            <h2 className="section-title pb-3" style={{color: "#fff"}}>Dành cho thành viên</h2>
-            <p className="section-desc w-50 mx-auto" style={{color: "#fff"}}>
+            <h2 className="section-title pb-3" style={{ color: "#fff" }}>
+              Dành cho thành viên
+            </h2>
+            <p className="section-desc w-50 mx-auto" style={{ color: "#fff" }}>
               Cùng tham khảo những ưu đãi đặc biệt dành cho hội viên tại
               Capstone
             </p>
@@ -67,7 +69,7 @@ export default function Member() {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-7 py-4">
-              <h2 className="section-title fs-30 lh-40" style={{color: "#fff"}}>
+              <h2 className="section-title fs-30 lh-40">
                 Còn chờ gì nữa mà không đăng ký thành viên ngay lúc này
               </h2>
             </div>

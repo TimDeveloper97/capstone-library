@@ -33,7 +33,6 @@
   right: -10px;
   z-index: 10;
   color: #6c727c;
-  box-shadow: 0 0 1px 1px #aaa;
   text-align: left;
   cursor: default;
   border-radius: 10px;
@@ -42,6 +41,7 @@
   visibility: hidden;
   padding: 20px;
   width: 190px;
+  border: none;
 }
 
 .detail-item {
@@ -63,11 +63,25 @@
   width: 100px;
 }
 
-.back-button{
+.back-button {
   position: fixed;
   width: 40px;
   height: 40px;
   top: 20%;
   right: 0;
   cursor: pointer;
+}
+.category-bottom {
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 0 5px 0 5px;
+  width: fit-content;
+  height: fit-content;
+}
+.footer-cate {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
