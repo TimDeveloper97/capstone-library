@@ -59,9 +59,9 @@ export default function Footer() {
                 <div className="col-md-3"></div>
                 <div className="col-md-6 footer-cate">
                   {categories &&
-                    categories.map((cate) => {
+                    categories.map((cate, index) => {
                       return (
-                        <div className="category-bottom">
+                        <div className="category-bottom" key={index}>
                           <Link to={`/books/${cate.nameCode}`}>
                             {cate.name}
                           </Link>

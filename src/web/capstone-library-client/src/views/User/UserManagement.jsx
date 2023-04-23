@@ -25,7 +25,7 @@ export default function UserManagement() {
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await getAllUser();
-      setUsers(data.value ?  data.value : []);
+      setUsers(data.value ? data.value : []);
       setNumPage(data.value ? Math.ceil(data.value.length / pageSize) : 1);
     };
     fetchUser();
@@ -81,7 +81,11 @@ export default function UserManagement() {
   const [curPage, setCurPage] = useState(1);
   const [numPage, setNumPage] = useState(3);
   useEffect(() => {
-    setListUser(users.sort((a, b) => a.id - b.id).slice((curPage - 1) * pageSize, (curPage - 1) * pageSize + pageSize));
+    setListUser(
+      users
+        .sort((a, b) => a.id - b.id)
+        .slice((curPage - 1) * pageSize, (curPage - 1) * pageSize + pageSize)
+    );
   }, [curPage]);
 
   return users ? (
@@ -105,7 +109,7 @@ export default function UserManagement() {
         <NotificationContainer />
         <div className="container">
           <div className="row">
-            <div className="col-md-2">
+            <div className="col-md-2" style={{ background: "#fff" }}>
               <ManagementSidebar />
             </div>
             <div className="col-md-10">
@@ -226,13 +230,19 @@ export default function UserManagement() {
                       <tr className="fw-normal">
                         <td colSpan={8}>
                           <div className="table-paging">
-                          Trang: {curPage} trên {numPage}{" "}
-                          <button onClick={() => setCurPage(prev => --prev)} disabled={curPage === 1}>
-                            <FontAwesomeIcon icon={faChevronLeft} />
-                          </button>{" "}
-                          <button onClick={() => setCurPage(prev => ++prev)} disabled={curPage === numPage}>
-                            <FontAwesomeIcon icon={faChevronRight} />
-                          </button>
+                            Trang: {curPage} trên {numPage}{" "}
+                            <button
+                              onClick={() => setCurPage((prev) => --prev)}
+                              disabled={curPage === 1}
+                            >
+                              <FontAwesomeIcon icon={faChevronLeft} />
+                            </button>{" "}
+                            <button
+                              onClick={() => setCurPage((prev) => ++prev)}
+                              disabled={curPage === numPage}
+                            >
+                              <FontAwesomeIcon icon={faChevronRight} />
+                            </button>
                           </div>
                         </td>
                       </tr>
