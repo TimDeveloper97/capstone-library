@@ -39,7 +39,7 @@ public class CategoryController {
     }//view all categories
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
     public ResponseEntity<?> postCatAdd(@RequestBody CategoryDTO categoryDto){
         logger.info("[API-Category] postCatAdd - START");
         logger.info("Creating new category:" + categoryDto.getNameCode());
@@ -59,7 +59,7 @@ public class CategoryController {
     }//form add new category > do add
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER_POST')")
     public ResponseEntity<?> deleteCat(@PathVariable("id") String id){
         logger.info("[API-Category] deleteCat - START");
         logger.info("Fetching & Deleting Category with name code " + id);
@@ -74,7 +74,7 @@ public class CategoryController {
     }//delete 1 category
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER_POST')")
     public ResponseEntity<?> updateCat(@PathVariable("id") String id, @RequestBody Category category){
         logger.info("[API-Category] updateCat - START");
         logger.info("Fetching & Updating category with id" + id);

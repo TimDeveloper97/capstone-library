@@ -36,7 +36,7 @@ public class RechargeController {
     @Autowired
     private NotificationService notificationService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
     @GetMapping("/recharge")
     public ResponseEntity<?> getAllPayment(){
         logger.info("[API-Recharge] getAllPayment - START");
@@ -64,7 +64,7 @@ public class RechargeController {
         return new ResponseEntity<>(new ResData<List<PaymentDto>>(0, paymentDtos), HttpStatus.OK);
     }//view all posts
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
     @PutMapping("/transfer")
     public ResponseEntity<?> transfer(Authentication auth, @RequestBody PaymentDto paymentDto){
         logger.info("[API-Recharge] transfer - START");

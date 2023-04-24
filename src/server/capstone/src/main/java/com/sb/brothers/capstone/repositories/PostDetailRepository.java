@@ -18,7 +18,7 @@ public interface PostDetailRepository extends JpaRepository<PostDetail,Integer> 
     @Query(value = "DELETE FROM post_detail WHERE post_id = :postId", nativeQuery = true)
     void deleteAllByPostId(@Param("postId") int postId);
 
-    @Query(value = "SELECT * FROM post_detail WHERE book_id = :bookId AND sublet > 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM post_detail WHERE book_id = :bookId AND sublet > 0", nativeQuery = true)
     Optional<PostDetail> findByBookId(@Param("bookId") int bookId);
 
     @Query(value = "SELECT * FROM post_detail WHERE book_id = :bookId AND sublet = 0 AND post_id IN (SELECT id FROM post WHERE `status` between 32 and 512)", nativeQuery = true)
