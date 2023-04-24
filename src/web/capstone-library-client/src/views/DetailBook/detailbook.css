@@ -76,9 +76,9 @@
 }
 .number h5 span {
   box-shadow: 0 0 8px rgba(82, 85, 90, 0.1);
-  padding: 10px;
+  padding: 5px;
   background-color: #cbe4de;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .description {
   box-shadow: 0 0 8px rgba(82, 85, 90, 0.1);

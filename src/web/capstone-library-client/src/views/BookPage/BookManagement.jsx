@@ -38,15 +38,6 @@ export default function BookManagement() {
     setListBooks(books.sort((a, b) => a.id - b.id));
   }, [books]);
 
-  //   const [curPage, setCurPage] = useState(1);
-  //   const [numPage, setNumPage] = useState(3);
-  //   useEffect(() => {
-  //     setListUser(
-  //       books
-  //         .sort((a, b) => a.id - b.id)
-  //         .slice((curPage - 1) * pageSize, (curPage - 1) * pageSize + pageSize)
-  //     );
-  //   }, [curPage]);
   const [searchName, setSearchName] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
   const [searchPublisher, setSearchPublisher] = useState("");
@@ -177,7 +168,7 @@ export default function BookManagement() {
                       </tr>
                     </thead>
                     <tbody className="body-fw-400">
-                      {listBooks &&
+                      {books &&
                         listBooks.map((book, index) => {
                           return (
                             <tr
@@ -187,7 +178,7 @@ export default function BookManagement() {
                             >
                               <th>
                                 <Avatar
-                                  src={getImgUrl(book.imgs[0].fileName)}
+                                  src={getImgUrl(book.imgs[0]?.fileName)}
                                 />
                                 {book.name}
                                 <Link

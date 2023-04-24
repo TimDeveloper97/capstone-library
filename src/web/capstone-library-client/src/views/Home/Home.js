@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBook = async () => {
       const { data } = await getBooks();
-      setFiveBook(data.value.sort((a, b) => a.id - b.id).slice(0, 5));
+      setFiveBook(data.value.sort((a, b) => b.id - a.id).slice(0, 5));
     };
     fetchBook();
   }, []);
@@ -49,7 +49,7 @@ export default function Home() {
                     <div className="hero-item">
                       <img
                         className="cover"
-                        src={getImgUrl(fiveBook[0].imgs[0].fileName)}
+                        src={getImgUrl(fiveBook[0].imgs[0]?.fileName)}
                         alt="cover"
                       />
                       <div className="bottom-shadow"></div>
@@ -65,7 +65,7 @@ export default function Home() {
                     <div className="hero-item">
                       <img
                         className="cover"
-                        src={getImgUrl(fiveBook[1].imgs[0].fileName)}
+                        src={getImgUrl(fiveBook[1].imgs[0]?.fileName)}
                         alt="cover"
                       />
                       <div className="bottom-shadow"></div>
@@ -113,7 +113,7 @@ export default function Home() {
                     <div className="hero-item">
                       <img
                         className="cover"
-                        src={getImgUrl(fiveBook[3].imgs[0].fileName)}
+                        src={getImgUrl(fiveBook[3].imgs[0]?.fileName)}
                         alt="cover"
                       />
                       <div className="bottom-shadow"></div>
