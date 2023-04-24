@@ -8,7 +8,7 @@ const category = (state = null, action) => {
     }
     case "UPDATE_CATEGORY":
       return state.map(cate => {
-        
+        return cate.nameCode === action.payload.nameCode ? {...cate, name: action.payload.name} : cate
       })
     case "DELETE_CATEGORY": {
       return state.filter(cate => cate.nameCode !== action.payload);

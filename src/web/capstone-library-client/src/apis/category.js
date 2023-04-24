@@ -6,4 +6,4 @@ export const addCategory = (data) => axiosIntance.post("/admin/categories/add", 
 
 export const deleteCategory = (id) => axiosIntance.delete(`/admin/categories/delete/${id}`);
 
-export const updateCategory = (data) => axiosIntance.put("/admin/categories/update", data);
+export const updateCategory = (data) => axiosIntance.put(`/admin/categories/update/${data.nameCode}`, data);

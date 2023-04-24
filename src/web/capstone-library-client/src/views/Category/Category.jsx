@@ -21,6 +21,7 @@ import {
   addCategory,
   deleteCategory,
   getCategories,
+  updateCategory,
 } from "../../actions/category";
 import * as yup from "yup";
 import { removeTones } from "../../helper/helpFunction";
@@ -93,13 +94,19 @@ export default function Category() {
     }
   };
   const [openEdit, setOpenEdit] = useState(false);
-  const [curCate, setCurCate] = useState("");
+  const [curCate, setCurCate] = useState();
   const handleEdit = (cate) => {
-    setCurCate(cate.name);
+    setCurCate(cate);
     setOpenEdit(true);
   };
-  const handleClickEdit = async (name) => {
+  const handleClickEdit = async () => {
     console.log(curCate);
+    const res = await dispatch(updateCategory(curCate));
+    if (res.success) {
+      NotificationManager.success(res.message, "Thông báo", 2000);
+    } else {
+      NotificationManager.error(res.message, "Lỗi", 2000);
+    }
   };
 
   const handleClickSearch = () => {
@@ -162,6 +169,7 @@ export default function Category() {
                 <table className="table generic-table">
                   <thead>
                     <tr>
+                      <th scope="col">Số thứ tự</th>
                       <th scope="col">Tên</th>
                       <th scope="col">Mã</th>
                       <th scope="col">Thao tác</th>
@@ -172,7 +180,8 @@ export default function Category() {
                       listCategories.map((cate, index) => {
                         return (
                           <tr key={index}>
-                            <th scope="row">
+                            <td style={{paddingLeft: "15px"}}>{index + 1}</td>
+                            <td>
                               <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
                                 <div className="media-body">
                                   <h5 className="fs-15 fw-medium">
@@ -180,7 +189,7 @@ export default function Category() {
                                   </h5>
                                 </div>
                               </div>
-                            </th>
+                            </td>
                             <td>{cate.nameCode}</td>
                             <td className="edit-column">
                               <button
@@ -245,8 +254,10 @@ export default function Category() {
                 type="text"
                 fullWidth
                 variant="standard"
-                defaultValue={curCate}
-                onChange={(e) => setCurCate(e.target.value)}
+                defaultValue={curCate?.name}
+                onChange={(e) => setCurCate(prev => {
+                  return {...prev, name: e.target.value}
+                })}
               />
               {errors.name && (
                 <span className="error-message" role="alert">
@@ -257,7 +268,7 @@ export default function Category() {
             <DialogActions>
               <Button onClick={() => setOpenEdit(false)}>Hủy</Button>
               <Button type="submit" onClick={() => handleClickEdit()}>
-                Thêm
+                Sửa
               </Button>
             </DialogActions>
           </div>

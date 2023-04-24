@@ -38,6 +38,7 @@ export default function DetailBook() {
       slidesToSlide: 1, // optional, default to 1.
     },
   };
+  const categories = useSelector(state => state.category);
 
   const { id } = useParams();
   const [postHasBook, setPostHasBook] = useState([]);
@@ -130,6 +131,15 @@ export default function DetailBook() {
                                 <h5 className="publisher">
                                   Năm xuất bản:{" "}
                                   <span>{currentBook?.publishYear}</span>
+                                </h5>
+                              </div>
+                              <div className="number">
+                                <h5 className="publisher">
+                                  {currentBook?.categories?.map(cate => {
+                                    return <span style={{marginRight: "10px"}} key={cate}>{
+                                      categories.filter(ca => ca.nameCode === cate)[0]?.name
+                                    }</span>
+                                  })}
                                 </h5>
                               </div>
                             </div>

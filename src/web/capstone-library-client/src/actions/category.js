@@ -13,7 +13,7 @@ export const addCategory = (data) => async (dispatch) => {
 
 export const deleteCategory = (id) => async (dispatch) => {
   const response = await api.deleteCategory(id);
-  dispatch({type: "DELETE_CATEGORY", payload: id});
+  response.data.success && dispatch({type: "DELETE_CATEGORY", payload: id});
   return response.data;
 }
 

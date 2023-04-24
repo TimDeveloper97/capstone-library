@@ -60,7 +60,7 @@ export default function DetailAccount({ isCollapse }) {
       data.success &&
         setConfigs(data.value.sort((a, b) => a.id - b.id).slice());
     };
-    getConfigs();
+    role === "ROLE_ADMIN" && getConfigs();
   }, []);
 
   const [open, setOpen] = useState(false);

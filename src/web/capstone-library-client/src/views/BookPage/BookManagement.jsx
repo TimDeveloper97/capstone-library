@@ -25,23 +25,39 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBook, getBooks } from "../../actions/book";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar } from "@mui/material";
+import { Avatar, MenuItem, Select } from "@mui/material";
+import { getCategories } from "../../actions/category";
 
 export default function BookManagement() {
   const [listBooks, setListBooks] = useState([]);
+  const [listCategories, setListCategories] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBooks());
+    dispatch(getCategories());
   }, []);
   const books = useSelector((state) => state.book);
+  const categories = useSelector(state => state.category);
   useEffect(() => {
     setListBooks(books.sort((a, b) => a.id - b.id));
   }, [books]);
+
+  useEffect(() => {
+    let temp = []
+    categories && (temp = categories.slice());
+    temp.push({name: "--Tất cả thể loại--", nameCode: "all"});
+    setListCategories(temp.reverse());
+  }, [categories])
 
   const [searchName, setSearchName] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
   const [searchPublisher, setSearchPublisher] = useState("");
   const [searchOwner, setSearchOwner] = useState("");
+  const [searchCate, setSearchCate] = useState("all");
+
+  const handleChangeSelect = (e) => {
+    setSearchCate(e.target.value);
+  }
 
   const handleClickSearch = () => {
     let temp = books;
@@ -49,6 +65,7 @@ export default function BookManagement() {
     temp = temp.filter((t) => t.author.indexOf(searchAuthor) !== -1);
     temp = temp.filter((t) => t.owner.indexOf(searchOwner) !== -1);
     temp = temp.filter((t) => t.publisher.indexOf(searchPublisher) !== -1);
+    temp = temp.filter(t => t.categories.indexOf(searchCate) !== -1);
     setListBooks(temp.slice());
   };
   const handleClickReset = () => {
@@ -102,6 +119,24 @@ export default function BookManagement() {
                           value={searchAuthor}
                           onChange={(e) => setSearchAuthor(e.target.value)}
                         />
+                      </div>
+                      <div className="input-search">
+                        <label htmlFor="">Trạng thái:</label>
+                        <div className="input-param" style={{ padding: 0 }}>
+                          <Select
+                            id="demo-simple-select"
+                            value={searchCate}
+                            name="productName"
+                            onChange={handleChangeSelect}
+                            style={{ width: "inherit" }}
+                          >
+                            {listCategories.map((ls, index) => (
+                              <MenuItem value={ls.nameCode} key={index}>
+                                {ls.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-4">
