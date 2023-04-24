@@ -1,14 +1,26 @@
 import { Search } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Funfact from "./Funfact";
 import "./home.css";
 import Member from "./Member";
 import HotBook from "./HotBook";
 import NewUploadBook from "./NewUploadBook";
+import { useDispatch } from "react-redux";
+import { getBooks } from "../../apis/book";
+import { getImgUrl } from "../../helper/helpFunction";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   setTimeout(() => setLoading(false), 1000);
+  const [fiveBook, setFiveBook] = useState([]);
+  useEffect(() => {
+    const fetchBook = async () => {
+      const { data } = await getBooks();
+      setFiveBook(data.value.sort((a, b) => a.id - b.id).slice(0, 5));
+    };
+    fetchBook();
+  }, []);
   return (
     <>
       {loading && (
@@ -27,108 +39,112 @@ export default function Home() {
           </div>
         </div>
       )}
-      <section className="hero" style={{paddingTop: "20px"}}>
-        <div className="container">
-          <div className="tile is-ancestor">
-            <div className="tile is-3 is-vertical is-parent">
-              <div className="tile is-child">
-                <a href="https://truyenqqmoi.com/truyen-tranh/onepunch-man-244-chap-229.html">
-                  <div className="hero-item">
-                    <img
-                      className="cover"
-                      src="https://i.truyenvua.com/slider/290x191/slider_1559213335.jpg?gt=hdfgdfg&mobile=2"
-                      alt="cover"
-                    />
-                    <div className="bottom-shadow"></div>
-                    <div className="captions">
-                      <h3>Onepunch Man</h3>
+      {fiveBook.length !== 0 && (
+        <section className="hero" style={{ paddingTop: "20px" }}>
+          <div className="container">
+            <div className="tile is-ancestor">
+              <div className="tile is-3 is-vertical is-parent">
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[0].id}`}>
+                    <div className="hero-item">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[0].imgs[0].fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h3>{fiveBook[0].name}</h3>
+                      </div>
+                      <div className="chapter green">{fiveBook[0].author}</div>
                     </div>
-                    <div className="chapter green">Chương 229</div>
-                  </div>
-                </a>
+                  </Link>
+                </div>
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[1].id}`}>
+                    <div className="hero-item">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[1].imgs[0].fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h3>{fiveBook[1].name}</h3>
+                      </div>
+                      <div className="chapter green">{fiveBook[1].author}</div>
+                    </div>
+                  </Link>
+                </div>
               </div>
-              <div className="tile is-child">
-                <a href="https://truyenqqmoi.com/truyen-tranh/that-hinh-dai-toi-740-chap-346.html">
-                  <div className="hero-item">
-                    <img
-                      className="cover"
-                      src="https://i.truyenvua.com/slider/290x191/slider_1559213426.jpg?gt=hdfgdfg&mobile=2"
-                      alt="cover"
-                    />
-                    <div className="bottom-shadow"></div>
-                    <div className="captions">
-                      <h3>Thất Hình Đại Tội</h3>
+              <div className="tile is-parent">
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[2].id}`}>
+                    <div className="hero-item has-excerpt">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[2].imgs[0]?.fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h5>
+                          Thể loại: {fiveBook[2].categories.map((c, index) => {
+                            let text = c + ", ";
+                            if(index === fiveBook[2].categories.length - 1){
+                              text = c;
+                            }
+                            return text
+                          })}
+                        </h5>
+                        <h3>{fiveBook[2].name}</h3>
+                      </div>
+                      <div className="chapter blue">{fiveBook[2].author}</div>
+                      <div className="excerpt">
+                      {fiveBook[2].description}
+                      </div>
                     </div>
-                    <div className="chapter orange">Chương 346</div>
-                  </div>
-                </a>
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className="tile is-parent">
-              <div className="tile is-child">
-                <a href="https://truyenqqmoi.com/truyen-tranh/hoc-vien-anh-hung-380-chap-384.html">
-                  <div className="hero-item has-excerpt">
-                    <img
-                      className="cover"
-                      src="https://i.truyenvua.com/slider/583x386/slider_1560573084.jpg?gt=hdfgdfg&mobile=2"
-                      alt="cover"
-                    />
-                    <div className="bottom-shadow"></div>
-                    <div className="captions">
-                      <h5>
-                        Thể loại: Action, Adventure, Comedy, Shounen,
-                        Supernatural
-                      </h5>
-                      <h3>Học Viện Anh Hùng</h3>
+              <div className="tile is-3 is-vertical is-parent">
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[3].id}`}>
+                    <div className="hero-item">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[3].imgs[0].fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h3>{fiveBook[3].name}</h3>
+                      </div>
+                      <div className="chapter green">{fiveBook[3].author}</div>
                     </div>
-                    <div className="chapter blue">Chương 384</div>
-                    <div className="excerpt">
-                      Vào tương lai, lúc mà con người với những sức mạnh siêu
-                      nhiên là điều thường thấy quanh thế giới. Đây là câu
-                      chuyện về Izuku Midoriya, từ một kẻ bất tài trở thành một
-                      siêu anh hùng. Tất cả ta cần là mơ ước.
+                  </Link>
+                </div>
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[4].id}`}>
+                    <div className="hero-item">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[4].imgs[0]?.fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h3>{fiveBook[4].name}</h3>
+                      </div>
+                      <div className="chapter green">{fiveBook[4].author}</div>
                     </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div className="tile is-3 is-vertical is-parent">
-              <div className="tile is-child">
-                <a href="https://truyenqqmoi.com/truyen-tranh/dai-chien-nguoi-khong-lo-462-chap-139.html">
-                  <div className="hero-item">
-                    <img
-                      className="cover"
-                      src="https://i.truyenvua.com/slider/290x191/slider_1559213484.jpg?gt=hdfgdfg&mobile=2"
-                      alt="cover"
-                    />
-                    <div className="bottom-shadow"></div>
-                    <div className="captions">
-                      <h3>Đại Chiến Người Khổng Lồ</h3>
-                    </div>
-                    <div className="chapter red">Chương 139</div>
-                  </div>
-                </a>
-              </div>
-              <div className="tile is-child">
-                <a href="https://truyenqqmoi.com/truyen-tranh/thanh-guom-diet-quy-2624-chap-205-6.html">
-                  <div className="hero-item">
-                    <img
-                      className="cover"
-                      src="https://i.truyenvua.com/slider/290x191/slider_1559213537.jpg?gt=hdfgdfg&mobile=2"
-                      alt="cover"
-                    />
-                    <div className="bottom-shadow"></div>
-                    <div className="captions">
-                      <h3>Thanh Gươm Diệt Quỷ</h3>
-                    </div>
-                    <div className="chapter violet">Chương 205.6</div>
-                  </div>
-                </a>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
       <Funfact />
       <HotBook />
       <NewUploadBook />
