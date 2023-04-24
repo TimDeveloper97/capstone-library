@@ -19,13 +19,13 @@ export default function NewUploadBook() {
         </h5>
         <div className="row">
           {books &&
-            books.slice(0, 6).map((item, index) => {
+            books.slice(0, 18).map((item, index) => {
               return (
                 <div
                   className="col-lg-2 col-md-4 col-sm-6 col-xs-12 book-item"
                   key={index}
                   style={{
-                    height: "360px",
+                    height: "290px",
                     padding: "0 10px",
                     marginBottom: "20px",
                   }}
@@ -35,7 +35,7 @@ export default function NewUploadBook() {
                       <img
                         src={getImgUrl(item.imgs[0]?.fileName)}
                         alt="thumbnail"
-                        style={{ height: "270px" }}
+                        style={{ height: "200px" }}
                       />
                     </div>
                     <div className="part-2">

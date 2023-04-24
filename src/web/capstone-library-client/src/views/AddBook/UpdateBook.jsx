@@ -34,6 +34,8 @@ export default function UpdateBook() {
   const [book, setBook] = useState();
   const [listCategories, setListCategories] = useState([]);
 
+  const userRole = JSON.parse(window.localStorage.getItem("user")).roles[0];
+
   const { id } = useParams();
   useEffect(() => {
     const getBook = async () => {
@@ -185,7 +187,7 @@ export default function UpdateBook() {
                         label="Số lượng"
                         variant="filled"
                         type="number"
-                        defaultValue={book.inStock}
+                        defaultValue={userRole === "ROLE_USER" ? book.quantity : book.inStock}
                         {...register("quantity")}
                       />
                     </div>

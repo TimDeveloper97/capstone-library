@@ -2,6 +2,7 @@ import {
   faArrowRightFromBracket,
   faBook,
   faBookOpen,
+  faBookOpenReader,
   faCartShopping,
   faGear,
   faUser,
@@ -97,6 +98,11 @@ export default function DetailAccount({ isCollapse }) {
             <div className="detail-item">
               <Link to={"/user/deposit-book"} style={{ color: "#FAAB78" }}>
                 <FontAwesomeIcon icon={faBook} /> Ký gửi sách
+              </Link>
+            </div>
+            <div className="detail-item">
+              <Link to={"/user/my-book-management"} style={{ color: "#FAAB78" }}>
+                <FontAwesomeIcon icon={faBookOpenReader} /> Sách của tôi
               </Link>
             </div>
           </>

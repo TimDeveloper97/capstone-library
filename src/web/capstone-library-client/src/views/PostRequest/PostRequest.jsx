@@ -9,11 +9,7 @@ import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { acceptPost, denyPost, getPostRequest } from "../../apis/post";
 import Loading from "../../components/Loading/Loading";
-import {
-  compareDateEqual,
-  formatMoney,
-  getColorStatus,
-} from "../../helper/helpFunction";
+import { compareDateEqual, formatMoney, getColorStatus, getImgUrl } from "../../helper/helpFunction";
 import {
   NotificationContainer,
   NotificationManager,
@@ -21,7 +17,17 @@ import {
 import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { MenuItem, Select } from "@mui/material";
+import {
+  MenuItem,
+  Select,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  Avatar,
+} from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function PostRequest() {
   const [listPostRequest, setListPostRequest] = useState([]);
@@ -29,7 +35,7 @@ export default function PostRequest() {
   useEffect(() => {
     const getPost = async () => {
       const { data } = await getPostRequest();
-      setListPostRequest(
+      data.value && setListPostRequest(
         data.value.map((val) => {
           return {
             ...val,
@@ -37,7 +43,7 @@ export default function PostRequest() {
           };
         })
       );
-      setListPostDeposit(
+      data.value && setListPostDeposit(
         data.value.map((val) => {
           return {
             ...val,
@@ -83,7 +89,7 @@ export default function PostRequest() {
   };
 
   //input search param
-  const [rentDate, setRentDate] = useState();
+  const [rentDate, setRentDate] = useState(moment(new Date()));
   const [searchTitle, setSearchTitle] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [status, setStatus] = useState(-1);
@@ -121,12 +127,22 @@ export default function PostRequest() {
     setListPostDeposit(temp.slice());
   };
   const handleClickReset = () => {
-    setRentDate(null);
+    setRentDate(moment(new Date()));
     setSearchTitle("");
     setSearchUser("");
     setStatus(-1);
     setListPostDeposit(listPostRequest.slice());
   };
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  }
+  const [listDetailBook, setListDetailBook] = useState([]);
+  const handleClickTitle = (listBook) => {
+    setListDetailBook(listBook);
+    setOpen(true);
+  }
+
   return listPostRequest ? (
     <>
       <section className="cart-area position-relative">
@@ -247,8 +263,8 @@ export default function PostRequest() {
                                     1000 * 60 * 60 * 24 * los.noDays
                                 )}
                               </td>
-                              <td>{los.title}</td>
-                              <td>{formatMoney(los.fee)} đ</td>
+                              <td style={{cursor: "pointer"}} onClick={() => handleClickTitle(los.postDetailDtos)}>{los.title}</td>
+                              <td>{los.fee} %</td>
                               <td>{los.user}</td>
                               <td>
                                 {" "}
@@ -302,6 +318,47 @@ export default function PostRequest() {
             </div>
           </div>
         </div>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Chi tiết đơn ký gửi</DialogTitle>
+          <DialogContent>
+          <table className="table generic-table">
+                    <thead style={{ textAlign: "center" }}>
+                      <tr>
+                        <th scope="col">Tên sách</th>
+                        <th scope="col">Giá</th>
+                        <th scope="col">Số lượng</th>
+                      </tr>
+                    </thead>
+                    <tbody className="body-fw-400">
+                      {listDetailBook &&
+                        listDetailBook.map((book, index) => {
+                          return (
+                            <tr
+                              key={index}
+                              className="fw-normal"
+                              style={{ position: "relative" }}
+                            >
+                              <th>
+                                {book.bookDto.name}
+                                <Link
+                                  to={`/user/detail-book/${book.bookDto.id}`}
+                                  target="_blank"
+                                  rel="noopener noreferer"
+                                  className="row-link"
+                                ></Link>
+                              </th>
+                              <td>{formatMoney(book.bookDto.price)} đ</td>
+                              <td>{book.quantity}</td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Hủy</Button>
+          </DialogActions>
+        </Dialog>
       </section>
     </>
   ) : (

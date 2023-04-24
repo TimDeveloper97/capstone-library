@@ -119,6 +119,7 @@ export default function UserManagement() {
                     <thead>
                       <tr>
                         <th scope="col">Tên</th>
+                        <th scope="col">Tài khoản</th>
                         <th scope="col">Địa chỉ</th>
                         <th scope="col">Số dư</th>
                         <th scope="col">Số điện thoại</th>
@@ -141,10 +142,11 @@ export default function UserManagement() {
                                   </div>
                                 </div>
                               </th>
+                              <td>{user.id}</td>
                               <td>{user.address}</td>
                               <td>
                                 <div className="quantity-item d-inline-flex align-items-center">
-                                  {formatMoney(user.balance)}
+                                  {formatMoney(user.balance)} đ
                                 </div>
                               </td>
                               <td>{user.phone}</td>

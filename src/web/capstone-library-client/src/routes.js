@@ -25,6 +25,7 @@ import UpdateBook from "./views/AddBook/UpdateBook";
 import Books from "./views/BookPage/Books";
 import SearchBook from "./views/BookPage/SearchBook";
 import BookManagement from "./views/BookPage/BookManagement";
+import MyBookManagement from "./views/BookPage/MyBookManagement";
 
 export default function Route() {
   return useRoutes([
@@ -128,6 +129,10 @@ export default function Route() {
               path: "book-management",
               element: <BookManagement />,
             },
+            {
+              path: "my-book-management",
+              element: <MyBookManagement />
+            }
           ],
         },
         {

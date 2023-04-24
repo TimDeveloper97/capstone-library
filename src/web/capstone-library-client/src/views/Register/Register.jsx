@@ -169,7 +169,7 @@ export default function Register() {
                 </div>
                 <div className="login-suggest">
                   <span>Bạn đã có tài khoản?</span>{" "}
-                  <Link to={"/login"}>Đăng nhập ngay</Link>
+                  <Link to={"/login"} style={{textDecoration: "underline", color: "#0d6efd" }}>Đăng nhập ngay</Link>
                 </div>
               </div>
             </div>

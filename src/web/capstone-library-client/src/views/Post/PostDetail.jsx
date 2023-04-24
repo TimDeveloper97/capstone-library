@@ -105,10 +105,10 @@ export default function DetailPost() {
                               <Carousel images={listImg} />
                             </div>
                             <div className="col-md-6 book-info">
-                              <h4 className="book-title">
+                              <h4 className="book-title cl-w">
                                 {currentPost?.title}
                               </h4>
-                              <div className="number">
+                              <div className="number cl-w">
                                 <h5 className="publisher">
                                   Đăng bởi: {currentPost?.user}
                                 </h5>

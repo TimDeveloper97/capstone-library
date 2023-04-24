@@ -3,16 +3,10 @@ import Loading from "../../components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBroom,
-  faChevronLeft,
-  faChevronRight,
   faDeleteLeft,
-  faDownLong,
   faEllipsisVertical,
   faSearch,
   faSquarePen,
-  faUpLong,
-  faUserCheck,
-  faUserLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { formatMoney, getImgUrl } from "../../helper/helpFunction";
 import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
@@ -23,17 +17,17 @@ import {
   NotificationManager,
 } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteBook, getBooks } from "../../actions/book";
-import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Button, Dialog, DialogActions, DialogTitle, MenuItem, Select } from "@mui/material";
+import { deleteBook, getUserBooks } from "../../actions/book";
+import { Link } from "react-router-dom";
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from "@mui/material";
 import { getCategories } from "../../actions/category";
 
-export default function BookManagement() {
+export default function MyBookManagement() {
   const [listBooks, setListBooks] = useState([]);
-  const [listCategories, setListCategories] = useState([]);
+  const [listCategories, setListCategories] = useState([{name: "--Tất cả thể loại--", nameCode: "all"}]);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getBooks());
+    dispatch(getUserBooks());
     dispatch(getCategories());
   }, []);
   const books = useSelector((state) => state.book);
@@ -43,10 +37,9 @@ export default function BookManagement() {
   }, [books]);
 
   useEffect(() => {
-    let temp = []
+    let temp = [];
     categories && (temp = categories.slice());
-    temp.push({name: "--Tất cả thể loại--", nameCode: "all"});
-    setListCategories(temp.reverse());
+    setListCategories(prev => [...prev, ...temp]);
   }, [categories])
 
   const [searchName, setSearchName] = useState("");
@@ -237,7 +230,7 @@ export default function BookManagement() {
                               <td>{formatMoney(book.price)} đ</td>
                               <td>{book.publisher}</td>
                               <td>{book.owner}</td>
-                              <td>{book.inStock}</td>
+                              <td>{book.quantity}</td>
                               <td style={{ position: "relative" }}>
                                 <div className="button-action">
                                   <div className="tooltip-action">

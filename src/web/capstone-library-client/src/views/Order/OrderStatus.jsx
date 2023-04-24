@@ -104,7 +104,7 @@ export default function OrderStatus() {
   const [open, setOpen] = useState(false);
 
   //input search param
-  const [rentDate, setRentDate] = useState();
+  const [rentDate, setRentDate] = useState(moment(new Date()));
   const [searchTitle, setSearchTitle] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [status, setStatus] = useState(-1);
@@ -199,7 +199,7 @@ export default function OrderStatus() {
     setListOrderDisplay(temp.slice());
   };
   const handleClickReset = () => {
-    setRentDate(null);
+    setRentDate(moment(new Date()));
     setSearchTitle("");
     setSearchUser("");
     setStatus(-1);

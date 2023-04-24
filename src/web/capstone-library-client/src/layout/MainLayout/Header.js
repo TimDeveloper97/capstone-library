@@ -41,26 +41,15 @@ export default function Header() {
     >
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-lg-2">
+          <div className="col-lg-1">
             <div className="logo-box">
               <a href="/" className="logo">
                 <img src="/images/logoC.png" alt="logo" />
               </a>
-              <div className="user-action">
-                <div
-                  className="off-canvas-menu-toggle icon-element icon-element-xs shadow-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Main menu"
-                  onClick={() => setIsActive(true)}
-                >
-                  <i className="la la-bars"></i>
-                </div>
-              </div>
             </div>
           </div>
 
-          <div className="col-lg-10">
+          <div className="col-lg-11">
             <div className="menu-wrapper">
               <nav className="menu-bar mr-auto menu-bar-white">
                 <ul>
@@ -170,7 +159,19 @@ export default function Header() {
                 )}
               </div>
             </div>
+            <div className="user-action">
+            <div
+              className="off-canvas-menu-toggle icon-element icon-element-xs shadow-sm"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Main menu"
+              onClick={() => setIsActive(true)}
+            >
+              <i className="la la-bars"></i>
+            </div>
           </div>
+          </div>
+          
         </div>
       </div>
       <div

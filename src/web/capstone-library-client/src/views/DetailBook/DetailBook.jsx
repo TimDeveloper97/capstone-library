@@ -54,7 +54,7 @@ export default function DetailBook() {
         };
       });
       setLinks(tempLink);
-      setImgShow(getImgUrl(data.value.imgs[0].fileName));
+      setImgShow(getImgUrl(data.value.imgs[0]?.fileName));
       const response = await getPostByBook(data.value.id);
       setPostHasBook(response.data.value);
     };
