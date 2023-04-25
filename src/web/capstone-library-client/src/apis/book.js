@@ -13,4 +13,4 @@ export const deleteBook = (id) => axiosIntance.delete(`/books/delete/${id}`);
 export const getPostByBook = (id) => axiosIntance.get(`/posts/has-book/${id}`);
 
 export const updateBook = (data) =>
-  axiosIntance.put("/admin/books/update", data);
+  axiosIntance.put("/books/update", data);

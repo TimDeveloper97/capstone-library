@@ -14,11 +14,30 @@ import {
   NotificationContainer,
 } from "react-notifications";
 import { defaultImg } from "./defaultBase64";
+import { listPublisher } from "./listPublisher";
 
 const schema = yup.object({
   name: yup.string().required("Tên sách không được để trống"),
   author: yup.string().required("Tên tác giả không được để trống"),
-  price: yup.number().required("Giá không được để trống"),
+  price: yup
+    .number()
+    .typeError("giá phải là số nguyên")
+    .integer("giá phải là số nguyên")
+    .min(1, "Tối thiểu 1 đồng")
+    .required("Giá không được để trống"),
+  quantity: yup
+    .number()
+    .typeError("Số lượng phải là số nguyên")
+    .integer("Số lượng phải là số nguyên")
+    .min(1, "Tối thiểu 1 cuốn")
+    .required("Số lượng không được để trống"),
+  publishYear: yup
+    .number()
+    .typeError("Năm phải là số nguyên")
+    .integer("Năm phải là số nguyên")
+    .min(1800, "Năm trong khoảng 1800-2023")
+    .max(2023, "Năm trong khoảng 1800-2023")
+    .required("Năm xuất bản không được để trống"),
 });
 
 export default function AddBook() {
@@ -40,9 +59,10 @@ export default function AddBook() {
 
   const submitForm = async (data, e) => {
     e.preventDefault();
+    data.publisher = publisher;
     data.categories = listCategories.map((lc) => lc.nameCode);
-    if(imgs.length === 0){
-      imgs.push({fileName: "default_img", data: defaultImg});
+    if (imgs.length === 0) {
+      imgs.push({ fileName: "default_img", data: defaultImg });
     }
     data.imgs = imgs;
     const res = await dispatch(addBook(data));
@@ -57,7 +77,6 @@ export default function AddBook() {
   const resetData = () => {
     resetField("name");
     resetField("author");
-    resetField("publisher");
     resetField("publishYear");
     resetField("price");
     resetField("quantity");
@@ -110,6 +129,7 @@ export default function AddBook() {
     });
     setSelectedImages(imagesArray);
   };
+  const [publisher, setPublihser] = useState("");
 
   return (
     <section className="question-area pt-40px pb-40px">
@@ -162,30 +182,66 @@ export default function AddBook() {
                   <div className="row">
                     <div className="form-group col-md-3">
                       <TextField
-                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        required
                         id="filled-basic"
                         label="Số lượng"
                         variant="filled"
-                        type="number"
-                        defaultValue={1}
                         {...register("quantity")}
                       />
+                      {errors.quantity && (
+                        <span className="error-message" role="alert">
+                          {errors.quantity?.message}
+                        </span>
+                      )}
                     </div>
-                    <div className="form-group col-md-3">
+                    <div
+                      className="form-group col-md-3"
+                      style={{ height: "60px" }}
+                    >
                       <TextField
                         id="filled-basic"
                         label="Nhà xuất bản"
                         variant="filled"
-                        {...register("publisher")}
+                        value={publisher}
+                        onChange={(e) => setPublihser(e.target.value)}
                       />
+                      <div className="dropdown">
+                        {listPublisher
+                          .filter((item) => {
+                            const searchTerm = publisher?.toLowerCase();
+                            const searchItem = item.toLowerCase();
+                            return (
+                              searchTerm !== "" &&
+                              searchItem.startsWith(searchTerm) &&
+                              searchItem !== searchTerm
+                            );
+                          })
+                          .map((p, index) => {
+                            return (
+                              <div
+                                className="dropdown-row"
+                                key={index}
+                                onClick={() => setPublihser(p)}
+                              >
+                                {p}
+                              </div>
+                            );
+                          })}
+                      </div>
                     </div>
                     <div className="form-group col-md-3">
                       <TextField
+                        required
                         id="filled-basic"
                         label="Năm xuất bản"
                         variant="filled"
                         {...register("publishYear")}
                       />
+                      {errors.publishYear && (
+                        <span className="error-message" role="alert">
+                          {errors.publishYear?.message}
+                        </span>
+                      )}
                     </div>
                     <div className="form-group col-md-3">
                       <TextField

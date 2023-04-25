@@ -66,3 +66,18 @@
 .color-w {
   color: #fff;
 }
+.dropdown{
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  z-index: 10;
+}
+.dropdown:empty{
+  border: none;
+}
+.dropdown-row{
+  cursor: pointer;
+  text-align: start;
+  margin: 2px 0;
+}

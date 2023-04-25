@@ -160,7 +160,7 @@ export default function Setting() {
           </ul>
         </div>
       </section>
-      <section className="user-details-area pt-40px pb-40px">
+      <section className="user-details-area pt-40px pb-40px" style={{background: "#efefef"}}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">

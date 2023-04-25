@@ -39,7 +39,13 @@ export default function MyBookManagement() {
   useEffect(() => {
     let temp = [];
     categories && (temp = categories.slice());
-    setListCategories(prev => [...prev, ...temp]);
+    setListCategories(prev => {
+        if(prev?.length === 1){
+            return [...prev, ...temp];
+        }else{
+            return [...prev]
+        }
+    });
   }, [categories])
 
   const [searchName, setSearchName] = useState("");
@@ -123,8 +129,11 @@ export default function MyBookManagement() {
                           onChange={(e) => setSearchAuthor(e.target.value)}
                         />
                       </div>
-                      <div className="input-search">
-                        <label htmlFor="">Trạng thái:</label>
+                      
+                    </div>
+                    <div className="col-md-4">
+                    <div className="input-search">
+                        <label htmlFor="">Thể loại:</label>
                         <div className="input-param" style={{ padding: 0 }}>
                           <Select
                             id="demo-simple-select"
@@ -133,25 +142,13 @@ export default function MyBookManagement() {
                             onChange={handleChangeSelect}
                             style={{ width: "inherit" }}
                           >
-                            {listCategories.map((ls, index) => (
+                            {listCategories?.map((ls, index) => (
                               <MenuItem value={ls.nameCode} key={index}>
                                 {ls.name}
                               </MenuItem>
                             ))}
                           </Select>
                         </div>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="input-search">
-                        <label htmlFor="userId">Người sở hữu:</label>
-                        <input
-                          type="text"
-                          className="input-param"
-                          name="userId"
-                          value={searchOwner}
-                          onChange={(e) => setSearchOwner(e.target.value)}
-                        />
                       </div>
                       <div className="input-search">
                         <label htmlFor="">Nhà xuất bản:</label>

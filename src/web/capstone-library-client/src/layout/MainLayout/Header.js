@@ -87,12 +87,12 @@ export default function Header() {
                   </li>
                   <li>
                     <Link to={"/post"}>
-                      Post <i className="la la-angle-down fs-11"></i>
+                      bài đăng <i className="la la-angle-down fs-11"></i>
                     </Link>
                     {curUser?.roles[0] === "ROLE_MANAGER_POST" ? (
                       <ul className="dropdown-menu-item">
                         <li>
-                          <Link to={"/user/add-post"}>Tạo post</Link>
+                          <Link to={"/user/add-post"}>Tạo bài đăng</Link>
                         </li>
                       </ul>
                     ) : null}
@@ -201,7 +201,7 @@ export default function Header() {
             <Link to={"/user/add-book"}>Thêm sách</Link>
           </li>
           <li>
-            <Link to={"/post"}>Post</Link>
+            <Link to={"/post"}>Bài đăng</Link>
           </li>
           {curUser && curUser.roles[0] !== "ROLE_USER" && (
             <>
@@ -217,7 +217,7 @@ export default function Header() {
               ) : (
                 <>
                   <li>
-                    <Link to={"/user/add-post"}>Tạo post</Link>
+                    <Link to={"/user/add-post"}>Tạo bài đăng</Link>
                   </li>
                   <li>
                     <Link to={"/user/category"}>Quản lý thể loại</Link>
@@ -226,7 +226,7 @@ export default function Header() {
                     <Link to={"/user/order-status"}>Quản lý đơn hàng</Link>
                   </li>
                   <li>
-                    <Link to={"/user/post-request"}>Quản lý post</Link>
+                    <Link to={"/user/post-request"}>Quản lý bài đăng</Link>
                   </li>
                 </>
               )}

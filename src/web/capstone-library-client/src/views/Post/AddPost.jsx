@@ -174,7 +174,7 @@ export default function AddPost() {
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
           <h3 className="fs-22 fw-medium mr-0" style={{color: "#fff"}}>
-            {role ? "Thêm mới post" : "Ký gửi sách"}
+            {role ? "Thêm mới bài đăng" : "Ký gửi sách"}
           </h3>
         </div>
         <div className="row">
@@ -192,7 +192,7 @@ export default function AddPost() {
                         <TextField
                           required
                           id="filled-basic"
-                          label="Tiêu đề post"
+                          label="Tiêu đề bài đăng"
                           variant="filled"
                           fullWidth
                           {...register("title")}
@@ -302,7 +302,7 @@ export default function AddPost() {
                   <div className="form-group">
                     <TextField
                       id="filled-multiline-flexible"
-                      label="Mô tả về post"
+                      label={role ? "Mô tả bài đăng" : "Ghi chú"}
                       multiline
                       rows={3}
                       variant="filled"
@@ -312,7 +312,7 @@ export default function AddPost() {
                   </div>
                   <div className="form-group mb-0">
                     <button className="btn theme-btn" type="submit">
-                      {role ? "Đăng post" : "Ký gửi"}
+                      {role ? "Đăng bài" : "Ký gửi"}
                     </button>
                   </div>
                 </div>

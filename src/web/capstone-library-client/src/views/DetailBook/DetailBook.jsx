@@ -170,7 +170,7 @@ export default function DetailBook() {
       </div>
       <div className="container">
         <h5 className="newpost-title">
-          <FontAwesomeIcon icon={faLink} color="#FD8A8A" /> Post chứa sách này
+          <FontAwesomeIcon icon={faLink} color="#FD8A8A" /> Bài đăng chứa sách này
         </h5>
         {postHasBook?.length > 0 ? (
           <Carousel

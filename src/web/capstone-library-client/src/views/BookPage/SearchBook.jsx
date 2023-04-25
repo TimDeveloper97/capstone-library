@@ -18,7 +18,7 @@ export default function SearchBook() {
 
   useEffect(() => {
     dispatch(getBooks());
-    setSearchBook(books.filter((b) => b.name.indexOf(params.keyword) !== -1));
+    setSearchBook(books.filter((b) => b.name.toLowerCase().indexOf(params.keyword.toLowerCase()) !== -1));
   }, [params.keyword]);
   const books = useSelector((state) => state.book);
 
