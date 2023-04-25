@@ -1,7 +1,6 @@
 package com.sb.brothers.capstone.controller;
 
 import com.sb.brothers.capstone.configuration.jwt.JWTFilter;
-import com.sb.brothers.capstone.dto.BookDTO;
 import com.sb.brothers.capstone.dto.OrderDto;
 import com.sb.brothers.capstone.dto.PostDto;
 import com.sb.brothers.capstone.entities.*;
@@ -9,7 +8,6 @@ import com.sb.brothers.capstone.global.GlobalData;
 import com.sb.brothers.capstone.services.*;
 import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.CustomStatus;
-import com.sb.brothers.capstone.util.ResData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +45,9 @@ public class MemberAPI {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private BookService bookService;
 
     //books session
     @PostMapping("/checkout")
@@ -130,8 +131,6 @@ public class MemberAPI {
                 Notification notification = new Notification();
                 notification.setUser(book.getUser());
                 notification.setDescription("Bạn đã nhận được "+discount+"vnđ tiền chiết khấu khi có người thuê sách "+ book.getName() + " của bạn.");
-                //notification.setCreatedDate(new Date());
-                //notification.setStatus(0);
                 notificationService.updateNotification(notification);
             }
         }
@@ -143,6 +142,7 @@ public class MemberAPI {
         for (PostDetail postDetail : postDetails) {
             Book book = postDetail.getBook();
             book.setInStock(book.getInStock() + postDetail.getQuantity());
+            bookService.updateBook(book);
             sum += book.getPrice();
         }
         int expiredFee = expired(post);
@@ -155,19 +155,22 @@ public class MemberAPI {
             Notification notification = new Notification();
             notification.setUser(user);
             notification.setDescription("Bạn đã được hoàn "+sum+"vnđ tiền cọc vào tài khoản.");
-            //notification.setCreatedDate(new Date());
-            //notification.setStatus(0);
             notificationService.updateNotification(notification);
         }
         if(expiredFee> 0){
             Notification notification = new Notification();
             notification.setUser(user);
             notification.setDescription("Bạn đã bị trừ "+expiredFee+"vnđ do trả sách quá hạn.");
-            //notification.setCreatedDate(new Date());
-            //notification.setStatus(0);
             notificationService.updateNotification(notification);
         }
         userService.updateUser(user);
+        User mng = post.getUser();
+        mng.setBalance(mng.getBalance() + expiredFee - sum);
+        Notification notification = new Notification();
+        notification.setUser(mng);
+        notification.setDescription("Bạn đã bị trừ "+(sum - expiredFee)+"vnđ do hoàn tiền cọc cho " + user.getFirstName() + " " + user.getLastName() +" khi họ trả sách.");
+        notificationService.updateNotification(notification);
+        userService.updateUser(mng);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
@@ -211,7 +214,15 @@ public class MemberAPI {
                 try {
                     if (status == CustomStatus.USER_WAIT_TAKE_BOOK) {
                         //@TODO triết khấu cho user đã ký gửi
-                        discountForPartner(currPost, postDetails);
+                        int discount = discountForPartner(currPost, postDetails);
+                        //@TODO cộng tiền cho manager đăng bài
+                        User manager = currPost.getUser();
+                        manager.setBalance(manager.getBalance() + order.getTotalPrice() - discount);
+                        userService.updateUser(manager);
+                        Notification notify = new Notification();
+                        notify.setUser(manager);
+                        notify.setDescription("Bạn được cộng " + (order.getTotalPrice() - discount) + "vnđ do có người dùng: " + user.getFirstName() + " " + user.getLastName() +" thuê sách.");
+                        notificationService.updateNotification(notify);
                     } else if (status == CustomStatus.USER_REQUEST_IS_DENY) {
                         //@TODO hoàn tiền cho user đã order
                         user = order.getUser();
@@ -249,7 +260,7 @@ public class MemberAPI {
             }
             else if (currPost.getStatus() == CustomStatus.USER_RETURN_IS_NOT_APPROVED) {
                 if (status == CustomStatus.USER_RETURN_IS_APPROVED) {
-                    //@TODO hoàn tiền cho người thuê
+                    //@TODO hoàn tiền cho người thuê / trừ tiền manager giữ cọc
                     logger.info("Refund to tenants.");
                     refunds(postDetails, order.getPost(), order.getUser());
                 }
