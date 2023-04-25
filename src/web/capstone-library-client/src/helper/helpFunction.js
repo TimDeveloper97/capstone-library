@@ -108,16 +108,11 @@ const formatMoney = (money) => {
   return money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
 };
 
-const compareDateEqual = (a, b) => {
-  if (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+const compareDate = (target, start, end) => {
+  let startTime = start.setHours(0,0,0,0);
+  let temp = end.setDate(end.getDate() + 1);
+  let endTime = (new Date(temp)).setHours(0,0,0,0);
+  return target >= startTime && target <= endTime;
 };
 
 export {
@@ -127,5 +122,5 @@ export {
   getTimeAgo,
   removeTones,
   formatMoney,
-  compareDateEqual,
+  compareDate,
 };

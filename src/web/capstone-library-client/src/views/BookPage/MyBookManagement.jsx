@@ -19,19 +19,30 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBook, getUserBooks } from "../../actions/book";
 import { Link } from "react-router-dom";
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { getCategories } from "../../actions/category";
 
 export default function MyBookManagement() {
   const [listBooks, setListBooks] = useState([]);
-  const [listCategories, setListCategories] = useState([{name: "--Tất cả thể loại--", nameCode: "all"}]);
+  const [listCategories, setListCategories] = useState([
+    { name: "--Tất cả thể loại--", nameCode: "all" },
+  ]);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserBooks());
     dispatch(getCategories());
   }, []);
   const books = useSelector((state) => state.book);
-  const categories = useSelector(state => state.category);
+  const categories = useSelector((state) => state.category);
   useEffect(() => {
     setListBooks(books.sort((a, b) => a.id - b.id));
   }, [books]);
@@ -39,14 +50,14 @@ export default function MyBookManagement() {
   useEffect(() => {
     let temp = [];
     categories && (temp = categories.slice());
-    setListCategories(prev => {
-        if(prev?.length === 1){
-            return [...prev, ...temp];
-        }else{
-            return [...prev]
-        }
+    setListCategories((prev) => {
+      if (prev?.length === 1) {
+        return [...prev, ...temp];
+      } else {
+        return [...prev];
+      }
     });
-  }, [categories])
+  }, [categories]);
 
   const [searchName, setSearchName] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
@@ -56,7 +67,7 @@ export default function MyBookManagement() {
 
   const handleChangeSelect = (e) => {
     setSearchCate(e.target.value);
-  }
+  };
 
   const handleClickSearch = () => {
     let temp = books;
@@ -64,7 +75,7 @@ export default function MyBookManagement() {
     temp = temp.filter((t) => t.author.indexOf(searchAuthor) !== -1);
     temp = temp.filter((t) => t.owner.indexOf(searchOwner) !== -1);
     temp = temp.filter((t) => t.publisher.indexOf(searchPublisher) !== -1);
-    temp = temp.filter(t => t.categories.indexOf(searchCate) !== -1);
+    temp = temp.filter((t) => t.categories.indexOf(searchCate) !== -1);
     setListBooks(temp.slice());
   };
   const handleClickReset = () => {
@@ -72,18 +83,18 @@ export default function MyBookManagement() {
     setSearchName("");
     setSearchOwner("");
     setSearchPublisher("");
-    setSearchCate("all")
+    setSearchCate("all");
     setListBooks(books.sort((a, b) => a.id - b.id));
   };
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const handleClose = () => {
     setOpen(false);
-  }
+  };
   const confirmDeleteBook = (id) => {
     setDeleteId(id);
     setOpen(true);
-  }
+  };
   const handleDeleteBook = async (index) => {
     const res = await dispatch(deleteBook(deleteId));
     if (res.success) {
@@ -129,10 +140,9 @@ export default function MyBookManagement() {
                           onChange={(e) => setSearchAuthor(e.target.value)}
                         />
                       </div>
-                      
                     </div>
                     <div className="col-md-4">
-                    <div className="input-search">
+                      <div className="input-search">
                         <label htmlFor="">Thể loại:</label>
                         <div className="input-param" style={{ padding: 0 }}>
                           <Select
@@ -193,6 +203,7 @@ export default function MyBookManagement() {
                   <table className="table generic-table">
                     <thead style={{ textAlign: "center" }}>
                       <tr>
+                        <th scope="col">Ảnh</th>
                         <th scope="col">Tên sách</th>
                         <th scope="col">Tác giả </th>
                         <th scope="col">Giá</th>
@@ -211,10 +222,18 @@ export default function MyBookManagement() {
                               className="fw-normal"
                               style={{ position: "relative" }}
                             >
-                              <th>
+                              <td>
                                 <Avatar
                                   src={getImgUrl(book.imgs[0]?.fileName)}
                                 />
+                                 <Link
+                                  to={`/user/detail-book/${book.id}`}
+                                  target="_blank"
+                                  rel="noopener noreferer"
+                                  className="row-link"
+                                ></Link>
+                              </td>
+                              <th>
                                 {book.name}
                                 <Link
                                   to={`/user/detail-book/${book.id}`}

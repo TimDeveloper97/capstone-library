@@ -203,6 +203,7 @@ export default function BookManagement() {
                   <table className="table generic-table">
                     <thead style={{ textAlign: "center" }}>
                       <tr>
+                      <th scope="col">Ảnh</th>
                         <th scope="col">Tên sách</th>
                         <th scope="col">Tác giả </th>
                         <th scope="col">Giá</th>
@@ -221,10 +222,18 @@ export default function BookManagement() {
                               className="fw-normal"
                               style={{ position: "relative" }}
                             >
-                              <th>
+                              <td>
                                 <Avatar
                                   src={getImgUrl(book.imgs[0]?.fileName)}
                                 />
+                                 <Link
+                                  to={`/user/detail-book/${book.id}`}
+                                  target="_blank"
+                                  rel="noopener noreferer"
+                                  className="row-link"
+                                ></Link>
+                              </td>
+                              <th>
                                 {book.name}
                                 <Link
                                   to={`/user/detail-book/${book.id}`}

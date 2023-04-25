@@ -2,6 +2,7 @@ import {
   faBroom,
   faCheck,
   faEllipsisVertical,
+  faQrcode,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +10,11 @@ import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { acceptPost, denyPost, getPostRequest } from "../../apis/post";
 import Loading from "../../components/Loading/Loading";
-import { compareDateEqual, formatMoney, getColorStatus, getImgUrl } from "../../helper/helpFunction";
+import {
+  formatMoney,
+  getColorStatus,
+  getImgUrl,
+} from "../../helper/helpFunction";
 import {
   NotificationContainer,
   NotificationManager,
@@ -27,7 +32,8 @@ import {
   DialogContent,
   Avatar,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import QRCode from "react-qr-code";
 
 export default function PostRequest() {
   const [listPostRequest, setListPostRequest] = useState([]);
@@ -35,22 +41,24 @@ export default function PostRequest() {
   useEffect(() => {
     const getPost = async () => {
       const { data } = await getPostRequest();
-      data.value && setListPostRequest(
-        data.value.map((val) => {
-          return {
-            ...val,
-            statusColor: getColorStatus(val.status),
-          };
-        })
-      );
-      data.value && setListPostDeposit(
-        data.value.map((val) => {
-          return {
-            ...val,
-            statusColor: getColorStatus(val.status),
-          };
-        })
-      );
+      data.value &&
+        setListPostRequest(
+          data.value.map((val) => {
+            return {
+              ...val,
+              statusColor: getColorStatus(val.status),
+            };
+          })
+        );
+      data.value &&
+        setListPostDeposit(
+          data.value.map((val) => {
+            return {
+              ...val,
+              statusColor: getColorStatus(val.status),
+            };
+          })
+        );
     };
     getPost();
   }, []);
@@ -120,10 +128,7 @@ export default function PostRequest() {
     temp = temp.filter((t) => !t.title || t.title.indexOf(searchTitle) !== -1);
     temp = temp.filter((t) => t.user.indexOf(searchUser) !== -1);
     status !== -1 && (temp = temp.filter((t) => t.status === status));
-    rentDate &&
-      (temp = temp.filter((t) =>
-        compareDateEqual(new Date(t.createdDate), rentDate._d)
-      ));
+    //temp = temp.filter(t => compareDate(t.createdDate, returnDate._d, rentDate._d));
     setListPostDeposit(temp.slice());
   };
   const handleClickReset = () => {
@@ -136,12 +141,35 @@ export default function PostRequest() {
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
-  }
+  };
   const [listDetailBook, setListDetailBook] = useState([]);
   const handleClickTitle = (listBook) => {
     setListDetailBook(listBook);
     setOpen(true);
-  }
+  };
+  const [openQr, setOpenQr] = useState(false);
+
+  const handleCloseQr = () => {
+    setOpenQr(false);
+  };
+  const [qrValue, setQrValue] = useState("");
+  const handleCreateQr = async (e, id, index) => {
+    e.preventDefault();
+    const token = window.localStorage.getItem("token");
+    const data = {
+      time: new Date().getTime(),
+      token: token,
+      orderId: id,
+      status: 4,
+    };
+    const input = JSON.stringify(data);
+    setQrValue(input);
+    setOpenQr(true);
+  };
+  const navigate = useNavigate();
+  const checkResult = () => {
+    navigate(0);
+  };
 
   return listPostRequest ? (
     <>
@@ -263,7 +291,14 @@ export default function PostRequest() {
                                     1000 * 60 * 60 * 24 * los.noDays
                                 )}
                               </td>
-                              <td style={{cursor: "pointer"}} onClick={() => handleClickTitle(los.postDetailDtos)}>{los.title}</td>
+                              <td
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  handleClickTitle(los.postDetailDtos)
+                                }
+                              >
+                                {los.title}
+                              </td>
                               <td>{los.fee} %</td>
                               <td>{los.user}</td>
                               <td>
@@ -280,7 +315,16 @@ export default function PostRequest() {
                               <td style={{ position: "relative" }}>
                                 {los.status === 2 ? null : los.status === 4 ? (
                                   <div className="button-action">
-                                    <div className="tooltip-action">
+                                    <div className="tooltip-action" style={{height: "150px"}}>
+                                      <button
+                                        className="btn btn-success"
+                                        onClick={(e) =>
+                                          handleCreateQr(e, los.id, index)
+                                        }
+                                      >
+                                        <FontAwesomeIcon icon={faQrcode} /> Tạo
+                                        mã
+                                      </button>
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
@@ -321,42 +365,54 @@ export default function PostRequest() {
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Chi tiết đơn ký gửi</DialogTitle>
           <DialogContent>
-          <table className="table generic-table">
-                    <thead style={{ textAlign: "center" }}>
-                      <tr>
-                        <th scope="col">Tên sách</th>
-                        <th scope="col">Giá</th>
-                        <th scope="col">Số lượng</th>
+            <table className="table generic-table">
+              <thead style={{ textAlign: "center" }}>
+                <tr>
+                  <th scope="col">Tên sách</th>
+                  <th scope="col">Giá</th>
+                  <th scope="col">Số lượng</th>
+                </tr>
+              </thead>
+              <tbody className="body-fw-400">
+                {listDetailBook &&
+                  listDetailBook.map((book, index) => {
+                    return (
+                      <tr
+                        key={index}
+                        className="fw-normal"
+                        style={{ position: "relative" }}
+                      >
+                        <th>
+                          {book.bookDto.name}
+                          <Link
+                            to={`/user/detail-book/${book.bookDto.id}`}
+                            target="_blank"
+                            rel="noopener noreferer"
+                            className="row-link"
+                          ></Link>
+                        </th>
+                        <td>{formatMoney(book.bookDto.price)} đ</td>
+                        <td>{book.quantity}</td>
                       </tr>
-                    </thead>
-                    <tbody className="body-fw-400">
-                      {listDetailBook &&
-                        listDetailBook.map((book, index) => {
-                          return (
-                            <tr
-                              key={index}
-                              className="fw-normal"
-                              style={{ position: "relative" }}
-                            >
-                              <th>
-                                {book.bookDto.name}
-                                <Link
-                                  to={`/user/detail-book/${book.bookDto.id}`}
-                                  target="_blank"
-                                  rel="noopener noreferer"
-                                  className="row-link"
-                                ></Link>
-                              </th>
-                              <td>{formatMoney(book.bookDto.price)} đ</td>
-                              <td>{book.quantity}</td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
+                    );
+                  })}
+              </tbody>
+            </table>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Hủy</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={openQr} onClose={handleCloseQr}>
+          <DialogTitle>Xác nhận sách?</DialogTitle>
+          <DialogContent>
+            <div style={{ background: "white", padding: "16px" }}>
+              <QRCode value={qrValue} />
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={checkResult}>Xem kết quả</Button>
+            <Button onClick={handleCloseQr}>Hủy</Button>
           </DialogActions>
         </Dialog>
       </section>

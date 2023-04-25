@@ -178,7 +178,7 @@ export default function UserManagement() {
                                     ? "admin"
                                     : user.roles[0] === "ROLE_MANAGER_POST"
                                     ? "quản lý"
-                                    : "người dùng"}
+                                    : "khách hàng"}
                                 </span>
                               </td>
                               <td

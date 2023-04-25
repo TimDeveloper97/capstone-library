@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { getPostByUser } from "../../apis/post";
 import Loading from "../../components/Loading/Loading";
 import {
-  compareDateEqual,
+  compareDate,
   formatMoney,
   getColorStatus,
 } from "../../helper/helpFunction";
@@ -59,7 +59,7 @@ export default function UserDeposit() {
   //input search param
   const [rentDate, setRentDate] = useState(moment(new Date()));
   const [searchTitle, setSearchTitle] = useState("");
-  const [returnDate, setReturnDate] = useState(moment(new Date()));
+  const [returnDate, setReturnDate] = useState(moment(new Date(2020, 0, 1)));
   const [status, setStatus] = useState(-1);
   const listStatus = [
     {
@@ -86,14 +86,8 @@ export default function UserDeposit() {
   const handleClickSearch = () => {
     let temp = listPostRequest;
     temp = temp.filter((t) => !t.title || t.title.indexOf(searchTitle) !== -1);
-    temp = temp.filter((t) =>
-      compareDateEqual(new Date(t.createdDate + t.noDays * 24 * 3600 * 1000), returnDate._d)
-    );
     status !== -1 && (temp = temp.filter((t) => t.status === status));
-    rentDate &&
-      (temp = temp.filter((t) =>
-        compareDateEqual(new Date(t.createdDate), rentDate._d)
-      ));
+    temp = temp.filter(t => compareDate(t.createdDate, returnDate._d, rentDate._d));
     setListPostDeposit(temp.slice());
   };
   const handleClickReset = () => {
@@ -138,6 +132,19 @@ export default function UserDeposit() {
                         />
                       </div>
                       <div className="input-search">
+                        <label htmlFor="userId">Từ ngày:</label>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                          <div className="input-param" style={{ padding: 0 }}>
+                            <DatePicker
+                              value={returnDate}
+                              onChange={(newValue) => setReturnDate(newValue)}
+                            />
+                          </div>
+                        </LocalizationProvider>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                    <div className="input-search">
                         <label htmlFor="">Trạng thái:</label>
                         <div className="input-param" style={{ padding: 0 }}>
                           <Select
@@ -155,21 +162,9 @@ export default function UserDeposit() {
                           </Select>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-md-4">
+                      
                       <div className="input-search">
-                        <label htmlFor="userId">Ngày đến hạn:</label>
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                          <div className="input-param" style={{ padding: 0 }}>
-                            <DatePicker
-                              value={returnDate}
-                              onChange={(newValue) => setReturnDate(newValue)}
-                            />
-                          </div>
-                        </LocalizationProvider>
-                      </div>
-                      <div className="input-search">
-                        <label htmlFor="">Ngày ký gửi:</label>
+                        <label htmlFor="">Đến ngày:</label>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                           <div className="input-param" style={{ padding: 0 }}>
                             <DatePicker
@@ -217,7 +212,7 @@ export default function UserDeposit() {
                   <table className="table generic-table">
                     <thead style={{ textAlign: "center" }}>
                       <tr>
-                        <th scope="col">Ngày thuê</th>
+                        <th scope="col">Ngày đăng</th>
                         <th scope="col">Ngày đến hạn</th>
                         <th scope="col">Tiêu đề</th>
                         <th scope="col">Phí</th>

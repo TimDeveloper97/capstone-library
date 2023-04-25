@@ -191,11 +191,8 @@ export default function OrderStatus() {
     let temp = listOrderStatus;
     temp = temp.filter((t) => t.postDto.title.indexOf(searchTitle) !== -1);
     temp = temp.filter((t) => t.userId.indexOf(searchUser) !== -1);
+    //temp = temp.filter(t => compareDate(t.createdDate, returnDate._d, rentDate._d));
     status !== -1 && (temp = temp.filter((t) => t.status === status));
-    rentDate &&
-      (temp = temp.filter((t) =>
-        compareDateEqual(new Date(t.borrowedDate), rentDate._d)
-      ));
     setListOrderDisplay(temp.slice());
   };
   const handleClickReset = () => {
@@ -419,7 +416,7 @@ export default function OrderStatus() {
           </div>
         </div>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Xác nhận thuê ngay?</DialogTitle>
+          <DialogTitle>Xác nhận sách?</DialogTitle>
           <DialogContent>
             <div style={{ background: "white", padding: "16px" }}>
               <QRCode value={qrValue} />
