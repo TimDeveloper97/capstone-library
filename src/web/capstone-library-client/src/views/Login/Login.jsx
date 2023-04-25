@@ -49,9 +49,11 @@ export default function Login() {
           window.localStorage.setItem("user", JSON.stringify(value));
           dispatch(getUser(value));
           if (from.pathname === "/") {
-            if (value.roles[0] !== "ROLE_USER") {
+            if (value.roles[0] === "ROLE_ADMIN") {
               window.location.href = "/user/user-management";
-            } else {
+            }else if(value.roles[0] === "ROLE_MANAGER_POST") {
+              window.location.href = "/user/category";
+            }else {
               window.location.href = from.pathname;
             }
           } else {

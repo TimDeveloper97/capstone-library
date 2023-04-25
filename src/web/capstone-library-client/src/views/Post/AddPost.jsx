@@ -20,7 +20,6 @@ import {
 } from "react-notifications";
 
 const schema = yup.object({
-  noDays: yup.string().required("Số ngày cho thuê không được để trống"),
 });
 
 export default function AddPost() {
@@ -28,7 +27,8 @@ export default function AddPost() {
 
   const books = useSelector((state) => state.book);
   const role =
-    JSON.parse(window.localStorage.getItem("user")).roles[0] === "ROLE_MANAGER_POST";
+    JSON.parse(window.localStorage.getItem("user")).roles[0] ===
+    "ROLE_MANAGER_POST";
   useEffect(() => {
     role ? dispatch(getBooks()) : dispatch(getUserBooks());
   }, []);
@@ -63,6 +63,7 @@ export default function AddPost() {
   });
   const submitForm = async (data, e) => {
     e.preventDefault();
+    data.noDays = numDay;
     if (role && data.fee.trim() === "") {
       setErrorState({ fee: "Phí thuê không được để trống" });
     } else if (role && data.title.trim() === "") {
@@ -98,9 +99,13 @@ export default function AddPost() {
       );
       if (res.success) {
         NotificationManager.success(res.message, "Thông báo", 2000);
-        setListSelectBook(prev => prev.map(lsb => {
-          return lsb.selected ? {...lsb, maxQuantity: lsb.maxQuantity - lsb.quantity} : lsb
-        }));
+        setListSelectBook((prev) =>
+          prev.map((lsb) => {
+            return lsb.selected
+              ? { ...lsb, maxQuantity: lsb.maxQuantity - lsb.quantity }
+              : lsb;
+          })
+        );
         resetData();
       } else {
         NotificationManager.error(res.message, "Lỗi", 2000);
@@ -110,14 +115,15 @@ export default function AddPost() {
 
   const resetData = () => {
     resetField("title");
-    resetField("noDays");
     resetField("fee");
     resetField("content");
     setTotal(0);
     setAddress("Chọn địa chỉ");
-    setListSelectBook(prev => prev.map(lsb => {
-      return {...lsb, quantity: 1}
-    }))
+    setListSelectBook((prev) =>
+      prev.map((lsb) => {
+        return { ...lsb, quantity: 1 };
+      })
+    );
   };
 
   const [listSelectBook, setListSelectBook] = useState([]);
@@ -129,7 +135,7 @@ export default function AddPost() {
     listSelected.forEach((l) => {
       l.selected && (total += l.quantity * l.price);
     });
-    setTotal(total);
+    setTotal(Math.ceil((total * numDay * 30) / 100));
   };
   const handleClickCheckbox = (book, e, index) => {
     const temp = listSelectBook;
@@ -149,6 +155,11 @@ export default function AddPost() {
   };
 
   const [address, setAddress] = useState("Chọn địa chỉ");
+  const [numDay, setNumDay] = useState(1);
+
+  useEffect(() => {
+    validateNoDay(numDay) === "" && sumTotal(listSelectBook);
+  }, [numDay])
 
   const handleChangeAddress = (event) => {
     setAddress(event.target.value);
@@ -156,6 +167,13 @@ export default function AddPost() {
       setErrorState({ address: null });
     }
   };
+  const validateNoDay = (day) => {
+    if(isNaN(day) || day < 0 || !Number.isInteger(+day)){
+      return "Số ngày phải là số nguyên dương";
+    }else{
+      return ""
+    }
+  }
   const listAddress = [
     "Chọn địa chỉ",
     "102 P. Phạm Ngọc Thạch, Kim Liên, Đống Đa, Hà Nội",
@@ -173,7 +191,7 @@ export default function AddPost() {
       <NotificationContainer />
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
-          <h3 className="fs-22 fw-medium mr-0" style={{color: "#fff"}}>
+          <h3 className="fs-22 fw-medium mr-0" style={{ color: "#fff" }}>
             {role ? "Thêm mới bài đăng" : "Ký gửi sách"}
           </h3>
         </div>
@@ -247,24 +265,27 @@ export default function AddPost() {
                     <div className="form-group col-md-6">
                       <TextField
                         id="filled-basic"
-                        label="Số ngày cho thuê"
+                        label={role ? "Số ngày cho thuê" : "Số ngày ký gửi"}
                         variant="filled"
                         type="text"
                         required
-                        defaultValue={1}
-                        {...register("noDays")}
+                        value={numDay}
+                        onChange={(e) => setNumDay(e.target.value)}
+                        
                       />
-                      {errors.noDays && (
-                        <span className="error-message" role="alert">
-                          {errors.noDays?.message}
+                      {validateNoDay(numDay) !== "" && (
+                        <div className="err">
+                          <span className="error-message" role="alert">
+                          {validateNoDay(numDay)}
                         </span>
+                        </div>
                       )}
                     </div>
                     {role ? (
                       <div className="col-md-3">
                         <TextField
                           id="filled-basic"
-                          label="Phí thuê"
+                          label="Phí"
                           variant="filled"
                           name="fee"
                           required
@@ -280,7 +301,7 @@ export default function AddPost() {
                       <div className="col-md-3">
                         <TextField
                           id="filled-basic"
-                          label="Phí thuê"
+                          label="Phí"
                           name="userFee"
                           variant="filled"
                           {...register("fee")}
@@ -339,61 +360,65 @@ export default function AddPost() {
                     <tbody>
                       {listSelectBook &&
                         listSelectBook.map((book, index) => {
-                          return (
-                            <tr key={index} className="fw-normal">
-                              <th scope="row">
-                                <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
-                                  <div className="media-body">
-                                    <h5 className="fs-15 fw-medium">
-                                      <Link to={`/detail-book/${book.id}`}>
-                                        {book.name}
-                                      </Link>
-                                    </h5>
+                          if (book.maxQuantity > 0) {
+                            return (
+                              <tr key={index} className="fw-normal">
+                                <th scope="row">
+                                  <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                    <div className="media-body">
+                                      <h5 className="fs-15 fw-medium">
+                                        <Link to={`/detail-book/${book.id}`}>
+                                          {book.name}
+                                        </Link>
+                                      </h5>
+                                    </div>
                                   </div>
-                                </div>
-                              </th>
-                              <td>{book.price}</td>
-                              <td>
-                                <div className="quantity-item d-inline-flex align-items-center">
-                                  <button
-                                    className="qtyBtn qtyDec"
-                                    type="button"
-                                    onClick={() => handleQuantity(-1, index)}
-                                    disabled={book.quantity === 1}
-                                  >
-                                    <i className="la la-minus"></i>
-                                  </button>
-                                  <input
-                                    className="qtyInput"
-                                    type="text"
-                                    name="qty-input"
-                                    value={book.quantity}
+                                </th>
+                                <td>{book.price}</td>
+                                <td>
+                                  <div className="quantity-item d-inline-flex align-items-center">
+                                    <button
+                                      className="qtyBtn qtyDec"
+                                      type="button"
+                                      onClick={() => handleQuantity(-1, index)}
+                                      disabled={book.quantity === 1}
+                                    >
+                                      <i className="la la-minus"></i>
+                                    </button>
+                                    <input
+                                      className="qtyInput"
+                                      type="text"
+                                      name="qty-input"
+                                      value={book.quantity}
+                                      onChange={(e) =>
+                                        handleChangeQuantity(e, index)
+                                      }
+                                    />
+                                    <button
+                                      className="qtyBtn qtyInc"
+                                      type="button"
+                                      onClick={() => handleQuantity(1, index)}
+                                      disabled={
+                                        book.quantity === book.maxQuantity
+                                      }
+                                    >
+                                      <i className="la la-plus"></i>
+                                    </button>
+                                  </div>
+                                </td>
+                                <td style={{ textAlign: "center" }}>
+                                  {book.maxQuantity}
+                                </td>
+                                <td>
+                                  <Checkbox
                                     onChange={(e) =>
-                                      handleChangeQuantity(e, index)
+                                      handleClickCheckbox(book, e, index)
                                     }
                                   />
-                                  <button
-                                    className="qtyBtn qtyInc"
-                                    type="button"
-                                    onClick={() => handleQuantity(1, index)}
-                                    disabled={
-                                      book.quantity === book.maxQuantity
-                                    }
-                                  >
-                                    <i className="la la-plus"></i>
-                                  </button>
-                                </div>
-                              </td>
-                              <td style={{textAlign: 'center'}}>{book.maxQuantity}</td>
-                              <td>
-                                <Checkbox
-                                  onChange={(e) =>
-                                    handleClickCheckbox(book, e, index)
-                                  }
-                                />
-                              </td>
-                            </tr>
-                          );
+                                </td>
+                              </tr>
+                            );
+                          }
                         })}
                     </tbody>
                   </table>
