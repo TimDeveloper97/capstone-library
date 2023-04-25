@@ -177,7 +177,7 @@ public class Post implements Serializable {
 
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	public User getUser() {
 		return this.user;
