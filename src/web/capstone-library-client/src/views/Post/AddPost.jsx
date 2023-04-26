@@ -135,7 +135,7 @@ export default function AddPost() {
     listSelected.forEach((l) => {
       l.selected && (total += l.quantity * l.price);
     });
-    setTotal(Math.ceil((total * numDay * 30) / 100));
+    setTotal(role ? total : Math.ceil((total * numDay * 30) / 100));
   };
   const handleClickCheckbox = (book, e, index) => {
     const temp = listSelectBook;

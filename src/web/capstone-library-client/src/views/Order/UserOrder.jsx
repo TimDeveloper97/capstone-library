@@ -79,7 +79,7 @@ export default function UserOrder() {
   };
   const [arrange, setArrange] = useState(0);
   const listArrange = [
-    { value: 0, text: "Chọn tiêu chí" },
+    { value: 0, text: "--Chọn tiêu chí--" },
     { value: 1, text: "Ngày thuê" },
     { value: 2, text: "Giá tăng dần" },
     { value: 3, text: "Giá giảm dần" }

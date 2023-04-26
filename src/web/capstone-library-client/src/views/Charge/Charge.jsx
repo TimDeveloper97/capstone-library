@@ -20,6 +20,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
 import { formatMoney } from "../../helper/helpFunction";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 const schema = yup.object({
   user: yup.string().required("Tên user không được để trống"),
@@ -84,7 +86,6 @@ export default function Charge() {
     resetField("user");
     resetField("transferAmount");
   };
-
   const setShowChargeState = (state) => {
     if (state === 0) {
       setShowCharge(listCharge);
@@ -98,22 +99,7 @@ export default function Charge() {
 
   return listCharge ? (
     <>
-      <section className="hero-area bg-white shadow-sm pt-80px">
-        {/* <NotificationContainer /> */}
-        <span className="icon-shape icon-shape-1"></span>
-        <span className="icon-shape icon-shape-2"></span>
-        <span className="icon-shape icon-shape-3"></span>
-        <span className="icon-shape icon-shape-4"></span>
-        <span className="icon-shape icon-shape-5"></span>
-        <span className="icon-shape icon-shape-6"></span>
-        <span className="icon-shape icon-shape-7"></span>
-        <div className="container">
-          <div className="hero-content text-center">
-            <h2 className="section-title pb-3">Danh sách nạp tiền</h2>
-          </div>
-        </div>
-      </section>
-      <section className="cart-area pt-80px position-relative">
+      <section className="cart-area position-relative">
         <NotificationContainer />
         <div className="container">
           <div className="row">
@@ -121,106 +107,139 @@ export default function Charge() {
               <ManagementSidebar />
             </div>
             <div className="col-md-10">
-              <div className="row">
-                <div
-                  className="col-md-5"
-                  style={{
-                    display: "flex",
-                    paddingLeft: "20px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <button
-                    className={
-                      showState === 0
-                        ? "btn btn-primary mr-15px"
-                        : "btn btn-secondary mr-15px"
-                    }
-                    onClick={() => setShowChargeState(0)}
+              <div className="search-card">
+                {/* <div className="row">
+                  <h4>Tiêu chí tìm kiếm</h4>
+                  <div className="col-md-4">
+                    <div className="input-search">
+                      <label htmlFor="titleSearch">Từ ngày:</label>
+                      <LocalizationProvider dateAdapter={AdapterMoment}>
+                          <div className="input-param" style={{ padding: 0 }}>
+                            <DatePicker
+                              value={fromDate}
+                              onChange={(newValue) => setFromDate(newValue)}
+                            />
+                          </div>
+                        </LocalizationProvider>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                  <div className="input-search">
+                      <label htmlFor="">Đến ngày:</label>
+                      <LocalizationProvider dateAdapter={AdapterMoment}>
+                          <div className="input-param" style={{ padding: 0 }}>
+                            <DatePicker
+                              value={toDate}
+                              onChange={(newValue) => setToDate(newValue)}
+                            />
+                          </div>
+                        </LocalizationProvider>
+                    </div>
+                  </div>
+                </div> */}
+                <div className="row">
+                  <div
+                    className="col-md-5"
+                    style={{
+                      display: "flex",
+                      paddingLeft: "20px",
+                      marginBottom: "10px",
+                    }}
                   >
-                    Tất cả
-                  </button>
-                  <button
-                    className={
-                      showState === 1
-                        ? "btn btn-primary mr-15px"
-                        : "btn btn-secondary mr-15px"
-                    }
-                    onClick={() => setShowChargeState(1)}
+                    <button
+                      className={
+                        showState === 0
+                          ? "btn btn-primary mr-15px"
+                          : "btn btn-secondary mr-15px"
+                      }
+                      onClick={() => setShowChargeState(0)}
+                    >
+                      Tất cả
+                    </button>
+                    <button
+                      className={
+                        showState === 1
+                          ? "btn btn-primary mr-15px"
+                          : "btn btn-secondary mr-15px"
+                      }
+                      onClick={() => setShowChargeState(1)}
+                    >
+                      Đơn nạp
+                    </button>
+                    <button
+                      className={
+                        showState === -1
+                          ? "btn btn-primary mr-15px"
+                          : "btn btn-secondary mr-15px"
+                      }
+                      onClick={() => setShowChargeState(-1)}
+                    >
+                      Đơn rút
+                    </button>
+                  </div>
+                  <div className="col-md-4"></div>
+                  <div
+                    className="col-md-3"
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      paddingRight: "20px",
+                      marginBottom: "10px",
+                    }}
                   >
-                    Đơn nạp
-                  </button>
-                  <button
-                    className={
-                      showState === -1
-                        ? "btn btn-primary mr-15px"
-                        : "btn btn-secondary mr-15px"
-                    }
-                    onClick={() => setShowChargeState(-1)}
-                  >
-                    Đơn rút
-                  </button>
-                </div>
-                <div className="col-md-4"></div>
-                <div
-                  className="col-md-3"
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    paddingRight: "20px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <button
-                    className="btn btn-success mr-15px"
-                    onClick={() => handleClickOpen(true)}
-                  >
-                    Nạp tiền
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleClickOpen(false)}
-                  >
-                    Rút tiền
-                  </button>
+                    <button
+                      className="btn btn-success mr-15px"
+                      onClick={() => handleClickOpen(true)}
+                    >
+                      Nạp tiền
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleClickOpen(false)}
+                    >
+                      Rút tiền
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="container">
-                  <div className="cart-form mb-50px table-responsive px-2">
-                    <table className="table generic-table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Ngày nạp</th>
-                          <th scope="col">Nội dung</th>
-                          <th scope="col">Số tiền</th>
-                          <th scope="col">Người nhận</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {showCharge &&
-                          showCharge.map((charge, index) => {
-                            return (
-                              <tr key={index} className="fw-normal">
-                                <th scope="row">
-                                  <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
-                                    <div className="media-body">
-                                      {convertToDay(charge.createdDate)}
+              <div className="search-result" style={{minHeight: "400px"}}>
+                <div className="row">
+                  <div className="container">
+                    <div className="cart-form table-responsive px-2">
+                      <table className="table generic-table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Ngày nạp</th>
+                            <th scope="col">Nội dung</th>
+                            <th scope="col">Số tiền</th>
+                            <th scope="col">Người nhận</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {showCharge &&
+                            showCharge.map((charge, index) => {
+                              return (
+                                <tr key={index} className="fw-normal">
+                                  <th scope="row">
+                                    <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                      <div className="media-body">
+                                        {convertToDay(charge.createdDate)}
+                                      </div>
                                     </div>
-                                  </div>
-                                </th>
-                                <td>{charge.content}</td>
-                                <td>
-                                  <div className="quantity-item d-inline-flex align-items-center">
-                                    {formatMoney(charge.transferAmount)} đ
-                                  </div>
-                                </td>
-                                <td>{charge.user}</td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                                  </th>
+                                  <td>{charge.content}</td>
+                                  <td>
+                                    <div className="quantity-item d-inline-flex align-items-center">
+                                      {formatMoney(charge.transferAmount)} đ
+                                    </div>
+                                  </td>
+                                  <td>{charge.user}</td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -130,10 +130,6 @@ export default function Login() {
                     </span>
                   )}
                   <div className="content-row">
-                    <FormControlLabel
-                      control={<Checkbox />}
-                      label="Nhớ mật khẩu"
-                    />
                     <span style={{ paddingTop: "5px" }}>
                       <Link to={"/forgot-password"} style={{textDecoration: "underline", color: "#0d6efd" }}>Quên mật khẩu?</Link>
                     </span>

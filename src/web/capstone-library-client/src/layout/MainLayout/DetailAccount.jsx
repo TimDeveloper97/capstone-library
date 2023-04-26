@@ -53,17 +53,17 @@ export default function DetailAccount({ isCollapse }) {
     e.preventDefault();
     // const { data } = await getConfig();
     // setConfigs(data.value.sort((a, b) => a.id - b.id).slice());
+    console.log(configs);
     setOpen(true);
   };
   useEffect(() => {
     const getConfigs = async () => {
       const { data } = await getConfig();
-      data.success &&
+      data.value &&
         setConfigs(data.value.sort((a, b) => a.id - b.id).slice());
     };
     role === "ROLE_ADMIN" && getConfigs();
   }, []);
-
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -73,11 +73,11 @@ export default function DetailAccount({ isCollapse }) {
     const res1 = await updateConfig({ key: "discount", value: data.fee });
     const res2 = await updateConfig({ key: "days", value: data.days });
     alert(res1.data.message);
+    handleClose();
   };
   const handleChange = (index, e) => {
     const temp = configs;
     temp[index].value = e.target.value;
-    console.log(e.target.value, index);
     setConfigs(temp.slice());
   };
 

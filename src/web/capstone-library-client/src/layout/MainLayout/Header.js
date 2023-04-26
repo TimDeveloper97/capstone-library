@@ -83,8 +83,11 @@ export default function Header() {
                     </ul>
                   </li>
                   <li className="is-mega-menu">
-                    <Link to={"/user/add-book"}>Thêm sách</Link>
+                    <Link to={"/books/all"}>Kho sách</Link>
                   </li>
+                  {curUser.roles[0] !== "ROLE_ADMIN" && <li className="is-mega-menu">
+                    <Link to={"/user/add-book"}>Thêm sách</Link>
+                  </li>}
                   <li>
                     <Link to={"/post"}>
                       bài đăng <i className="la la-angle-down fs-11"></i>
