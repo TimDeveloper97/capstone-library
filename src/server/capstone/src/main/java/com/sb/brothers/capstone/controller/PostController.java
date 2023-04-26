@@ -228,6 +228,8 @@ public class PostController {
             }
             if(post.getStatus() == CustomStatus.ADMIN_POST || post.getStatus() == CustomStatus.USER_POST_IS_APPROVED || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED) {
                 if (post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
+                    //@TODO return book when delete post
+                    returnBookBeforeDeletePost(id);
                     postService.removePostById(id);
                 }
                 else throw new Exception("Bạn không phải người đăng bài viết hoặc người quản lý tin.");
@@ -265,7 +267,7 @@ public class PostController {
                 postDto.convertPostDto(currPost);
                 currPost.setModifiedDate(new Date());
                 postService.updatePost(currPost);
-                postDetailService.deleteAllByPostId(postDto.getId());
+                returnBookBeforeDeletePost(postDto.getId());
                 List<Notification> ntfs = new ArrayList<>();
                 setPostDetail(auth, postDto, currPost, ntfs);
                 ntfs.stream().forEach(ntf -> notificationService.updateNotification(ntf));
@@ -291,10 +293,13 @@ public class PostController {
             if(book == null){
                 throw new Exception("Cuốn sách có mã:" + pdDto.getBookDto().getId() + " không tìm thấy.");
             }
-            if(book.getUser().getId().compareTo(auth.getName()) == 0 || book.getInStock() > 0){
-                postDetail.setBook(book);
-                postDetail.setQuantity(pdDto.getQuantity());
-                if(currPost.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED) {
+            postDetail.setBook(book);
+            postDetail.setQuantity(pdDto.getQuantity());
+            if(currPost.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED){
+                if(book.getUser().getId().compareTo(auth.getName()) != 0) {
+                    throw new Exception("Bạn không sở hữu cuốn sách này.");
+                }
+                else if(book.getQuantity() >= postDetail.getQuantity()) {
                     book.setQuantity(book.getQuantity() - postDetail.getQuantity());
                     b.setPercent(postDto.getFee());
                     b.setQuantity(0);
@@ -304,26 +309,26 @@ public class PostController {
                     postDetail.setSublet(book.getId());
                     postDetail.setBook(b);
                 }
-                else if(currPost.getStatus() == CustomStatus.ADMIN_POST){
-                    //@TODO - check qua han
-                    if(isAnAdminBook(book) == false){
-                        PostDetail pdHasBook = postDetailService.findByBookId(book.getId());
-                        Post oldPost = pdHasBook.getPost();
-                        if(checkBookNotExpired(postDto, oldPost.getNoDays()) == false){
-                            throw new Exception("Số ngày cho thuê vượt quá số ngày ký gửi của cuốn sách.");
-                        }
-                        Notification ntf = new Notification();
-                        ntf.setUser(book.getUser());
-                        ntf.setDescription("Cuốn sách có tên: "+ book.getName()+" của bạn đã được đăng cho thuê (mã bài đăng: P"+ currPost.getId()+ ", số lượng:"+postDetail.getQuantity() +")");
-                        ntfs.add(ntf);
-                    }
-                    book.setInStock(book.getInStock() - postDetail.getQuantity());
-                    bookService.updateBook(book);
-                    postDetail.setSublet(0);
-                }
-                postDetailService.save(postDetail);
+                else throw new Exception("Số lượng sách không đủ.");
             }
-            else throw new Exception("Bạn không sở hữu cuốn sách này.");
+            else if(currPost.getStatus() == CustomStatus.ADMIN_POST){
+                //@TODO - check qua han
+                if(isAnAdminBook(book) == false){
+                    PostDetail pdHasBook = postDetailService.findByBookId(book.getId());
+                    Post oldPost = pdHasBook.getPost();
+                    if(checkBookNotExpired(postDto, oldPost.getNoDays()) == false){
+                        throw new Exception("Số ngày cho thuê vượt quá số ngày ký gửi của cuốn sách.");
+                    }
+                    Notification ntf = new Notification();
+                    ntf.setUser(book.getUser());
+                    ntf.setDescription("Cuốn sách có tên: "+ book.getName()+" của bạn đã được đăng cho thuê (mã bài đăng: P"+ currPost.getId()+ ", số lượng:"+postDetail.getQuantity() +")");
+                    ntfs.add(ntf);
+                }
+                book.setInStock(book.getInStock() - postDetail.getQuantity());
+                bookService.updateBook(book);
+                postDetail.setSublet(0);
+            }
+            postDetailService.save(postDetail);
         }
     }
 
@@ -409,14 +414,28 @@ public class PostController {
     }
 
     boolean checkBookNotExpired(PostDto p, int noDaysInOldPost){
-        /*if(isAnAdminBook(book)){
-            return true;
-        }*/
         long expiredTime = new Date().getTime() + OrderDto.milisecondsPerDay*noDaysInOldPost;
         long rentTime = new Date().getTime() + OrderDto.milisecondsPerDay*p.getNoDays();
         if(rentTime > expiredTime){
             return false;
         }
         return true;
+    }
+
+    //@TODO return book when delete post
+    void returnBookBeforeDeletePost(int id) {
+        List<PostDetail> postDetailList = postDetailService.findAllByPostId(id);
+        for (PostDetail postDetail : postDetailList) {
+            Book dltBook;
+            if(postDetail.getSublet() > 0){
+                dltBook = bookService.getBookById(postDetail.getSublet()).get();
+            }
+            else {
+                dltBook = postDetail.getBook();
+            }
+            dltBook.setQuantity(dltBook.getQuantity() + postDetail.getQuantity());
+            bookService.updateBook(dltBook);
+        }
+        postDetailService.deleteAllByPostId(id);
     }
 }
