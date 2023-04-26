@@ -98,7 +98,7 @@ export default function AddPost() {
         })
       );
       if (res.success) {
-        NotificationManager.success(res.message, "Thông báo", 2000);
+        NotificationManager.success(res.message, "Thông báo", 1000);
         setListSelectBook((prev) =>
           prev.map((lsb) => {
             return lsb.selected
@@ -108,7 +108,7 @@ export default function AddPost() {
         );
         resetData();
       } else {
-        NotificationManager.error(res.message, "Lỗi", 2000);
+        NotificationManager.error(res.message, "Lỗi", 1000);
       }
     }
   };

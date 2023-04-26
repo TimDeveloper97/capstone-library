@@ -88,10 +88,10 @@ export default function BookManagement() {
   const handleDeleteBook = async (index) => {
     const res = await dispatch(deleteBook(deleteId));
     if (res.success) {
-      NotificationManager.success(res.message, "Thông báo", 2000);
+      NotificationManager.success(res.message, "Thông báo", 1000);
       setOpen(false);
     } else {
-      NotificationManager.error(res.message, "Lỗi", 2000);
+      NotificationManager.error(res.message, "Lỗi", 1000);
     }
   };
 

@@ -42,7 +42,7 @@ export default function Login() {
       .post("/login", data)
       .then((response) => {
         if (response.data.hasOwnProperty("success")) {
-          NotificationManager.error(response.data.message, "Lỗi", 2000);
+          NotificationManager.error(response.data.message, "Lỗi", 1000);
         } else {
           const { value, token } = response.data;
           window.localStorage.setItem("token", token);
@@ -66,7 +66,7 @@ export default function Login() {
           NotificationManager.error(
             "Tên đăng nhập hoặc mật khẩu không chính xác",
             "Thông báo",
-            2000
+            1000
           );
         }
       });

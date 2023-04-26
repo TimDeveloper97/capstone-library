@@ -50,7 +50,7 @@ export default function UserManagement() {
           : ["ROLE_USER"],
     });
     if (data.success) {
-      NotificationManager.success(data.message, "Thông báo", 2000);
+      NotificationManager.success(data.message, "Thông báo", 1000);
       const temp = listUser;
       if (temp[index].roles[0] === "ROLE_USER") {
         temp[index].roles = ["ROLE_MANAGER_POST", "ROLE_USER"];
@@ -59,7 +59,7 @@ export default function UserManagement() {
       }
       setListUser(temp.slice());
     } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+      NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
 
@@ -70,7 +70,7 @@ export default function UserManagement() {
       roles: user.roles,
     });
     if (data.success) {
-      NotificationManager.success(data.message, "Thông báo", 2000);
+      NotificationManager.success(data.message, "Thông báo", 1000);
       const temp = listUser;
       if (temp[index].status === 32) {
         temp[index].status = 0;
@@ -79,7 +79,7 @@ export default function UserManagement() {
       }
       setListUser(temp.slice());
     } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+      NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
   // const [curPage, setCurPage] = useState(1);

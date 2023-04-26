@@ -61,14 +61,14 @@ export default function Setting() {
         newPass,
       })
       .then((response) => {
-        NotificationManager.success(response.data.message, "Thông báo", 2000);
+        NotificationManager.success(response.data.message, "Thông báo", 1000);
         setCfPass("");
         setNewPass("");
         setOldPass("");
       })
       .catch((err) => {
         console.log(err);
-        NotificationManager.error(err.response.data.message, "Lỗi", 2000);
+        NotificationManager.error(err.response.data.message, "Lỗi", 1000);
       });
   };
   return (

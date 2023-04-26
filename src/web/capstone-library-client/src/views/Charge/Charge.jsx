@@ -76,11 +76,11 @@ export default function Charge() {
     !isCharge && (data.transferAmount = data.transferAmount * -1);
     const response = await transfer(data);
     if (response.data.success) {
-      NotificationManager.success(response.data.message, "Thông báo", 2000);
+      NotificationManager.success(response.data.message, "Thông báo", 1000);
       const res = await getRecharge();
       setListCharge(res.data.value);
     } else {
-      NotificationManager.error(response.data.message, "Lỗi", 2000);
+      NotificationManager.error(response.data.message, "Lỗi", 1000);
     }
     handleClose();
     resetField("user");

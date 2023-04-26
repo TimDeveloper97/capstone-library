@@ -79,9 +79,9 @@ export default function OrderStatus() {
       temp[index].statusColor = getColorStatus(64);
       temp[index].status = 64;
       setListOrderDisplay(temp.slice());
-      NotificationManager.success(data.message, "Thông báo", 2000);
+      NotificationManager.success(data.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+      NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
 
@@ -93,9 +93,9 @@ export default function OrderStatus() {
       temp[index].statusColor = getColorStatus(2);
       temp[index].status = 2;
       setListOrderDisplay(temp.slice());
-      NotificationManager.success(data.message, "Thông báo", 2000);
+      NotificationManager.success(data.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+      NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
   const [listOrderDisplay, setListOrderDisplay] = useState([]);
@@ -167,9 +167,9 @@ export default function OrderStatus() {
       temp[index].statusColor = getColorStatus(256);
       temp[index].status = 256;
       setListOrderDisplay(temp.slice());
-      NotificationManager.success(data.message, "Thông báo", 2000);
+      NotificationManager.success(data.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+      NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
 
