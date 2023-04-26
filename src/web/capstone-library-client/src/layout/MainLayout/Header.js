@@ -85,7 +85,7 @@ export default function Header() {
                   <li className="is-mega-menu">
                     <Link to={"/books/all"}>Kho sách</Link>
                   </li>
-                  {curUser.roles[0] !== "ROLE_ADMIN" && <li className="is-mega-menu">
+                  {curUser?.roles[0] !== "ROLE_ADMIN" && <li className="is-mega-menu">
                     <Link to={"/user/add-book"}>Thêm sách</Link>
                   </li>}
                   <li>

@@ -48,7 +48,7 @@ export default function Order() {
   };
   const removePostInOrder = (id) => {
     dispatch(removeOrder(id));
-    dispatch(removeFromCart());
+    dispatch(removeFromCart(1));
   };
 
   const [sumTotal, setSumTotal] = useState(0);
@@ -119,6 +119,8 @@ export default function Order() {
       if (sumTotal <= balance) {
         const res = await dispatch(checkout({ orders }));
         if (res.success) {
+          dispatch(removeFromCart(orders.length));
+          setListOrder(prev => prev.filter(l => !l.checked));
           NotificationManager.success(res.message, "Thông báo", 2000);
         } else {
           NotificationManager.error(res.message, "Lỗi", 2000);
