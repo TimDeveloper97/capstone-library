@@ -151,16 +151,6 @@ export default function OrderStatus() {
     const input = JSON.stringify(data);
     setQrValue(input);
     setOpen(true);
-    // const {data} = await receivedOrder(id);
-    // if (data.success) {
-    //   let temp = listOrderStatus;
-    //   temp[index].statusColor = getColorStatus(128);
-    //   temp[index].status = 128;
-    //   setlistOrderStatus(temp.slice());
-    //   NotificationManager.success(data.message, "Thông báo", 2000);
-    // } else {
-    //   NotificationManager.error(data.message, "Lỗi", 2000);
-    // }
   };
   const handleClose = () => {
     setOpen(false);
@@ -291,7 +281,7 @@ export default function OrderStatus() {
                           className="btn btn-secondary ml-10"
                           onClick={() => handleClickReset()}
                         >
-                          <FontAwesomeIcon icon={faBroom} /> Reset
+                          <FontAwesomeIcon icon={faBroom} /> Tất cả
                         </button>
                       </div>
                     </div>
