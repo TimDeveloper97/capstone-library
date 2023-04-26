@@ -20,6 +20,7 @@ import {
 } from "../../apis/order";
 import Loading from "../../components/Loading/Loading";
 import {
+  compareDate,
   compareDateEqual,
   formatMoney,
   getColorStatus,
@@ -105,6 +106,7 @@ export default function OrderStatus() {
 
   //input search param
   const [rentDate, setRentDate] = useState(moment(new Date()));
+  const [fromDate, setFromDate] = useState(moment(new Date(2020, 0, 1)));
   const [searchTitle, setSearchTitle] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [status, setStatus] = useState(-1);
@@ -138,7 +140,7 @@ export default function OrderStatus() {
     setStatus(e.target.value);
   };
 
-  const handleReceivedOrder = async (e, id, index) => {
+  const handleCreateQr = async (e, id, status) => {
     e.preventDefault();
     //const user = JSON.parse(window.localStorage.getItem("user"));
     const token = window.localStorage.getItem("token");
@@ -146,7 +148,7 @@ export default function OrderStatus() {
       time: new Date().getTime(),
       token: token,
       orderId: id,
-      status: 64,
+      status: status,
     };
     const input = JSON.stringify(data);
     setQrValue(input);
@@ -181,12 +183,13 @@ export default function OrderStatus() {
     let temp = listOrderStatus;
     temp = temp.filter((t) => t.postDto.title.indexOf(searchTitle) !== -1);
     temp = temp.filter((t) => t.userId.indexOf(searchUser) !== -1);
-    //temp = temp.filter(t => compareDate(t.createdDate, returnDate._d, rentDate._d));
+    temp = temp.filter(t => compareDate(t.createdDate, fromDate._d, rentDate._d));
     status !== -1 && (temp = temp.filter((t) => t.status === status));
     setListOrderDisplay(temp.slice());
   };
   const handleClickReset = () => {
     setRentDate(moment(new Date()));
+    setFromDate(moment(new Date(2020, 0 ,1)));
     setSearchTitle("");
     setSearchUser("");
     setStatus(-1);
@@ -216,6 +219,17 @@ export default function OrderStatus() {
                           value={searchTitle}
                           onChange={(e) => setSearchTitle(e.target.value)}
                         />
+                      </div>
+                      <div className="input-search">
+                        <label htmlFor="">Từ ngày:</label>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                          <div className="input-param" style={{ padding: 0 }}>
+                            <DatePicker
+                              value={fromDate}
+                              onChange={(newValue) => setFromDate(newValue)}
+                            />
+                          </div>
+                        </LocalizationProvider>
                       </div>
                       <div className="input-search">
                         <label htmlFor="">Trạng thái:</label>
@@ -248,7 +262,7 @@ export default function OrderStatus() {
                         />
                       </div>
                       <div className="input-search">
-                        <label htmlFor="">Ngày thuê:</label>
+                        <label htmlFor="">Đến ngày:</label>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                           <div className="input-param" style={{ padding: 0 }}>
                             <DatePicker
@@ -333,7 +347,11 @@ export default function OrderStatus() {
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
-                                          handleConfirmOrder(e, los.id, index)
+                                          handleConfirmOrder(
+                                            e,
+                                            los.id,
+                                            los.status
+                                          )
                                         }
                                       >
                                         <FontAwesomeIcon icon={faCheck} /> Chấp
@@ -361,7 +379,7 @@ export default function OrderStatus() {
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
-                                          handleReceivedOrder(e, los.id, index)
+                                          handleCreateQr(e, los.id, los.status)
                                         }
                                       >
                                         <FontAwesomeIcon icon={faQrcode} /> Tạo
@@ -377,6 +395,15 @@ export default function OrderStatus() {
                                 ) : los.status === 128 ? (
                                   <div className="button-action">
                                     <div className="tooltip-action">
+                                      <button
+                                        className="btn btn-success"
+                                        onClick={(e) =>
+                                          handleCreateQr(e, los.id, los.status)
+                                        }
+                                      >
+                                        <FontAwesomeIcon icon={faQrcode} /> Tạo
+                                        mã
+                                      </button>
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>

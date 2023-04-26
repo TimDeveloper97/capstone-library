@@ -18,6 +18,7 @@ import {
   NotificationManager,
   NotificationContainer,
 } from "react-notifications";
+import { getConfig } from "../../apis/user";
 
 const schema = yup.object({
 });
@@ -32,7 +33,14 @@ export default function AddPost() {
   useEffect(() => {
     role ? dispatch(getBooks()) : dispatch(getUserBooks());
   }, []);
-
+  const [configs, setConfigs] = useState(0);
+  useEffect(() => {
+    const fetchConfig = async () => {
+      const {data} = await getConfig();
+      data.value && setConfigs(data.value.filter(d => d.key === "discount")[0].value);
+    }
+    fetchConfig();
+  }, [])
   useEffect(() => {
     setListSelectBook(
       books?.map((book) => {
@@ -85,13 +93,13 @@ export default function AddPost() {
       } else {
         data.address = address;
         data.title = "[Ký gửi]";
-        data.fee = 30;
+        data.fee = configs;
       }
       const res = await dispatch(
         addPost({
           title: data.title,
           noDays: data.noDays,
-          fee: role ? data.fee : 30,
+          fee: role ? data.fee : configs[0]?.value,
           content: data.content,
           address: data.address,
           postDetailDtos: data.postDetailDtos,
@@ -135,7 +143,7 @@ export default function AddPost() {
     listSelected.forEach((l) => {
       l.selected && (total += l.quantity * l.price);
     });
-    setTotal(role ? total : Math.ceil((total * numDay * 30) / 100));
+    setTotal(role ? total : Math.ceil((total * numDay * configs) / 100));
   };
   const handleClickCheckbox = (book, e, index) => {
     const temp = listSelectBook;
@@ -305,7 +313,7 @@ export default function AddPost() {
                           name="userFee"
                           variant="filled"
                           {...register("fee")}
-                          value={"30%"}
+                          value={`${configs} %`}
                           disabled
                         />
                       </div>

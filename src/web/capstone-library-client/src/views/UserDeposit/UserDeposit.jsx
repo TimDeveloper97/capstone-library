@@ -202,7 +202,7 @@ export default function UserDeposit() {
                           className="btn btn-secondary ml-10"
                           onClick={() => handleClickReset()}
                         >
-                          <FontAwesomeIcon icon={faBroom} /> Reset
+                          <FontAwesomeIcon icon={faBroom} /> Tất cả
                         </button>
                       </div>
                     </div>

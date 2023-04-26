@@ -4,6 +4,7 @@ import {
   faEllipsisVertical,
   faQrcode,
   faSearch,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment/moment";
@@ -11,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { acceptPost, denyPost, getPostRequest } from "../../apis/post";
 import Loading from "../../components/Loading/Loading";
 import {
+  compareDate,
   formatMoney,
   getColorStatus,
   getImgUrl,
@@ -98,6 +100,7 @@ export default function PostRequest() {
 
   //input search param
   const [rentDate, setRentDate] = useState(moment(new Date()));
+  const [fromDate, setFromDate] = useState(moment(new Date(2020, 0, 1)));
   const [searchTitle, setSearchTitle] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [status, setStatus] = useState(-1);
@@ -128,11 +131,12 @@ export default function PostRequest() {
     temp = temp.filter((t) => !t.title || t.title.indexOf(searchTitle) !== -1);
     temp = temp.filter((t) => t.user.indexOf(searchUser) !== -1);
     status !== -1 && (temp = temp.filter((t) => t.status === status));
-    //temp = temp.filter(t => compareDate(t.createdDate, returnDate._d, rentDate._d));
+    temp = temp.filter(t => compareDate(t.createdDate, fromDate._d, rentDate._d));
     setListPostDeposit(temp.slice());
   };
   const handleClickReset = () => {
     setRentDate(moment(new Date()));
+    setRentDate(moment(new Date(2020, 0, 1)));
     setSearchTitle("");
     setSearchUser("");
     setStatus(-1);
@@ -197,6 +201,17 @@ export default function PostRequest() {
                         />
                       </div>
                       <div className="input-search">
+                        <label htmlFor="">Từ ngày:</label>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                          <div className="input-param" style={{ padding: 0 }}>
+                            <DatePicker
+                              value={fromDate}
+                              onChange={(newValue) => setFromDate(newValue)}
+                            />
+                          </div>
+                        </LocalizationProvider>
+                      </div>
+                      <div className="input-search">
                         <label htmlFor="">Trạng thái:</label>
                         <div className="input-param" style={{ padding: 0 }}>
                           <Select
@@ -227,7 +242,7 @@ export default function PostRequest() {
                         />
                       </div>
                       <div className="input-search">
-                        <label htmlFor="">Ngày ký gửi:</label>
+                        <label htmlFor="">Đến ngày:</label>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                           <div className="input-param" style={{ padding: 0 }}>
                             <DatePicker
@@ -260,7 +275,7 @@ export default function PostRequest() {
                           className="btn btn-secondary ml-10"
                           onClick={() => handleClickReset()}
                         >
-                          <FontAwesomeIcon icon={faBroom} /> Reset
+                          <FontAwesomeIcon icon={faBroom} /> Tất cả
                         </button>
                       </div>
                     </div>
@@ -273,7 +288,6 @@ export default function PostRequest() {
                         <th scope="col">Ngày thuê</th>
                         <th scope="col">Ngày đến hạn</th>
                         <th scope="col">Tiêu đề</th>
-                        <th scope="col">Phí</th>
                         <th scope="col">Người ký gửi</th>
                         <th scope="col">Trạng thái</th>
                         <th scope="col">Thao tác</th>
@@ -299,7 +313,6 @@ export default function PostRequest() {
                               >
                                 {los.title}
                               </td>
-                              <td>{los.fee} %</td>
                               <td>{los.user}</td>
                               <td>
                                 {" "}
@@ -340,8 +353,7 @@ export default function PostRequest() {
                                           handleDeny(e, los.id, index)
                                         }
                                       >
-                                        <FontAwesomeIcon icon={faCheck} />
-                                        Từ chối
+                                        <FontAwesomeIcon icon={faXmark} /> Từ chối
                                       </button>
                                     </div>
                                     <span>
