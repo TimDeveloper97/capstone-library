@@ -212,6 +212,7 @@ public class MemberAPI {
             List<PostDetail> postDetails = postDetailService.findAllByPostId(currPost.getId());
             if (currPost.getStatus() == CustomStatus.USER_PAYMENT_SUCCESS) {
                 try {
+                    user = order.getUser();
                     if (status == CustomStatus.USER_WAIT_TAKE_BOOK) {
                         //@TODO triết khấu cho user đã ký gửi
                         int discount = discountForPartner(currPost, postDetails);
@@ -225,7 +226,6 @@ public class MemberAPI {
                         notificationService.updateNotification(notify);
                     } else if (status == CustomStatus.USER_REQUEST_IS_DENY) {
                         //@TODO hoàn tiền cho user đã order
-                        user = order.getUser();
                         user.setBalance(user.getBalance() + order.getTotalPrice());
                         userService.updateUser(user);
                     }
