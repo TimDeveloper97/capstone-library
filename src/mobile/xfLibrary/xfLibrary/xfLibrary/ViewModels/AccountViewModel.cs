@@ -77,7 +77,7 @@ namespace xfLibrary.ViewModels
 
         public ICommand ReportCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new FeedbackPopup()));
 
-        public ICommand IpCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new IpPopup(Services.Api.Url.Substring(7, Services.Api.Url.Length - 12))));
+        public ICommand IpCommand => new Command(async () => await Shell.Current.ShowPopupAsync(new IpPopup(Services.Api.BaseUrl.Substring(7))));
 
         public ICommand ProfileCommand => new Command(async () => await MoveToLogin(async () =>
         {

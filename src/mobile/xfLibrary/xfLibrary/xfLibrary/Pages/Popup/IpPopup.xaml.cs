@@ -33,7 +33,8 @@ namespace xfLibrary.Pages.Popup
                 return;
             }
 
-            Api.Url = @"http://" + un + "/api/";
+            Api.BaseUrl = @"http://" + un;
+            Api.Url = Api.BaseUrl + "/api/";
 
             okBtn.IsBusy = false;
             Dismiss(null);
