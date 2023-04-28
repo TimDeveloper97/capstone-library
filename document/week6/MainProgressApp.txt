@@ -23,3 +23,6 @@ Nếu admin từ chối thì sẽ có thông báo trở lại User và hoàn tr�
 => Nếu User trả muộn sách A  ngày thì số tiền sẽ bị trừ đi 1% với trên 1 ngày đến khi nào hết tiền cọc. Khi đó admin sẽ phải
 tự liên lạc đến để đòi sách, TH khác tự xử lý
 => những TH trên đều có cập nhật trạng thái tương ứng
+10, Sách nếu ko được user đến lấy trong khoảng thời gian 1 tuần sẽ tự chuyển thành sách của admin.
+11, sách không được ký gửi hay để trong kho 1 thời gian hết hạn ký gửi sẽ tự chuyển thành quá hạn
+12, tất cả các trạng thái lấy sách của user có thể thực hiện QR Code để quét mã checkin trạng thái
