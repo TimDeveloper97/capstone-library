@@ -7,12 +7,6 @@ import { getBookById, getPostByBook } from "../../apis/book";
 import Loading from "../../components/Loading/Loading";
 import { formatMoney, getImgUrl } from "../../helper/helpFunction";
 import "./detailbook.css";
-import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
-import { deleteBook } from "../../actions/book";
-import {
-  NotificationManager,
-  NotificationContainer,
-} from "react-notifications";
 import Carousel from "react-multi-carousel";
 
 export default function DetailBook() {
@@ -25,7 +19,6 @@ export default function DetailBook() {
     setActivelLink(id);
     setImgShow(link);
   };
-  const userRole = JSON.parse(window.localStorage.getItem("user")).roles[0];
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },

@@ -350,7 +350,7 @@ export default function OrderStatus() {
                                           handleConfirmOrder(
                                             e,
                                             los.id,
-                                            los.status
+                                            index
                                           )
                                         }
                                       >

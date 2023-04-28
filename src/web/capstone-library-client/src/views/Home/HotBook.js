@@ -77,7 +77,7 @@ export default function HotBook() {
                       <span className="top-label">Hot</span>
                     </div>
                   </div>
-                  <Link to={`/user/detail-book/${item.id}`} />
+                  <Link to={`/detail-book/${item.id}`} />
                 </div>
               );
             })}

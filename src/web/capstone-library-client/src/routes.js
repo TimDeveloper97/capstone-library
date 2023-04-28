@@ -66,16 +66,16 @@ export default function Route() {
           element: <SearchBook />,
         },
         {
+          path: "/detail-book/:id",
+          element: <DetailBook />,
+        },
+        {
           path: "/user",
           element: <PrivateRoute />,
           children: [
             {
               path: "book",
               element: <BookPage />,
-            },
-            {
-              path: "detail-book/:id",
-              element: <DetailBook />,
             },
             {
               path: "profile",

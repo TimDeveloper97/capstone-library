@@ -28,8 +28,8 @@ export default function DetailPost() {
   const [sum, setSum] = useState(0);
 
   const dispatch = useDispatch();
-  const isAdmin =
-    JSON.parse(window.localStorage.getItem("user")).roles[0] === "ROLE_ADMIN";
+  const isUser =
+    JSON.parse(window.localStorage.getItem("user"))?.roles[0] === "ROLE_USER";
 
   const { id } = useParams();
   //const books = useSelector(state => state.book);
@@ -174,7 +174,7 @@ export default function DetailPost() {
                                 </table>
                               </div>
 
-                              {!isAdmin && (
+                              {isUser && (
                                 <div className="buy">
                                   <button
                                     className="btn btn-success"

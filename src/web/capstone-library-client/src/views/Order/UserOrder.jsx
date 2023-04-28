@@ -378,7 +378,7 @@ export default function UserOrder() {
                                     <div className="media-body">
                                       <h5 className="fs-15 fw-medium">
                                         <Link
-                                          to={`/user/detail-book/${post.bookDto.id}`}
+                                          to={`/detail-book/${post.bookDto.id}`}
                                         >
                                           {post.bookDto.name}
                                         </Link>

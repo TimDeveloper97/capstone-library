@@ -49,7 +49,7 @@ export default function NewUploadBook() {
                       <span className="time-ago">5 giờ trước</span>
                     </div>
                   </div>
-                  <Link to={`/user/detail-book/${item.id}`} />
+                  <Link to={`/detail-book/${item.id}`} />
                 </div>
               );
             })}

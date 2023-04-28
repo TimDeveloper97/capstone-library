@@ -118,7 +118,7 @@ export default function UserManagement() {
     let temp = users;
     temp = temp.filter((t) => t.firstName.indexOf(searchName) !== -1);
     temp = temp.filter((t) => t.id.indexOf(searchUser) !== -1);
-    temp = temp.filter((t) => t.phone.indexOf(searchPhone) !== -1);
+    temp = temp.filter((t) => t.phone?.indexOf(searchPhone) !== -1);
     status !== -1 && (temp = temp.filter((t) => t.status === status));
     setListUser(temp.slice());
   };

@@ -198,7 +198,7 @@ export default function Header() {
             <Link to={"/"}>Trang chủ</Link>
           </li>
           <li>
-            <Link to={"/book"}>Kho sách</Link>
+            <Link to={"/books/all"}>Kho sách</Link>
           </li>
           <li>
             <Link to={"/user/add-book"}>Thêm sách</Link>

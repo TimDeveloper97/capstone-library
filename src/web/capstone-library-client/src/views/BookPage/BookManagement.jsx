@@ -227,7 +227,7 @@ export default function BookManagement() {
                                   src={getImgUrl(book.imgs[0]?.fileName)}
                                 />
                                  <Link
-                                  to={`/user/detail-book/${book.id}`}
+                                  to={`/detail-book/${book.id}`}
                                   target="_blank"
                                   rel="noopener noreferer"
                                   className="row-link"
@@ -236,7 +236,7 @@ export default function BookManagement() {
                               <th>
                                 {book.name}
                                 <Link
-                                  to={`/user/detail-book/${book.id}`}
+                                  to={`/detail-book/${book.id}`}
                                   target="_blank"
                                   rel="noopener noreferer"
                                   className="row-link"
