@@ -48,6 +48,9 @@ public class PostController {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private ImageService imageService;
+
     //posts session
     @GetMapping("")
     public ResponseEntity<?> getAllAdminPosts(){
@@ -308,6 +311,7 @@ public class PostController {
                     bookService.updateBook(book);
                     postDetail.setSublet(book.getId());
                     postDetail.setBook(b);
+                    copyImages(book, b);
                 }
                 else throw new Exception("Số lượng sách không đủ.");
             }
@@ -437,5 +441,13 @@ public class PostController {
             bookService.updateBook(dltBook);
         }
         postDetailService.deleteAllByPostId(id);
+    }
+    void copyImages(Book bSour, Book bDest){
+        for(Image img : bSour.getImages()){
+            Image nImg = new Image();
+            nImg.setLink(img.getLink());
+            nImg.setBook(bDest);
+            imageService.update(nImg);
+        }
     }
 }

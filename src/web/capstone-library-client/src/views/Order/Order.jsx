@@ -48,7 +48,7 @@ export default function Order() {
   };
   const removePostInOrder = (id) => {
     dispatch(removeOrder(id));
-    dispatch(removeFromCart());
+    dispatch(removeFromCart(1));
   };
 
   const [sumTotal, setSumTotal] = useState(0);
@@ -113,19 +113,22 @@ export default function Order() {
       l.checked && orders.push({ id: l.id });
     });
     if (orders.length === 0) {
-      NotificationManager.error("Giỏ hàng của bạn đang trống", "Lỗi", 2000);
+      NotificationManager.error("Giỏ hàng của bạn đang trống", "Lỗi", 1000);
     } else {
-      const balance = JSON.parse(window.localStorage.getItem("user")).balance;
-      if (sumTotal <= balance) {
-        const res = await dispatch(checkout({ orders }));
-        if (res.success) {
-          NotificationManager.success(res.message, "Thông báo", 2000);
-        } else {
-          NotificationManager.error(res.message, "Lỗi", 2000);
-        }
+      const res = await dispatch(checkout({ orders }));
+      if (res.success) {
+        dispatch(removeFromCart(orders.length));
+        setListOrder((prev) => prev.filter((l) => !l.checked));
+        NotificationManager.success(res.message, "Thông báo", 1000);
       } else {
-        NotificationManager.error("Số dư còn lại không đủ", "Lỗi", 2000);
+        NotificationManager.error(res.message, "Lỗi", 1000);
       }
+      // const balance = JSON.parse(window.localStorage.getItem("user")).balance;
+      // if (sumTotal <= balance) {
+
+      // } else {
+      //   NotificationManager.error("Số dư còn lại không đủ", "Lỗi", 1000);
+      // }
     }
     handleClose();
   };

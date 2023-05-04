@@ -55,21 +55,30 @@ export default function Setting() {
   const [cfPass, setCfPass] = useState("");
   const handleSubmitPassword = (e) => {
     e.preventDefault();
-    axiosIntance
-      .post("/change-password", {
-        oldPass,
-        newPass,
-      })
-      .then((response) => {
-        NotificationManager.success(response.data.message, "Thông báo", 2000);
-        setCfPass("");
-        setNewPass("");
-        setOldPass("");
-      })
-      .catch((err) => {
-        console.log(err);
-        NotificationManager.error(err.response.data.message, "Lỗi", 2000);
-      });
+    if (newPass !== cfPass) {
+      NotificationManager.error("Xác nhận mật khẩu không khớp", "lỗi", 1000);
+    } else {
+      axiosIntance
+        .post("/change-password", {
+          oldPass,
+          newPass,
+        })
+        .then((response) => {
+          const { data } = response;
+          if (data.success) {
+            NotificationManager.success(data.message, "Thông báo", 1000);
+            setCfPass("");
+            setNewPass("");
+            setOldPass("");
+          } else {
+            NotificationManager.error(data.message, "Lỗi", 1000);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          NotificationManager.error(err.response.data.message, "Lỗi", 1000);
+        });
+    }
   };
   return (
     <>
@@ -160,7 +169,10 @@ export default function Setting() {
           </ul>
         </div>
       </section>
-      <section className="user-details-area pt-40px pb-40px" style={{background: "#efefef"}}>
+      <section
+        className="user-details-area pt-40px pb-40px"
+        style={{ background: "#efefef" }}
+      >
         <div className="container">
           <div className="row">
             <div className="col-lg-6">

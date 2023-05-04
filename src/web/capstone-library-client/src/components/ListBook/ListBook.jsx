@@ -86,7 +86,7 @@ export default function ListBook({ category }) {
                         <p className="available">Còn lại: {item.inStock}</p>
                       </div>
                     </div>
-                    <Link to={`/user/detail-book/${item.id}`} />
+                    <Link to={`/detail-book/${item.id}`} />
                   </div>
                 );
               })

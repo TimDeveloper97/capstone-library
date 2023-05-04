@@ -88,10 +88,10 @@ export default function BookManagement() {
   const handleDeleteBook = async (index) => {
     const res = await dispatch(deleteBook(deleteId));
     if (res.success) {
-      NotificationManager.success(res.message, "Thông báo", 2000);
+      NotificationManager.success(res.message, "Thông báo", 1000);
       setOpen(false);
     } else {
-      NotificationManager.error(res.message, "Lỗi", 2000);
+      NotificationManager.error(res.message, "Lỗi", 1000);
     }
   };
 
@@ -193,7 +193,7 @@ export default function BookManagement() {
                           className="btn btn-secondary ml-10"
                           onClick={() => handleClickReset()}
                         >
-                          <FontAwesomeIcon icon={faBroom} /> Reset
+                          <FontAwesomeIcon icon={faBroom} /> Tất cả
                         </button>
                       </div>
                     </div>
@@ -227,7 +227,7 @@ export default function BookManagement() {
                                   src={getImgUrl(book.imgs[0]?.fileName)}
                                 />
                                  <Link
-                                  to={`/user/detail-book/${book.id}`}
+                                  to={`/detail-book/${book.id}`}
                                   target="_blank"
                                   rel="noopener noreferer"
                                   className="row-link"
@@ -236,7 +236,7 @@ export default function BookManagement() {
                               <th>
                                 {book.name}
                                 <Link
-                                  to={`/user/detail-book/${book.id}`}
+                                  to={`/detail-book/${book.id}`}
                                   target="_blank"
                                   rel="noopener noreferer"
                                   className="row-link"

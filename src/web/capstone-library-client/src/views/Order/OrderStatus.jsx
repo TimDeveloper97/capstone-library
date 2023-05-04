@@ -20,6 +20,7 @@ import {
 } from "../../apis/order";
 import Loading from "../../components/Loading/Loading";
 import {
+  compareDate,
   compareDateEqual,
   formatMoney,
   getColorStatus,
@@ -79,9 +80,9 @@ export default function OrderStatus() {
       temp[index].statusColor = getColorStatus(64);
       temp[index].status = 64;
       setListOrderDisplay(temp.slice());
-      NotificationManager.success(data.message, "Thông báo", 2000);
+      NotificationManager.success(data.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+      NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
 
@@ -93,9 +94,9 @@ export default function OrderStatus() {
       temp[index].statusColor = getColorStatus(2);
       temp[index].status = 2;
       setListOrderDisplay(temp.slice());
-      NotificationManager.success(data.message, "Thông báo", 2000);
+      NotificationManager.success(data.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+      NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
   const [listOrderDisplay, setListOrderDisplay] = useState([]);
@@ -105,6 +106,7 @@ export default function OrderStatus() {
 
   //input search param
   const [rentDate, setRentDate] = useState(moment(new Date()));
+  const [fromDate, setFromDate] = useState(moment(new Date(2020, 0, 1)));
   const [searchTitle, setSearchTitle] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [status, setStatus] = useState(-1);
@@ -138,7 +140,7 @@ export default function OrderStatus() {
     setStatus(e.target.value);
   };
 
-  const handleReceivedOrder = async (e, id, index) => {
+  const handleCreateQr = async (e, id, status) => {
     e.preventDefault();
     //const user = JSON.parse(window.localStorage.getItem("user"));
     const token = window.localStorage.getItem("token");
@@ -146,21 +148,11 @@ export default function OrderStatus() {
       time: new Date().getTime(),
       token: token,
       orderId: id,
-      status: 64,
+      status: status,
     };
     const input = JSON.stringify(data);
     setQrValue(input);
     setOpen(true);
-    // const {data} = await receivedOrder(id);
-    // if (data.success) {
-    //   let temp = listOrderStatus;
-    //   temp[index].statusColor = getColorStatus(128);
-    //   temp[index].status = 128;
-    //   setlistOrderStatus(temp.slice());
-    //   NotificationManager.success(data.message, "Thông báo", 2000);
-    // } else {
-    //   NotificationManager.error(data.message, "Lỗi", 2000);
-    // }
   };
   const handleClose = () => {
     setOpen(false);
@@ -177,9 +169,9 @@ export default function OrderStatus() {
       temp[index].statusColor = getColorStatus(256);
       temp[index].status = 256;
       setListOrderDisplay(temp.slice());
-      NotificationManager.success(data.message, "Thông báo", 2000);
+      NotificationManager.success(data.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(data.message, "Lỗi", 2000);
+      NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
 
@@ -191,12 +183,13 @@ export default function OrderStatus() {
     let temp = listOrderStatus;
     temp = temp.filter((t) => t.postDto.title.indexOf(searchTitle) !== -1);
     temp = temp.filter((t) => t.userId.indexOf(searchUser) !== -1);
-    //temp = temp.filter(t => compareDate(t.createdDate, returnDate._d, rentDate._d));
+    temp = temp.filter(t => compareDate(t.createdDate, fromDate._d, rentDate._d));
     status !== -1 && (temp = temp.filter((t) => t.status === status));
     setListOrderDisplay(temp.slice());
   };
   const handleClickReset = () => {
     setRentDate(moment(new Date()));
+    setFromDate(moment(new Date(2020, 0 ,1)));
     setSearchTitle("");
     setSearchUser("");
     setStatus(-1);
@@ -226,6 +219,17 @@ export default function OrderStatus() {
                           value={searchTitle}
                           onChange={(e) => setSearchTitle(e.target.value)}
                         />
+                      </div>
+                      <div className="input-search">
+                        <label htmlFor="">Từ ngày:</label>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                          <div className="input-param" style={{ padding: 0 }}>
+                            <DatePicker
+                              value={fromDate}
+                              onChange={(newValue) => setFromDate(newValue)}
+                            />
+                          </div>
+                        </LocalizationProvider>
                       </div>
                       <div className="input-search">
                         <label htmlFor="">Trạng thái:</label>
@@ -258,7 +262,7 @@ export default function OrderStatus() {
                         />
                       </div>
                       <div className="input-search">
-                        <label htmlFor="">Ngày thuê:</label>
+                        <label htmlFor="">Đến ngày:</label>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                           <div className="input-param" style={{ padding: 0 }}>
                             <DatePicker
@@ -291,7 +295,7 @@ export default function OrderStatus() {
                           className="btn btn-secondary ml-10"
                           onClick={() => handleClickReset()}
                         >
-                          <FontAwesomeIcon icon={faBroom} /> Reset
+                          <FontAwesomeIcon icon={faBroom} /> Tất cả
                         </button>
                       </div>
                     </div>
@@ -343,7 +347,11 @@ export default function OrderStatus() {
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
-                                          handleConfirmOrder(e, los.id, index)
+                                          handleConfirmOrder(
+                                            e,
+                                            los.id,
+                                            index
+                                          )
                                         }
                                       >
                                         <FontAwesomeIcon icon={faCheck} /> Chấp
@@ -371,7 +379,7 @@ export default function OrderStatus() {
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
-                                          handleReceivedOrder(e, los.id, index)
+                                          handleCreateQr(e, los.id, los.status)
                                         }
                                       >
                                         <FontAwesomeIcon icon={faQrcode} /> Tạo
@@ -387,6 +395,15 @@ export default function OrderStatus() {
                                 ) : los.status === 128 ? (
                                   <div className="button-action">
                                     <div className="tooltip-action">
+                                      <button
+                                        className="btn btn-success"
+                                        onClick={(e) =>
+                                          handleCreateQr(e, los.id, los.status)
+                                        }
+                                      >
+                                        <FontAwesomeIcon icon={faQrcode} /> Tạo
+                                        mã
+                                      </button>
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>

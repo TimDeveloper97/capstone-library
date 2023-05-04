@@ -202,7 +202,7 @@ export default function UserDeposit() {
                           className="btn btn-secondary ml-10"
                           onClick={() => handleClickReset()}
                         >
-                          <FontAwesomeIcon icon={faBroom} /> Reset
+                          <FontAwesomeIcon icon={faBroom} /> Tất cả
                         </button>
                       </div>
                     </div>
@@ -286,7 +286,7 @@ export default function UserDeposit() {
                         <th>
                           {book.bookDto.name}
                           <Link
-                            to={`/user/detail-book/${book.bookDto.id}`}
+                            to={`/detail-book/${book.bookDto.id}`}
                             target="_blank"
                             rel="noopener noreferer"
                             className="row-link"

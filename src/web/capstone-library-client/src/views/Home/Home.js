@@ -45,7 +45,7 @@ export default function Home() {
             <div className="tile is-ancestor">
               <div className="tile is-3 is-vertical is-parent">
                 <div className="tile is-child">
-                  <Link to={`/user/detail-book/${fiveBook[0].id}`}>
+                  <Link to={`/detail-book/${fiveBook[0].id}`}>
                     <div className="hero-item">
                       <img
                         className="cover"
@@ -56,12 +56,12 @@ export default function Home() {
                       <div className="captions">
                         <h3>{fiveBook[0].name}</h3>
                       </div>
-                      <div className="chapter green">{fiveBook[0].author}</div>
+                      <div className="chapter red">{fiveBook[0].author}</div>
                     </div>
                   </Link>
                 </div>
                 <div className="tile is-child">
-                  <Link to={`/user/detail-book/${fiveBook[1].id}`}>
+                  <Link to={`/detail-book/${fiveBook[1].id}`}>
                     <div className="hero-item">
                       <img
                         className="cover"
@@ -79,7 +79,7 @@ export default function Home() {
               </div>
               <div className="tile is-parent">
                 <div className="tile is-child">
-                  <Link to={`/user/detail-book/${fiveBook[2].id}`}>
+                  <Link to={`/detail-book/${fiveBook[2].id}`}>
                     <div className="hero-item has-excerpt">
                       <img
                         className="cover"
@@ -109,7 +109,7 @@ export default function Home() {
               </div>
               <div className="tile is-3 is-vertical is-parent">
                 <div className="tile is-child">
-                  <Link to={`/user/detail-book/${fiveBook[3].id}`}>
+                  <Link to={`/detail-book/${fiveBook[3].id}`}>
                     <div className="hero-item">
                       <img
                         className="cover"
@@ -120,12 +120,12 @@ export default function Home() {
                       <div className="captions">
                         <h3>{fiveBook[3].name}</h3>
                       </div>
-                      <div className="chapter green">{fiveBook[3].author}</div>
+                      <div className="chapter violet">{fiveBook[3].author}</div>
                     </div>
                   </Link>
                 </div>
                 <div className="tile is-child">
-                  <Link to={`/user/detail-book/${fiveBook[4].id}`}>
+                  <Link to={`/detail-book/${fiveBook[4].id}`}>
                     <div className="hero-item">
                       <img
                         className="cover"
@@ -136,7 +136,7 @@ export default function Home() {
                       <div className="captions">
                         <h3>{fiveBook[4].name}</h3>
                       </div>
-                      <div className="chapter green">{fiveBook[4].author}</div>
+                      <div className="chapter orange">{fiveBook[4].author}</div>
                     </div>
                   </Link>
                 </div>

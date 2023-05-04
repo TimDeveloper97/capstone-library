@@ -77,9 +77,9 @@ export default function Category() {
       addCategory({ name: data.name, nameCode: data.nameCode })
     );
     if (res.success) {
-      NotificationManager.success(res.message, "Thông báo", 2000);
+      NotificationManager.success(res.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(res.message, "Lỗi", 2000);
+      NotificationManager.error(res.message, "Lỗi", 1000);
     }
     resetField("name");
     resetField("nameCode");
@@ -88,9 +88,9 @@ export default function Category() {
   const handleDelete = async (id) => {
     const res = await dispatch(deleteCategory(id));
     if (res.success) {
-      NotificationManager.success(res.message, "Thông báo", 2000);
+      NotificationManager.success(res.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(res.message, "Lỗi", 2000);
+      NotificationManager.error(res.message, "Lỗi", 1000);
     }
   };
   const [openEdit, setOpenEdit] = useState(false);
@@ -103,9 +103,9 @@ export default function Category() {
     console.log(curCate);
     const res = await dispatch(updateCategory(curCate));
     if (res.success) {
-      NotificationManager.success(res.message, "Thông báo", 2000);
+      NotificationManager.success(res.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(res.message, "Lỗi", 2000);
+      NotificationManager.error(res.message, "Lỗi", 1000);
     }
   };
 

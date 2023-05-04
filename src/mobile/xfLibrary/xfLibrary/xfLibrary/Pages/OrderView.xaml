@@ -105,10 +105,10 @@
                                             <Grid Grid.Column="1" RowDefinitions="auto, *, auto" Margin="10" Style="{StaticResource GroupGridStyle}">
                                                 <StackLayout Orientation="Horizontal" HorizontalOptions="End">
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=1}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
-                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=2}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
-                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=4}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
-                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=8}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
-                                                    <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=16}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
+                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=2}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>-->
+                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=4}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>-->
+                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=8}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>-->
+                                                    <!--<BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=16}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>-->
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=32}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=64}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
                                                     <BoxView Color="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=128}" WidthRequest="5" HeightRequest="5" CornerRadius="3" xct:ShadowEffect.Color="{StaticResource AppColor}"/>
@@ -135,7 +135,7 @@
 
                                                 <StackLayout Grid.Row="1" Spacing="0">
                                                     <Label Style="{StaticResource TitleLabelStyle}" Text="{Binding Post.Title, Converter={StaticResource UpperOneStringConverter}}"
-                                                            VerticalOptions="End" HorizontalOptions="Start" FontFamily="MuliBold" LineBreakMode="TailTruncation"/>
+                                                            VerticalOptions="End" HorizontalTextAlignment="Start" FontFamily="MuliBold" LineBreakMode="TailTruncation"/>
 
                                                     <Label Text="{Binding Total, StringFormat='💲Tổng tiền: {0}VND', Converter={StaticResource MoneyConverter}}" Style="{StaticResource MiniLabelStyle}" LineBreakMode="TailTruncation"
                                                                    HorizontalTextAlignment="Start" FontFamily="MuliBold"/>

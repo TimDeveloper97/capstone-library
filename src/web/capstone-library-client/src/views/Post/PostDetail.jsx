@@ -28,8 +28,8 @@ export default function DetailPost() {
   const [sum, setSum] = useState(0);
 
   const dispatch = useDispatch();
-  const isAdmin =
-    JSON.parse(window.localStorage.getItem("user")).roles[0] === "ROLE_ADMIN";
+  const isUser =
+    JSON.parse(window.localStorage.getItem("user"))?.roles[0] === "ROLE_USER";
 
   const { id } = useParams();
   //const books = useSelector(state => state.book);
@@ -54,9 +54,9 @@ export default function DetailPost() {
     const response = await dispatch(orderBook(currentPost.id));
     if (response.success) {
       dispatch(addToCart());
-      NotificationManager.success(response.message, "Thông báo", 2000);
+      NotificationManager.success(response.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(response.message, "Lỗi", 2000);
+      NotificationManager.error(response.message, "Lỗi", 1000);
     }
   };
   const [open, setOpen] = useState(false);
@@ -75,9 +75,9 @@ export default function DetailPost() {
       checkout({ orders: [{ id: currentPost.id }] })
     );
     if (response.success) {
-      NotificationManager.success(response.message, "Thông báo", 2000);
+      NotificationManager.success(response.message, "Thông báo", 1000);
     } else {
-      NotificationManager.error(response.message, "Lỗi", 2000);
+      NotificationManager.error(response.message, "Lỗi", 1000);
     }
     setOpen(false);
   };
@@ -174,7 +174,7 @@ export default function DetailPost() {
                                 </table>
                               </div>
 
-                              {!isAdmin && (
+                              {isUser && (
                                 <div className="buy">
                                   <button
                                     className="btn btn-success"

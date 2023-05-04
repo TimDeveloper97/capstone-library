@@ -49,12 +49,12 @@ export default function Register() {
       })
       .then((response) => {
         const {message} = response.data;
-        NotificationManager.success(message, "Thông báo", 2000);
+        NotificationManager.success(message, "Thông báo", 1000);
         resetInput(["firstName", "lastName", "username", "password", "cfpassword"]);
       })
       .catch((err) => {
         const {message} = err.response.data;
-        NotificationManager.error(message, "Thông báo", 2000);
+        NotificationManager.error(message, "Thông báo", 1000);
       });
   };
 
