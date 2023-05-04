@@ -76,6 +76,7 @@ public class RechargeController {
             manager = userService.getUserById(auth.getName()).get();
             if(user != null) {
                 userService.updateBalance(user.getId(), user.getBalance() + paymentDto.getTransferAmount());
+                user.setBalance(user.getBalance() + paymentDto.getTransferAmount());
                 Payment payment = new Payment();
                 payment.setTransferAmount(paymentDto.getTransferAmount());
                 payment.setUser(user);
