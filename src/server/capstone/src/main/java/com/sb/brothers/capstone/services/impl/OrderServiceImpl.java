@@ -42,4 +42,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrderByStatusForUser(String userId) {
         return orderRepository.findAllOrdersByRequestStatusForUser(userId);
     }
+
+    @Override
+    public void delete(Order order) {
+        orderRepository.deleteById(order.getId());
+    }
 }

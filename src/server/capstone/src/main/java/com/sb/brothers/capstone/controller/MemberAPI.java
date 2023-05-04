@@ -228,6 +228,12 @@ public class MemberAPI {
                         //@TODO hoàn tiền cho user đã order
                         user.setBalance(user.getBalance() + order.getTotalPrice());
                         userService.updateUser(user);
+                        Notification ntf = new Notification();
+                        ntf.setUser(user);
+                        ntf.setDescription("Bạn được hoàn "+order.getTotalPrice()+"vnđ do Admin đã hủy đơn hàng có MĐH: CS"+ currPost.getId());
+                        notificationService.updateNotification(ntf);
+                        status = CustomStatus.ADMIN_POST;
+                        orderService.delete(order);
                     }
                     if (currPost.getStatus() == status) {
                         logger.info("[API-Member] changePostStatus - END");

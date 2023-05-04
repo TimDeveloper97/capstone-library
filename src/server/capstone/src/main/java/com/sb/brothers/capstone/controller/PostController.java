@@ -442,7 +442,6 @@ public class PostController {
         }
         postDetailService.deleteAllByPostId(id);
     }
-
     void copyImages(Book bSour, Book bDest){
         for(Image img : bSour.getImages()){
             Image nImg = new Image();
