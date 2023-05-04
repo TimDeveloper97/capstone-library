@@ -14,4 +14,5 @@ public interface OrderService {
     List<Order> getOrderByStatus();
     Optional<Order> getOrderById(int oId);
     List<Order> getOrderByStatusForUser(String userId);
+    void delete(Order order);
 }
