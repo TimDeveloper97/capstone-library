@@ -1,6 +1,7 @@
 package com.sb.brothers.capstone.controller;
 
 import com.sb.brothers.capstone.configuration.jwt.JWTFilter;
+import com.sb.brothers.capstone.dto.ManagerDto;
 import com.sb.brothers.capstone.dto.OrderDto;
 import com.sb.brothers.capstone.dto.PostDto;
 import com.sb.brothers.capstone.entities.*;
@@ -8,6 +9,8 @@ import com.sb.brothers.capstone.global.GlobalData;
 import com.sb.brothers.capstone.services.*;
 import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.CustomStatus;
+import com.sb.brothers.capstone.util.ResData;
+import com.sb.brothers.capstone.util.UserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,7 +146,7 @@ public class MemberAPI {
             Book book = postDetail.getBook();
             book.setInStock(book.getInStock() + postDetail.getQuantity());
             bookService.updateBook(book);
-            sum += book.getPrice();
+            sum += book.getPrice() * postDetail.getQuantity();
         }
         int expiredFee = expired(post);
         if(expiredFee > (user.getBalance() + sum)){
@@ -281,12 +284,12 @@ public class MemberAPI {
             return new ResponseEntity<>(new CustomErrorType("Đơn hàng có mã: " + oId + " không tồn tại. Cập nhật trạng thái thất bại."), HttpStatus.OK);
         }
         currPost.setStatus(status);   //set status post
-        ManagerPost managerPost = new ManagerPost();
+        /*ManagerPost managerPost = new ManagerPost();
         managerPost.setPost(currPost);
         managerPost.setUser(userService.getUserById(auth.getName()).get());
         managerPost.setContent(auth.getName() + " has changed order status with id is " + currPost.getId()+ "to "+(status == CustomStatus.USER_REQUEST_IS_DENY ? "Deny.": "Accept."));
-        //currPost.setManager(userService.getUserById(auth.getName()).get());
-        postManagerService.save(managerPost);
+        *///currPost.setManager(userService.getUserById(auth.getName()).get());
+        /*postManagerService.save(managerPost);*/
         currPost.setModifiedDate(new Date());
         logger.info("Fetching & Change order status with id: " + currPost.getId());
         postService.updatePost(currPost);
@@ -309,4 +312,23 @@ public class MemberAPI {
         return 0;
     }
 
+    //Accounts
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/store")
+    public ResponseEntity<?> getAllTheManagers(){
+        logger.info("[API-User] getAllTheManagers - START");
+        List<User> managers = userService.getAllTheUsersByRoleId(UserRole.ROLE_MANAGER_POST.ordinal());
+        List<ManagerDto> mngDtos = new ArrayList<>();
+        if(managers.isEmpty()){
+            logger.warn("[API-User] managers.isEmpty() = true");
+            logger.info("[API-User] Return All The Managers - END");
+            return new ResponseEntity(new CustomErrorType("Không có bất kỳ người quản lý nào."), HttpStatus.OK);
+        }
+        for (User user : managers){
+            ManagerDto mngDto = new ManagerDto(user);
+            mngDtos.add(mngDto);
+        }
+        logger.info("[API-User] Return All The Managers - SUCCESS");
+        return new ResponseEntity<>(new ResData<List<ManagerDto>>(0, mngDtos), HttpStatus.OK);
+    }
 }

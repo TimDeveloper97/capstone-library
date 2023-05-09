@@ -34,7 +34,7 @@ public class PostController {
     private UserService userService;
 
     @Autowired
-    private PostManagerService postManagerService;
+    private ConfigService configService;
 
     @Autowired
     private BookService bookService;
@@ -304,7 +304,7 @@ public class PostController {
                 }
                 else if(book.getQuantity() >= postDetail.getQuantity()) {
                     book.setQuantity(book.getQuantity() - postDetail.getQuantity());
-                    b.setPercent(postDto.getFee());
+                    b.setPercent(configService.getConfigurationByKey("discount").get().getValue());
                     b.setQuantity(0);
                     b.setInStock(postDetail.getQuantity());
                     bookService.updateBook(b);
@@ -393,12 +393,12 @@ public class PostController {
             return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +".\nNguyên nhân: " + ex.getCause()), HttpStatus.OK);
         }
         currPost.setStatus(status);   //set status post
-        ManagerPost managerPost = new ManagerPost();
+        /*ManagerPost managerPost = new ManagerPost();
         managerPost.setPost(currPost);
         managerPost.setUser(userService.getUserById(auth.getName()).get());
         managerPost.setContent(auth.getName() + " has changed post status with id is " + id+ "to "+(status == CustomStatus.USER_REQUEST_IS_DENY ? "Deny.": "Accept."));
         //currPost.setManager(userService.getUserById(auth.getName()).get());
-        postManagerService.save(managerPost);
+        postManagerService.save(managerPost);*/
         currPost.setModifiedDate(new Date());
         logger.info("Fetching & Change Post status with id: " + id);
         postService.updatePost(currPost);
