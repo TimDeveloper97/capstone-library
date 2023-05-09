@@ -11,12 +11,13 @@ import java.util.Optional;
 public interface UserService {
     List<User> findAllUsers();
     void updateUser(User user);
-    void removeUserById(String id);
+    //void removeUserById(String id);
     Optional<User> getUserById(String id);
     Boolean isUserExist(String id);
-    Optional<User> getUserByEmail(String email);
+    //Optional<User> getUserByEmail(String email);
     Optional<User> getUserByEmailAndId(String email, String id);
-    void changePassword(String id, String newPass);
+    //void changePassword(String id, String newPass);
+    List<User> getAllTheUsersByRoleId(int roleId);
     void updateProfile(String id, String address, String email, String firstName, String lastName, Date modifiedDate, String phone);
     Optional<String> getUserByPostId(int id);
     void updateBalance(String id,int balance);
