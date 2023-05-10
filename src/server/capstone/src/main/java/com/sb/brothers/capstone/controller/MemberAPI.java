@@ -311,25 +311,4 @@ public class MemberAPI {
         }
         return 0;
     }
-
-    //Accounts
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/store")
-    public ResponseEntity<?> getAllTheManagers(){
-        logger.info("[API-User] getAllTheManagers - START");
-        List<User> managers = userService.getAllTheUsersByRoleId(UserRole.ROLE_MANAGER_POST.ordinal());
-        List<StoreDto> mngDtos = new ArrayList<>();
-        if(managers.isEmpty()){
-            logger.warn("[API-User] managers.isEmpty() = true");
-            logger.info("[API-User] Return All The Managers - END");
-            return new ResponseEntity(new CustomErrorType("Không có bất kỳ người quản lý nào."), HttpStatus.OK);
-        }
-        //@TODO
-        /*for (User user : managers){
-            StoreDto mngDto = new StoreDto(user);
-            mngDtos.add(mngDto);
-        }*/
-        logger.info("[API-User] Return All The Managers - SUCCESS");
-        return new ResponseEntity<>(new ResData<List<StoreDto>>(0, mngDtos), HttpStatus.OK);
-    }
 }
