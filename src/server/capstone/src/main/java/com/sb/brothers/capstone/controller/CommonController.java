@@ -7,6 +7,7 @@ import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.ResData;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileUrlResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +48,9 @@ public class CommonController {
                 // use directory.mkdirs(); here instead.
             }
             resource = new FileUrlResource(uploadDir+fileName);
+            if(!resource.exists()){
+                resource = new ClassPathResource("static/no_Image_Avaiable.jpg");
+            }
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (Exception ex) {
             logger.info("Could not determine file type. " + ex.getMessage() +".\n"+ex.getCause());
