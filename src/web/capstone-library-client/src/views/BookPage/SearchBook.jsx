@@ -9,18 +9,23 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getBooks } from "../../actions/book";
+import { getBooks } from "../../apis/book";
 
 export default function SearchBook() {
   const params = useParams();
   const dispatch = useDispatch();
   const [searchedBook, setSearchBook] = useState([]);
+  //const books = useSelector((state) => state.book);
 
   useEffect(() => {
-    dispatch(getBooks());
-    setSearchBook(books.filter((b) => b.name.toLowerCase().indexOf(params.keyword.toLowerCase()) !== -1));
+    //dispatch(getBooks());
+    const getBook = async () => {
+      const {data} = await getBooks();
+      setSearchBook(data.value.filter((b) => b.name.toLowerCase().indexOf(params.keyword.toLowerCase()) !== -1));
+    }
+    getBook();
   }, [params.keyword]);
-  const books = useSelector((state) => state.book);
+  
 
   return (
     <section
@@ -33,7 +38,7 @@ export default function SearchBook() {
           quả tìm kiếm
         </h5>
         <div className="row">
-          {books && searchedBook.length > 0 ? (
+          {searchedBook && searchedBook.length > 0 ? (
             searchedBook.map((item, index) => {
               return (
                 <div

@@ -86,7 +86,7 @@ export default function DetailPost() {
     <section className="question-area pb-40px">
       <NotificationContainer />
       <div className="container">
-        <div className="row">
+        <div className="row" style={{backgroundColor: "#efefef"}}>
           <div className="col-lg-12">
             <div className="question-tabs mb-50px">
               <div className="tab-content pt-40px" id="myTabContent">
