@@ -9,6 +9,7 @@ import com.sb.brothers.capstone.services.*;
 import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.CustomStatus;
 import com.sb.brothers.capstone.util.ResData;
+import com.sb.brothers.capstone.util.StoreUtils;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -229,6 +230,10 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Xóa bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.OK);
             }
+            int storeId = StoreUtils.findStoreIdByAddress(post.getAddress());
+            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName())){
+                return new ResponseEntity<>(new CustomErrorType("Bạn không quản lý cửa hàng có bài viết này."), HttpStatus.OK);
+            }
             if(post.getStatus() == CustomStatus.ADMIN_POST || post.getStatus() == CustomStatus.USER_POST_IS_APPROVED || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED) {
                 if (post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
                     //@TODO return book when delete post
@@ -264,6 +269,10 @@ public class PostController {
                 logger.info("[API-Post] updatePost - END");
                 return new ResponseEntity(new CustomErrorType("Cập nhật bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.NOT_FOUND);
+            }
+            int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
+            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName())){
+                return new ResponseEntity<>(new CustomErrorType("Bạn không quản lý cửa hàng có bài viết này."), HttpStatus.OK);
             }
             logger.info("Fetching & Updating Post with id: " + postDto.getId());
             try{
@@ -370,6 +379,10 @@ public class PostController {
                     }
                 }
             }*/
+            int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
+            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName())){
+                return new ResponseEntity<>(new CustomErrorType("Bạn không quản lý cửa hàng có bài viết này."), HttpStatus.OK);
+            }
             if (currPost.getStatus() == status){
                 return new ResponseEntity<>(new CustomErrorType("Trạng thái bài đăng không thay đổi."), HttpStatus.OK);
             }

@@ -14,7 +14,7 @@ public interface UserService {
     //void removeUserById(String id);
     Optional<User> getUserById(String id);
     Boolean isUserExist(String id);
-    //Optional<User> getUserByEmail(String email);
+    List<User> findManagerByStoreId(int storeId);
     Optional<User> getUserByEmailAndId(String email, String id);
     //void changePassword(String id, String newPass);
     List<User> getAllTheUsersByRoleId(int roleId);

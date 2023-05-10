@@ -43,4 +43,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "UPDATE users SET `balance` = :balance WHERE id = :id",
             nativeQuery = true)
     void updateBalance(@Param("id") String id, @Param("balance") int balance);
+
+    @Query(value = "SELECT * FROM users WHERE id IN (SELECT user_id FROM manager_store AS us WHERE us.store_id = :storeId)",
+            nativeQuery = true)
+    List<User> findManagerByStoreId(@Param("storeId") int storeId);
 }

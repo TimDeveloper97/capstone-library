@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,14 @@ public class StoreController {
 
     @Autowired
     private StoreService storeService;
+
+    public StoreDto ConvertListStoreToListStoreDto(List<Store> stores){
+        StoreDto storeDto = new StoreDto();
+        stores.forEach(store -> {
+            storeDto.getStores().add(store.getAddress());
+        });
+        return storeDto;
+    }
 
     //Stores session
     @GetMapping("")
@@ -35,7 +44,7 @@ public class StoreController {
             return new ResponseEntity(new CustomErrorType("Store sách trống."), HttpStatus.OK);
         }
         logger.info("[API-Store] getAllStores - SUCCESS");
-        return new ResponseEntity<>(new ResData<List<Store>>(0, stores), HttpStatus.OK);
+        return new ResponseEntity<>(new ResData<StoreDto>(0, ConvertListStoreToListStoreDto(stores)), HttpStatus.OK);
     }//view all stores
 
     @PostMapping("/add")

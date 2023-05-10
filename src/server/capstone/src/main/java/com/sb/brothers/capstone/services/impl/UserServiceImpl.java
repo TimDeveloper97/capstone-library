@@ -38,10 +38,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsById(id);
     }
 
-    /*@Override
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
-    }*/
+    @Override
+    public List<User> findManagerByStoreId(int storeId) {
+        return userRepository.findManagerByStoreId(storeId);
+    }
 
     @Override
     public Optional<User> getUserByEmailAndId(String email, String id) {
