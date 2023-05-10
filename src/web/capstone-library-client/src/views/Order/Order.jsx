@@ -163,7 +163,7 @@ export default function Order() {
                     />
                     Chọn
                   </th>
-                  <th scope="colSpan">Post</th>
+                  <th scope="colSpan">Bài đăng</th>
                   <th scope="colSpan" style={{ width: "100px" }}>
                     Giá
                   </th>

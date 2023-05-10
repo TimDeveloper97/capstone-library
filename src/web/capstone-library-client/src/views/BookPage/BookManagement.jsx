@@ -3,16 +3,10 @@ import Loading from "../../components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBroom,
-  faChevronLeft,
-  faChevronRight,
   faDeleteLeft,
-  faDownLong,
   faEllipsisVertical,
   faSearch,
   faSquarePen,
-  faUpLong,
-  faUserCheck,
-  faUserLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { formatMoney, getImgUrl } from "../../helper/helpFunction";
 import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";

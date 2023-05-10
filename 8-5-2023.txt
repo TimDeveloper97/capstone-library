@@ -1,0 +1,22 @@
+- Giỏ hàng chưa chọn bài đăng thì phải thông báo là bạn chưa chọn bài để thanh toán
+- post trong giỏ hàng sửa text thành bài đăng
+- sửa text phần add sách là thêm sách chứ ko "đăng sách"
+- thêm thanh search trong đăng bài:
+ (khi sách quá nhiều trong kho rất khó tìm) 
+ + thêm phần khung thông tin sách đã chọn ngay dưới phần khung thêm sách vào post
+ (để người đăng dễ dàng xem dc thông tin các cuốn sách)
+- phần post detail cho 1 cái khung cover toàn bộ thông tin
+(vì khi có background chữ của các thông tin nhiều khi bị che khuất) 
+ + phần mô tả bỏ khung và thêm text "Mô tả:"
+
+- thông báo chưa format lại tiền xxx.000
+
+- phần ô địa chỉ quá dài khiến các ô khác bị xuống dòng
+--> fix cứng size cho các ô, ô địa chỉ quá dài thì cho mỗi ô địa chỉ text của nó xuống dòng 
+
+- phần dành cho thành viên cho 1 cái panel luôn ( background che chữ )
+
+- Bỏ cái icon về trang chủ của trang manager và admin luôn
+
+- Phần post detail cho khách phải có 2 nút cho vào giỏ hàng và thuê ngay --> bấm vào chuyển hướng trang đăng nhập
+

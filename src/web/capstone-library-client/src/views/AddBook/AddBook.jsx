@@ -47,6 +47,13 @@ export default function AddBook() {
   }, []);
 
   const categories = useSelector((state) => state.category);
+  const [cateToShows, setCateToShows] = useState([]);
+  useEffect(() => {
+    let temp = []
+    categories && (temp = categories.slice());
+    temp.push({name: "--Tất cả thể loại--", nameCode: "all"});
+    setCateToShows(temp.reverse());
+  }, [categories])
 
   const {
     register,
@@ -60,7 +67,10 @@ export default function AddBook() {
   const submitForm = async (data, e) => {
     e.preventDefault();
     data.publisher = publisher;
-    data.categories = listCategories.map((lc) => lc.nameCode);
+    if(listCategories.length === 0){
+      NotificationManager.error("Bạn chưa chọn thể loại", "Lỗi", 1000);
+    }else{
+      data.categories = listCategories.map((lc) => lc.nameCode);
     if (imgs.length === 0) {
       imgs.push({ fileName: "default_img", data: defaultImg });
     }
@@ -71,6 +81,7 @@ export default function AddBook() {
       resetData();
     } else {
       NotificationManager.error(res.message, "Lỗi", 1000);
+    }
     }
   };
 
@@ -83,17 +94,20 @@ export default function AddBook() {
     resetField("description");
     setListCategories([]);
     setSelectedImages([]);
+    setCate("all");
   };
   const [listCategories, setListCategories] = useState([]);
-  const [cate, setCate] = useState("chinhtri_phapluat");
+  const [cate, setCate] = useState("all");
 
   const handleChangeSelect = (event) => {
-    let cateSelected = categories.filter(
-      (cate) => cate.nameCode === event.target.value
-    )[0];
-    setCate(event.target.value);
-    if (!listCategories.find((lc) => lc.nameCode === cateSelected.nameCode)) {
-      setListCategories([...listCategories, cateSelected]);
+    if(event.target.value !== "all"){
+      let cateSelected = categories.filter(
+        (cate) => cate.nameCode === event.target.value
+      )[0];
+      setCate(event.target.value);
+      if (!listCategories.find((lc) => lc.nameCode === cateSelected.nameCode)) {
+        setListCategories([...listCategories, cateSelected]);
+      }
     }
   };
 
@@ -271,7 +285,7 @@ export default function AddBook() {
                   </div>
                   <div className="form-group mb-0">
                     <button className="btn theme-btn" type="submit">
-                      Đăng sách
+                      Thêm sách
                     </button>
                   </div>
                 </div>
@@ -296,8 +310,8 @@ export default function AddBook() {
                     label="Thể loại"
                     onChange={handleChangeSelect}
                   >
-                    {categories &&
-                      categories.map((cate, index) => (
+                    {cateToShows &&
+                      cateToShows.map((cate, index) => (
                         <MenuItem
                           value={cate.nameCode}
                           name={cate.nameCode}
