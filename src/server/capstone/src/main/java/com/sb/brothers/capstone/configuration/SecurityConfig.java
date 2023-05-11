@@ -25,8 +25,6 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
-    @Autowired
-    GoogleOAuth2SuccessHandler googleOAuth2SuccessHandler;
 
     @Autowired
     CustomUserDetailService customUserDetailService;
