@@ -394,7 +394,7 @@ public class User implements Serializable {
 	}
 
 	//bi-directional many-to-many association to Store
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name="manager_store"
 			, joinColumns={
