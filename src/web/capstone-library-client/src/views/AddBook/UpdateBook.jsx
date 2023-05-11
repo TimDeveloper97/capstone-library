@@ -57,7 +57,6 @@ export default function UpdateBook() {
   const {
     register,
     handleSubmit,
-    resetField,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -67,27 +66,28 @@ export default function UpdateBook() {
     e.preventDefault();
     data.categories = listCategories.map((lc) => lc.nameCode);
     imgs.length !== 0 && (data.imgs = imgs);
+    data.id = id;
     console.log(data);
     const res = await dispatch(updateBook(data));
     if (res.success) {
       NotificationManager.success(res.message, "Thông báo", 1000);
-      resetData();
+      //resetData();
     } else {
       NotificationManager.error(res.message, "Lỗi", 1000);
     }
   };
 
-  const resetData = () => {
-    resetField("name");
-    resetField("author");
-    resetField("publisher");
-    resetField("publishYear");
-    resetField("price");
-    resetField("quantity");
-    resetField("description");
-    setListCategories([]);
-    setSelectedImages([]);
-  };
+  // const resetData = () => {
+  //   resetField("name");
+  //   resetField("author");
+  //   resetField("publisher");
+  //   resetField("publishYear");
+  //   resetField("price");
+  //   resetField("quantity");
+  //   resetField("description");
+  //   setListCategories([]);
+  //   setSelectedImages([]);
+  // };
   const [cate, setCate] = useState("chinhtri_phapluat");
   const handleChangeSelect = (event) => {
     let cateSelected = categories.filter(
