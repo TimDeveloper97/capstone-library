@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { getBooks, getUserBooks } from "../../actions/book";
 import { Link } from "react-router-dom";
 import { addPost } from "../../actions/post";
 import {
@@ -19,42 +18,75 @@ import {
   NotificationContainer,
 } from "react-notifications";
 import { getConfig } from "../../apis/user";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { getBooks, getUserBooks } from "../../apis/book";
 
-const schema = yup.object({
-});
+const schema = yup.object({});
 
 export default function AddPost() {
-  const dispatch = useDispatch();
 
-  const books = useSelector((state) => state.book);
+
+  const [listSelectBook, setListSelectBook] = useState([]);
+  const [listToChooseBook, setListToChooseBook] = useState([]);
+  const [listChoosenBook, setListChoosenBook] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [errorState, setErrorState] = useState({
+    fee: null,
+    title: null,
+    address: null,
+  });
+  const [configs, setConfigs] = useState(0);
+  const [address, setAddress] = useState("Chọn địa chỉ");
+  const [numDay, setNumDay] = useState(1);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    //role ? dispatch(getBooks()) : dispatch(getUserBooks());
+    const fetchBooks = async () => {
+      let tempList = [];
+      if (role) {
+        const { data } = await getBooks();
+        tempList = data.value.map((book) => {
+          return {
+            id: book.id,
+            quantity: 1,
+            maxQuantity: role ? book.inStock : book.quantity,
+            price: book.price,
+            name: book.name,
+          };
+        });
+      } else {
+        const { data } = await getUserBooks();
+        tempList = data.value.map((book) => {
+          return {
+            id: book.id,
+            quantity: 1,
+            maxQuantity: role ? book.inStock : book.quantity,
+            price: book.price,
+            name: book.name,
+          };
+        });
+      }
+      setListSelectBook(tempList);
+      setListToChooseBook(tempList);
+    };
+    fetchBooks();
+  }, []);
+  //const books = useSelector((state) => state.book);
   const role =
     JSON.parse(window.localStorage.getItem("user")).roles[0] ===
     "ROLE_MANAGER_POST";
-  useEffect(() => {
-    role ? dispatch(getBooks()) : dispatch(getUserBooks());
-  }, []);
-  const [configs, setConfigs] = useState(0);
+
+  
   useEffect(() => {
     const fetchConfig = async () => {
-      const {data} = await getConfig();
-      data.value && setConfigs(data.value.filter(d => d.key === "discount")[0].value);
-    }
+      const { data } = await getConfig();
+      data.value &&
+        setConfigs(data.value.filter((d) => d.key === "discount")[0].value);
+    };
     fetchConfig();
-  }, [])
-  useEffect(() => {
-    setListSelectBook(
-      books?.map((book) => {
-        return {
-          id: book.id,
-          quantity: 1,
-          maxQuantity: role ? book.inStock : book.quantity,
-          price: book.price,
-          name: book.name,
-          selected: false,
-        };
-      })
-    );
-  }, [books]);
+  }, []);
 
   const {
     register,
@@ -64,11 +96,7 @@ export default function AddPost() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const [errorState, setErrorState] = useState({
-    fee: null,
-    title: null,
-    address: null,
-  });
+  
   const submitForm = async (data, e) => {
     e.preventDefault();
     data.noDays = numDay;
@@ -79,8 +107,8 @@ export default function AddPost() {
     } else if (!role && address === "Chọn địa chỉ") {
       setErrorState({ address: "Bạn chưa chọn địa chỉ" });
     } else {
-      let postDetails = listSelectBook.filter((lsb) => lsb.selected);
-      data.postDetailDtos = postDetails.map((lsb) => {
+      //let postDetails = listSelectBook.filter((lsb) => lsb.selected);
+      data.postDetailDtos = listChoosenBook.map((lsb) => {
         return {
           bookDto: {
             id: lsb.id,
@@ -95,6 +123,7 @@ export default function AddPost() {
         data.title = "[Ký gửi]";
         data.fee = configs;
       }
+      console.log(data);
       const res = await dispatch(
         addPost({
           title: data.title,
@@ -134,22 +163,24 @@ export default function AddPost() {
     );
   };
 
-  const [listSelectBook, setListSelectBook] = useState([]);
-
-  const [total, setTotal] = useState(0);
-
-  const sumTotal = (listSelected) => {
+  const sumTotal = () => {
     let total = 0;
-    listSelected.forEach((l) => {
-      l.selected && (total += l.quantity * l.price);
+    listChoosenBook.forEach((l) => {
+      total += l.quantity * l.price;
     });
     setTotal(role ? total : Math.ceil((total * numDay * configs) / 100));
   };
-  const handleClickCheckbox = (book, e, index) => {
-    const temp = listSelectBook;
-    temp[index].selected = e.target.checked;
-    setListSelectBook(temp);
-    sumTotal(listSelectBook);
+  useEffect(() => {
+    sumTotal();
+  }, [listChoosenBook]);
+  const handleChooseBook = (choosenBook, e) => {
+    setListSelectBook((prev) =>
+      prev.filter((book) => book.id !== choosenBook.id)
+    );
+    setListToChooseBook((prev) =>
+      prev.filter((book) => book.id !== choosenBook.id)
+    );
+    setListChoosenBook((prev) => [...prev, choosenBook]);
   };
   const handleChangeQuantity = (e, index) => {
     const temp = listSelectBook;
@@ -157,17 +188,16 @@ export default function AddPost() {
     setListSelectBook(temp);
   };
   const handleQuantity = (value, index) => {
-    listSelectBook[index].quantity += value;
-    setListSelectBook([...listSelectBook]);
-    sumTotal(listSelectBook);
+    listChoosenBook[index].quantity += value;
+    setListChoosenBook([...listChoosenBook]);
+    sumTotal();
   };
 
-  const [address, setAddress] = useState("Chọn địa chỉ");
-  const [numDay, setNumDay] = useState(1);
+  
 
   useEffect(() => {
     validateNoDay(numDay) === "" && sumTotal(listSelectBook);
-  }, [numDay])
+  }, [numDay]);
 
   const handleChangeAddress = (event) => {
     setAddress(event.target.value);
@@ -176,12 +206,12 @@ export default function AddPost() {
     }
   };
   const validateNoDay = (day) => {
-    if(isNaN(day) || day < 0 || !Number.isInteger(+day)){
+    if (isNaN(day) || day < 0 || !Number.isInteger(+day)) {
       return "Số ngày phải là số nguyên dương";
-    }else{
-      return ""
+    } else {
+      return "";
     }
-  }
+  };
   const listAddress = [
     "Chọn địa chỉ",
     "102 P. Phạm Ngọc Thạch, Kim Liên, Đống Đa, Hà Nội",
@@ -194,6 +224,25 @@ export default function AddPost() {
     "458 P. Minh Khai, Vĩnh Phú, Hai Bà Trưng, Hà Nội",
     "85 Đ. Lê Văn Lương, Nhân Chính, Thanh Xuân, Hà Nội",
   ];
+
+  const handleSearch = (e) => {
+    setListToChooseBook(
+      listSelectBook.filter(
+        (b) => b.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1
+      )
+    );
+  };
+
+  const handleUnChooseBook = (choosenBook, e) => {
+    e.preventDefault();
+    choosenBook.quantity = 1;
+    setListChoosenBook((prev) =>
+      prev.filter((book) => book.id !== choosenBook.id)
+    );
+    setListSelectBook((prev) => [...prev, choosenBook]);
+    setListToChooseBook((prev) => [...prev, choosenBook]);
+  };
+
   return (
     <section className="question-area pt-40px pb-40px">
       <NotificationContainer />
@@ -279,13 +328,12 @@ export default function AddPost() {
                         required
                         value={numDay}
                         onChange={(e) => setNumDay(e.target.value)}
-                        
                       />
                       {validateNoDay(numDay) !== "" && (
                         <div className="err">
                           <span className="error-message" role="alert">
-                          {validateNoDay(numDay)}
-                        </span>
+                            {validateNoDay(numDay)}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -339,6 +387,85 @@ export default function AddPost() {
                       {...register("content")}
                     />
                   </div>
+                  <div className="choosen-book">
+                    <h6>Sách được chọn</h6>
+                    <table className="table generic-table mt-10px">
+                      <thead>
+                        <tr>
+                          <th scope="col">Tên sách</th>
+                          <th scope="col">Giá</th>
+                          <th scope="col">Số lượng</th>
+                          <th scope="col">Loại</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {listChoosenBook &&
+                          listChoosenBook.map((book, index) => {
+                            if (book.maxQuantity > 0) {
+                              return (
+                                <tr key={index} className="fw-normal">
+                                  <th scope="row" style={{ width: "250px" }}>
+                                    <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                      <div className="media-body">
+                                        <h5 className="fs-15 fw-medium">
+                                          <Link to={`/detail-book/${book.id}`}>
+                                            {book.name}
+                                          </Link>
+                                        </h5>
+                                      </div>
+                                    </div>
+                                  </th>
+                                  <td>{book.price}</td>
+                                  <td>
+                                    <div className="quantity-item d-inline-flex align-items-center">
+                                      <button
+                                        className="qtyBtn qtyDec"
+                                        type="button"
+                                        onClick={() =>
+                                          handleQuantity(-1, index)
+                                        }
+                                        disabled={book.quantity === 1}
+                                      >
+                                        <i className="la la-minus"></i>
+                                      </button>
+                                      <input
+                                        className="qtyInput"
+                                        type="text"
+                                        name="qty-input"
+                                        value={book.quantity}
+                                        onChange={(e) =>
+                                          handleChangeQuantity(e, index)
+                                        }
+                                      />
+                                      <button
+                                        className="qtyBtn qtyInc"
+                                        type="button"
+                                        onClick={() => handleQuantity(1, index)}
+                                        disabled={
+                                          book.quantity === book.maxQuantity
+                                        }
+                                      >
+                                        <i className="la la-plus"></i>
+                                      </button>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <button
+                                      className="btn"
+                                      onClick={(e) =>
+                                        handleUnChooseBook(book, e)
+                                      }
+                                    >
+                                      <FontAwesomeIcon icon={faXmark} />
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            }
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                   <div className="form-group mb-0">
                     <button className="btn theme-btn" type="submit">
                       {role ? "Đăng bài" : "Ký gửi"}
@@ -349,6 +476,16 @@ export default function AddPost() {
             </form>
           </div>
           <div className="col-lg-6">
+            <div className="card card-item">
+              <div className="card-body">
+                <TextField
+                  label="Tìm sách"
+                  variant="filled"
+                  onChange={handleSearch}
+                  fullWidth
+                />
+              </div>
+            </div>
             <div
               className="form-group"
               style={{ display: "flex", flexDirection: "column" }}
@@ -360,18 +497,17 @@ export default function AddPost() {
                       <tr>
                         <th scope="col">Tên sách</th>
                         <th scope="col">Giá</th>
-                        <th scope="col">Số lượng</th>
                         <th scope="col">Còn lại</th>
                         <th scope="col">Chọn</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {listSelectBook &&
-                        listSelectBook.map((book, index) => {
+                      {listToChooseBook &&
+                        listToChooseBook.map((book, index) => {
                           if (book.maxQuantity > 0) {
                             return (
                               <tr key={index} className="fw-normal">
-                                <th scope="row">
+                                <th scope="row" style={{ width: "300px" }}>
                                   <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
                                     <div className="media-body">
                                       <h5 className="fs-15 fw-medium">
@@ -383,46 +519,16 @@ export default function AddPost() {
                                   </div>
                                 </th>
                                 <td>{book.price}</td>
-                                <td>
-                                  <div className="quantity-item d-inline-flex align-items-center">
-                                    <button
-                                      className="qtyBtn qtyDec"
-                                      type="button"
-                                      onClick={() => handleQuantity(-1, index)}
-                                      disabled={book.quantity === 1}
-                                    >
-                                      <i className="la la-minus"></i>
-                                    </button>
-                                    <input
-                                      className="qtyInput"
-                                      type="text"
-                                      name="qty-input"
-                                      value={book.quantity}
-                                      onChange={(e) =>
-                                        handleChangeQuantity(e, index)
-                                      }
-                                    />
-                                    <button
-                                      className="qtyBtn qtyInc"
-                                      type="button"
-                                      onClick={() => handleQuantity(1, index)}
-                                      disabled={
-                                        book.quantity === book.maxQuantity
-                                      }
-                                    >
-                                      <i className="la la-plus"></i>
-                                    </button>
-                                  </div>
-                                </td>
                                 <td style={{ textAlign: "center" }}>
                                   {book.maxQuantity}
                                 </td>
                                 <td>
-                                  <Checkbox
-                                    onChange={(e) =>
-                                      handleClickCheckbox(book, e, index)
-                                    }
-                                  />
+                                  <button
+                                    className="btn"
+                                    onClick={(e) => handleChooseBook(book, e)}
+                                  >
+                                    <FontAwesomeIcon icon={faCheck} />
+                                  </button>
                                 </td>
                               </tr>
                             );

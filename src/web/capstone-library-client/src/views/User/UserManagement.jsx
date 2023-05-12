@@ -253,7 +253,7 @@ export default function UserManagement() {
                                 </div>
                               </th>
                               <td>{user.id}</td>
-                              <td>{user.address}</td>
+                              <td style={{width: "150px"}}>{user.address}</td>
                               <td>
                                 <div className="quantity-item d-inline-flex align-items-center">
                                   {formatMoney(user.balance)} đ
