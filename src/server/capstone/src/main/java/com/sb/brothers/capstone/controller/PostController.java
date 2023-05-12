@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -230,10 +231,8 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Xóa bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.OK);
             }
-            int storeId = StoreUtils.findStoreIdByAddress(post.getAddress());
-            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName())){
+            if (checkManager(auth, post))
                 return new ResponseEntity<>(new CustomErrorType("Bạn không quản lý cửa hàng có bài viết này."), HttpStatus.OK);
-            }
             if(post.getStatus() == CustomStatus.ADMIN_POST || post.getStatus() == CustomStatus.USER_POST_IS_APPROVED || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED) {
                 if (post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
                     //@TODO return book when delete post
@@ -270,10 +269,8 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Cập nhật bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.NOT_FOUND);
             }
-            int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
-            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName())){
+            if (checkManager(auth, currPost))
                 return new ResponseEntity<>(new CustomErrorType("Bạn không quản lý cửa hàng có bài viết này."), HttpStatus.OK);
-            }
             logger.info("Fetching & Updating Post with id: " + postDto.getId());
             try{
                 postDto.convertPostDto(currPost);
@@ -379,10 +376,8 @@ public class PostController {
                     }
                 }
             }*/
-            int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
-            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName())){
+            if (checkManager(auth, currPost))
                 return new ResponseEntity<>(new CustomErrorType("Bạn không quản lý cửa hàng có bài viết này."), HttpStatus.OK);
-            }
             if (currPost.getStatus() == status){
                 return new ResponseEntity<>(new CustomErrorType("Trạng thái bài đăng không thay đổi."), HttpStatus.OK);
             }
@@ -418,6 +413,18 @@ public class PostController {
         logger.info("Change post status with post id:"+ id);
         logger.info("[API-Post] changePostStatus - END");
         return new ResponseEntity<>(new CustomErrorType(true, "Cập nhật trạng thái thành công."), HttpStatus.OK);
+    }
+
+    private boolean checkManager(Authentication auth, Post currPost) {
+        int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
+        Optional<User> user = userService.getUserById(auth.getName());
+        if(user.isPresent() && user.get().getAddress() == null)
+            user.get().setAddress("");
+        else return false;
+        if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
+            return true;
+        }
+        return false;
     }
 
     boolean isAnAdminBook(Book book){
