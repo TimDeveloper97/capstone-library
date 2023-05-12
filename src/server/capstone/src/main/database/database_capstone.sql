@@ -643,7 +643,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES ('admin',1),('admin',2),('admin',4),('admin',5),('son',2);
+INSERT INTO `user_role` VALUES ('admin',1),('admin',2),('admin',4),('admin',5),('son',2), ('sonn',2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
