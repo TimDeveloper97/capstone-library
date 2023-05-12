@@ -773,7 +773,7 @@ DELIMITER ;;
         DECLARE uId VARCHAR(255);
 		DECLARE d_Ntf INT DEFAULT FALSE;
 		DECLARE cur_Ntf CURSOR FOR
-			SELECT id, user_id FROM Post where  DATE_ADD(date(created_date), INTERVAL (no_days - @ntf_day) DAY) < curdate() AND `status` = 16;
+			SELECT id, user_id FROM Post where  DATE_ADD(date(created_date), INTERVAL (no_days - @ntf_day) DAY) = curdate() AND `status` = 16;
         DECLARE CONTINUE HANDLER FOR NOT FOUND SET d_Ntf = TRUE;
         
 		OPEN cur_Ntf;
@@ -783,7 +783,7 @@ DELIMITER ;;
 			  LEAVE ntf_loop;
 			END IF;
 			INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
-				VALUES (now(),  concat_ws('', 'Thời gian ký gửi MĐH: CS', pId_Ntf,' còn ', @ntf_day,' vui lòng liên hệ admin để lấy lại sách.'), uId, 0);
+				VALUES (now(),  concat_ws('', 'Thời gian ký gửi MĐH: CS', pId_Ntf,' còn ', @ntf_day,' ngày, vui lòng liên hệ admin để lấy lại sách.'), uId, 0);
 		  END LOOP;	
 		CLOSE cur_Ntf;
     END;
