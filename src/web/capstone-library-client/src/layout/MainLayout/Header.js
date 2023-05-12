@@ -9,6 +9,7 @@ import DetailAccount from "./DetailAccount";
 import "./header.css";
 import Cart from "../../components/Cart/Cart";
 import { getCategories } from "../../actions/category";
+import Logo from "./Logo";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -42,11 +43,7 @@ export default function Header() {
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-1">
-            <div className="logo-box">
-              <a href="/" className="logo">
-                <img src="/images/logoC.png" alt="logo" />
-              </a>
-            </div>
+            <Logo user={curUser} />
           </div>
 
           <div className="col-lg-11">
@@ -85,9 +82,11 @@ export default function Header() {
                   <li className="is-mega-menu">
                     <Link to={"/books/all"}>Kho sách</Link>
                   </li>
-                  {curUser?.roles[0] !== "ROLE_ADMIN" && <li className="is-mega-menu">
-                    <Link to={"/user/add-book"}>Thêm sách</Link>
-                  </li>}
+                  {curUser?.roles[0] !== "ROLE_ADMIN" && (
+                    <li className="is-mega-menu">
+                      <Link to={"/user/add-book"}>Thêm sách</Link>
+                    </li>
+                  )}
                   <li>
                     <Link to={"/post"}>
                       bài đăng <i className="la la-angle-down fs-11"></i>
@@ -163,18 +162,17 @@ export default function Header() {
               </div>
             </div>
             <div className="user-action">
-            <div
-              className="off-canvas-menu-toggle icon-element icon-element-xs shadow-sm"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Main menu"
-              onClick={() => setIsActive(true)}
-            >
-              <i className="la la-bars"></i>
+              <div
+                className="off-canvas-menu-toggle icon-element icon-element-xs shadow-sm"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Main menu"
+                onClick={() => setIsActive(true)}
+              >
+                <i className="la la-bars"></i>
+              </div>
             </div>
           </div>
-          </div>
-          
         </div>
       </div>
       <div

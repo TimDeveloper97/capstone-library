@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { checkout, orderBook } from "../../actions/order";
 import { getPostById } from "../../apis/post";
 import Carousel from "../../components/Carousel/Carousel";
@@ -28,8 +28,7 @@ export default function DetailPost() {
   const [sum, setSum] = useState(0);
 
   const dispatch = useDispatch();
-  const isUser =
-    JSON.parse(window.localStorage.getItem("user"))?.roles[0] === "ROLE_USER";
+  const user = JSON.parse(window.localStorage.getItem("user"))?.roles[0];
 
   const { id } = useParams();
   //const books = useSelector(state => state.book);
@@ -50,13 +49,18 @@ export default function DetailPost() {
     };
     fetchPost();
   }, [id]);
+  const navigate = useNavigate();
   const handleRentBook = async () => {
-    const response = await dispatch(orderBook(currentPost.id));
-    if (response.success) {
-      dispatch(addToCart());
-      NotificationManager.success(response.message, "Thông báo", 1000);
+    if (user) {
+      const response = await dispatch(orderBook(currentPost.id));
+      if (response.success) {
+        dispatch(addToCart());
+        NotificationManager.success(response.message, "Thông báo", 1000);
+      } else {
+        NotificationManager.error(response.message, "Lỗi", 1000);
+      }
     } else {
-      NotificationManager.error(response.message, "Lỗi", 1000);
+      navigate("/login", { replace: true });
     }
   };
   const [open, setOpen] = useState(false);
@@ -66,8 +70,11 @@ export default function DetailPost() {
   };
 
   const confirmRentNow = () => {
-    setOpen(true);
-    //handleRentNow();
+    if (user) {
+      setOpen(true);
+    } else {
+      navigate("/login", { replace: true });
+    }
   };
 
   const handleRentNow = async () => {
@@ -86,7 +93,7 @@ export default function DetailPost() {
     <section className="question-area pb-40px">
       <NotificationContainer />
       <div className="container">
-        <div className="row" style={{backgroundColor: "#efefef"}}>
+        <div className="row" style={{ backgroundColor: "#efefef" }}>
           <div className="col-lg-12">
             <div className="question-tabs mb-50px">
               <div className="tab-content pt-40px" id="myTabContent">
@@ -125,7 +132,8 @@ export default function DetailPost() {
                                   <FontAwesomeIcon icon={faDongSign} />
                                 </span>
                               </p>
-                              <p className="description">
+                              <h6>Mô tả</h6>
+                              <p className="">
                                 {currentPost?.content}
                               </p>
                               <div className="cart-form mb-50px table-responsive px-2">
@@ -173,8 +181,9 @@ export default function DetailPost() {
                                   </tbody>
                                 </table>
                               </div>
-
-                              {isUser && (
+                              {(user === undefined ||
+                                (user !== "ROLE_MANAGER_POST" &&
+                                  user !== "ROLE_ADMIN")) && (
                                 <div className="buy">
                                   <button
                                     className="btn btn-success"

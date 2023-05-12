@@ -113,7 +113,7 @@ export default function Order() {
       l.checked && orders.push({ id: l.id });
     });
     if (orders.length === 0) {
-      NotificationManager.error("Giỏ hàng của bạn đang trống", "Lỗi", 1000);
+      NotificationManager.error("Bạn chưa chọn bài đăng để thanh toán", "Lỗi", 1000);
     } else {
       const res = await dispatch(checkout({ orders }));
       if (res.success) {
