@@ -41,7 +41,7 @@ CREATE TABLE `book_category` (
 
 LOCK TABLES `book_category` WRITE;
 /*!40000 ALTER TABLE `book_category` DISABLE KEYS */;
-INSERT INTO `book_category` VALUES (1,'thieunhi'),(57,'thieunhi'),(1,'truyen'),(57,'truyen');
+-- INSERT INTO `book_category` VALUES (1,'thieunhi'),(57,'thieunhi'),(1,'truyen'),(57,'truyen');
 /*!40000 ALTER TABLE `book_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,7 +76,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'Tô Hoài','Diễn biến tâm trạng nhân vật dế mèn, ...','Dế Mèn phưu lưu ký',10,2000,'NXB Kim Đồng',0,'admin',10,0),(57,'vnkk','GhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhh[Ký gửi]','duyanh 4',20,0,'fhjj',0,'son',100,100);
+-- INSERT INTO `books` VALUES (1,'Tô Hoài','Diễn biến tâm trạng nhân vật dế mèn, ...','Dế Mèn phưu lưu ký',10,2000,'NXB Kim Đồng',0,'admin',10,0),(57,'vnkk','GhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhhGhkjhjjkjjjjhhhhh[Ký gửi]','duyanh 4',20,0,'fhjj',0,'son',100,100);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 ALTER DATABASE `capstone_db` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
@@ -262,7 +262,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` VALUES (1,'Hi','2023-03-06 01:56:20','userA','admin'),(2,'Hi. Can i help u?','2023-03-06 01:56:24','admin','userA'),(3,'I want to learn more about Vietnamese.','2023-03-06 01:56:26','userA','admin'),(4,'Haha','2023-03-06 03:32:03','admin','userA');
+-- INSERT INTO `message` VALUES (1,'Hi','2023-03-06 01:56:20','userA','admin'),(2,'Hi. Can i help u?','2023-03-06 01:56:24','admin','userA'),(3,'I want to learn more about Vietnamese.','2023-03-06 01:56:26','userA','admin'),(4,'Haha','2023-03-06 03:32:03','admin','userA');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,7 +291,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (134,'2023-03-29 20:52:48','son đã đặt hàng có MĐH: CS110 và thanh toán thành công.','admin',0),(135,'2023-03-29 20:52:48','Chờ xác nhận đơn hàng có MĐH: CS110','son',0),(136,'2023-03-29 20:53:36','son đã đặt hàng có MĐH: CS110 và thanh toán thành công.','admin',0),(137,'2023-03-29 20:53:36','Chờ xác nhận đơn hàng có MĐH: CS110','son',0),(138,'2023-03-29 20:55:11','son đã đặt hàng có MĐH: CS110 và thanh toán thành công.','admin',0),(139,'2023-03-29 20:55:11','Chờ xác nhận đơn hàng có MĐH: CS110','son',0),(140,'2023-03-29 21:14:35','Admin đã chấp nhận việc ký gửi sách của bạn.','son',0);
+-- INSERT INTO `notification` VALUES (134,'2023-03-29 20:52:48','son đã đặt hàng có MĐH: CS110 và thanh toán thành công.','admin',0),(135,'2023-03-29 20:52:48','Chờ xác nhận đơn hàng có MĐH: CS110','son',0),(136,'2023-03-29 20:53:36','son đã đặt hàng có MĐH: CS110 và thanh toán thành công.','admin',0),(137,'2023-03-29 20:53:36','Chờ xác nhận đơn hàng có MĐH: CS110','son',0),(138,'2023-03-29 20:55:11','son đã đặt hàng có MĐH: CS110 và thanh toán thành công.','admin',0),(139,'2023-03-29 20:55:11','Chờ xác nhận đơn hàng có MĐH: CS110','son',0),(140,'2023-03-29 21:14:35','Admin đã chấp nhận việc ký gửi sách của bạn.','son',0);
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -356,7 +356,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (2,'admin','son','2023-03-24 22:02:24',1000000,'Tài khoản son đã được nạp thêm 1000000vnd. Số dư hiện tại là 3147930vnd.'),(3,'admin','son','2023-03-24 22:03:51',1000000,'Tài khoản son đã được nạp thêm 1000000vnd. Số dư hiện tại là 4147930vnd.');
+-- INSERT INTO `payment` VALUES (2,'admin','son','2023-03-24 22:02:24',1000000,'Tài khoản son đã được nạp thêm 1000000vnd. Số dư hiện tại là 3147930vnd.'),(3,'admin','son','2023-03-24 22:03:51',1000000,'Tài khoản son đã được nạp thêm 1000000vnd. Số dư hiện tại là 4147930vnd.');
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -390,7 +390,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (115,'2023-03-25 09:38:03','2023-03-25 09:42:44',16,NULL,'AAAA','son',120,100,'AAAAAA');
+-- INSERT INTO `post` VALUES (115,'2023-03-25 09:38:03','2023-03-25 09:42:44',16,NULL,'AAAA','son',120,100,'AAAAAA');
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -453,8 +453,8 @@ DELIMITER ;;
 		END IF;
 			if(OLD.status = @USER_POST_IS_EXPIRED AND NEW.status = @RETURNED_THE_BOOK_TO_THE_USER) THEN
 			update books set quantity = (quantity + subQ) where id = pBookId;
-                		delete from post_detail where  id = pdId;
-    		END IF;
+				delete from post_detail where  id = pdId;
+		END IF;
 	END LOOP;	
 	CLOSE cur;
     end;
@@ -476,7 +476,7 @@ DELIMITER ;;
 		elseif(OLD.status = @USER_POST_IS_APPROVED AND NEW.status = @USER_POST_IS_EXPIRED) THEN
 			INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
 				VALUES (now(),  concat_ws('', 'Chờ xác nhận lấy sách khi hết thời gian ký gửi MĐH: CS', OLD.id), manager, 0);
-    		END IF;
+		END IF;
 	END LOOP;
 	CLOSE cur;
     end;
@@ -559,7 +559,7 @@ CREATE TABLE `post_detail` (
 
 LOCK TABLES `post_detail` WRITE;
 /*!40000 ALTER TABLE `post_detail` DISABLE KEYS */;
-INSERT INTO `post_detail` VALUES (111,1,115,100,57);
+-- INSERT INTO `post_detail` VALUES (111,1,115,100,57);
 /*!40000 ALTER TABLE `post_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -643,7 +643,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES ('admin',1),('admin',2),('admin',4),('admin',5),('son',2);
+INSERT INTO `user_role` VALUES ('admin',1),('admin',2),('admin',4),('admin',5),('son',2), ('sonn',2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -743,32 +743,57 @@ DELIMITER ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
 /*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `check_expired_day` ON SCHEDULE EVERY 1 DAY STARTS '2023-04-06 19:49:03' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Check your book''s consignment expiration date every day.' DO BEGIN
 	-- reset var: pId, uId
-	select 0, null into @pId, @uId;
-
-        -- get notify days before expired day
-	select `value_cfg` into @ntf_day from configuration where `key_cfg` = "days";
-
-        SELECT `id`, `user_id` into @pId, @uId  FROM Post where  (SELECT DATE_ADD(created_date, INTERVAL (`no_days` - @ntf_day) DAY))  = now() AND `status` = 16;
-        -- select @pId, @uId;
-        IF(@pId > 0) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
-			VALUES (now(),  concat_ws('', 'Thời gian ký gửi MĐH: CS', @pId,' còn ', @ntf_day,' vui lòng liên hệ admin để lấy lại sách.'), @uId, 0);
-	End if;
-        SET SQL_SAFE_UPDATES = 0;
-	Update post Set `status` = 512
-		where  (SELECT DATE_ADD(created_date, INTERVAL no_days DAY))  < now() AND `status` = 16;
-
-        Update books Set `user_id` = "admin" 
-        Where id In (
-			Select book_id from post_detail where sublet > 0 And post_id in
-				(Select id From post 
-					where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512));
+    select `value_cfg` into @ntf_day from configuration where `key_cfg` = "days";
+    -- notification
+    BEGIN
+		DECLARE pId_Ntf int;
+        DECLARE uId VARCHAR(255);
+		DECLARE d_Ntf INT DEFAULT FALSE;
+		DECLARE cur_Ntf CURSOR FOR
+			SELECT id, user_id FROM Post where  DATE_ADD(date(created_date), INTERVAL (no_days - @ntf_day) DAY) < curdate() AND `status` = 16;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET d_Ntf = TRUE;
+        
+		OPEN cur_Ntf;
+        ntf_loop: LOOP
+			FETCH cur_Ntf INTO pId_Ntf, uId;
+			IF d_Ntf THEN
+			  LEAVE ntf_loop;
+			END IF;
+			INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+				VALUES (now(),  concat_ws('', 'Thời gian ký gửi MĐH: CS', pId_Ntf,' còn ', @ntf_day,' vui lòng liên hệ admin để lấy lại sách.'), uId, 0);
+		  END LOOP;	
+		CLOSE cur_Ntf;
+    END;
+    
+    -- expired
+    BEGIN
+		DECLARE pId int;
+		DECLARE d_Expired INT DEFAULT FALSE;
+		DECLARE cur_Expired CURSOR FOR
+			SELECT id FROM Post where  DATE_ADD(date(created_date), INTERVAL no_days DAY)  < curdate() AND `status` = 16;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET d_Expired = TRUE;
+        
+        OPEN cur_Expired;
+        expired_loop: LOOP
+			FETCH cur_Expired INTO pId;
+			IF d_Expired THEN
+			  LEAVE expired_loop;
+			END IF;
+			Update post Set `status` = 512 where id = pId;
+		  END LOOP;	
+		CLOSE cur_Expired;
+    END;
+    SET SQL_SAFE_UPDATES = 0;
+    	Update books Set `user_id` = "admin" 
+        	Where id In (
+		Select book_id from post_detail where sublet > 0 And post_id in
+			(Select id From post 
+				where  DATE_ADD(date(created_date), INTERVAL (no_days + 30) DAY)  < curdate() AND `status` = 512));
 	update post_detail set sublet = 0 where sublet > 0 And post_id in
 			(Select id From post 
-				where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512);
+				where  DATE_ADD(date(created_date), INTERVAL (no_days + 30) DAY)  < curdate() AND `status` = 512);
 	update post set `status` = 1024
-				where  (SELECT DATE_ADD(created_date, INTERVAL (no_days + 30) DAY))  < now() AND `status` = 512;
-	SET SQL_SAFE_UPDATES = 1;
+				where DATE_ADD(date(created_date), INTERVAL (no_days + 30) DAY) < curdate() AND `status` = 512;
 END */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;

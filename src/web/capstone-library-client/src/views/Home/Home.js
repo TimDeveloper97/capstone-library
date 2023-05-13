@@ -1,15 +1,26 @@
 import { Search } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Funfact from "./Funfact";
-import Guest from "./Guest";
 import "./home.css";
-import Instruct from "./Instruct";
 import Member from "./Member";
-import Quotes from "./Quotes";
+import HotBook from "./HotBook";
+import NewUploadBook from "./NewUploadBook";
+import { useDispatch } from "react-redux";
+import { getBooks } from "../../apis/book";
+import { getImgUrl } from "../../helper/helpFunction";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  setTimeout(() => setLoading(false), 3000);
+  setTimeout(() => setLoading(false), 1000);
+  const [fiveBook, setFiveBook] = useState([]);
+  useEffect(() => {
+    const fetchBook = async () => {
+      const { data } = await getBooks();
+      setFiveBook(data.value.sort((a, b) => b.id - a.id).slice(0, 5));
+    };
+    fetchBook();
+  }, []);
   return (
     <>
       {loading && (
@@ -28,57 +39,115 @@ export default function Home() {
           </div>
         </div>
       )}
-
-      <section className="hero-area bg-dark overflow-hidden section-padding">
-        <span className="stroke-shape stroke-shape-1 stroke-shape-white"></span>
-        <span className="stroke-shape stroke-shape-2 stroke-shape-white"></span>
-        <span className="stroke-shape stroke-shape-3 stroke-shape-white"></span>
-        <span className="stroke-shape stroke-shape-4 stroke-shape-white"></span>
-        <span className="stroke-shape stroke-shape-5 stroke-shape-white"></span>
-        <span className="stroke-shape stroke-shape-6 stroke-shape-white"></span>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6 mr-auto">
-              <div className="hero-content">
-                <h2 className="section-title fs-50 pb-3 text-white lh-65">
-                  Tham gia hệ thống thư viện online ngay!
-                </h2>
-                <p className="lh-26 text-white">
-                  Tận hưởng hệ thống thư viện chuyên nghiệp và đẩy đủ.
-                </p>
-                {/* <div className="hero-btn-box pt-30px">
-                  <a
-                    href="#for-guest"
-                    className="btn theme-btn mr-2 page-scroll"
-                  >
-                    Khách vãng lai{" "}
-                    <i className="la la-angle-down icon ml-1"></i>
-                  </a>
-                  <a
-                    href="#for-member"
-                    className="btn theme-btn bg-3 page-scroll"
-                  >
-                    Thành viên <i className="la la-angle-down icon ml-1"></i>
-                  </a>
-                </div> */}
+      {fiveBook.length !== 0 && (
+        <section className="hero" style={{ paddingTop: "20px" }}>
+          <div className="container">
+            <div className="tile is-ancestor">
+              <div className="tile is-3 is-vertical is-parent">
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[0].id}`}>
+                    <div className="hero-item">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[0].imgs[0]?.fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h3>{fiveBook[0].name}</h3>
+                      </div>
+                      <div className="chapter green">{fiveBook[0].author}</div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[1].id}`}>
+                    <div className="hero-item">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[1].imgs[0]?.fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h3>{fiveBook[1].name}</h3>
+                      </div>
+                      <div className="chapter green">{fiveBook[1].author}</div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+              <div className="tile is-parent">
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[2].id}`}>
+                    <div className="hero-item has-excerpt">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[2].imgs[0]?.fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h5>
+                          Thể loại: {fiveBook[2].categories.map((c, index) => {
+                            let text = c + ", ";
+                            if(index === fiveBook[2].categories.length - 1){
+                              text = c;
+                            }
+                            return text
+                          })}
+                        </h5>
+                        <h3>{fiveBook[2].name}</h3>
+                      </div>
+                      <div className="chapter blue">{fiveBook[2].author}</div>
+                      <div className="excerpt">
+                      {fiveBook[2].description}
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+              <div className="tile is-3 is-vertical is-parent">
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[3].id}`}>
+                    <div className="hero-item">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[3].imgs[0]?.fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h3>{fiveBook[3].name}</h3>
+                      </div>
+                      <div className="chapter green">{fiveBook[3].author}</div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="tile is-child">
+                  <Link to={`/user/detail-book/${fiveBook[4].id}`}>
+                    <div className="hero-item">
+                      <img
+                        className="cover"
+                        src={getImgUrl(fiveBook[4].imgs[0]?.fileName)}
+                        alt="cover"
+                      />
+                      <div className="bottom-shadow"></div>
+                      <div className="captions">
+                        <h3>{fiveBook[4].name}</h3>
+                      </div>
+                      <div className="chapter green">{fiveBook[4].author}</div>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="generic-img-box generic-img-box-layout-2">
-          <img className="lazy" src="./images/harry-potter.jpg" alt="image1" />
-          <img
-            className="lazy"
-            src="./images/sherlock-holmes-toan-tap.jpg"
-            alt="image2"
-          />
-          <img className="lazy" src="./images/de-men-1.jpeg" alt="image1" />
-          <img className="lazy" src="./images/binh-ngo-1.jpeg" alt="image2" />
-        </div>
-      </section>
+        </section>
+      )}
       <Funfact />
-      <Instruct />
-      <Guest />
+      <HotBook />
+      <NewUploadBook />
       <Member />
     </>
   );

@@ -1,0 +1,2 @@
+trang chủ = giong truyenqq, sách đã Iên p0st, p0st ms, search sách của admin
+thêm bộ tìm kiếm, filter nạp, bỏ background. Sửa pagingnation, f00ter. chuyển p0st -> table

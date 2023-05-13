@@ -75,8 +75,7 @@
                         <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
                             <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Quản lý" HorizontalOptions="Start" Padding="15,10,10,5"/>
                             <view:ItemView Text="Kho sách" Icon="{Static icon:FontIcons.Book}" IsVisible="{Binding Profile.Level, Converter={StaticResource NotAdmin}}" Color="{StaticResource Green}" TabCommand="{Binding BookCommand}"/>
-
-                            <view:ItemView Text="Danh mục" Icon="{Static icon:FontIcons.Folder}" IsVisible="{Binding Profile.Level, Converter={StaticResource NotAdmin}}" Color="{StaticResource Red}" TabCommand="{Binding CategoryCommand}"/>
+                            <view:ItemView Text="Danh mục" Icon="{Static icon:FontIcons.Folder}" IsVisible="{Binding Profile.Level, Converter={StaticResource Manager}}" Color="{StaticResource Red}" TabCommand="{Binding CategoryCommand}"/>
                             <view:ItemView Text="Người dùng" Icon="{Static icon:FontIcons.Account}" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" Color="DarkSlateBlue" TabCommand="{Binding UserCommand}"/>
                             <view:ItemView Text="Cấu hình" Icon="{Static icon:FontIcons.Toolbox}" Color="DeepSkyBlue" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" TabCommand="{Binding ConfigCommand}"/>
                         </StackLayout>

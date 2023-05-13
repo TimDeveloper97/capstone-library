@@ -2,8 +2,7 @@ import React from "react";
 import { getImgUrl } from "../../helper/helpFunction";
 import "./carousel.css";
 
-export default function Carousel({images}) {
-  console.log(images);
+export default function Carousel({ images }) {
   return (
     <div
       id="carouselExampleIndicators"
@@ -33,13 +32,16 @@ export default function Carousel({images}) {
         ></button>
       </div>
       <div className="carousel-inner">
-        {
-            images.map((img, index) => {
-                return <div key={index} className={index === 0 ? "carousel-item active" : "carousel-item"}>
-                <img src={getImgUrl(img)} className="d-block w-100" alt="..." />
-              </div>
-            })
-        }
+        {images.map((img, index) => {
+          return (
+            <div
+              key={index}
+              className={index === 0 ? "carousel-item active" : "carousel-item"}
+            >
+              <img src={getImgUrl(img)} className="d-block w-100" alt="..." />
+            </div>
+          );
+        })}
       </div>
       <button
         className="carousel-control-prev"

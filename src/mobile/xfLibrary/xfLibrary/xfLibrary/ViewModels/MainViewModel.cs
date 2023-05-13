@@ -12,6 +12,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Models;
+using xfLibrary.Pages;
 using xfLibrary.Pages.Popup;
 
 namespace xfLibrary.ViewModels
@@ -40,21 +41,50 @@ namespace xfLibrary.ViewModels
             if (SearchDatas.Count == 0) return;
 
             var postOne = SearchDatas[0];
-            postOne.IsAdmin = !IsUser();
-            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
+            if(IsUser())
+            {
+                postOne.IsAdmin = !IsUser();
+                var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
 
-            if (item == null) return;
-            Response res = null;
-            //Thêm vào giỏ
-            if (item.IsChecked)
-                res = await _mainService.OrderCartAsync(item.Id, _token);
-            //thanh toán luôn
+                if (item == null) return;
+                Response res = null;
+                //Thêm vào giỏ
+                if (item.IsChecked)
+                    res = await _mainService.OrderCartAsync(item.Id, _token);
+                //thanh toán luôn
+                else
+                    res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+
+                if (res == null) return;
+
+                _message.ShortAlert(res.Message);
+            }
             else
-                res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+            {
+                var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: $"Bạn muốn sửa/xóa bài: {postOne.Title}?",
+                                    confirmingText: "Sửa",
+                                    dismissiveText: "xóa");
+                IsBusy = false;
+                if (isOk == false)
+                {
+                    var res = await _mainService.DeletePostAsync(postOne.Id, _token);
+                    if (res == null) return;
 
-            if (res == null) return;
+                    if (res.Success)
+                    {
+                        SearchDatas.Remove(postOne);
+                        _allDatas.Remove(postOne);
+                    }
 
-            _message.ShortAlert(res.Message);
+                    if (!string.IsNullOrEmpty(res.Message))
+                        _message.ShortAlert(res.Message);
+                }
+                else if (isOk == true)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
+                    $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(postOne)}");
+                }
+            }
         });
 
         public ICommand TextChangedCommand => new Command<string>((text) =>
@@ -77,21 +107,51 @@ namespace xfLibrary.ViewModels
 
         public ICommand SelectedCommand => new Command<Post>(async (post) =>
         {
-            post.IsAdmin = !IsUser();
-            var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
+            if(IsUser())
+            {
+                post.IsAdmin = !IsUser();
+                var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
-            if (item == null) return;
-            Response res = null;
-            //Thêm vào giỏ
-            if (item.IsChecked)
-                res = await _mainService.OrderCartAsync(item.Id, _token);
-            //thanh toán luôn
+                if (item == null) return;
+                Response res = null;
+                //Thêm vào giỏ
+                if (item.IsChecked)
+                    res = await _mainService.OrderCartAsync(item.Id, _token);
+                //thanh toán luôn
+                else
+                    res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+
+                if (res == null) return;
+
+                _message.ShortAlert(res.Message);
+
+            }
             else
-                res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
+            {
+                var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: $"Bạn muốn sửa/xóa bài: {post.Title}?",
+                                    confirmingText: "Sửa",
+                                    dismissiveText: "xóa");
+                IsBusy = false;
+                if (isOk == false)
+                {
+                    var res = await _mainService.DeletePostAsync(post.Id, _token);
+                    if (res == null) return;
 
-            if (res == null) return;
+                    if (res.Success)
+                    {
+                        SearchDatas.Remove(post);
+                        _allDatas.Remove(post);
+                    }
 
-            _message.ShortAlert(res.Message);
+                    if (!string.IsNullOrEmpty(res.Message))
+                        _message.ShortAlert(res.Message);
+                }
+                else if (isOk == true)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
+                    $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(post)}");
+                }
+            }
         });
         #endregion
 

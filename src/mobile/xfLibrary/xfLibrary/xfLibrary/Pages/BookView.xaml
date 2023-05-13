@@ -22,7 +22,9 @@
         <ResourceDictionary>
             <converter:StatusValueToBoolConverter x:Key="EmptyList" Value="0"/>
             <converter:StatusToBoolConverter x:Key="StatusToBool0Converter" Value="0"/>
-            <converter:StatusToTextConverter x:Key="State" Value="0" TRUE="Chưa thuê" FALSE="Đã thuê"/>
+            <converter:StatusToStateConverter x:Key="StatusToStateConverter"/>
+            <converter:StatusToStateColorConverter x:Key="StatusToStateColorConverter"/>
+            <converter:StatusToTextConverter x:Key="State" Value="0" TRUE="Chưa ký gửi" FALSE="Đã ký gửi"/>
             
             <Style x:Key="ChatAdornerStyle" TargetType="BoxView">
                 <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
@@ -106,7 +108,7 @@
                                                                 </FormattedString>
                                                             </Label.FormattedText>
                                                         </Label>
-                                                        <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource        MiniLabelStyle}" Margin="0,-5,0,0"
+                                                        <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='N/A', FallbackValue='N/A'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-5,0,0"
                                                    TextColor="{AppThemeBinding Light={StaticResource AppColor}, Dark={StaticResource AppColor1}}"
                                                    HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation" FontFamily="MuliBold"/>
                                                     </Grid>
@@ -120,10 +122,12 @@
                                                         </Frame>
 
                                                         <Frame Style="{StaticResource FrameNoBorder}"  
-                                                                CornerRadius="10" VerticalOptions="Center">
-                                                            <Label Text="{Binding States.Count, Converter={StaticResource State}}" 
+                                                               BackgroundColor="{Binding Info, Converter={StaticResource StatusToStateColorConverter}}"
+                                                               BorderColor="{Binding Info, Converter={StaticResource StatusToStateColorConverter}}"
+                                                               CornerRadius="10" VerticalOptions="Center">
+                                                            <Label Text="{Binding Info, Converter={StaticResource StatusToStateConverter}}" 
                                                                    TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
-                                                            <Frame.Triggers>
+                                                            <!--<Frame.Triggers>
                                                                 <MultiTrigger TargetType="Frame">
                                                                     <MultiTrigger.Conditions>
                                                                         <BindingCondition Binding="{Binding States.Count, Converter={StaticResource StatusToBool0Converter}}" Value="true"/>
@@ -138,7 +142,7 @@
                                                                     <Setter Property="BackgroundColor" Value="{StaticResource Red}" />
                                                                     <Setter Property="BorderColor" Value="{StaticResource Red}" />
                                                                 </MultiTrigger>
-                                                            </Frame.Triggers>
+                                                            </Frame.Triggers>-->
                                                         </Frame>
                                                     </StackLayout>
                                                 </Grid>
@@ -146,51 +150,55 @@
 
                                             <xct:Expander.ContentTemplate>
                                                 <DataTemplate>
-                                                    <CollectionView ItemsSource="{Binding States}" HeightRequest="{Binding ExpanderHeight}">
-                                                        <CollectionView.Header>
-                                                            <Label Text="Danh sách mượn" Style="{StaticResource SubTitleGrayLabelStyle}" HorizontalTextAlignment="Start"
+                                                    <StackLayout HeightRequest="{Binding ExpanderHeight}">
+                                                        <BoxView/>
+                                                        <CollectionView ItemsSource="{Binding States}">
+                                                            <CollectionView.Header>
+                                                                <Label Text="Danh sách mượn" Style="{StaticResource SubTitleGrayLabelStyle}" HorizontalTextAlignment="Start"
                                                        Padding="10,0" FontFamily="MuliBold"/>
-                                                        </CollectionView.Header>
-                                                        <CollectionView.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Grid ColumnDefinitions="auto, auto, *" Padding="5">
-                                                                    <!--#region Icon -->
-                                                                    <Grid VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="38" WidthRequest="38">
-                                                                        <Frame BackgroundColor="{StaticResource Blue}" CornerRadius="30" Opacity="0.1"
+                                                            </CollectionView.Header>
+                                                            <CollectionView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid ColumnDefinitions="auto, auto, *" Padding="5">
+                                                                        <!--#region Icon -->
+                                                                        <Grid VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="38" WidthRequest="38">
+                                                                            <Frame BackgroundColor="{StaticResource Blue}" CornerRadius="30" Opacity="0.1"
                                                        Style="{StaticResource FrameNoBorder}"/>
-                                                                        <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Account}"
+                                                                            <Label Style="{StaticResource IconLabel}" FontSize="23" Text="{Static icon:FontIcons.Account}"
                                                        VerticalOptions="Center" HorizontalOptions="Center" TextColor="{StaticResource Blue}"/>
-                                                                    </Grid>
-                                                                    <!--#endregion-->
+                                                                        </Grid>
+                                                                        <!--#endregion-->
 
-                                                                    <Grid Grid.Column="1" RowDefinitions="*,*" HeightRequest="50">
-                                                                        <Label Text="{Binding Renter}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" 
+                                                                        <Grid Grid.Column="1" RowDefinitions="*,*" HeightRequest="50">
+                                                                            <Label Text="{Binding Renter}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" 
                                                                    VerticalOptions="End" Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
 
-                                                                        <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start"
+                                                                            <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start"
                                                                    Margin="0,0,0,-5" LineBreakMode="TailTruncation" TextColor="{StaticResource Gray400}">
-                                                                            <Label.FormattedText>
-                                                                                <FormattedString>
-                                                                                    <Span Text="{Binding RenterId, StringFormat='Tài khoản: {0}', TargetNullValue='N/A', Converter={StaticResource UpperOneStringConverter}}"/>
-                                                                                    <Span Text="{Binding Quantity, TargetNullValue='N/A', StringFormat=' - Số lượng: {0}'}"/>
-                                                                                </FormattedString>
-                                                                            </Label.FormattedText>
-                                                                        </Label>
-                                                                    </Grid>
+                                                                                <Label.FormattedText>
+                                                                                    <FormattedString>
+                                                                                        <Span Text="{Binding RenterId, StringFormat='Tài khoản: {0}', TargetNullValue='N/A', Converter={StaticResource UpperOneStringConverter}}"/>
+                                                                                        <Span Text="{Binding Quantity, TargetNullValue='N/A', StringFormat=' - Số lượng: {0}'}"/>
+                                                                                    </FormattedString>
+                                                                                </Label.FormattedText>
+                                                                            </Label>
+                                                                        </Grid>
 
-                                                                    <StackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
-                                                                        <Frame Style="{StaticResource FrameNoBorder}" CornerRadius="10"
-                                                                   BackgroundColor="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
-                                                                   BorderColor="{Binding Status, Converter={StaticResource StatusToColorConverter}}">
-                                                                            <Label Text="{Binding Status, Converter={StaticResource StatusToStringConverter}}"
+                                                                        <StackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Orientation="Horizontal">
+                                                                            <Frame Style="{StaticResource FrameNoBorder}" CornerRadius="10"
+                                                                   BackgroundColor="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=1}"
+                                                                   BorderColor="{Binding Status, Converter={StaticResource StatusToColorConverter}, ConverterParameter=1}">
+                                                                                <Label Text="{Binding Status, Converter={StaticResource StatusToStringConverter}}"
                                                                        TextColor="White" Margin="10,5" FontFamily="MuliBold"/>
-                                                                        </Frame>
+                                                                            </Frame>
 
-                                                                    </StackLayout>
-                                                                </Grid>
-                                                            </DataTemplate>
-                                                        </CollectionView.ItemTemplate>
-                                                    </CollectionView>
+                                                                        </StackLayout>
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </CollectionView.ItemTemplate>
+                                                        </CollectionView>
+                                                        <BoxView/>
+                                                    </StackLayout>
                                                 </DataTemplate>
                                             </xct:Expander.ContentTemplate>
                                         </xct:Expander>

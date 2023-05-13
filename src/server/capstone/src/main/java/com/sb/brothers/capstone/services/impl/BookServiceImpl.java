@@ -27,6 +27,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Set<Book> getAllByManagerId(String uId) {
+        return bookRepository.getAllByManagerId(uId);
+    }
+
+    @Override
     public Set<Book> getAllBooksByUserId(String id) {
         return bookRepository.findAllByUserId(id);
     }

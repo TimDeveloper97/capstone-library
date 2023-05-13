@@ -47,6 +47,8 @@
 .price {
   color: red;
   font-size: 2rem;
+  display: flex;
+  justify-content: flex-end;
 }
 .number {
   display: flex;
@@ -68,4 +70,19 @@
   width: 40px;
   border: 1px solid rgb(236, 236, 236);
   text-align: center;
+}
+.info .number {
+  margin: 15px 0;
+}
+.number h5 span {
+  box-shadow: 0 0 8px rgba(82, 85, 90, 0.1);
+  padding: 5px;
+  background-color: #cbe4de;
+  border-radius: 5px;
+}
+.description {
+  box-shadow: 0 0 8px rgba(82, 85, 90, 0.1);
+  padding: 10px;
+  background-color: #cbe4de;
+  border-radius: 10px;
 }

@@ -47,6 +47,38 @@ namespace xfLibrary.Converters
         }
     }
 
+    class StatusToStateConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return "N/A";
+            var status = (int)value;
+
+            return Resources.ExtentionHelper.StateToString(status);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    class StatusToStateColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return "#6E6E6E";
+            var status = (int)value;
+
+            return Resources.ExtentionHelper.StateToColor(status);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     class StatusToBoolConverter : ValueConverterExtension, IValueConverter
     {
         public int Value { get; set; } = 0;

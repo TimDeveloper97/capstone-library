@@ -1,12 +1,8 @@
 import { faDongSign } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { Link } from "react-router-dom";
-import { getPosts } from "../../actions/post";
-import { getImgUrl } from "../../helper/helpFunction";
-import Loading from "../../components/Loading/Loading";
-import { Pagination, Stack } from "@mui/material";
+import { formatMoney, getImgUrl } from "../../helper/helpFunction";
 
 
 export default function ListPost({posts}) {
@@ -40,7 +36,7 @@ export default function ListPost({posts}) {
                       <div className="part-2">
                         <h3 className="product-title">{item.title}</h3>
                         <h4 className="product-price">
-                          {item.fee} <FontAwesomeIcon icon={faDongSign} />
+                          {formatMoney(item.fee)} <FontAwesomeIcon icon={faDongSign} />
                         </h4>
                         <p className="available">Đăng bởi: {item.user}</p>
                       </div>

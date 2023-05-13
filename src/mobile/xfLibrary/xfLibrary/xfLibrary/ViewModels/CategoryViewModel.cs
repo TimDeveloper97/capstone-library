@@ -58,7 +58,7 @@ namespace xfLibrary.ViewModels
 
             if (exist != null)
                 Categorys.Insert(0, exist);
-        });
+        }); 
 
         public ICommand DeleteCommand => new Command<Category>(async (cate) =>
         {
@@ -68,10 +68,21 @@ namespace xfLibrary.ViewModels
             if (res.Success)
                 Categorys.Remove(cate);
 
-            if (string.IsNullOrEmpty(res.Message))
+            if (!string.IsNullOrEmpty(res.Message))
                 _message.ShortAlert(res.Message);
         });
 
+        public ICommand UpdateCommand => new Command<Category>(async (cate) =>
+        {
+            var res = await _mainService.DeleteCategoryAsync(cate.Code, _token);
+            if (res == null) return;
+
+            if (res.Success)
+                Categorys.Remove(cate);
+
+            if (!string.IsNullOrEmpty(res.Message))
+                _message.ShortAlert(res.Message);
+        });
         #endregion
 
         public CategoryViewModel()

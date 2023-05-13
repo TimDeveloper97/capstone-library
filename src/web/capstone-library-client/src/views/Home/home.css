@@ -2,3 +2,271 @@
     width: 50px;
     height: 50px;
 }
+.newpost-title{
+    height: 50px;
+    line-height: 50px;
+    background-color: #FFDEB4;
+    margin-bottom: 15px;
+    padding-left: 10px;
+}
+
+.tile {
+    align-items: stretch;
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: -webkit-min-content;
+    min-height: -moz-min-content;
+    min-height: min-content
+}
+
+.tile.is-ancestor {
+    margin-left: -2px;
+    margin-right: -2px;
+    margin-top: -.75rem
+}
+
+.tile.is-ancestor:last-child {
+    margin-bottom: -.75rem
+}
+
+.tile.is-ancestor:not(:last-child) {
+    margin-bottom: .75rem
+}
+
+.tile.is-child {
+    margin: 0 !important
+}
+
+.tile.is-parent {
+    padding: .75rem 2px
+}
+
+.tile.is-vertical {
+    flex-direction: column
+}
+
+.tile.is-vertical>.tile.is-child:not(:last-child) {
+    margin-bottom: 4px !important
+}
+
+.container:before {
+    display: table;
+    content: " ";
+}
+
+.hero {
+    margin-bottom: 20px;
+}
+
+.hero {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hero .tile.is-child>a {
+    display: inline-block;
+    width: 100%;
+    height: 100%
+}
+
+.hero .tile .is-parent {
+    max-height: 404px
+}
+
+.hero .hero-item {
+    position: relative;
+    min-height: 185px;
+    height: 100%;
+    overflow: hidden
+}
+
+.hero .hero-item:after {
+    content: "";
+    background-color: rgba(0, 0, 0, .65);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+    transition: all .3s
+}
+
+.hero .hero-item:hover::after {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: translateY(0);
+    transform: translateY(0)
+}
+
+.hero .hero-item:hover .cover {
+    -webkit-filter: blur(2px);
+    filter: blur(2px)
+}
+
+.hero .hero-item:hover .captions {
+    top: 25%;
+    -webkit-transform: translateY(0);
+    transform: translateY(0)
+}
+
+.hero .hero-item:hover .captions h5 {
+    font-size: 14px
+}
+
+.hero .hero-item:hover .captions h3 {
+    font-size: 20px
+}
+
+.hero .hero-item:hover .chapter {
+    top: 39%;
+    left: 15px;
+    -webkit-transform: translate(0);
+    transform: translate(0)
+}
+
+.hero .hero-item:hover .excerpt {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: translateY(0);
+    transform: translateY(0)
+}
+
+.hero .hero-item .cover {
+    -o-object-fit: cover;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+}
+
+.hero .hero-item .bottom-shadow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .75))
+}
+
+.hero .hero-item .captions {
+    position: absolute;
+    top: 100%;
+    left: 15px;
+    -webkit-transform: translateY(calc(-100% - 10px));
+    transform: translateY(calc(-100% - 10px));
+    color: #fff;
+    transition: all .4s;
+    z-index: 1
+}
+
+.hero .hero-item .captions h5 {
+    font-size: 12px;
+    font-weight: 500
+}
+
+.hero .hero-item .captions h3 {
+    font-size: 16px;
+    font-weight: 700
+}
+
+.hero .hero-item .chapter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transform: translate(calc(1% + 15px), calc(100% - 10px));
+    transform: translate(calc(1% + 15px), calc(100% - 10px));
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    padding: 3px 6px 2px;
+    border-radius: 5px;
+    background-color: #000;
+    transition: all .4s;
+    z-index: 1
+}
+
+.youtube {
+    padding: 20px 0;
+}
+
+.hero .hero-item .chapter.blue {
+    background-color: #56ccf2
+}
+
+.hero .hero-item .chapter.red {
+    background-color: #ff2853
+}
+
+.hero .hero-item .chapter.violet {
+    background-color: #bd10e0
+}
+
+.hero .hero-item .chapter.green {
+    background-color: #8bc34a
+}
+
+.hero .hero-item .chapter.orange {
+    background-color: #f18121
+}
+
+.hero .hero-item .excerpt {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #eee;
+    position: absolute;
+    top: 47%;
+    left: 15px;
+    -webkit-transform: translateY(50px);
+    transform: translateY(50px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all .4s;
+    z-index: 10
+}
+
+.book-item .single-product{
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+}
+.top-notice{
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+.time-ago{
+    background-color: #56ccf2;
+    padding: 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+.top-label{
+    margin-left: 10px;
+    background-color: #f34444;
+    padding: 5px;
+    border-radius: 5px;
+    color: #fff;
+    animation: pulse 1s steps(5, start) infinite;
+}
+
+@keyframes pulse {
+    to {
+        visibility: hidden
+    }
+}

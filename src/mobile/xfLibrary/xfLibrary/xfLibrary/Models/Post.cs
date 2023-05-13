@@ -52,7 +52,7 @@ namespace xfLibrary.Models
 
 
 
-        private int maxLines = 2;
+        private int maxLines = 4;
         private bool isChecked = false;
         private bool isAdmin = false;
         private string color = "#00000";

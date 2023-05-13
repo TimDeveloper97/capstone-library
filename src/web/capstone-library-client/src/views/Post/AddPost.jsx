@@ -98,6 +98,9 @@ export default function AddPost() {
       );
       if (res.success) {
         NotificationManager.success(res.message, "Thông báo", 2000);
+        setListSelectBook(prev => prev.map(lsb => {
+          return lsb.selected ? {...lsb, maxQuantity: lsb.maxQuantity - lsb.quantity} : lsb
+        }));
         resetData();
       } else {
         NotificationManager.error(res.message, "Lỗi", 2000);
@@ -112,15 +115,14 @@ export default function AddPost() {
     resetField("content");
     setTotal(0);
     setAddress("Chọn địa chỉ");
+    setListSelectBook(prev => prev.map(lsb => {
+      return {...lsb, quantity: 1}
+    }))
   };
 
   const [listSelectBook, setListSelectBook] = useState([]);
 
   const [total, setTotal] = useState(0);
-
-  // useEffect(() => {
-  //   console.log(total);
-  // }, [listSelectBook, total]);
 
   const sumTotal = (listSelected) => {
     let total = 0;
@@ -171,7 +173,7 @@ export default function AddPost() {
       <NotificationContainer />
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
-          <h3 className="fs-22 fw-medium mr-0">
+          <h3 className="fs-22 fw-medium mr-0" style={{color: "#fff"}}>
             {role ? "Thêm mới post" : "Ký gửi sách"}
           </h3>
         </div>
@@ -357,7 +359,7 @@ export default function AddPost() {
                                     className="qtyBtn qtyDec"
                                     type="button"
                                     onClick={() => handleQuantity(-1, index)}
-                                    disabled={book.quantity === 0}
+                                    disabled={book.quantity === 1}
                                   >
                                     <i className="la la-minus"></i>
                                   </button>

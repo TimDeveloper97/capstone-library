@@ -66,3 +66,9 @@
   color: #fff;
   background-color: #5b8fb9 !important;
 }
+.text-center{
+  text-align: center;
+}
+.top-70{
+  top: 70px !important;
+}

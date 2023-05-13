@@ -7,10 +7,10 @@ export default function BookPage() {
     <section className="question-area pb-40px">
       <div className="container">
         <div className="row">
-          <div className="col-lg-2">
+          <div className="col-lg-2" style={{ backgroundColor: "#efefef" }}>
             <Sidebar />
           </div>
-          <div className="col-lg-10">
+          <div className="col-lg-10" style={{ backgroundColor: "#efefef" }}>
             <div className="question-tabs mb-50px">
               <div className="tab-content pt-40px" id="myTabContent">
                 <div

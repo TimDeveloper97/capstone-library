@@ -67,10 +67,10 @@ namespace xfLibrary.ViewModels
             {
                 res = await _mainService.SuccessAsync(qr.Id, qr.Token);
             }
-            //thành công => user ký gửi sách đến lấy sách 256 -> 512
-            else if (qr.Status == Services.Api.USER_GETBACK_BOOK)
+            //Sau khi hết hạn ký gửi 512 -> 1
+            else if (qr.Status == Services.Api.USER_NOT_GETBACK_BOOK)
             {
-                res = await _mainService.SuccessAsync(qr.Id, qr.Token);
+                res = await _mainService.ReturnBookAsync(qr.Id, qr.Token);
             }
 
             if (res != null)

@@ -58,4 +58,5 @@ public class CustomStatus {
     public static final int USER_RETURN_IS_NOT_APPROVED = 128;
     public static final int USER_RETURN_IS_APPROVED     = 256;
     public static final int USER_POST_IS_EXPIRED        = 512;
+    public static final int USER_POST_IS_EXPIRED_AND_NOT_RETURN        = 1024;
 }

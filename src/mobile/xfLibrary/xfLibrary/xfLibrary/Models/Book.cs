@@ -50,6 +50,9 @@ namespace xfLibrary.Models
         [JsonProperty("bookInfoDtos")]
         public List<State> States { get; set; }
 
+        [JsonProperty("status")]
+        public int Status { get; set; }
+
 
         private int number = 0, expanderHeight = 0; 
         private bool isChecked = false, isNotUser = false;
@@ -67,6 +70,8 @@ namespace xfLibrary.Models
         public string ImageSource { get; set; } = Services.Api.IconBook;
         [JsonIgnore]
         public string StringCategories { get; set; }
+        [JsonIgnore]
+        public int Info { get; set; }
     }
 
     public class ListBook

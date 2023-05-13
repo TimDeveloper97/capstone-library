@@ -53,7 +53,7 @@ public class ConfigController {
         try{
             configList = configService.findAll();
             if(configList == null || configList.isEmpty()){
-                logger.warn("There are no config.\n[API-Config] Change config - END.");
+                logger.warn("There are no config.\n[API-Config] Get all config - END.");
                 return new ResponseEntity<>(new CustomErrorType("Không tìm thấy cấu hình tương ứng."), HttpStatus.OK);
             }
             configList.stream().forEach(config -> {
@@ -62,10 +62,10 @@ public class ConfigController {
             });
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause()
-                    +"\n[API-Config] Change config - END.");
+                    +"\n[API-Config] Get all config - END.");
             return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi:"+ ex.getMessage() +".\n Nguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
-        logger.warn("[API-Config] Change config - SUCCESS.");
+        logger.warn("[API-Config] Get all config - SUCCESS.");
         return new ResponseEntity<>(new ResData<List<ConfigDto>>(0, configDtoList), HttpStatus.OK);
     }//view all posts
 }

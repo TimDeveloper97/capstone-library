@@ -13,6 +13,7 @@ import {
   NotificationManager,
   NotificationContainer,
 } from "react-notifications";
+import { defaultImg } from "./defaultBase64";
 
 const schema = yup.object({
   name: yup.string().required("Tên sách không được để trống"),
@@ -40,6 +41,9 @@ export default function AddBook() {
   const submitForm = async (data, e) => {
     e.preventDefault();
     data.categories = listCategories.map((lc) => lc.nameCode);
+    if(imgs.length === 0){
+      imgs.push({fileName: "default_img", data: defaultImg});
+    }
     data.imgs = imgs;
     const res = await dispatch(addBook(data));
     if (res.success) {
@@ -97,8 +101,6 @@ export default function AddBook() {
     console.log(selectedFilesArray);
     selectedFilesArray.forEach(async (file, index) => {
       let data = await toBase64(file);
-      // console.log(data);
-      // console.log("img" + index);
       data = data.split(",")[1];
       imgArr.push({ fileName: file.name, data });
     });
@@ -114,7 +116,9 @@ export default function AddBook() {
       <NotificationContainer />
       <div className="container">
         <div className="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
-          <h3 className="fs-22 fw-medium mr-0">Thêm mới sách</h3>
+          <h3 className="fs-22 fw-medium mr-0" style={{ color: "#fff" }}>
+            Thêm mới sách
+          </h3>
         </div>
         <div className="row">
           <div className="col-lg-8" style={{ position: "relative" }}>

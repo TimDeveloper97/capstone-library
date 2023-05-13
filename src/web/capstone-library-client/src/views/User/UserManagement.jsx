@@ -6,39 +6,38 @@ import {
 } from "react-notifications";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCheck,
+  faChevronLeft,
+  faChevronRight,
   faDownLong,
-  faEllipsisVertical,
-  faLocationDot,
-  faMobileScreenButton,
   faUpLong,
-  faUser,
   faUserCheck,
   faUserLock,
-  faUserSlash,
-  faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../../components/Loading/Loading";
 import "./user-management.css";
+import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
+import { formatMoney } from "../../helper/helpFunction";
 
 export default function UserManagement() {
   const userRole = JSON.parse(window.localStorage.getItem("user")).roles[0];
   const [users, setUsers] = useState([]);
+  const pageSize = 5;
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await getAllUser();
-      setUsers(data.value);
+      setUsers(data.value ? data.value : []);
+      setNumPage(data.value ? Math.ceil(data.value.length / pageSize) : 1);
     };
     fetchUser();
   }, []);
 
   const [listUser, setListUser] = useState([]);
   useEffect(() => {
-    setListUser(users.sort((a, b) => a.id - b.id).slice());
+    setListUser(users.sort((a, b) => a.id - b.id).slice(0, pageSize));
   }, [users]);
 
   const changeUserRole = async (user, index) => {
-    const {data} = await updateRoleUser(user.id, {
+    const { data } = await updateRoleUser(user.id, {
       id: user.id,
       status: user.status,
       roles:
@@ -79,6 +78,15 @@ export default function UserManagement() {
       NotificationManager.error(data.message, "Lỗi", 2000);
     }
   };
+  const [curPage, setCurPage] = useState(1);
+  const [numPage, setNumPage] = useState(3);
+  useEffect(() => {
+    setListUser(
+      users
+        .sort((a, b) => a.id - b.id)
+        .slice((curPage - 1) * pageSize, (curPage - 1) * pageSize + pageSize)
+    );
+  }, [curPage]);
 
   return users ? (
     <>
@@ -101,107 +109,149 @@ export default function UserManagement() {
         <NotificationContainer />
         <div className="container">
           <div className="row">
-            <div className="col-md-10"></div>
-          </div>
-          <div
-            className="row"
-            style={{ display: "flex", justifyContent: "center" }}
-          >
-            <div className="list-user">
-              {listUser.map((user, index) => {
-                return (
-                  <div className="user-item row" key={index}>
-                    <div className="col-md-2 avatar">
-                      <FontAwesomeIcon icon={faUser} size="4x" />
-                    </div>
-                    <div className="col-md-4">
-                      <h5>{user.lastName + " " + user.firstName}</h5>
-                      <p>
-                        <FontAwesomeIcon icon={faLocationDot} /> {user.address}
-                      </p>
-                      <p>
-                        <FontAwesomeIcon
-                          icon={faWallet}
-                          style={{ color: "green" }}
-                        />{" "}
-                        {user.balance}
-                      </p>
-                    </div>
-                    <div className="col-md-4">
-                      <p>
-                        <FontAwesomeIcon icon={faMobileScreenButton} />{" "}
-                        {user.phone}
-                      </p>
-                      <p>
-                        <span
-                          style={{
-                            backgroundColor:
-                              user.status === 32 ? "green" : "red",
-                            color: "#fff",
-                            padding: "5px 10px 5px 10px",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          {user.status === 32
-                            ? "Đang hoạt động"
-                            : "Không hoạt động"}
-                        </span>
-                      </p>
-                      <p>
-                        <span
-                          style={{
-                            backgroundColor: "#576CBC",
-                            color: "#fff",
-                            padding: "5px 10px 5px 10px",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          {user.roles[0] === "ROLE_ADMIN"
-                            ? "admin"
-                            : user.roles[0] === "ROLE_MANAGER_POST"
-                            ? "quản lý"
-                            : "người dùng"}
-                        </span>
-                      </p>
-                    </div>
-                    <div className="col-md-2">
-                      {user.roles[0] !== "ROLE_ADMIN" && (
-                        <div className="button-action">
-                          <div
-                            className="tooltip-action"
-                            style={{ width: "300px", right: "-65px" }}
-                          >
-                            <button className="btn btn-success" onClick={() => changeUserRole(user, index)}>
-                              <FontAwesomeIcon
-                                icon={user.roles[0] === "ROLE_MANAGER_POST" ? faDownLong : faUpLong}
-                              />{" "}
-                              {user.roles[0] === "ROLE_MANAGER_POST" ? "Giáng cấp" : "Thăng cấp"}
-                            </button>
+            <div className="col-md-2" style={{ background: "#fff" }}>
+              <ManagementSidebar />
+            </div>
+            <div className="col-md-10">
+              <div className="">
+                <div className="cart-form mb-50px table-responsive px-2">
+                  <table className="table generic-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Tài khoản</th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Số dư</th>
+                        <th scope="col">Số điện thoại</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Phân quyền</th>
+                        <th scope="col">Thao tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {listUser &&
+                        listUser.map((user, index) => {
+                          return (
+                            <tr key={index} className="fw-normal">
+                              <th scope="row">
+                                <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                  <div className="media-body">
+                                    <h6>
+                                      {user.lastName + " " + user.firstName}
+                                    </h6>
+                                  </div>
+                                </div>
+                              </th>
+                              <td>{user.id}</td>
+                              <td>{user.address}</td>
+                              <td>
+                                <div className="quantity-item d-inline-flex align-items-center">
+                                  {formatMoney(user.balance)} đ
+                                </div>
+                              </td>
+                              <td>{user.phone}</td>
+                              <td>
+                                <span
+                                  style={{
+                                    backgroundColor:
+                                      user.status === 32 ? "green" : "red",
+                                    color: "#fff",
+                                    padding: "5px 10px 5px 10px",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  {user.status === 32
+                                    ? "Đang hoạt động"
+                                    : "Không hoạt động"}
+                                </span>
+                              </td>
+                              <td>
+                                <span
+                                  style={{
+                                    backgroundColor: "#576CBC",
+                                    color: "#fff",
+                                    padding: "5px 10px 5px 10px",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  {user.roles[0] === "ROLE_ADMIN"
+                                    ? "admin"
+                                    : user.roles[0] === "ROLE_MANAGER_POST"
+                                    ? "quản lý"
+                                    : "người dùng"}
+                                </span>
+                              </td>
+                              <td
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                <button
+                                  className={
+                                    user.roles[0] === "ROLE_MANAGER_POST"
+                                      ? "btn btn-danger"
+                                      : "btn btn-success"
+                                  }
+                                  onClick={() => changeUserRole(user, index)}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={
+                                      user.roles[0] === "ROLE_MANAGER_POST"
+                                        ? faDownLong
+                                        : faUpLong
+                                    }
+                                  />{" "}
+                                  {user.roles[0] === "ROLE_MANAGER_POST"
+                                    ? "Giáng cấp"
+                                    : "Thăng cấp"}
+                                </button>
+                                <button
+                                  className={
+                                    user.status === 32
+                                      ? "btn btn-danger"
+                                      : "btn btn-success"
+                                  }
+                                  onClick={() => changeUserStatus(user, index)}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={
+                                      user.status === 32
+                                        ? faUserLock
+                                        : faUserCheck
+                                    }
+                                  />{" "}
+                                  {user.status === 32
+                                    ? "Vô hiệu hóa"
+                                    : "Kích hoạt"}
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      <tr className="fw-normal">
+                        <td colSpan={8}>
+                          <div className="table-paging">
+                            Trang: {curPage} trên {numPage}{" "}
                             <button
-                              className={
-                                user.status === 32
-                                  ? "btn btn-danger"
-                                  : "btn btn-success"
-                              }
-                              onClick={() => changeUserStatus(user, index)}
+                              onClick={() => setCurPage((prev) => --prev)}
+                              disabled={curPage === 1}
                             >
-                              <FontAwesomeIcon
-                                icon={
-                                  user.status === 32 ? faUserLock : faUserCheck
-                                }
-                              />{" "}
-                              {user.status === 32 ? "Vô hiệu hóa" : "Kích hoạt"}
+                              <FontAwesomeIcon icon={faChevronLeft} />
+                            </button>{" "}
+                            <button
+                              onClick={() => setCurPage((prev) => ++prev)}
+                              disabled={curPage === numPage}
+                            >
+                              <FontAwesomeIcon icon={faChevronRight} />
                             </button>
                           </div>
-                          <span>
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>

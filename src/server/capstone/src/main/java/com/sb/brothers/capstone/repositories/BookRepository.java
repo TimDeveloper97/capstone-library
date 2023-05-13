@@ -19,6 +19,10 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             nativeQuery = true)
     Set<Book> findAllByUserId(@Param("uId") String uId);
 
+    @Query(value = "Select * from books where user_id = :uId and in_stock > 0",
+            nativeQuery = true)
+    Set<Book> getAllByManagerId(@Param("uId")String uId);
+
     @Query(value = "Select * from books where user_id = :uId and in_stock = 0 and quantity > 0",
             nativeQuery = true)
     Set<Book> getListBooksOfUserId(@Param("uId") String uId);
@@ -37,7 +41,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "(Select Distinct category_id from favourite_book as fb join book_category as bc on fb.book_id = bc.book_id where fb.user_id = :uId and fb.rating >= 7))", nativeQuery = true)
     Set<Book> recommendBooks(@Param("uId") String uId);
 
-    @Query(value = "Select * from books where in_stock > 0 and (id in (select book_id from post_detail where sublet >0) OR user_id in (Select user_Id from user_role where user_role.role_id  = 1 OR user_role.role_id = 3))",
+    @Query(value = "SELECT * FROM books WHERE id IN (SELECT book_id FROM post_detail WHERE sublet > 0 AND post_id IN (SELECT id FROM post WHERE `status` = 16) ) OR user_id IN (SELECT DISTINCT user_Id FROM user_role WHERE user_role.role_id  = 1 OR user_role.role_id = 3)",
             nativeQuery = true)
     List<Book> findAllBooksInStock();
 }

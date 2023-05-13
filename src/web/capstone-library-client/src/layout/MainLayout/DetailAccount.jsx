@@ -2,6 +2,7 @@ import {
   faArrowRightFromBracket,
   faBook,
   faBookOpen,
+  faBookOpenReader,
   faCartShopping,
   faGear,
   faUser,
@@ -57,9 +58,10 @@ export default function DetailAccount({ isCollapse }) {
   useEffect(() => {
     const getConfigs = async () => {
       const { data } = await getConfig();
-      setConfigs(data.value.sort((a, b) => a.id - b.id).slice());
+      data.success &&
+        setConfigs(data.value.sort((a, b) => a.id - b.id).slice());
     };
-    getConfigs();
+    role === "ROLE_ADMIN" && getConfigs();
   }, []);
 
   const [open, setOpen] = useState(false);
@@ -68,8 +70,8 @@ export default function DetailAccount({ isCollapse }) {
     setOpen(false);
   };
   const submitForm = async (data) => {
-    const res1 = await updateConfig({key: "discount", value: data.fee});
-    const res2 = await updateConfig({key: "days", value: data.days});
+    const res1 = await updateConfig({ key: "discount", value: data.fee });
+    const res2 = await updateConfig({ key: "days", value: data.days });
     alert(res1.data.message);
   };
   const handleChange = (index, e) => {
@@ -77,7 +79,7 @@ export default function DetailAccount({ isCollapse }) {
     temp[index].value = e.target.value;
     console.log(e.target.value, index);
     setConfigs(temp.slice());
-  }
+  };
 
   return (
     <>
@@ -85,7 +87,7 @@ export default function DetailAccount({ isCollapse }) {
         className="detail-account"
         style={{ right: isCollapse ? "-40px" : "-10px" }}
       >
-        {role !== "ROLE_ADMIN" ? (
+        {role === "ROLE_USER" ? (
           <>
             <div className="detail-item">
               <Link to={"/user/rent-book"} style={{ color: "#8DCBE6" }}>
@@ -99,9 +101,8 @@ export default function DetailAccount({ isCollapse }) {
               </Link>
             </div>
             <div className="detail-item">
-              <Link to={"/user/order"} className="item-link">
-                <FontAwesomeIcon icon={faCartShopping} />
-                Giỏ hàng
+              <Link to={"/user/my-book-management"} style={{ color: "#FAAB78" }}>
+                <FontAwesomeIcon icon={faBookOpenReader} /> Sách của tôi
               </Link>
             </div>
           </>

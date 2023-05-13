@@ -22,6 +22,10 @@ import Setting from "./views/Setting/Setting";
 import UserDeposit from "./views/UserDeposit/UserDeposit";
 import UserManagement from "./views/User/UserManagement";
 import UpdateBook from "./views/AddBook/UpdateBook";
+import Books from "./views/BookPage/Books";
+import SearchBook from "./views/BookPage/SearchBook";
+import BookManagement from "./views/BookPage/BookManagement";
+import MyBookManagement from "./views/BookPage/MyBookManagement";
 
 export default function Route() {
   return useRoutes([
@@ -42,14 +46,6 @@ export default function Route() {
           element: <Register />,
         },
         {
-          path: "/book",
-          element: <BookPage />,
-        },
-        {
-          path: "/detail-book/:id",
-          element: <DetailBook />,
-        },
-        {
           path: "/forgot-password",
           element: <ForgotPassword />,
         },
@@ -58,13 +54,29 @@ export default function Route() {
           element: <Post />,
         },
         {
+          path: "/books/:cate",
+          element: <Books />,
+        },
+        {
           path: "/detail-post/:id",
           element: <DetailPost />,
+        },
+        {
+          path: "/search-book/:keyword",
+          element: <SearchBook />,
         },
         {
           path: "/user",
           element: <PrivateRoute />,
           children: [
+            {
+              path: "book",
+              element: <BookPage />,
+            },
+            {
+              path: "detail-book/:id",
+              element: <DetailBook />,
+            },
             {
               path: "profile",
               element: <Setting />,
@@ -113,6 +125,14 @@ export default function Route() {
               path: "user-management",
               element: <UserManagement />,
             },
+            {
+              path: "book-management",
+              element: <BookManagement />,
+            },
+            {
+              path: "my-book-management",
+              element: <MyBookManagement />
+            }
           ],
         },
         {

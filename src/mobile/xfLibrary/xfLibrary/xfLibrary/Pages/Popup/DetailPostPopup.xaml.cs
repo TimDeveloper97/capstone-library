@@ -23,6 +23,7 @@ namespace xfLibrary.Pages.Popup
             InitializeComponent();
             _model = m;
 
+            lMore.IsVisible = true;
             if (isView || m.IsAdmin)
                 action.IsVisible = false;
             else
@@ -53,24 +54,31 @@ namespace xfLibrary.Pages.Popup
             #endregion
 
             content.MaxLines = _model.MaxLines;
-            imgs.ItemsSource = _model.Slide;
+            //imgs.ItemsSource = _model.Slide;
 
-            if (_model.Order == null)
-                tvBook.IsVisible = false;
-            else
+            if (_model.Order != null)
             {
                 foreach (var order in _model.Order)
                 {
-                    if(order.Book.Categories != null && order.Book.Categories.Count != 0)
-                    {
-                        foreach (var cate in order.Book.Categories)
-                        {
-                            order.Book.StringCategories += cate + ",";
-                        } 
-                    }
+                    // category
+                    //if(order.Book.Categories != null && order.Book.Categories.Count != 0)
+                    //{
+                    //    foreach (var cate in order.Book.Categories)
+                    //    {
+                    //        order.Book.StringCategories += cate + ",";
+                    //    } 
+                    //}
 
-                    if (!string.IsNullOrEmpty(order.Book.StringCategories))
-                        order.Book.StringCategories = order.Book.StringCategories.Substring(0, order.Book.StringCategories.Length - 1);
+                    //if (!string.IsNullOrEmpty(order.Book.StringCategories))
+                    //    order.Book.StringCategories = order.Book.StringCategories.Substring(0, order.Book.StringCategories.Length - 1);
+
+                    //update imagesource
+                    var img = order.Book.Imgs;
+                    if (img != null && img.Count != 0)
+                    {
+                        var url = Services.Api.BaseUrl + img?[0].FileName.Replace("\\", "/");
+                        order.Book.ImageSource = url;
+                    }
                 }
 
                 books.ItemsSource = _model.Order;
@@ -91,10 +99,16 @@ namespace xfLibrary.Pages.Popup
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            if (content.MaxLines == 3)
+            if (content.MaxLines == 4)
+            {
                 content.MaxLines = 99;
+                lMore.IsVisible = false;
+            }    
             else
-                content.MaxLines = 3;
+            {
+                content.MaxLines = 4;
+                lMore.IsVisible = true;
+            }    
         }
     }
 }

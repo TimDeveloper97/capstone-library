@@ -2,7 +2,7 @@
   margin-right: 15px;
 }
 .custom-table {
-  font-size: 10px !important;
+  font-size: 14px !important;
 }
 
 .custom-table td {
@@ -22,4 +22,7 @@ tr {
 .fw-normal td,
 .fw-normal th {
   font-weight: 400 !important;
+}
+.cl-w{
+  color: #fff !important;
 }

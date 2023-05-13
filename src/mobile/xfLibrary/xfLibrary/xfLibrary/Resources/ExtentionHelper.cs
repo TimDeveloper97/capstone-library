@@ -74,5 +74,15 @@ namespace xfLibrary.Resources
 
             return Api.USER;
         }
+
+        public static string StateToString(int info)
+        {
+            return Api.BOOKSSTATE[info];
+        }
+
+        public static string StateToColor(int info)
+        {
+            return Api.BOOKSCOLOR[info];
+        }
     }
 }

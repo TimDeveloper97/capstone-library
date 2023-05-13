@@ -62,7 +62,20 @@ namespace xfLibrary.ViewModels
             }
 
             if (isUpdate)
+            {
                 Title = "Sửa sách";
+
+                if (Book.Imgs == null || Book.Imgs.Count == 0) return;
+                foreach (var img in Book.Imgs)
+                {
+                    var url = Services.Api.BaseUrl + img.FileName;
+                    using (var webClient = new System.Net.WebClient())
+                    {
+                        byte[] bytes = webClient.DownloadData(url);
+                        Slides.Add(bytes);
+                    }
+                }
+            }    
             else
                 Title = "Tạo sách";
         });
@@ -87,6 +100,7 @@ namespace xfLibrary.ViewModels
             if (string.IsNullOrEmpty(Book.Name) || Book.Categories.Count == 0)
             {
                 _message.ShortAlert("Không được để trống");
+                IsBusy = false;
                 return;
             }
 

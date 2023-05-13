@@ -118,9 +118,9 @@
     </Style>
 
     <Style TargetType="BoxView">
-        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray100}}" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray200}}" />
         <Setter Property="HeightRequest" Value="1"/>
-        <Setter Property="Margin" Value="5,0"/>
+        <Setter Property="Margin" Value="10,0"/>
     </Style>
 
     <Style TargetType="Button">
@@ -703,6 +703,8 @@
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="KeyboardFlags" Value="CapitalizeSentence"/>
         <Setter Property="FieldHeightRequest" Value="150"/>
+        <Setter Property="DisabledTextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        <Setter Property="DisabledBackgroundColor" Value="Transparent"/>
     </Style>
 
     <Style x:Key="EditorTransperent" TargetType="mdc:MaterialEditor">

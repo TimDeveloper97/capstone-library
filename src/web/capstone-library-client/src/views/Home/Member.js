@@ -5,13 +5,16 @@ export default function Member() {
   return (
     <>
       <section
-        className="get-started-area section--padding bg-gray"
+        className="get-started-area section--padding"
         id="for-member"
+        style={{ marginTop: "50px" }}
       >
         <div className="container">
           <div className="text-center">
-            <h2 className="section-title pb-3">Dành cho thành viên</h2>
-            <p className="section-desc w-50 mx-auto">
+            <h2 className="section-title pb-3" style={{ color: "#fff" }}>
+              Dành cho thành viên
+            </h2>
+            <p className="section-desc w-50 mx-auto" style={{ color: "#fff" }}>
               Cùng tham khảo những ưu đãi đặc biệt dành cho hội viên tại
               Capstone
             </p>

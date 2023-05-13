@@ -49,7 +49,10 @@ namespace xfLibrary.ViewModels
         {
             if (isUpdate)
             {
-                Title = "Sửa thông tin ký gửi";
+                if(IsUser())
+                    Title = "Sửa thông tin ký gửi";
+                else
+                    Title = "Sửa thông tin bài thuê";
 
                 //slide image
                 var order = NewPost.Order;
@@ -178,7 +181,7 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
-            if (NewPost.Title != null && NewPost.Title.Length < 10)
+            if (!string.IsNullOrEmpty(NewPost.Title) && NewPost.Title.Length < 10)
             {
                 _message.ShortAlert("Nội dung tối thiểu 10 chữ");
                 return;

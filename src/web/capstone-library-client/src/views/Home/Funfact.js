@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Funfact() {
   return (
-    <section className="funfact-area">
+    <section className="funfact-area" style={{paddingBottom: "20px"}}>
         <div className="container">
           <div className="counter-box bg-white shadow-md rounded-rounded px-4">
             <div className="row">

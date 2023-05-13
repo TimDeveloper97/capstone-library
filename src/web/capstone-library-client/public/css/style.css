@@ -32,14 +32,6 @@ p {
     margin: 0
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: #0d233e
-}
 
 body {
     font-size: 16px;
@@ -654,8 +646,8 @@ body {
 }
 
 .section--padding {
-    padding-top: 120px;
-    padding-bottom: 90px
+    padding-top: 100px;
+    padding-bottom: 80px
 }
 
 .pt-200px {

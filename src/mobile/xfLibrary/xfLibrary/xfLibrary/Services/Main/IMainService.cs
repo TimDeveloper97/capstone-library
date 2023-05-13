@@ -11,6 +11,7 @@ namespace xfLibrary.Services.Main
     {
         Task<List<Category>> CategoryAsync();
         Task<Response> AddCategoryAsync(string name, string code, string token);
+        Task<Response> UpdateCategoryAsync(string name, string code, string token);
         Task<Response> DeleteCategoryAsync(string id, string token);
 
         Task<List<Book>> SuggestAsync(string _token);
@@ -44,5 +45,6 @@ namespace xfLibrary.Services.Main
         Task<Response> ConfirmationAsync(string id, string token);
         Task<Response> ReceivedAsync(string id, string token);
         Task<Response> SuccessAsync(string id, string token);
+        Task<Response> ReturnBookAsync(string id, string token);
     }
 }

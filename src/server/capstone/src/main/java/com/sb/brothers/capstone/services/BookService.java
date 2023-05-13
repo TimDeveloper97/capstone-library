@@ -22,6 +22,8 @@ public interface BookService {
 
     boolean isBookExist(int id);
 
+	Set<Book> getAllByManagerId(String uId);
+
     Set<Book> getAllBooksByUserId(String id);
 
     Set<Book> searchBookByName(String name);

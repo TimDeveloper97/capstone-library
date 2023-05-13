@@ -274,7 +274,7 @@ namespace xfLibrary.ViewModels
             Actions = new List<string> {
                 "Trạng thái tăng dần", "Trạng thái giảm dần",
                 "Thời gian tăng dần", "Thời gian giảm dần" };
-            
+
             MessagingCenter.Subscribe<object, object>(this, "reportpost",
                   (sender, arg) =>
                   {
@@ -299,7 +299,11 @@ namespace xfLibrary.ViewModels
                               Posts.Add(UpdateItemData(item));
                           }
 
-                          //InitCurrentTab();
+                          if (IsUser())
+                              Title = "Danh sách ký gửi";
+                          else
+                              Title = "Danh sách bài cho thuê";
+
                           IsBusy = false;
                       }
                   });
