@@ -78,9 +78,9 @@ public class CategoryController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER_POST')")
-    public ResponseEntity<?> updateCat(@PathVariable("id") String id, @RequestBody Category category){
+    public ResponseEntity<?> updateCat(@PathVariable("id") String id, @RequestBody CategoryDTO category){
         logger.info("[API-Category] updateCat - START");
-        logger.info("Fetching & Updating category with id" + id);
+        logger.info("Fetching & Updating category with id: " + id);
         Category currCategory = categoryService.getCategoryById(id).get();
         if(currCategory == null){
             logger.error("Category with id:"+ id +" not found. Unable to update.");
@@ -92,7 +92,8 @@ public class CategoryController {
         //currCategory.setNameCode(category.getNameCode());
         categoryService.updateCategory(currCategory);
         logger.info("[API-Category] updateCat - SUCCESS");
-        return new ResponseEntity<>(new ResData<Category>(0, currCategory), HttpStatus.OK);
+        return new ResponseEntity(new CustomErrorType("Cập nhật thể loại sách thành công."),
+                HttpStatus.OK);
     }//form edit category, fill old data into form
 
 }
