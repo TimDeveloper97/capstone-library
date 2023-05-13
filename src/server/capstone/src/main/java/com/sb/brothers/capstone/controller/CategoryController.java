@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,11 +65,15 @@ public class CategoryController {
         if(!categoryService.isCategoryExist(id)){
             logger.error("Category with name code: "+ id +" not found. Unable to delete.");
             logger.info("[API-Category] deleteCat - END");
-            return new ResponseEntity(new CustomErrorType("Thể loại sách có mã: "+ id +" không tồn tại. Xóa thể loại không thành công"), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType("Thể loại sách có mã: "+ id +" không tồn tại. Xóa thể loại không thành công."), HttpStatus.OK);
         }
-        categoryService.removeCategoryById(id);
+        try {
+            categoryService.removeCategoryById(id);
+        }catch (Exception ex){
+            return new ResponseEntity(new CustomErrorType("Tồn tại các cuốn sách thuộc thể loại này. Xóa thể loại không thành công."), HttpStatus.OK);
+        }
         logger.info("[API-Category] deleteCat - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true, "Xóa thể loại có mã:" + id + " - SUCCESS."), HttpStatus.OK);
+        return new ResponseEntity(new CustomErrorType(true, "Xóa thể loại có mã:" + id + " - thành công."), HttpStatus.OK);
     }//delete 1 category
 
     @PutMapping("/update/{id}")
@@ -86,7 +89,7 @@ public class CategoryController {
                     HttpStatus.OK);
         }
         currCategory.setName(category.getName());
-        currCategory.setNameCode(category.getNameCode());
+        //currCategory.setNameCode(category.getNameCode());
         categoryService.updateCategory(currCategory);
         logger.info("[API-Category] updateCat - SUCCESS");
         return new ResponseEntity<>(new ResData<Category>(0, currCategory), HttpStatus.OK);
