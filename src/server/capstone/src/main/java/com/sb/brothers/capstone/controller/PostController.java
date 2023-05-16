@@ -382,7 +382,20 @@ public class PostController {
                 return new ResponseEntity<>(new CustomErrorType("Trạng thái bài đăng không thay đổi."), HttpStatus.OK);
             }
             else if(currPost.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED){
-                if(status == CustomStatus.USER_POST_IS_APPROVED || status == CustomStatus.USER_REQUEST_IS_DENY) {
+                if(status == CustomStatus.USER_POST_IS_APPROVED) {
+                    postService.updateStatus(id, status);
+                }
+                else if(status == CustomStatus.USER_REQUEST_IS_DENY){
+                    List<PostDetail> postDetails = postDetailService.findAllByPostId(currPost.getId());
+                    postDetailService.deleteAllByPostId(id);
+                    for(PostDetail postDetail : postDetails) {
+                        Optional<Book> book = bookService.getBookById(postDetail.getSublet());
+                        if(book.isPresent()){
+                            book.get().setQuantity(book.get().getQuantity() + postDetail.getQuantity());
+                            bookService.updateBook(book.get());
+                            bookService.removeBookById(postDetail.getBook().getId());
+                        }
+                    }
                     postService.updateStatus(id, status);
                 }
                 else throw new Exception("Không thể thay đổi trạng thái của bài đăng.");
@@ -417,14 +430,15 @@ public class PostController {
 
     private boolean checkManager(Authentication auth, Post currPost) {
         int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
+        if(storeId == -1) return false;
         Optional<User> user = userService.getUserById(auth.getName());
         if(user.isPresent() && user.get().getAddress() == null)
             user.get().setAddress("");
         else return false;
         if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     boolean isAnAdminBook(Book book){

@@ -7,10 +7,7 @@ import com.sb.brothers.capstone.dto.PostDto;
 import com.sb.brothers.capstone.entities.*;
 import com.sb.brothers.capstone.global.GlobalData;
 import com.sb.brothers.capstone.services.*;
-import com.sb.brothers.capstone.util.CustomErrorType;
-import com.sb.brothers.capstone.util.CustomStatus;
-import com.sb.brothers.capstone.util.ResData;
-import com.sb.brothers.capstone.util.UserRole;
+import com.sb.brothers.capstone.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,6 +207,18 @@ public class MemberAPI {
         logger.info("[API-Member] changePostStatus - START");
         Order order = orderService.getOrderById(oId).get();
         Post currPost = order.getPost();
+        if(status != CustomStatus.USER_PAYMENT_SUCCESS){
+            int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
+            if(storeId == -1)
+                return new ResponseEntity(new CustomErrorType("Bạn không phải quản lý của của hàng sách có bài đăng này."), HttpStatus.OK);
+            Optional<User> user = userService.getUserById(auth.getName());
+            if(user.isPresent() && user.get().getAddress() == null)
+                user.get().setAddress("");
+            else return new ResponseEntity(new CustomErrorType("Bạn không phải quản lý của của hàng sách có bài đăng này."), HttpStatus.OK);
+            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
+                return new ResponseEntity(new CustomErrorType("Bạn không phải quản lý của của hàng sách có bài đăng này."), HttpStatus.OK);
+            }
+        }
         if(currPost != null) {
             User user = null;
             List<PostDetail> postDetails = postDetailService.findAllByPostId(currPost.getId());
