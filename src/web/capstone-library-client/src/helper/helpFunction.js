@@ -44,6 +44,11 @@ const getColorStatus = (status) => {
         color: "#3CCF4E",
         state: "Thành công",
       };
+    case 512:
+      return {
+        color: "#ea8654",
+        state: "Đã hết hạn ký gửi",
+      };
     default:
       return {
         color: "green",
