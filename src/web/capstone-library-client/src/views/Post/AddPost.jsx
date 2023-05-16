@@ -123,7 +123,6 @@ export default function AddPost() {
         data.title = "[Ký gửi]";
         data.fee = configs;
       }
-      console.log(data);
       const res = await dispatch(
         addPost({
           title: data.title,
@@ -136,13 +135,13 @@ export default function AddPost() {
       );
       if (res.success) {
         NotificationManager.success(res.message, "Thông báo", 1000);
-        setListSelectBook((prev) =>
-          prev.map((lsb) => {
-            return lsb.selected
-              ? { ...lsb, maxQuantity: lsb.maxQuantity - lsb.quantity }
-              : lsb;
-          })
-        );
+        // setListSelectBook((prev) =>
+        //   prev.map((lsb) => {
+        //     return lsb.selected
+        //       ? { ...lsb, maxQuantity: lsb.maxQuantity - lsb.quantity }
+        //       : lsb;
+        //   })
+        // );
         resetData();
       } else {
         NotificationManager.error(res.message, "Lỗi", 1000);
@@ -156,11 +155,18 @@ export default function AddPost() {
     resetField("content");
     setTotal(0);
     setAddress("Chọn địa chỉ");
-    setListSelectBook((prev) =>
-      prev.map((lsb) => {
-        return { ...lsb, quantity: 1 };
-      })
-    );
+    let tempSelect = listSelectBook;
+    let tempChoose = listToChooseBook;
+    listChoosenBook.forEach((lcb) => {
+      if(lcb.quantity !== lcb.maxQuantity){
+        lcb.maxQuantity -= lcb.quantity;
+        tempSelect.push(lcb);
+        tempChoose.push(lcb);
+      }
+    });
+    setListSelectBook(tempSelect);
+    setListToChooseBook(tempChoose);
+    setListChoosenBook([]);
   };
 
   const sumTotal = () => {
