@@ -58,8 +58,10 @@ public class User implements Serializable {
 
 	private List<Role> roles;
 
-	@JsonIgnore
-	private Set<Book> books;
+	/*@JsonIgnore
+	private Set<Book> books;*/
+
+	private Set<Store> stores;
 
 
 	public User() {
@@ -391,6 +393,25 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
+	//bi-directional many-to-many association to Store
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+			name="manager_store"
+			, joinColumns={
+			@JoinColumn(name="user_id")
+	}
+			, inverseJoinColumns={
+			@JoinColumn(name="store_id")
+	}
+	)
+	public Set<Store> getStores() {
+		return this.stores;
+	}
+
+	public void setStores(Set<Store> stores) {
+		this.stores = stores;
+	}
+/*
 	@OneToMany(fetch=FetchType.LAZY)
 	public Set<Book> getBooks() {
 		return books;
@@ -411,7 +432,7 @@ public class User implements Serializable {
 		getBooks().remove(book);
 		book.setUser(null);
 		return book;
-	}
+	}*/
 
 	/*public void lazyLoad(){
 		this.setPassword("");

@@ -23,10 +23,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
+    /*@Override
     public void removeUserById(String id) {
         userRepository.deleteById(id);
-    }
+    }*/
 
     @Override
     public Optional<User> getUserById(String id) {
@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+    public List<User> findManagerByStoreId(int storeId) {
+        return userRepository.findManagerByStoreId(storeId);
     }
 
     @Override
@@ -49,9 +49,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllTheUsersByRoleId(int roleId) {
+        return userRepository.getAllUsersByRole(roleId);
+    }
+
+    /*@Override
     public void changePassword(String id, String newPass) {
         userRepository.changePassword(newPass, id);
-    }
+    }*/
 
     @Override
     public void updateProfile(String id, String address, String email, String firstName, String lastName, Date modifiedDate, String phone) {

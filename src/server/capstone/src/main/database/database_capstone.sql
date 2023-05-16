@@ -236,6 +236,32 @@ LOCK TABLES `manager_post` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `manager_store`
+--
+
+DROP TABLE IF EXISTS `manager_store`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `manager_store` (
+  `user_id` varchar(255)  NOT NULL,
+  `store_id` int NOT NULL,
+  PRIMARY KEY (`user_id`,`store_id`),
+  KEY `FK39nl793co0u7932w7x6olykn0` (`store_id`),
+  CONSTRAINT `FK39nl793co0u7932w7x6olykn0` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`),
+  CONSTRAINT `FKco50q7u7q8agienlwtbjk2pgw` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `manager_store`
+--
+
+LOCK TABLES `manager_store` WRITE;
+/*!40000 ALTER TABLE `manager_store` DISABLE KEYS */;
+/*!40000 ALTER TABLE `manager_store` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `message`
 --
 
@@ -621,6 +647,29 @@ INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER'),(3,'ROLE_MANAGER_POS
 UNLOCK TABLES;
 
 --
+-- Table structure for table `store`
+--
+
+DROP TABLE IF EXISTS `store`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `store` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `address` varchar(255) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `store`
+--
+
+LOCK TABLES `store` WRITE;
+/*!40000 ALTER TABLE `store` DISABLE KEYS */;
+/*!40000 ALTER TABLE `store` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user_role`
 --
 
@@ -700,32 +749,6 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `users_books`
---
-
-DROP TABLE IF EXISTS `users_books`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users_books` (
-  `user_id` varchar(255) NOT NULL,
-  `books_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`books_id`),
-  UNIQUE KEY `UK_7blux4to1yoy8dlwq3kegqsoi` (`books_id`),
-  CONSTRAINT `FKddv9o0ehcbpn1xdvypcynju0u` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FKjck6upwhlc41ktqa7sg09tge0` FOREIGN KEY (`books_id`) REFERENCES `books` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users_books`
---
-
-LOCK TABLES `users_books` WRITE;
-/*!40000 ALTER TABLE `users_books` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users_books` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping events for database 'capstone_db'
 --
 /*!50106 SET @save_time_zone= @@TIME_ZONE */ ;
@@ -750,7 +773,7 @@ DELIMITER ;;
         DECLARE uId VARCHAR(255);
 		DECLARE d_Ntf INT DEFAULT FALSE;
 		DECLARE cur_Ntf CURSOR FOR
-			SELECT id, user_id FROM Post where  DATE_ADD(date(created_date), INTERVAL (no_days - @ntf_day) DAY) < curdate() AND `status` = 16;
+			SELECT id, user_id FROM Post where  DATE_ADD(date(created_date), INTERVAL (no_days - @ntf_day) DAY) = curdate() AND `status` = 16;
         DECLARE CONTINUE HANDLER FOR NOT FOUND SET d_Ntf = TRUE;
         
 		OPEN cur_Ntf;
@@ -760,7 +783,7 @@ DELIMITER ;;
 			  LEAVE ntf_loop;
 			END IF;
 			INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
-				VALUES (now(),  concat_ws('', 'Thời gian ký gửi MĐH: CS', pId_Ntf,' còn ', @ntf_day,' vui lòng liên hệ admin để lấy lại sách.'), uId, 0);
+				VALUES (now(),  concat_ws('', 'Thời gian ký gửi MĐH: CS', pId_Ntf,' còn ', @ntf_day,' ngày, vui lòng liên hệ admin để lấy lại sách.'), uId, 0);
 		  END LOOP;	
 		CLOSE cur_Ntf;
     END;

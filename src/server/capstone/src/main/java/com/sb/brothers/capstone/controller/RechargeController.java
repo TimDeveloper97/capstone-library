@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -69,12 +70,14 @@ public class RechargeController {
     public ResponseEntity<?> transfer(Authentication auth, @RequestBody PaymentDto paymentDto){
         logger.info("[API-Recharge] transfer - START");
         logger.info("Update payment.");
-        User user = null;
+        Optional<User> opUser = null;
         User manager = null;
+        User user = null;
         try{
-            user = userService.getUserById(paymentDto.getUser()).get();
-            manager = userService.getUserById(auth.getName()).get();
-            if(user != null) {
+            opUser = userService.getUserById(paymentDto.getUser());
+            if(opUser.isPresent()){
+                user = opUser.get();
+                manager = userService.getUserById(auth.getName()).get();
                 userService.updateBalance(user.getId(), user.getBalance() + paymentDto.getTransferAmount());
                 user.setBalance(user.getBalance() + paymentDto.getTransferAmount());
                 Payment payment = new Payment();
@@ -100,7 +103,10 @@ public class RechargeController {
                 payment.setManager(manager);
                 paymentService.updatePayment(payment);
             }
-            else throw new Exception("Không tìm thấy người dùng có mã: "+ user.getId());
+            else {
+                logger.info("[API-Recharge] transfer - END");
+                return new ResponseEntity<>(new CustomErrorType("Không tìm thấy người dùng có mã: "+ paymentDto.getUser()), HttpStatus.OK);
+            }
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
             logger.info("[API-Recharge] transfer - END");
