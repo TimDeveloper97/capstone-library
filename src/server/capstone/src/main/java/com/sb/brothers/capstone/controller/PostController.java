@@ -437,13 +437,15 @@ public class PostController {
         int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
         if(storeId == -1) return false;
         Optional<User> user = userService.getUserById(auth.getName());
-        if(user.isPresent() && user.get().getAddress() == null)
-            user.get().setAddress("");
-        else return false;
-        if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
-            return false;
+        if(user.isPresent()){
+            if(user.get().getAddress() == null)
+                user.get().setAddress("");
+            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     boolean isAnAdminBook(Book book){

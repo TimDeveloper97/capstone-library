@@ -209,13 +209,21 @@ public class MemberAPI {
         Post currPost = order.getPost();
         if(status != CustomStatus.USER_PAYMENT_SUCCESS){
             int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
-            if(storeId == -1)
+            if(storeId == -1){
+                logger.info("[API-Member] changePostStatus - END");
                 return new ResponseEntity(new CustomErrorType("Bạn không phải quản lý của của hàng sách có bài đăng này."), HttpStatus.OK);
+            }
             Optional<User> user = userService.getUserById(auth.getName());
-            if(user.isPresent() && user.get().getAddress() == null)
-                user.get().setAddress("");
-            else return new ResponseEntity(new CustomErrorType("Bạn không phải quản lý của của hàng sách có bài đăng này."), HttpStatus.OK);
-            if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
+            if(user.isPresent()){
+                if(user.get().getAddress() == null)
+                    user.get().setAddress("");
+                else if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
+                    logger.info("[API-Member] changePostStatus - END");
+                    return new ResponseEntity(new CustomErrorType("Bạn không phải quản lý của của hàng sách có bài đăng này."), HttpStatus.OK);
+                }
+            }
+            else{
+                logger.info("[API-Member] changePostStatus - END");
                 return new ResponseEntity(new CustomErrorType("Bạn không phải quản lý của của hàng sách có bài đăng này."), HttpStatus.OK);
             }
         }
