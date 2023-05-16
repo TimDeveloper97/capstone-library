@@ -215,7 +215,6 @@ export default function UserDeposit() {
                         <th scope="col">Ngày đăng</th>
                         <th scope="col">Ngày đến hạn</th>
                         <th scope="col">Tiêu đề</th>
-                        <th scope="col">Phí</th>
                         <th scope="col">Người ký gửi</th>
                         <th scope="col">Trạng thái</th>
                       </tr>
@@ -240,7 +239,6 @@ export default function UserDeposit() {
                               >
                                 {los.title}
                               </td>
-                              <td>{los.fee} %</td>
                               <td>{los.user}</td>
                               <td>
                                 {" "}
