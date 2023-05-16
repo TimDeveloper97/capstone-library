@@ -3,7 +3,7 @@
 => nếu muốn lấy lại mật khẩu phải điền thêm email vào phần profile popup
 
 2.	Thêm sách thì nút phải là thêm hoặc nhập, chứ sao là đăng sách?
-=> Của web
+=> Fixed, đã push
 
 3.	Thay dữ liệu mẫu để test, ít nhưng cần phải chỉnh chu có hình ảnh, nội dung rõ ràng.
 => Của các bạnn
@@ -19,7 +19,7 @@
 => fixed
 
 7.	Thêm sách mà ko có chọn thể loại vẫn thêm được
-=> của web
+=> Fixed, pushed
 
 8.	Khi manager chấp nhận ký gởi, có chức năng tạo mã là tạo mã gì ??
 => chính là tạo mã QR code để sinh QR code ra cho user quét
@@ -32,10 +32,10 @@
 
 10.	Vừa thêm 1 cuốn sách vào thành công, nhưng user khác ko tìm thấy cuốn sách đó. Giao diện trng chủ, Bản thân người tạo cuốn sách đó cũng ko tìm thấy cuốn sách đó ???
 => mobile ko vấn đề 
-=> web?
+=> Sách của manager đăng/thêm thì mới hiện lên trang chủ và người khác tìm, xem được. Còn user đăng sách thì nó là private cho đến khi cuốn sách đó ký gửi thành công, đây là tính năng, không phải lỗi.
 
 11.	Giao diện post bài đăng thì bất tiện: nó là 1 list dài các sách, sao ko có chức năng lọc ?
-=> web?
+=> fixed, pushed
 
 12.	Sau khi thuê sách, trừ tiền trong tài khoản người thuê, nhưng manager ko tìm thấy thông tin của đơn hang đó?? Tìm mãi ko thấy đâu  tới chổ này thì ko test đươc nữa do mất tiêu đơn hang
-=> web
+=> trên web sau khi thanh toán, manager có thấy đơn hàng.
