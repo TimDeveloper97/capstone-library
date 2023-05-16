@@ -1,0 +1,41 @@
+1.	Đăng ký ko có nhập mail mà khi vào chức năng quên mật khẩu thì đòi nhập mail??
+=> đúng đăng ký chưa có nhập  mail vì ban đầu ở chợ tốt ko yêu cầu nhập và chỉ nhập khi điền thêm thông tin cá nhân
+=> nếu muốn lấy lại mật khẩu phải điền thêm email vào phần profile popup
+
+2.	Thêm sách thì nút phải là thêm hoặc nhập, chứ sao là đăng sách?
+=> Của web
+
+3.	Thay dữ liệu mẫu để test, ít nhưng cần phải chỉnh chu có hình ảnh, nội dung rõ ràng.
+=> Của các bạnn
+
+4.	Phần logic: sách của ông Hoadnt đăng ký gởi vào 102 phạm ngọc thạch. Thì request này phải chuyển tới thằng manager của 102 phạm ngọc thạch chứ sao thằng ,anager nào cũng xử lý được request??
+=> updated
+
+5.	Khi add 1 cuốn sách vào kho sách của mình thì cho dù sách đang được cho thuê hay ko dc cho thuê, hay đang gởi request cho thuê thì vô tải khoản của tôi thì sách vẫn còn chứ sao mà mất tiêu sách( ko có cuốn sách nào trong tài khoản). Cái này phải vẫn còn sách trong tài khoản, nhưng trạng thái của nó là gì đó.
+=> phần này bên mình chưa push lên repo do các bạn chưa gửi tiền
+=> nếu ở trong kho và ko làm gì sách sẽ có trạng thái là: "Trong Kho"
+
+6.	Khi manager từ chối, thì hiện tại cuốn sách mất tiêu luôn, ko có trong kho sách của tôi mà cũng ko có trong kho của hệ thống??
+=> fixed
+
+7.	Thêm sách mà ko có chọn thể loại vẫn thêm được
+=> của web
+
+8.	Khi manager chấp nhận ký gởi, có chức năng tạo mã là tạo mã gì ??
+=> chính là tạo mã QR code để sinh QR code ra cho user quét
+=> đây là chức năng các bạn yêu cầu
+
+9.	Khi mà ký gởi sách thì giờ muốn huỷ thì sao? Ko thấy đề cập
+=> hủy yêu cầu ký gửi sách sau khi đã ký gửi là chức năng ko có trong yêu cầu của các bạn
+=> các yêu cầu của các bạn mỗi ngày 1 update, lúc thế này lúc thế kia, giờ các bạn bảo không thấy đề cập? 
+=> các bạn check kỹ lại tất cả các note xem có chỗ nào có cái này không
+
+10.	Vừa thêm 1 cuốn sách vào thành công, nhưng user khác ko tìm thấy cuốn sách đó. Giao diện trng chủ, Bản thân người tạo cuốn sách đó cũng ko tìm thấy cuốn sách đó ???
+=> mobile ko vấn đề 
+=> web?
+
+11.	Giao diện post bài đăng thì bất tiện: nó là 1 list dài các sách, sao ko có chức năng lọc ?
+=> web?
+
+12.	Sau khi thuê sách, trừ tiền trong tài khoản người thuê, nhưng manager ko tìm thấy thông tin của đơn hang đó?? Tìm mãi ko thấy đâu  tới chổ này thì ko test đươc nữa do mất tiêu đơn hang
+=> web
