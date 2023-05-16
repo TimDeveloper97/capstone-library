@@ -185,12 +185,17 @@ public class PostController {
     @PostMapping("/add")
     public ResponseEntity<?> createNewPost(Authentication auth, @RequestBody PostDto postDto) {
         logger.info("[API-Post] createNewPost - START");
+        Optional<User> opUser = userService.getUserById(auth.getName());
         if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST"))
+        {
             postDto.setStatus(CustomStatus.ADMIN_POST);
+            if(opUser.isPresent())
+                postDto.setAddress(opUser.get().getAddress());
+        }
         else postDto.setStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
         Post p = null;
         try{
-            User user = userService.getUserById(auth.getName()).get();
+            User user = opUser.get();
             if((user.getStatus()&CustomStatus.BLOCK_POST) == 0){
                 p = new Post();
                 postDto.convertPostDto(p);
