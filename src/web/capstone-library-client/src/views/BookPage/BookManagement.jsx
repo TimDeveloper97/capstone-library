@@ -8,7 +8,11 @@ import {
   faSearch,
   faSquarePen,
 } from "@fortawesome/free-solid-svg-icons";
-import { formatMoney, getImgUrl } from "../../helper/helpFunction";
+import {
+  formatMoney,
+  getBookStatus,
+  getImgUrl,
+} from "../../helper/helpFunction";
 import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -19,29 +23,55 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBook, getBooks } from "../../actions/book";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Button, Dialog, DialogActions, DialogTitle, MenuItem, Select } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { getCategories } from "../../actions/category";
 
 export default function BookManagement() {
   const [listBooks, setListBooks] = useState([]);
   const [listCategories, setListCategories] = useState([]);
+  const [listConvertedBook, setListConvertedBook] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBooks());
     dispatch(getCategories());
   }, []);
   const books = useSelector((state) => state.book);
-  const categories = useSelector(state => state.category);
+  const categories = useSelector((state) => state.category);
   useEffect(() => {
-    setListBooks(books.sort((a, b) => a.id - b.id));
+    setListConvertedBook(
+      books.map((book) => {
+        return {
+          ...book,
+          statusColor: getBookStatus(book.status, book.bookInfoDtos),
+        };
+      })
+    );
+    setListBooks(
+      books
+        .map((book) => {
+          return {
+            ...book,
+            statusColor: getBookStatus(book.status, book.bookInfoDtos),
+          };
+        })
+        .sort((a, b) => a.id - b.id)
+    );
   }, [books]);
 
   useEffect(() => {
-    let temp = []
+    let temp = [];
     categories && (temp = categories.slice());
-    temp.push({name: "--Tất cả thể loại--", nameCode: "all"});
+    temp.push({ name: "--Tất cả thể loại--", nameCode: "all" });
     setListCategories(temp.reverse());
-  }, [categories])
+  }, [categories]);
 
   const [searchName, setSearchName] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
@@ -51,15 +81,16 @@ export default function BookManagement() {
 
   const handleChangeSelect = (e) => {
     setSearchCate(e.target.value);
-  }
+  };
 
   const handleClickSearch = () => {
-    let temp = books;
+    let temp = listConvertedBook;
     temp = temp.filter((t) => t.name.indexOf(searchName) !== -1);
+    console.log(temp);
     temp = temp.filter((t) => t.author.indexOf(searchAuthor) !== -1);
     temp = temp.filter((t) => t.owner.indexOf(searchOwner) !== -1);
     temp = temp.filter((t) => t.publisher.indexOf(searchPublisher) !== -1);
-    temp = temp.filter(t => t.categories.indexOf(searchCate) !== -1);
+    searchCate !== "all" && (temp = temp.filter((t) => t.categories.indexOf(searchCate) !== -1));
     setListBooks(temp.slice());
   };
   const handleClickReset = () => {
@@ -67,18 +98,18 @@ export default function BookManagement() {
     setSearchName("");
     setSearchOwner("");
     setSearchPublisher("");
-    setSearchCate("all")
-    setListBooks(books.sort((a, b) => a.id - b.id));
+    setSearchCate("all");
+    setListBooks(listConvertedBook.sort((a, b) => a.id - b.id));
   };
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const handleClose = () => {
     setOpen(false);
-  }
+  };
   const confirmDeleteBook = (id) => {
     setDeleteId(id);
     setOpen(true);
-  }
+  };
   const handleDeleteBook = async (index) => {
     const res = await dispatch(deleteBook(deleteId));
     if (res.success) {
@@ -125,7 +156,7 @@ export default function BookManagement() {
                         />
                       </div>
                       <div className="input-search">
-                        <label htmlFor="">Trạng thái:</label>
+                        <label htmlFor="">Thể loại:</label>
                         <div className="input-param" style={{ padding: 0 }}>
                           <Select
                             id="demo-simple-select"
@@ -197,13 +228,14 @@ export default function BookManagement() {
                   <table className="table generic-table">
                     <thead style={{ textAlign: "center" }}>
                       <tr>
-                      <th scope="col">Ảnh</th>
+                        <th scope="col">Ảnh</th>
                         <th scope="col">Tên sách</th>
                         <th scope="col">Tác giả </th>
                         <th scope="col">Giá</th>
                         <th scope="col">Nhà xuất bản</th>
                         <th scope="col">Người sở hữu</th>
                         <th scope="col">Số lượng</th>
+                        <th scope="col">Trạng thái</th>
                         <th scope="col">Thao tác</th>
                       </tr>
                     </thead>
@@ -220,7 +252,7 @@ export default function BookManagement() {
                                 <Avatar
                                   src={getImgUrl(book.imgs[0]?.fileName)}
                                 />
-                                 <Link
+                                <Link
                                   to={`/detail-book/${book.id}`}
                                   target="_blank"
                                   rel="noopener noreferer"
@@ -241,6 +273,16 @@ export default function BookManagement() {
                               <td>{book.publisher}</td>
                               <td>{book.owner}</td>
                               <td>{book.inStock}</td>
+                              <td style={{width: "150px"}}>
+                                <span
+                                  className="order-status"
+                                  style={{
+                                    backgroundColor: book.statusColor.color,
+                                  }}
+                                >
+                                  {book.statusColor.state}
+                                </span>
+                              </td>
                               <td style={{ position: "relative" }}>
                                 <div className="button-action">
                                   <div className="tooltip-action">

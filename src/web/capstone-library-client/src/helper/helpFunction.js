@@ -47,7 +47,7 @@ const getColorStatus = (status) => {
     case 512:
       return {
         color: "#ea8654",
-        state: "Đã hết hạn ký gửi",
+        state: "Hết hạn",
       };
     default:
       return {
@@ -56,6 +56,32 @@ const getColorStatus = (status) => {
       };
   }
 };
+
+const getBookStatus = (status, bookInfo) => {
+  if(status === 0){
+    return {
+      color: "#857e7b",
+      state: "Trong kho"
+    };
+  }else if(status === 512){
+    return {
+      color: "#ea8654",
+      state: "Hết hạn",
+    };
+  }else{
+    if(bookInfo.length === 0){
+      return {
+        color: "#F0EB8D",
+        state: "Đang sử dụng",
+      };
+    }else{
+      return {
+        color: "green",
+        state: "Đã thuê",
+      };
+    }
+  }
+}
 
 const convertToDay = (input) => {
   const day = new Date(input);
@@ -128,4 +154,5 @@ export {
   removeTones,
   formatMoney,
   compareDate,
+  getBookStatus
 };
