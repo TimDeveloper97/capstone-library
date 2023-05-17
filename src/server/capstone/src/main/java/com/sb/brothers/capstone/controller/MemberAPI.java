@@ -217,7 +217,7 @@ public class MemberAPI {
             if(user.isPresent()){
                 if(user.get().getAddress() == null)
                     user.get().setAddress("");
-                else if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
+                if(!StoreUtils.findManagerByStoreId(storeId, auth.getName()) && currPost.getAddress().compareTo(user.get().getAddress()) != 0){
                     logger.info("[API-Member] changePostStatus - END");
                     return new ResponseEntity(new CustomErrorType("Bạn không phải quản lý của của hàng sách có bài đăng này."), HttpStatus.OK);
                 }
