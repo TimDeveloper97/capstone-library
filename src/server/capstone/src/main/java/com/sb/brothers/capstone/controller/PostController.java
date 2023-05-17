@@ -90,11 +90,14 @@ public class PostController {
     //posts session
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_POST')")
     @GetMapping("/request")
-    public ResponseEntity<?> getAllUserPosts(){
+    public ResponseEntity<?> getAllUserPosts(Authentication auth){
         logger.info("[API-Post] getAllUserPosts - START");
         List<Post> posts = null;
         try{
-            posts = postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_NOT_APPROVED);
+            Optional<User> user = userService.getUserById(auth.getName());
+            if (user.isPresent()) {
+                posts = postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_NOT_APPROVED, user.get().getAddress());
+            }
             //posts.addAll(postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_APPROVED));
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
@@ -217,7 +220,7 @@ public class PostController {
                 postService.removePostById(p.getId());
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
             logger.info("[API-Post] createNewPost - END");
-            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +".\n Nguyên nhân: "+ex.getCause()), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +"."), HttpStatus.OK);
         }
         logger.info("[API-Post] createNewPost - SUCCESS");
         return new ResponseEntity(new CustomErrorType(true,"Tạo bài đăng thành công."), HttpStatus.CREATED);
@@ -328,20 +331,23 @@ public class PostController {
             }
             else if(currPost.getStatus() == CustomStatus.ADMIN_POST){
                 //@TODO - check qua han
-                if(isAnAdminBook(book) == false){
-                    PostDetail pdHasBook = postDetailService.findByBookId(book.getId());
-                    Post oldPost = pdHasBook.getPost();
-                    if(checkBookNotExpired(postDto, oldPost.getNoDays()) == false){
-                        throw new Exception("Số ngày cho thuê vượt quá số ngày ký gửi của cuốn sách.");
+                if(book.getInStock() >= postDetail.getQuantity()) {
+                    if (isAnAdminBook(book) == false) {
+                        PostDetail pdHasBook = postDetailService.findByBookId(book.getId());
+                        Post oldPost = pdHasBook.getPost();
+                        if (checkBookNotExpired(postDto, oldPost.getNoDays()) == false) {
+                            throw new Exception("Số ngày cho thuê vượt quá số ngày ký gửi của cuốn sách.");
+                        }
+                        Notification ntf = new Notification();
+                        ntf.setUser(book.getUser());
+                        ntf.setDescription("Cuốn sách có tên: " + book.getName() + " của bạn đã được đăng cho thuê (mã bài đăng: P" + currPost.getId() + ", số lượng:" + postDetail.getQuantity() + ")");
+                        ntfs.add(ntf);
                     }
-                    Notification ntf = new Notification();
-                    ntf.setUser(book.getUser());
-                    ntf.setDescription("Cuốn sách có tên: "+ book.getName()+" của bạn đã được đăng cho thuê (mã bài đăng: P"+ currPost.getId()+ ", số lượng:"+postDetail.getQuantity() +")");
-                    ntfs.add(ntf);
+                    book.setInStock(book.getInStock() - postDetail.getQuantity());
+                    bookService.updateBook(book);
+                    postDetail.setSublet(0);
                 }
-                book.setInStock(book.getInStock() - postDetail.getQuantity());
-                bookService.updateBook(book);
-                postDetail.setSublet(0);
+                else throw new Exception("Số lượng sách không đủ.");
             }
             postDetailService.save(postDetail);
         }
