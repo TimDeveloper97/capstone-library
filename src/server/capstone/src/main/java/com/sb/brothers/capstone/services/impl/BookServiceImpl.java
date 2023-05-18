@@ -22,6 +22,11 @@ public class BookServiceImpl implements BookService {
     }//findAll
 
     @Override
+    public List<Book> getAllBookByStore(String address) {
+        return bookRepository.findAllBooksInStockByAddress(address);
+    }//findAll
+
+    @Override
     public boolean isBookExist(int id) {
         return bookRepository.existsById(id);
     }

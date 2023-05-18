@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface OrderService {
     void save(Order order);
     Optional<Order> findByPostId(int pId);
-    List<Order> getOrderByStatus();
+    List<Order> getOrderByStatus(String address);
     Optional<Order> getOrderById(int oId);
     List<Order> getOrderByStatusForUser(String userId);
     void delete(Order order);

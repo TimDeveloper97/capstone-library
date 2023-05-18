@@ -6,12 +6,14 @@ import com.sb.brothers.capstone.dto.ImageDto;
 import com.sb.brothers.capstone.entities.Book;
 import com.sb.brothers.capstone.entities.Category;
 import com.sb.brothers.capstone.entities.Image;
+import com.sb.brothers.capstone.entities.User;
 import com.sb.brothers.capstone.services.BookService;
 import com.sb.brothers.capstone.services.CategoryService;
 import com.sb.brothers.capstone.services.ImageService;
 import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.ResData;
+import com.sb.brothers.capstone.util.UserRole;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,7 +81,7 @@ public class BookController {
         bookService.updateBook(book);
         addImages(bookDto, book);
         logger.info("[API-Book] createNewBook - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true, "Đã thêm sách thành công"), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Đã thêm sách thành công"), HttpStatus.OK);
     }//form add new book > do add
 
     //books session
@@ -142,10 +144,18 @@ public class BookController {
 
     //books session
     @GetMapping("")
-    public ResponseEntity<?> getAllBooks(){
+    public ResponseEntity<?> getAllBooks(Authentication auth){
         logger.info("[API-Book] getAllBooks - START");
         logger.info("Return all books");
-        List<Book> books = bookService.getAllBook();
+        List<Book> books = null;
+        if(auth != null && (tokenProvider.getRoles(auth).contains(UserRole.ROLE_ADMIN.name()) || tokenProvider.getRoles(auth).contains(UserRole.ROLE_MANAGER_POST.name()))){
+            Optional<User> opUser = userService.getUserById(auth.getName());
+            if(opUser.isPresent()) {
+                books = bookService.getAllBookByStore(opUser.get().getAddress());
+            }
+            else books = bookService.getAllBook();
+        }
+        else books = bookService.getAllBook();
         List<BookDTO> bookDTOS = new BookDTO().convertAllBooks(books.stream().collect(Collectors.toSet()));
         if(books.isEmpty()){
             logger.warn("The list of books is empty.");

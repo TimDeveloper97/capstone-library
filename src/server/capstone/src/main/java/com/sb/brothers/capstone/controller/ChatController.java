@@ -37,7 +37,7 @@ public class ChatController {
         if(chatDto.getSender() == null || chatDto.getReceiver() == null){
             logger.error("input not correct.");
             logger.info("[API-Chat] chatHistory - END");
-            return new ResponseEntity<>(new CustomErrorType("Dữ liệu đầu vào không hợp lệ. Vui lòng kiểm tra lại."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new CustomErrorType("Dữ liệu đầu vào không hợp lệ. Vui lòng kiểm tra lại."), HttpStatus.OK);
         }
         Set<Message> messages = null;
         try{
@@ -45,7 +45,7 @@ public class ChatController {
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +" when get chat history by user." + ex.getCause());
             logger.info("[API-Chat] chatHistory - END");
-            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi khi lấy thông tin lịch sử chat. Vui lòng kiểm tra lại."), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new CustomErrorType("Xảy ra lỗi khi lấy thông tin lịch sử chat. Vui lòng kiểm tra lại."), HttpStatus.OK);
         }
         logger.info("[API-Chat] chatHistory - SUCCESS");
         return new ResponseEntity<>(new ResData<Set<Message>>(0, messages), HttpStatus.OK);

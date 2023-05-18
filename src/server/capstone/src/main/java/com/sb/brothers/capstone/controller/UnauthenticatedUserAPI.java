@@ -57,7 +57,7 @@ public class UnauthenticatedUserAPI {
                     +userModel.getId()+" already exist.");
             logger.info("[API-Unauthenticated] register - END");
             return new ResponseEntity(new CustomErrorType("Đăng ký thất bại. Username "
-                    +userModel.getId()+" đã tồn tại."), HttpStatus.CONFLICT);
+                    +userModel.getId()+" đã tồn tại."), HttpStatus.OK);
         }
         User newUser = new User();
         userModel.setStatus(CustomStatus.ACTIVATE);
@@ -69,7 +69,7 @@ public class UnauthenticatedUserAPI {
         newUser.setRoles(roles);
         userService.updateUser(newUser);
         logger.info("[API-Unauthenticated] register - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true,"Đăng ký tài khoản thành công."), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true,"Đăng ký tài khoản thành công."), HttpStatus.OK);
     }//after register success
 
     @PostMapping("/forgot-password")

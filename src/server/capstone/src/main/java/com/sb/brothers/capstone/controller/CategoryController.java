@@ -53,7 +53,7 @@ public class CategoryController {
         categoryDto.convertCategory(category);
         categoryService.updateCategory(category);
         logger.info("[API-Category] postCatAdd - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true, "Thêm thể loại sách thành công."), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Thêm thể loại sách thành công."), HttpStatus.OK);
 
     }//form add new category > do add
 
