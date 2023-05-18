@@ -6,10 +6,7 @@ import com.sb.brothers.capstone.dto.PostDetailDto;
 import com.sb.brothers.capstone.dto.PostDto;
 import com.sb.brothers.capstone.entities.*;
 import com.sb.brothers.capstone.services.*;
-import com.sb.brothers.capstone.util.CustomErrorType;
-import com.sb.brothers.capstone.util.CustomStatus;
-import com.sb.brothers.capstone.util.ResData;
-import com.sb.brothers.capstone.util.StoreUtils;
+import com.sb.brothers.capstone.util.*;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -55,12 +53,19 @@ public class PostController {
 
     //posts session
     @GetMapping("")
-    public ResponseEntity<?> getAllAdminPosts(){
+    public ResponseEntity<?> getAllAdminPosts(Authentication auth){
         logger.info("[API-Post] getAllAdminPosts - START");
         logger.info("Return all admin posts");
         List<Post> posts = null;
         try{
             posts = postService.getAllPosts();
+            if(auth != null && (tokenProvider.getRoles(auth).contains(UserRole.ROLE_ADMIN.name()) || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")))
+            {
+                Optional<User> opUser = userService.getUserById(auth.getName());
+                if(opUser.isPresent()) {
+                    posts = posts.stream().filter(post -> post.getAddress().compareTo(opUser.get().getAddress()) == 0).collect(Collectors.toList());
+                }
+            }
         }catch (Exception ex){
             logger.info("Exception:" + ex.getMessage() +".\n" + ex.getCause());
             logger.info("[API-Post] getAllAdminPosts - END");
