@@ -150,7 +150,7 @@ public class PostController {
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
             logger.info("[API-Post] getPostByUserId - END");
-            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage()+".\nNguyên nhân: " + ex.getCause()), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage()+".\nNguyên nhân: " + ex.getCause()), HttpStatus.OK);
         }
         if(posts.isEmpty()){
             logger.warn("There are no posts.");
@@ -180,7 +180,7 @@ public class PostController {
         } catch (Exception ex){
             logger.error("Exception: " + ex.getMessage());
             logger.info("[API-Post] getPostById - END");
-            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +".\nNguyên nhân: "+ ex.getCause()), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +".\nNguyên nhân: "+ ex.getCause()), HttpStatus.OK);
         }
         PostDto postDto = new PostDto();
         postDto.convertPost(post);

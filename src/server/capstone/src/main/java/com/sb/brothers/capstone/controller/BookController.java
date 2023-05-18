@@ -79,7 +79,7 @@ public class BookController {
         bookService.updateBook(book);
         addImages(bookDto, book);
         logger.info("[API-Book] createNewBook - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true, "Đã thêm sách thành công"), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Đã thêm sách thành công"), HttpStatus.OK);
     }//form add new book > do add
 
     //books session
@@ -136,7 +136,7 @@ public class BookController {
                     HttpStatus.OK);
         }
         logger.info("[API-Book] deleteBookHasId - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true, "Delete book - SUCCESS"), HttpStatus.FOUND);
+        return new ResponseEntity(new CustomErrorType(true, "Delete book - SUCCESS"), HttpStatus.OK);
     }//delete 1 book
 
 

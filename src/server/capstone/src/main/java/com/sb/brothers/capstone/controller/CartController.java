@@ -80,7 +80,7 @@ public class CartController {
         list.add(postDto);
         GlobalData.cart.put(auth.getName(), list);
         logger.info("[API-Cart] addToCart - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true, "Thêm vào giỏ hàng thành công."), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Thêm vào giỏ hàng thành công."), HttpStatus.OK);
     }//click add from page viewProduct
 
     @DeleteMapping("/cart/remove-item/{postId}")

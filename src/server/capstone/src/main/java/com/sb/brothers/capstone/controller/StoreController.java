@@ -64,7 +64,7 @@ public class StoreController {
         storeDto.ConvertToStore(store);
         storeService.save(store);
         logger.info("[API-Store] addStore - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true, "Thêm Store thành công."), HttpStatus.CREATED);
+        return new ResponseEntity(new CustomErrorType(true, "Thêm Store thành công."), HttpStatus.OK);
 
     }//form add new store > do add
 

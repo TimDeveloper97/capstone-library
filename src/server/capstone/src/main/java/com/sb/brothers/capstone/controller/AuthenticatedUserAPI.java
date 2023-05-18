@@ -56,7 +56,7 @@ public class AuthenticatedUserAPI {
         logger.info("[API-Authenticated] Update user profile - START");
         if(!userService.isUserExist(auth.getName())){
             logger.info("[API-Authenticated] Update user profile - END");
-            return new ResponseEntity<>(new CustomErrorType("Yêu cầu cập nhật của người dùng không hợp lệ."), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new CustomErrorType("Yêu cầu cập nhật của người dùng không hợp lệ."), HttpStatus.OK);
         }
         User currUser = userService.getUserById(userDto.getId()).get();
         if(currUser == null){
@@ -69,7 +69,7 @@ public class AuthenticatedUserAPI {
             userService.updateProfile(userDto.getId(), userDto.getAddress(), userDto.getEmail(), userDto.getFirstName(), userDto.getLastName(), new Date(), userDto.getPhone());
         }catch (Exception ex){
             logger.info("[API-Authenticated] Update user profile - END");
-            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +". \nNguyên nhân: "+ex.getCause()), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() +". \nNguyên nhân: "+ex.getCause()), HttpStatus.OK);
         }
         logger.info("Fetching & Updating User with id: "+ userDto.getId() +" at "+ new Date());
         logger.info("[API-Authenticated] Update user profile - SUCCESS");
@@ -103,7 +103,7 @@ public class AuthenticatedUserAPI {
         }catch (Exception ex){
             logger.error("Exception:" + ex.getMessage() + ".\n" + ex.getCause());
             logger.info("[API-Authenticated] viewProfile - END");
-            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() + ". \n Nguyên nhân: " + ex.getCause()), HttpStatus.CONFLICT);
+            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() + ". \n Nguyên nhân: " + ex.getCause()), HttpStatus.OK);
         }
         logger.info("[API-Authenticated] viewProfile - SUCCESS");
         return new ResponseEntity<>(new ResData<UserDTO>(0, userDto), HttpStatus.OK);
@@ -125,7 +125,7 @@ public class AuthenticatedUserAPI {
         User user = userService.getUserById(auth.getName()).get();
         if(user == null){
             logger.info("[API-Authenticated] changePassword - END");
-            return new ResponseEntity(new CustomErrorType("Tài khoản hoặc mật khẩu cũ không chính xác. Vui lòng kiểm tra lại."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Tài khoản hoặc mật khẩu cũ không chính xác. Vui lòng kiểm tra lại."), HttpStatus.OK);
         }
         try {
             user.setModifiedDate(new Date());
