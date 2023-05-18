@@ -5,12 +5,15 @@ import com.sb.brothers.capstone.dto.OrderDto;
 import com.sb.brothers.capstone.dto.PostDto;
 import com.sb.brothers.capstone.entities.Order;
 import com.sb.brothers.capstone.entities.Post;
+import com.sb.brothers.capstone.entities.User;
 import com.sb.brothers.capstone.global.GlobalData;
 import com.sb.brothers.capstone.services.OrderService;
 import com.sb.brothers.capstone.services.PostService;
+import com.sb.brothers.capstone.services.UserService;
 import com.sb.brothers.capstone.util.CustomErrorType;
 import com.sb.brothers.capstone.util.CustomStatus;
 import com.sb.brothers.capstone.util.ResData;
+import com.sb.brothers.capstone.util.UserRole;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -36,6 +40,9 @@ public class CartController {
 
     @Autowired
     private TokenProvider tokenProvider;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/cart")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -105,7 +112,8 @@ public class CartController {
         try{
             if(tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
                 logger.info("Return all admin posts");
-                orders = orderService.getOrderByStatus();
+                Optional<User> opUser = userService.getUserById(auth.getName());
+                orders = orderService.getOrderByStatus(opUser.get().getAddress());
             }
             else {
                 logger.info("Return all user posts");
