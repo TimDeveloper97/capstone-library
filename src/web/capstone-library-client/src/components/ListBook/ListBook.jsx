@@ -83,7 +83,13 @@ export default function ListBook({ category }) {
                           {formatMoney(item.price)}{" "}
                           <FontAwesomeIcon icon={faDongSign} />
                         </h4>
-                        <p className="available">Còn lại: {item.inStock}</p>
+                        {item.inStock === 0 ? (
+                          <p className="available" style={{ color: "red" }}>
+                            Hiện không còn trong kho
+                          </p>
+                        ) : (
+                          <p className="available">Còn lại: {item.inStock}</p>
+                        )}
                       </div>
                     </div>
                     <Link to={`/detail-book/${item.id}`} />

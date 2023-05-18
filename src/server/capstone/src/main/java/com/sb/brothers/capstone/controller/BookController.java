@@ -136,7 +136,7 @@ public class BookController {
                     HttpStatus.OK);
         }
         logger.info("[API-Book] deleteBookHasId - SUCCESS");
-        return new ResponseEntity(new CustomErrorType(true, "Delete book - SUCCESS"), HttpStatus.FOUND);
+        return new ResponseEntity(new CustomErrorType(true, "Delete book - SUCCESS"), HttpStatus.OK);
     }//delete 1 book
 
 

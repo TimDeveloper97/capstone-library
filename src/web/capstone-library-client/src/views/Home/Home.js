@@ -45,7 +45,7 @@ export default function Home() {
             <div className="tile is-ancestor">
               <div className="tile is-3 is-vertical is-parent">
                 <div className="tile is-child">
-                  <Link to={`/detail-book/${fiveBook[0].id}`}>
+                  <Link to={`/detail-book/${fiveBook[0]?.id}`}>
                     <div className="hero-item">
                       <img
                         className="cover"
@@ -61,7 +61,7 @@ export default function Home() {
                   </Link>
                 </div>
                 <div className="tile is-child">
-                  <Link to={`/detail-book/${fiveBook[1].id}`}>
+                  <Link to={`/detail-book/${fiveBook[1]?.id}`}>
                     <div className="hero-item">
                       <img
                         className="cover"
@@ -79,7 +79,7 @@ export default function Home() {
               </div>
               <div className="tile is-parent">
                 <div className="tile is-child">
-                  <Link to={`/detail-book/${fiveBook[2].id}`}>
+                  <Link to={`/detail-book/${fiveBook[2]?.id}`}>
                     <div className="hero-item has-excerpt">
                       <img
                         className="cover"
