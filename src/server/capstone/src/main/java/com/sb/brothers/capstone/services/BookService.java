@@ -20,6 +20,8 @@ public interface BookService {
 
 	List<Book> getAllBook();
 
+	List<Book> getAllBookByStore(String address);
+
     boolean isBookExist(int id);
 
 	Set<Book> getAllByManagerId(String uId);
