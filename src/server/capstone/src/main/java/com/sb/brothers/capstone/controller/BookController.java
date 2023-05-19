@@ -151,8 +151,10 @@ public class BookController {
         if(auth != null && (tokenProvider.getRoles(auth).contains(UserRole.ROLE_ADMIN.name()) || tokenProvider.getRoles(auth).contains(UserRole.ROLE_MANAGER_POST.name()))){
             Optional<User> opUser = userService.getUserById(auth.getName());
             if(opUser.isPresent()) {
-                books = bookService.getAllBookByStore(opUser.get().getAddress());
-                books = books.stream().filter(book -> (!book.getUser().checkManager() || (book.getUser().checkManager() && book.getUser().getId().compareTo(auth.getName()) == 0))).collect(Collectors.toList());
+                books = bookService.getAllBookByStore(opUser.get().getAddress())
+                        .stream().filter(book -> (!book.getUser().userIsManager() ||
+                        book.getUser().getId().compareTo(auth.getName()) == 0))
+                        .collect(Collectors.toList());
             }
             else books = bookService.getAllBook();
         }
