@@ -152,6 +152,7 @@ public class BookController {
             Optional<User> opUser = userService.getUserById(auth.getName());
             if(opUser.isPresent()) {
                 books = bookService.getAllBookByStore(opUser.get().getAddress());
+                books = books.stream().filter(book -> (!book.getUser().checkManager() || (book.getUser().checkManager() && book.getUser().getId().compareTo(auth.getName()) == 0))).collect(Collectors.toList());
             }
             else books = bookService.getAllBook();
         }
