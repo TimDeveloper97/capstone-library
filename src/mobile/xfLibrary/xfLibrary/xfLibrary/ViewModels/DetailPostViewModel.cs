@@ -20,6 +20,7 @@ namespace xfLibrary.ViewModels
         #region Property
         private string parameterPost;
         private ObservableCollection<string> slides;
+        private List<string> maps;
         private List<Book> selectedBooks;
         private Post newPost;
         private bool isUpdate = false;
@@ -220,9 +221,17 @@ namespace xfLibrary.ViewModels
         });
         public ICommand AddressCommand => new Command(async () =>
         {
+            var list = await _mainService.StoreAsync();
+            if (list == null)
+            {
+                _message.ShortAlert("Không có địa chỉ được lưu");
+                return;
+            }
+            maps = list.Stores;
+
             selected = await MaterialDialog.Instance.SelectChoiceAsync(title: "Chọn nơi ký gửi", selectedIndex: selected,
-                                                                         choices: Services.Api.Maps, dismissiveText: "Hủy");
-            if (selected != -1) NewPost.Address = Services.Api.Maps[selected];
+                                                                         choices: maps, dismissiveText: "Hủy");
+            if (selected != -1) NewPost.Address = maps[selected];
 
         });
         #endregion
@@ -236,6 +245,7 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             Slides = new ObservableCollection<string> { };
+            maps = new List<string>();
             NewPost = new Post();
         }
         #endregion

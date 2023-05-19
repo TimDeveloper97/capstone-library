@@ -1,0 +1,27 @@
+- phần đăng ký : thêm field cho người dùng nhập email
+=> mobile đã có
+=> web cần thêm
+
+- địa chỉ ký gửi : lấy địa chỉ từ trong store ra
+=> sơn đưa API
+
+- show các đơn ký gửi cho cả mng
+=> cái này ko đc, không thể gửi tất cả thông tin người dùng ra. kể cả đơn ký gửi
+=> suy nghĩ trước khi làm
+
+phần giao diện: 
+ + chỗ ký gửi bỏ field "tổng giá"
+=> trước bắt thêm ở UI đã bảo là rất nhiều
+=> giờ lại yêu cầu bỏ
+
+ + status trong quản lý sách chưa hợp lý ,vd: đã thuê xong sách về kho nhưng stt vẫn là "Đã thuê"
+=> sơn check xem cập nhật trạng thái đúng chưa 
+=> phải là trong kh0
+
+ + cần fix sách sl 0 thì ko thấy trong kho  
+=> sơn fix
+
+ + post detail show địa chỉ của store luôn
+=> mobile đã làm
+=> web hiển thị ở trong cái post luôn ở trong phần detail ý béo
+

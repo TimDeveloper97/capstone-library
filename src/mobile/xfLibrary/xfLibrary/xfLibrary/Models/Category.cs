@@ -19,4 +19,9 @@ namespace xfLibrary.Models
         public string Image { get; set; } = Services.Api.IconCategory;
     }
 
+    public class Store : BaseModel
+    {
+        [JsonProperty("stores")]
+        public List<string> Stores { get; set; }
+    }
 }
