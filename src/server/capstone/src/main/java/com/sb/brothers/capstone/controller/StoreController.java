@@ -61,7 +61,7 @@ public class StoreController {
                     + storeDto.getAddress()+ " đã tồn tại."), HttpStatus.OK);
         }
         Store store = new Store();
-        storeDto.ConvertToStore(store);
+        store.setAddress(storeDto.getAddress());
         storeService.save(store);
         logger.info("[API-Store] addStore - SUCCESS");
         return new ResponseEntity(new CustomErrorType(true, "Thêm Store thành công."), HttpStatus.OK);
