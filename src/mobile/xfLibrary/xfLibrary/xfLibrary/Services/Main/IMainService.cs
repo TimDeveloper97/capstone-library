@@ -9,6 +9,8 @@ namespace xfLibrary.Services.Main
 {
     public interface IMainService
     {
+        Task<Store> StoreAsync();
+
         Task<List<Category>> CategoryAsync();
         Task<Response> AddCategoryAsync(string name, string code, string token);
         Task<Response> UpdateCategoryAsync(string name, string code, string token);
