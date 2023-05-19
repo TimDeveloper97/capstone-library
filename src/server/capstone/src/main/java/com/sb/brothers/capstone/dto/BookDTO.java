@@ -81,21 +81,19 @@ public class BookDTO {
         book.getImages().stream().forEach(img -> imgs.add(new ImageDto(img.getId(), img.getLink(), null)));
         this.bookInfoDtos = new ArrayList<>();
         if(book.getUser().checkManager() == false){
-            if(book.getInStock() > 0) {
-                PostDetail postDeposit = postDetailService.findByBookId(book.getId());
-                if (postDeposit != null && postDeposit.getPost().getStatus() == CustomStatus.USER_POST_IS_EXPIRED) {
-                    this.status = 512;
-                    BookInfoDto bookInfoDto = new BookInfoDto();
-                    bookInfoDto.setStatus(CustomStatus.USER_POST_IS_EXPIRED);
-                    bookInfoDtos.add(bookInfoDto);
-                    return;
-                }
+            PostDetail postDeposit = postDetailService.findByBookId(book.getId());
+            this.status = 16;
+            if (postDeposit != null && postDeposit.getPost().getStatus() == CustomStatus.USER_POST_IS_EXPIRED) {
+                this.status = 512;
+                BookInfoDto bookInfoDto = new BookInfoDto();
+                bookInfoDto.setStatus(CustomStatus.USER_POST_IS_EXPIRED);
+                bookInfoDtos.add(bookInfoDto);
+                return;
             }
-            else return;
         }
-        this.status = 16;
         List<PostDetail> postDetails = postDetailService.findPostDetailByBookAndStatus(book.getId());
-        if(postDetails != null) {
+        if(postDetails != null && !postDetails.isEmpty()) {
+            this.status = 16;
             postDetails.stream().forEach(postDetail -> {
                 BookInfoDto bookInfoDto = new BookInfoDto();
                 bookInfoDto.setQuantity(postDetail.getQuantity());
