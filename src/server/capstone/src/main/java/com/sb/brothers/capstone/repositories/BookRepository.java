@@ -41,11 +41,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "(Select Distinct category_id from favourite_book as fb join book_category as bc on fb.book_id = bc.book_id where fb.user_id = :uId and fb.rating >= 7))", nativeQuery = true)
     Set<Book> recommendBooks(@Param("uId") String uId);
 
-    @Query(value = "SELECT * FROM books WHERE id IN (SELECT book_id FROM post_detail WHERE sublet > 0 AND post_id IN (SELECT id FROM post WHERE `status` = 16) ) OR (user_id IN (SELECT DISTINCT user_Id FROM user_role WHERE user_role.role_id  = 1 OR user_role.role_id = 3) AND in_stock > 0)",
+    @Query(value = "SELECT * FROM books WHERE id IN (SELECT book_id FROM post_detail WHERE sublet > 0 AND post_id IN (SELECT id FROM post WHERE `status` = 16) ) OR (user_id IN (SELECT DISTINCT user_Id FROM user_role WHERE user_role.role_id  = 1 OR user_role.role_id = 3) AND quantity = 0)",
             nativeQuery = true)
     List<Book> findAllBooksInStock();
 
-    @Query(value = "SELECT * FROM books WHERE id IN (SELECT book_id FROM post_detail WHERE sublet > 0 AND post_id IN (SELECT id FROM post WHERE `status` = 16 AND address = :address) ) OR (user_id IN (SELECT DISTINCT user_Id FROM user_role WHERE user_role.role_id  = 1 OR user_role.role_id = 3) AND in_stock > 0)",
+    @Query(value = "SELECT * FROM books WHERE id IN (SELECT book_id FROM post_detail WHERE sublet > 0 AND post_id IN (SELECT id FROM post WHERE `status` = 16 AND address = :address) ) OR (user_id IN (SELECT DISTINCT user_Id FROM user_role WHERE user_role.role_id  = 1 OR user_role.role_id = 3) AND quantity = 0)",
             nativeQuery = true)
     List<Book> findAllBooksInStockByAddress(@Param("address") String address);
 }
