@@ -112,6 +112,7 @@ export default function BookManagement() {
   };
   const handleDeleteBook = async (index) => {
     const res = await dispatch(deleteBook(deleteId));
+    console.log(res);
     if (res.success) {
       NotificationManager.success(res.message, "Thông báo", 1000);
       setOpen(false);

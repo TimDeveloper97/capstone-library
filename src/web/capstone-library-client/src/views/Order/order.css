@@ -12,8 +12,8 @@
   position: relative;
 }
 .button-action span {
-  height: 60px;
-  width: 60px;
+  height: 50px;
+  width: 50px;
   display: block;
   z-index: 2;
   background: #fff;
@@ -21,7 +21,7 @@
   border-radius: 50%;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  padding-top: 15px;
+  padding-top: 12px;
 }
 
 .button-action span i {

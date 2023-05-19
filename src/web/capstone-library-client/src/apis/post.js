@@ -13,3 +13,5 @@ export const acceptPost = (id) => axiosIntance.put(`/posts/accept-post/${id}`);
 export const denyPost = (id) => axiosIntance.put(`/posts/deny-post/${id}`);
 
 export const getPostByUser = () => axiosIntance.get("/posts/me");
+
+export const deletePost = (id) => axiosIntance.delete(`/posts/delete/${id}`);

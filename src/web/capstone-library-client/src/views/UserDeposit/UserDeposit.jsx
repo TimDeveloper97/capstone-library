@@ -1,14 +1,20 @@
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getPostByUser } from "../../apis/post";
+import { deletePost, getPostByUser } from "../../apis/post";
 import Loading from "../../components/Loading/Loading";
 import {
   compareDate,
   formatMoney,
   getColorStatus,
 } from "../../helper/helpFunction";
-import { faBook, faBroom, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBook,
+  faBroom,
+  faDeleteLeft,
+  faEllipsisVertical,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import {
@@ -22,6 +28,7 @@ import {
 } from "@mui/material";
 import ManagementSidebar from "../../components/Sidebar/ManagementSidebar";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { NotificationManager, NotificationContainer } from "react-notifications";
 
 export default function UserDeposit() {
   const [listPostRequest, setListPostRequest] = useState([]);
@@ -87,7 +94,9 @@ export default function UserDeposit() {
     let temp = listPostRequest;
     temp = temp.filter((t) => !t.title || t.title.indexOf(searchTitle) !== -1);
     status !== -1 && (temp = temp.filter((t) => t.status === status));
-    temp = temp.filter(t => compareDate(t.createdDate, returnDate._d, rentDate._d));
+    temp = temp.filter((t) =>
+      compareDate(t.createdDate, returnDate._d, rentDate._d)
+    );
     setListPostDeposit(temp.slice());
   };
   const handleClickReset = () => {
@@ -106,10 +115,31 @@ export default function UserDeposit() {
     setListDetailBook(listBook);
     setOpen(true);
   };
+  const [deleteId, setDeleteId] = useState();
+  const [openDeleteBook, setOpenDeleteBook] = useState(false);
+  const confirmDeletePost = (id, index) => {
+    setDeleteId(id);
+    setOpenDeleteBook(true);
+  };
+  const handleCloseDeleteBook = () => {
+    setOpenDeleteBook(false);
+  }
+  const handleDeleteBook = async () => {
+    const {data} = await deletePost(deleteId);
+    if(data.success){
+      NotificationManager.success(data.message, "Thông báo", 1000);
+      setListPostRequest(prev => prev.filter(p => p.id !== deleteId));
+      setListPostDeposit(prev => prev.filter(p => p.id !== deleteId));
+      setOpenDeleteBook(false);
+    }else{
+      NotificationManager.error(data.message, "lỗi", 1000);
+    }
+  }
 
   return listPostRequest ? (
     <>
       <section className="cart-area position-relative">
+        <NotificationContainer />
         <div className="container">
           <div className="row">
             <div className="col-md-2" style={{ backgroundColor: "#fff" }}>
@@ -144,7 +174,7 @@ export default function UserDeposit() {
                       </div>
                     </div>
                     <div className="col-md-4">
-                    <div className="input-search">
+                      <div className="input-search">
                         <label htmlFor="">Trạng thái:</label>
                         <div className="input-param" style={{ padding: 0 }}>
                           <Select
@@ -162,7 +192,7 @@ export default function UserDeposit() {
                           </Select>
                         </div>
                       </div>
-                      
+
                       <div className="input-search">
                         <label htmlFor="">Đến ngày:</label>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -217,6 +247,7 @@ export default function UserDeposit() {
                         <th scope="col">Tiêu đề</th>
                         <th scope="col">Người ký gửi</th>
                         <th scope="col">Trạng thái</th>
+                        <th scope="col">Thao tác</th>
                       </tr>
                     </thead>
                     <tbody className="body-fw-400">
@@ -250,6 +281,26 @@ export default function UserDeposit() {
                                 >
                                   {los.statusColor.state}
                                 </span>
+                              </td>
+                              <td style={{ position: "relative" }}>
+                                {los.status === 4 && <div className="button-action">
+                                  <div className="tooltip-action">
+                                    <button
+                                      className="btn btn-danger"
+                                      onClick={() =>
+                                        confirmDeletePost(los.id, index)
+                                      }
+                                    >
+                                      <FontAwesomeIcon icon={faDeleteLeft} />{" "}
+                                      Hủy
+                                    </button>
+                                  </div>
+                                  <span>
+                                    <FontAwesomeIcon
+                                      icon={faEllipsisVertical}
+                                    />
+                                  </span>
+                                </div>}
                               </td>
                             </tr>
                           );
@@ -300,6 +351,13 @@ export default function UserDeposit() {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Hủy</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={openDeleteBook} onClose={handleCloseDeleteBook}>
+          <DialogTitle>Xác nhận hủy ký gửi?</DialogTitle>
+          <DialogActions>
+            <Button onClick={() => handleDeleteBook()}>Xác nhận</Button>
+            <Button onClick={handleCloseDeleteBook}>Hủy</Button>
           </DialogActions>
         </Dialog>
       </section>
