@@ -377,6 +377,17 @@ export default function AddPost() {
                         />
                       </div>
                     )}
+                    {
+                    role && <div className="form-group col-md-3">
+                    <TextField
+                      id="filled-basic"
+                      label="Tổng giá chưa phí"
+                      variant="filled"
+                      disabled
+                      value={total}
+                    />
+                  </div>
+                  }
                   </div>
                   <div className="form-group">
                     <TextField
