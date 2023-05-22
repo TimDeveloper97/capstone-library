@@ -91,9 +91,6 @@ public class BookController {
         logger.info("[API-Book] getAllBooksByUserId - START");
         logger.info("Return list books");
         Set<Book> books = bookService.getListBooksOfUserId(auth.getName());
-        for (Book book : books){
-            book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
-        }
         if(books.isEmpty()){
             logger.warn("This user's book list is empty.");
             logger.info("[API-Book] getAllBooksByUserId - END");
@@ -151,7 +148,10 @@ public class BookController {
         if(auth != null && (tokenProvider.getRoles(auth).contains(UserRole.ROLE_ADMIN.name()) || tokenProvider.getRoles(auth).contains(UserRole.ROLE_MANAGER_POST.name()))){
             Optional<User> opUser = userService.getUserById(auth.getName());
             if(opUser.isPresent()) {
-                books = bookService.getAllBookByStore(opUser.get().getAddress());
+                books = bookService.getAllBookByStore(opUser.get().getAddress())
+                        .stream().filter(book -> (!book.getUser().userIsManager() ||
+                        book.getUser().getId().compareTo(auth.getName()) == 0))
+                        .collect(Collectors.toList());
             }
             else books = bookService.getAllBook();
         }

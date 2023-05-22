@@ -20,6 +20,15 @@ namespace xfLibrary.Services.Main
             return value;
         }
 
+        public async Task<Store> StoreAsync()
+        {
+            var res = await Service.Get(Api.Store);
+            if (res == null || res.Value == null) return null;
+
+            var value = JsonConvert.DeserializeObject<Store>(res.Value.ToString());
+            return value;
+        }
+
         public async Task<Response> AddCategoryAsync(string name, string code, string token)
         {
             var res = await Service.Post(new { name = name, nameCode = code }, Api.AddCategory, token);

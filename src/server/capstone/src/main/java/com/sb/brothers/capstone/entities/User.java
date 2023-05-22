@@ -2,6 +2,7 @@ package com.sb.brothers.capstone.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sb.brothers.capstone.util.UserRole;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -451,5 +452,10 @@ public class User implements Serializable {
 				return true;
 		}
 		return false;
+	}
+
+	public boolean userIsManager(){
+		return this.getRoles().stream().anyMatch(role ->
+				role.getName().compareTo(UserRole.ROLE_MANAGER_POST.name()) == 0);
 	}
 }

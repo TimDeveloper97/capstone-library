@@ -65,6 +65,11 @@ namespace xfLibrary.Services
         public const string ReturnBook = "posts/return-books"; 
 
         public const string Cart = "cart"; 
+
+        public const string Store = "store"; 
+        public const string StoreAdd = "store/add"; 
+        public const string StoreDelete = "store/delete"; 
+        public const string StoreUpdate = "store/update"; 
         /// <summary>
         /// xóa item trong giỏ
         /// </summary>
