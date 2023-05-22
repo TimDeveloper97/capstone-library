@@ -18,6 +18,10 @@ const schema = yup.object({
     .oneOf([yup.ref("password"), null], "Phải trùng với mật khẩu")
     .required("Xác nhận mật khẩu không được để trống"),
   firstName: yup.string().required("Tên không được để trống"),
+  email: yup
+    .string()
+    .email("Email không hợp lệ")
+    .required("Email không được để trống"),
 });
 
 export default function Register() {
@@ -39,18 +43,26 @@ export default function Register() {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    const { firstName, lastName, password, username } = data;
+    const { firstName, lastName, password, username, email } = data;
     axiosIntance
       .post("/register", {
         id: username,
         firstName,
         lastName,
         password,
+        email,
       })
       .then((response) => {
         const {message} = response.data;
         NotificationManager.success(message, "Thông báo", 1000);
-        resetInput(["firstName", "lastName", "username", "password", "cfpassword"]);
+        resetInput([
+          "firstName",
+          "lastName",
+          "username",
+          "password",
+          "cfpassword",
+          "email"
+        ]);
       })
       .catch((err) => {
         const {message} = err.response.data;
@@ -113,6 +125,22 @@ export default function Register() {
                       )}
                     </div>
                   </div>
+                  <div className="content-row">
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      label="Email"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      {...register("email")}
+                    />
+                  </div>
+                  {errors.email && (
+                    <span className="error-message" role="alert">
+                      {errors.email?.message}
+                    </span>
+                  )}
                   <div className="content-row">
                     <TextField
                       autoFocus

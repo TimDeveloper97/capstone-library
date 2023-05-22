@@ -21,6 +21,7 @@ import { getConfig } from "../../apis/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { getBooks, getUserBooks } from "../../apis/book";
+import { getStoreAsync } from "../../apis/store";
 
 const schema = yup.object({});
 
@@ -39,8 +40,11 @@ export default function AddPost() {
   const [configs, setConfigs] = useState(0);
   const [address, setAddress] = useState("Chọn địa chỉ");
   const [numDay, setNumDay] = useState(1);
+  const [listAddress, setListAddress] = useState(["Chọn địa chỉ"]);
 
   const dispatch = useDispatch();
+  
+  let check = 0;
   useEffect(() => {
     //role ? dispatch(getBooks()) : dispatch(getUserBooks());
     const fetchBooks = async () => {
@@ -71,7 +75,24 @@ export default function AddPost() {
       setListSelectBook(tempList);
       setListToChooseBook(tempList);
     };
+    const fetchAddress = async () => {
+      const {data} = await getStoreAsync();
+      // data.value && setListAddress(prev => [...prev, ...data.value.stores.map((val, index) => {
+      //   return {index, text: val}
+      // })]);
+      if(data.value && check === 0){
+        let temp = listAddress;
+        data.value.stores.forEach((val) => {
+          temp.push( val);
+        });
+        console.log("call func");
+        setListAddress(temp);
+        check++;
+        console.log(check);
+      }
+    }
     fetchBooks();
+    fetchAddress();
   }, []);
   //const books = useSelector((state) => state.book);
   const role =
@@ -107,44 +128,40 @@ export default function AddPost() {
     } else if (!role && address === "Chọn địa chỉ") {
       setErrorState({ address: "Bạn chưa chọn địa chỉ" });
     } else {
-      //let postDetails = listSelectBook.filter((lsb) => lsb.selected);
-      data.postDetailDtos = listChoosenBook.map((lsb) => {
-        return {
-          bookDto: {
-            id: lsb.id,
-          },
-          quantity: lsb.quantity,
-        };
-      });
-      if (role) {
-        data.address = null;
-      } else {
-        data.address = address;
-        data.title = "[Ký gửi]";
-        data.fee = configs;
-      }
-      const res = await dispatch(
-        addPost({
-          title: data.title,
-          noDays: data.noDays,
-          fee: role ? data.fee : configs[0]?.value,
-          content: data.content,
-          address: data.address,
-          postDetailDtos: data.postDetailDtos,
-        })
-      );
-      if (res.success) {
-        NotificationManager.success(res.message, "Thông báo", 1000);
-        // setListSelectBook((prev) =>
-        //   prev.map((lsb) => {
-        //     return lsb.selected
-        //       ? { ...lsb, maxQuantity: lsb.maxQuantity - lsb.quantity }
-        //       : lsb;
-        //   })
-        // );
-        resetData();
-      } else {
-        NotificationManager.error(res.message, "Lỗi", 1000);
+      if(listChoosenBook.length > 0){
+        data.postDetailDtos = listChoosenBook.map((lsb) => {
+          return {
+            bookDto: {
+              id: lsb.id,
+            },
+            quantity: lsb.quantity,
+          };
+        });
+        if (role) {
+          data.address = null;
+        } else {
+          data.address = address;
+          data.title = "[Ký gửi]";
+          data.fee = configs;
+        }
+        const res = await dispatch(
+          addPost({
+            title: data.title,
+            noDays: data.noDays,
+            fee: role ? data.fee : configs[0]?.value,
+            content: data.content,
+            address: data.address,
+            postDetailDtos: data.postDetailDtos,
+          })
+        );
+        if (res.success) {
+          NotificationManager.success(res.message, "Thông báo", 1000);
+          resetData();
+        } else {
+          NotificationManager.error(res.message, "Lỗi", 1000);
+        }
+      }else{
+        NotificationManager.error("Bạn chưa chọn sách để đăng", "Lỗi", 1000);
       }
     }
   };
@@ -218,18 +235,6 @@ export default function AddPost() {
       return "";
     }
   };
-  const listAddress = [
-    "Chọn địa chỉ",
-    "102 P. Phạm Ngọc Thạch, Kim Liên, Đống Đa, Hà Nội",
-    "119 Đ. Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội",
-    "Số 458 Minh Khai, Q. Hai Bà Trưng, Hà Nội",
-    "191 Bà Triệu, Lê Đại Hành, Hoàn Kiếm, Hà Nội",
-    "72 Nguyễn Trãi, Thượng Đình, Thanh Xuân, Hà Nội",
-    "72A Nguyễn Trãi, Thượng Đình, Thanh Xuân, Hà Nội",
-    "04A Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội",
-    "458 P. Minh Khai, Vĩnh Phú, Hai Bà Trưng, Hà Nội",
-    "85 Đ. Lê Văn Lương, Nhân Chính, Thanh Xuân, Hà Nội",
-  ];
 
   const handleSearch = (e) => {
     setListToChooseBook(
@@ -372,15 +377,6 @@ export default function AddPost() {
                         />
                       </div>
                     )}
-                    <div className="form-group col-md-3">
-                      <TextField
-                        id="filled-basic"
-                        label="Tổng giá"
-                        variant="filled"
-                        disabled
-                        value={total}
-                      />
-                    </div>
                   </div>
                   <div className="form-group">
                     <TextField

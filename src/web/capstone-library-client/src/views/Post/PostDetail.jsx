@@ -2,8 +2,8 @@ import {
   faBagShopping,
   faCartPlus,
   faDongSign,
-  faMinus,
-  faPlus,
+  faLocation,
+  faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -136,7 +136,9 @@ export default function DetailPost() {
                               <p className="">
                                 {currentPost?.content}
                               </p>
-                              <div className="cart-form mb-50px table-responsive px-2">
+                              <h6><FontAwesomeIcon icon={faLocationDot} /> Địa chỉ</h6>
+                              <p>{currentPost?.address}</p>
+                              <div className="cart-form table-responsive px-2">
                                 <table className="table generic-table custom-table">
                                   <thead>
                                     <tr>
