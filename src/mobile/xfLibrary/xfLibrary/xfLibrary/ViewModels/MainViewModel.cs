@@ -41,7 +41,8 @@ namespace xfLibrary.ViewModels
             if (SearchDatas.Count == 0) return;
 
             var postOne = SearchDatas[0];
-            if(IsUser())
+            //nếu là user hoặc chưa login cũng vào
+            if (IsUser() || !HasLogin())
             {
                 postOne.IsAdmin = !IsUser();
                 var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
@@ -59,6 +60,7 @@ namespace xfLibrary.ViewModels
 
                 _message.ShortAlert(res.Message);
             }
+            //chỉ admin hoặc manager
             else
             {
                 var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: $"Bạn muốn sửa/xóa bài: {postOne.Title}?",
@@ -107,7 +109,8 @@ namespace xfLibrary.ViewModels
 
         public ICommand SelectedCommand => new Command<Post>(async (post) =>
         {
-            if(IsUser())
+            //nếu là user hoặc chưa login cũng vào
+            if (IsUser() || !HasLogin())
             {
                 post.IsAdmin = !IsUser();
                 var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
@@ -126,6 +129,7 @@ namespace xfLibrary.ViewModels
                 _message.ShortAlert(res.Message);
 
             }
+            //chỉ admin hoặc manager
             else
             {
                 var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: $"Bạn muốn sửa/xóa bài: {post.Title}?",
