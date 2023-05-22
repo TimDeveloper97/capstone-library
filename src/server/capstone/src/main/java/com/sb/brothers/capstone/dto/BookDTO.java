@@ -80,7 +80,7 @@ public class BookDTO {
         this.status = 0;
         book.getImages().stream().forEach(img -> imgs.add(new ImageDto(img.getId(), img.getLink(), null)));
         this.bookInfoDtos = new ArrayList<>();
-        if(book.getUser().checkManager() == false){
+        if(book.getUser().checkManager() == false && book.getPercent() != 0){
             PostDetail postDeposit = postDetailService.findByBookId(book.getId());
             this.status = 16;
             if (postDeposit != null && postDeposit.getPost().getStatus() == CustomStatus.USER_POST_IS_EXPIRED) {

@@ -91,9 +91,6 @@ public class BookController {
         logger.info("[API-Book] getAllBooksByUserId - START");
         logger.info("Return list books");
         Set<Book> books = bookService.getListBooksOfUserId(auth.getName());
-        for (Book book : books){
-            book.setCategories(categoryService.getAllCategoriesByBookId(book.getId()));
-        }
         if(books.isEmpty()){
             logger.warn("This user's book list is empty.");
             logger.info("[API-Book] getAllBooksByUserId - END");
