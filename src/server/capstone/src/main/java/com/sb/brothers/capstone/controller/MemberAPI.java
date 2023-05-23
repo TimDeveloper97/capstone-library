@@ -23,7 +23,7 @@ import java.util.*;
 @RequestMapping("/api")
 public class MemberAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(JWTFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(MemberAPI.class);
 
     @Autowired
     private PostService postService;
