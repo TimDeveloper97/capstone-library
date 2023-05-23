@@ -22,7 +22,7 @@ export default function Post() {
   const [listPost, setListPost] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 1,
+    pageSize: 12,
     numberOfPage: 1,
   });
   const setupPage = (page, pSize) => {
@@ -38,7 +38,7 @@ export default function Post() {
   };
 
   useEffect(() => {
-    posts && setupPage(1, 1);
+    posts && setupPage(1, 12);
   }, [posts]);
 
   const handleChangePage = (e, p) => {
@@ -46,7 +46,7 @@ export default function Post() {
     setupPage(p, pagination.pageSize);
   };
 
-  const listNumberPage = [1, 2, 3, 4, 5];
+  const listNumberPage = [12, 24, 36, 48];
   const handleChangePageSize = (event) => {
     // setPagination((prev) => {
     //   return {
