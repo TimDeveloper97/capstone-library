@@ -25,19 +25,17 @@ import { MenuItem, Select } from "@mui/material";
 export default function UserManagement() {
   const userRole = JSON.parse(window.localStorage.getItem("user")).roles[0];
   const [users, setUsers] = useState([]);
-  const pageSize = 5;
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await getAllUser();
       setUsers(data.value ? data.value : []);
-      //setNumPage(data.value ? Math.ceil(data.value.length / pageSize) : 1);
     };
     fetchUser();
   }, []);
 
   const [listUser, setListUser] = useState([]);
   useEffect(() => {
-    setListUser(users.sort((a, b) => a.id - b.id).slice(0, pageSize));
+    setListUser(users.sort((a, b) => a.id - b.id).slice());
   }, [users]);
 
   const changeUserRole = async (user, index) => {
@@ -82,15 +80,6 @@ export default function UserManagement() {
       NotificationManager.error(data.message, "Lỗi", 1000);
     }
   };
-  // const [curPage, setCurPage] = useState(1);
-  // const [numPage, setNumPage] = useState(3);
-  // useEffect(() => {
-  //   setListUser(
-  //     users
-  //       .sort((a, b) => a.id - b.id)
-  //       .slice((curPage - 1) * pageSize, (curPage - 1) * pageSize + pageSize)
-  //   );
-  // }, [curPage]);
 
   const [searchName, setSearchName] = useState("");
   const [searchPhone, setSearchPhone] = useState("");

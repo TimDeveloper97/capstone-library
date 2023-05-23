@@ -6,30 +6,30 @@ export default function ManagementSidebar() {
   const manageLinks = [
     {
       value: "/user/category",
-      text: "Quản lí thể loại",
+      text: "Quản lý thể loại",
     },
     {
       value: "/user/order-status",
-      text: "Quản lí đơn hàng",
+      text: "Quản lý đơn hàng",
     },
     {
       value: "/user/post-request",
-      text: "Quản lí yêu cầu ký gửi",
+      text: "Quản lý yêu cầu ký gửi",
     },
     {
       value: "/user/book-management",
-      text: "Quản lí sách",
+      text: "Quản lý sách",
     },
   ];
   const adminManageLinks = [
     {
       value: "/user/user-management",
-      text: "Quản lí người dùng",
+      text: "Quản lý người dùng",
     },
     {
       value: "/user/charge",
-      text: "Quản lí nạp tiền",
-    },
+      text: "Quản lý nạp tiền",
+    }
   ];
 
   const userLinks = [

@@ -115,8 +115,9 @@ namespace xfLibrary.ViewModels
         public ICommand SelectedPostCommand => new Command<Post>(async (post) =>
         {
             IsBusy = false;
-
-            if (IsUser())
+            
+            //nếu là user hoặc chưa login cũng vào
+            if (IsUser() || !HasLogin())
             {
                 var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
 
@@ -135,6 +136,7 @@ namespace xfLibrary.ViewModels
                 if (!string.IsNullOrEmpty(res.Message))
                     _message.ShortAlert(res.Message);
             }
+            //chỉ admin hoặc manager
             else
             {
                 var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: $"Bạn muốn sửa/xóa bài: {post.Title}?",

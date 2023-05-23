@@ -55,39 +55,40 @@ export default function Header() {
                       <Link to={"/"}>Trang chủ</Link>
                     </li>
                   )}
-                  <li className="is-mega-menu">
-                    <a href="#" onClick={(e) => e.preventDefault()}>
-                      Thể loại <i className="la la-angle-down fs-11"></i>
-                    </a>
-                    <ul
-                      className="dropdown-menu-item"
-                      style={{ width: "1000px" }}
-                    >
-                      <div className="container">
-                        <div className="row">
-                          {categories &&
-                            categories.map((cate, index) => {
-                              return (
-                                <li className="col-md-2" key={index}>
-                                  <Link to={`/books/${cate.nameCode}`}>
-                                    {cate.name}
-                                  </Link>
-                                </li>
-                              );
-                            })}
-                        </div>
-                      </div>
-                    </ul>
-                  </li>
-                  <li className="is-mega-menu">
-                    <Link to={"/books/all"}>Kho sách</Link>
-                  </li>
+
                   {curUser?.roles[0] !== "ROLE_ADMIN" && (
-                    <li className="is-mega-menu">
-                      <Link to={"/user/add-book"}>Thêm sách</Link>
-                    </li>
-                  )}
-                  <li>
+                    <>
+                      <li className="is-mega-menu">
+                        <Link to={"/user/add-book"}>Thêm sách</Link>
+                      </li>
+                      <li className="is-mega-menu">
+                        <a href="#" onClick={(e) => e.preventDefault()}>
+                          Thể loại <i className="la la-angle-down fs-11"></i>
+                        </a>
+                        <ul
+                          className="dropdown-menu-item"
+                          style={{ width: "1000px" }}
+                        >
+                          <div className="container">
+                            <div className="row">
+                              {categories &&
+                                categories.map((cate, index) => {
+                                  return (
+                                    <li className="col-md-2" key={index}>
+                                      <Link to={`/books/${cate.nameCode}`}>
+                                        {cate.name}
+                                      </Link>
+                                    </li>
+                                  );
+                                })}
+                            </div>
+                          </div>
+                        </ul>
+                      </li>
+                      <li className="is-mega-menu">
+                        <Link to={"/books/all"}>Kho sách</Link>
+                      </li>
+                      <li>
                     <Link to={"/post"}>
                       bài đăng <i className="la la-angle-down fs-11"></i>
                     </Link>
@@ -99,6 +100,8 @@ export default function Header() {
                       </ul>
                     ) : null}
                   </li>
+                    </>
+                  )}
                   {curUser && curUser.roles[0] !== "ROLE_USER" && (
                     <li>
                       <Link

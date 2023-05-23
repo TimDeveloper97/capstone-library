@@ -26,7 +26,7 @@ export default function ListPost({posts}) {
               posts.map((item, index) => {
                 return (
                   <div
-                    className="col-md-3 col-lg-3 col-xl-3 book-item"
+                    className="col-md-3 col-lg-3 col-xl-3 book-item mb-15px"
                     key={index}
                   >
                     <div id="product-1" className="single-product card card-item">

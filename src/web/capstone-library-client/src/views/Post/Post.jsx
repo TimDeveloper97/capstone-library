@@ -35,7 +35,7 @@ export default function Post() {
         numberOfPage: Math.ceil(posts.length / prev.pageSize),
       };
     });
-    setListPost(posts.slice(start, start + pagination.pageSize));
+    setListPost(posts.sort((a, b) => b.id - a.id).slice(start, start + pagination.pageSize));
   };
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function Post() {
         setListPost((prev) => prev.sort((a, b) => a.fee - b.fee).slice());
         break;
       default:
-        setListPost((prev) => prev.sort((a, b) => a.id - b.id).slice());
+        setListPost((prev) => prev.sort((a, b) => b.id - a.id).slice());
         break;
     }
   };
@@ -98,8 +98,7 @@ export default function Post() {
     <section className="question-area pb-40px">
       <div className="container">
         <div className="row" style={{ backgroundColor: "#efefef" }}>
-          <div className="col-lg-2"></div>
-          <div className="col-lg-10">
+          <div className="col-lg-10" style={{margin: "auto"}}>
             <div className="question-tabs mb-50px">
               <div className="tab-content pt-40px" id="myTabContent">
                 <div
@@ -109,7 +108,7 @@ export default function Post() {
                   aria-labelledby="questions-tab"
                 >
                   <div className="filters d-flex align-items-center justify-content-between pb-4">
-                    <h3 className="fs-17 fw-medium">Tất cả post</h3>
+                    <h3 className="fs-17 fw-medium">Tất cả bài đăng</h3>
 
                     <div
                       className="filter-option-box"
@@ -124,7 +123,7 @@ export default function Post() {
                             className="form-control form--control"
                             type="text"
                             name="search"
-                            placeholder="Nhập tên post..."
+                            placeholder="Nhập tên bài đăng..."
                             value={keyword}
                             onChange={(e) => handleSearch(e)}
                           />
