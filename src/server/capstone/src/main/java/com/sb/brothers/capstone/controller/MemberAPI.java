@@ -87,7 +87,7 @@ public class MemberAPI {
             order.setTotalPrice(total);
             orders.add(order);
         }
-        if(total < user.getBalance()){
+        if(total <= user.getBalance()){
             for(Order order : orders) {
                 orderService.save(order);
                 changePostStatus(auth, order.getId(), CustomStatus.USER_PAYMENT_SUCCESS);
