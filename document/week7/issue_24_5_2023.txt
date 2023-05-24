@@ -1,0 +1,26 @@
+1. Nút đăng ký tài khoản bị lỗi ko bấm đc.
+=> check kỹ lại
+=> tích vào đồng ý mọi điều khoản mới enable
+
+2. Khách chưa login thì "Gợi ý cho bạn" ko có sách.
+=> cái này sơn xem ko cần gửi token cũng trả về list sách (hiện tại là phải gửi token ms có data còn ko null)
+
+3. Thanh search cần đổi lại là search tên sách thay vì tên post. 
+Khi search và chọn 1 item thì sách sẽ hiện ở "Gợi ý cho bạn" và có thể bấm vào xem detail sách đó.
+Trong detail của sách thì có thể xem những post có chứa sách. Cái này web đã đổi lâu rồi.
+=> nó muốn search theo book thì tức là phải có 1 API get all book ko cần token và trả về tất cả các sách (là sách trong kho manager) GetAdminBookAsync (ko cần token)
+=> post có chứa sách sẽ được cập nhật ở list post bên dưới khi bấm vào sách 
+
+4. Category mình đã thử add icon cho nó nhưng có vẻ như tên icon bị fix cứng là mấy cái tamlinh,
+ thieunhi,... nên mình ko đổi đc. Có gì bạn đổi lại là: action, comedy, detective, fantasy, historical,
+ horror, magic, martial_arts, school_life, sci_fi, slice_of_life, tragedy.
+=> category là data của bạn
+=> bạn sẽ tự đổi và icon hiện lên sẽ tự thay đổi theo image đã push vào Resources/drawable-hdmi
+=> 
+foreach (var item in category)
+   {
+       item.Image = item.Code + ".png";
+       Category.Add(item);
+   }
+
+

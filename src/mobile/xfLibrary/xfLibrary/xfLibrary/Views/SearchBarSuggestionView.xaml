@@ -15,17 +15,17 @@
                         <Grid ColumnDefinitions="50, *" Padding="5,10">
                             <Image Source="{Binding ImageSource}"/>
                             <Grid Grid.Column="1" RowDefinitions="4*,3*,3*" HorizontalOptions="Start">
-                                <Label Text="{Binding Title}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
+                                <Label Text="{Binding Name}" Style="{StaticResource SubTitleLabelStyle}" HorizontalOptions="Start" VerticalOptions="End"
                                                        Margin="0,0,0,-5" LineBreakMode="TailTruncation"/>
                                 <Label Grid.Row="1" Style="{StaticResource MiniLabelStyle}" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,0,0,-5">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding User, Converter={StaticResource UpperOneStringConverter}}"/>
-                                            <Span Text="{Binding NumberOfRentalDays, StringFormat=' ({0} ngày)'}"/>
+                                            <Span Text="{Binding Author, Converter={StaticResource UpperOneStringConverter}}"/>
+                                            <Span Text="{Binding InStock, StringFormat=' (Số lượng còn lại: {0})'}"/>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="2" Text="{Binding Content, TargetNullValue='Không có mô tả', FallbackValue='Không có mô tả'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-4,0,0"
+                                <Label Grid.Row="2" Text="{Binding StringCategories, TargetNullValue='Không có mô tả', FallbackValue='Không có mô tả'}" Style="{StaticResource MiniLabelStyle}" Margin="0,-4,0,0"
                                                    HorizontalOptions="Start" VerticalOptions="Start" LineBreakMode="TailTruncation"/>
                             </Grid>
                             <Grid.GestureRecognizers>
