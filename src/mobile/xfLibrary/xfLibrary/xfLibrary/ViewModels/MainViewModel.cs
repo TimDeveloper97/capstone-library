@@ -71,8 +71,8 @@ namespace xfLibrary.ViewModels
 
         public MainViewModel()
         {
-            _allDatas = new List<Post>();
-            SearchDatas = new ObservableCollection<Post>();
+            _allDatas = new List<Book>();
+            SearchDatas = new ObservableCollection<Book>();
         }
 
         #region Appearing 
@@ -142,6 +142,7 @@ namespace xfLibrary.ViewModels
 
                 //get all books and update data books
                 var allbook = await _accountService.GetAdminBookAsync();
+                _allDatas.Clear();
                 if (allbook != null)
                 {
                     allbook = allbook.OrderBy(x => x.Name).ToList();

@@ -23,7 +23,7 @@ import java.util.*;
 @RequestMapping("/api")
 public class MemberAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(JWTFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(MemberAPI.class);
 
     @Autowired
     private PostService postService;
@@ -87,7 +87,7 @@ public class MemberAPI {
             order.setTotalPrice(total);
             orders.add(order);
         }
-        if(total < user.getBalance()){
+        if(total <= user.getBalance()){
             for(Order order : orders) {
                 orderService.save(order);
                 changePostStatus(auth, order.getId(), CustomStatus.USER_PAYMENT_SUCCESS);
