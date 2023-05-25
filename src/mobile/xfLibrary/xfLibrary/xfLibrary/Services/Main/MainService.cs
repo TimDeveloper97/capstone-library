@@ -47,9 +47,9 @@ namespace xfLibrary.Services.Main
             return res;
         }
 
-        public async Task<List<Book>> SuggestAsync()
+        public async Task<List<Book>> SuggestAsync(string _token = null)
         {
-            var res = await Service.Get(Api.SuggestBook);
+            var res = await Service.Get(Api.SuggestBook, _token);
             if (res == null || res.Value == null) return null;
 
             var value = JsonConvert.DeserializeObject<List<Book>>(res.Value.ToString());

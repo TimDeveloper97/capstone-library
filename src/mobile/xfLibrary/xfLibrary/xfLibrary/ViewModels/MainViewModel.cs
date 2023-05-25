@@ -138,7 +138,7 @@ namespace xfLibrary.ViewModels
             {
                 var category = await _mainService.CategoryAsync();
                 var post = await _mainService.GetAllPostAsync();
-                var suggest = await _mainService.SuggestAsync();
+                var suggest = await _mainService.SuggestAsync(_token);
 
                 //get all books and update data books
                 var allbook = await _accountService.GetAdminBookAsync();

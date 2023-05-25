@@ -16,7 +16,7 @@ namespace xfLibrary.Services.Main
         Task<Response> UpdateCategoryAsync(string name, string code, string token);
         Task<Response> DeleteCategoryAsync(string id, string token);
 
-        Task<List<Book>> SuggestAsync();
+        Task<List<Book>> SuggestAsync(string _token = null);
         Task<List<Post>> GetSuggestPostAsync(string id);
 
         Task<List<Post>> GetAllPostAsync();
