@@ -29,20 +29,20 @@ namespace xfLibrary.Views
         }
 
         public static readonly BindableProperty ItemsSourceProperty =
-                BindableProperty.Create("ItemsSource", typeof(ObservableCollection<Post>), typeof(SearchBarSuggestionView));
+                BindableProperty.Create("ItemsSource", typeof(ObservableCollection<Book>), typeof(SearchBarSuggestionView));
 
-        public ObservableCollection<Post> ItemsSource
+        public ObservableCollection<Book> ItemsSource
         {
-            get { return (ObservableCollection<Post>)GetValue(ItemsSourceProperty); }
+            get { return (ObservableCollection<Book>)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
         public static readonly BindableProperty SelectItemProperty =
-        BindableProperty.Create("SelectItem", typeof(Post), typeof(SearchBarSuggestionView), default(Post));
+        BindableProperty.Create("SelectItem", typeof(Book), typeof(SearchBarSuggestionView), default(Book));
 
-        public Post SelectItem
+        public Book SelectItem
         {
-            get { return (Post)GetValue(SelectItemProperty); }
+            get { return (Book)GetValue(SelectItemProperty); }
             set { SetValue(SelectItemProperty, value); }
         }
 
@@ -55,10 +55,10 @@ namespace xfLibrary.Views
         }
 
         public static readonly BindableProperty SelectedCommandParameterProperty =
-            BindableProperty.Create(nameof(SelectedCommandParameter), typeof(Post), typeof(SearchBarSuggestionView), default(Post));
-        public Post SelectedCommandParameter
+            BindableProperty.Create(nameof(SelectedCommandParameter), typeof(Book), typeof(SearchBarSuggestionView), default(Book));
+        public Book SelectedCommandParameter
         {
-            get => (Post)GetValue(SelectedCommandParameterProperty);
+            get => (Book)GetValue(SelectedCommandParameterProperty);
             set => SetValue(SelectedCommandParameterProperty, value);
         }
     }

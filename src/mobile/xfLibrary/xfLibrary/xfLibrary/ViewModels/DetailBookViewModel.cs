@@ -24,11 +24,12 @@ namespace xfLibrary.ViewModels
         private ObservableCollection<byte[]> slides;
         private List<Category> _category;
         private List<int> selects;
-        private bool isUpdate = false, parameterIsNotView = true;
+        private bool isUpdate = false, parameterIsNotView = true, isHide;
 
         public ObservableCollection<byte[]> Slides { get => slides; set => SetProperty(ref slides, value); }
         public ObservableCollection<string> List { get => list; set => SetProperty(ref list, value); }
         public Book Book { get => book; set => SetProperty(ref book, value); }
+        public bool IsHide { get => isHide; set => SetProperty(ref isHide, value); }
         public string ParameterBook
         {
             get => parameterBook;
@@ -49,6 +50,7 @@ namespace xfLibrary.ViewModels
             {
                 parameterIsNotView = value;
                 SetProperty(ref parameterIsNotView, value);
+                IsHide = parameterIsNotView;
             }
         }
         #endregion
@@ -72,6 +74,9 @@ namespace xfLibrary.ViewModels
                 OnPropertyChanged("List");
             }
 
+            //remove /n
+            Book.Description = Book.Description.Replace("/n", "");
+
             if (isUpdate)
             {
                 Title = "Sửa sách";
@@ -89,6 +94,9 @@ namespace xfLibrary.ViewModels
             }    
             else
                 Title = "Tạo sách";
+
+            if (!IsHide)
+                Title = "Thông tin sách";
         });
 
         public ICommand BookCommand => new Command(async () =>
@@ -165,6 +173,7 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             selects = new List<int>();
+            IsHide = true;
             List = new ObservableCollection<string>();
             Slides = new ObservableCollection<byte[]>();
             Book = new Book { Categories = new List<string>() };

@@ -71,8 +71,8 @@ namespace xfLibrary.ViewModels
 
         public MainViewModel()
         {
-            _allDatas = new List<Post>();
-            SearchDatas = new ObservableCollection<Post>();
+            _allDatas = new List<Book>();
+            SearchDatas = new ObservableCollection<Book>();
         }
 
         #region Appearing 
@@ -138,10 +138,11 @@ namespace xfLibrary.ViewModels
             {
                 var category = await _mainService.CategoryAsync();
                 var post = await _mainService.GetAllPostAsync();
-                var suggest = await _mainService.SuggestAsync();
+                var suggest = await _mainService.SuggestAsync(_token);
 
                 //get all books and update data books
                 var allbook = await _accountService.GetAdminBookAsync();
+                _allDatas.Clear();
                 if (allbook != null)
                 {
                     allbook = allbook.OrderBy(x => x.Name).ToList();

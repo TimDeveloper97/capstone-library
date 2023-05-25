@@ -166,11 +166,20 @@ namespace xfLibrary.ViewModels
             IsBusy = true;
 
             var posts = await _mainService.GetSuggestPostAsync(book.Id);
-            if (posts == null)
-                _allPosts.Clear();
-            else
-                _allPosts = posts;
+            _allPosts.Clear();
+
+            if (posts != null)
+            {
+                foreach (var post in posts)
+                {
+                    if (post.Order == null)
+                        post.Order = new ObservableCollection<Order>();
+
+                    _allPosts.Add(UpdateItemData(post));
+                }
+            }
             RefreshData();
+
 
             IsBusy = false;
         });

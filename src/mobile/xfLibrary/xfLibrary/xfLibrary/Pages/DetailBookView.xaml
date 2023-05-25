@@ -51,7 +51,7 @@
 
                     <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
                            Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10" 
-                           IsVisible="{Binding ParameterIsNotView}"
+                           IsVisible="{Binding IsHide}"
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
                         <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Image}"
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
@@ -60,7 +60,7 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
-                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" IsVisible="{Binding ParameterIsNotView}" Command="{Binding BookCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
+                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" IsVisible="{Binding IsHide}" Command="{Binding BookCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
                                         Style="{StaticResource IconButtonStyle}" FontSize="{StaticResource Icon}" Text="{Static icon:FontIcons.Upload}" WidthRequest="50" Margin="10,5,10,0"/>
                 </Grid>
                 <!--#endregion-->
@@ -78,22 +78,22 @@
                             <Frame>
                                 <StackLayout Padding="10,5,10,15" Spacing="0">
                                     <StackLayout Margin="20,0">
-                                        <mdc:MaterialEntry LabelText="Tên sách *" Text="{Binding Book.Name}"/>
-                                        <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Book.Description}"/>
+                                        <mdc:MaterialEntry LabelText="Tên sách *" Text="{Binding Book.Name}" IsEnabled="{Binding IsHide}"/>
+                                        <mdc:MaterialEditor LabelText="Mô tả *" Text="{Binding Book.Description}" IsEnabled="{Binding IsHide}"/>
                                         <Grid ColumnDefinitions="*,*">
-                                            <mdc:MaterialEntry Grid.Column="0" LabelText="Nhà xuất bản *" Text="{Binding Book.Publisher}"/>
-                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Tác giả *" Text="{Binding Book.Author}"/>
+                                            <mdc:MaterialEntry Grid.Column="0" LabelText="Nhà xuất bản *" Text="{Binding Book.Publisher}" IsEnabled="{Binding IsHide}"/>
+                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Tác giả *" Text="{Binding Book.Author}" IsEnabled="{Binding IsHide}"/>
                                         </Grid>
                                         <Grid ColumnDefinitions="*,*">
-                                            <mdc:MaterialEntry LabelText="Số lượng *" Keyboard="Numeric" Text="{Binding Book.Quantity}"/>
-                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Giá *" Keyboard="Numeric" Text="{Binding Book.Price}"/>
+                                            <mdc:MaterialEntry LabelText="Số lượng *" Keyboard="Numeric" Text="{Binding Book.Quantity}" IsEnabled="{Binding IsHide}"/>
+                                            <mdc:MaterialEntry Grid.Column="1" LabelText="Giá *" Keyboard="Numeric" Text="{Binding Book.Price}" IsEnabled="{Binding IsHide}"/>
                                         </Grid>
                                         <Grid ColumnDefinitions="*, auto">
                                             <Grid RowDefinitions="4*,6*" RowSpacing="0" Margin="0,5,0,0">
-                                                <Label Text="Thể loại *" Style="{StaticResource SubTitleGrayLabelStyle}" HorizontalOptions="Start"/>
+                                                <Label Text="Thể loại *" Style="{StaticResource SubTitleGrayLabelStyle}" HorizontalOptions="Start" />
                                                 <Frame Grid.Row="1" HeightRequest="35">
                                                     <Label Style="{StaticResource SubTitleLabelStyle}" LineBreakMode="TailTruncation" Text="{Binding List, Converter={StaticResource ListStringConverter}}"
-                                                           VerticalOptions="Center" Margin="10,0" HorizontalTextAlignment="Start"/>
+                                                           VerticalOptions="Center" Margin="10,0" HorizontalTextAlignment="Start" IsEnabled="{Binding IsHide}"/>
                                                 </Frame>
                                             </Grid>
                                             <Frame Grid.Column="1" HeightRequest="30" WidthRequest="30" BorderColor="Transparent" 
