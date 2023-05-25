@@ -144,7 +144,7 @@ public class AuthenticatedUserAPI {
 
     //books session
     //@PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/search-comic")
+    @GetMapping("books/search")
     public ResponseEntity<?> searchComic(@RequestBody DataDTO dataDto){
         logger.info("[API-Authenticated] searchComic - START");
         logger.info("Return all books has contains : " + dataDto.getValue());
