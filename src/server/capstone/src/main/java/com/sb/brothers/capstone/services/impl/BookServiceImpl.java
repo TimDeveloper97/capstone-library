@@ -63,7 +63,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Set<Book> searchBySuggest(String uId) {
-        return null;//bookRepository.recommendBooks(uId);
+        if(uId != ""){
+            return bookRepository.recommendBooks(uId);
+        }
+        return bookRepository.recommendBooksForNonUser();
     }
 
     @Override
