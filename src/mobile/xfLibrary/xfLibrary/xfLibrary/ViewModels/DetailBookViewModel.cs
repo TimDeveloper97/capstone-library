@@ -24,11 +24,12 @@ namespace xfLibrary.ViewModels
         private ObservableCollection<byte[]> slides;
         private List<Category> _category;
         private List<int> selects;
-        private bool isUpdate = false, parameterIsNotView = true;
+        private bool isUpdate = false, parameterIsNotView = true, isHide;
 
         public ObservableCollection<byte[]> Slides { get => slides; set => SetProperty(ref slides, value); }
         public ObservableCollection<string> List { get => list; set => SetProperty(ref list, value); }
         public Book Book { get => book; set => SetProperty(ref book, value); }
+        public bool IsHide { get => isHide; set => SetProperty(ref isHide, value); }
         public string ParameterBook
         {
             get => parameterBook;
@@ -49,6 +50,10 @@ namespace xfLibrary.ViewModels
             {
                 parameterIsNotView = value;
                 SetProperty(ref parameterIsNotView, value);
+                IsHide = parameterIsNotView;
+
+                if (!IsHide)
+                    Title = "Thông tin sách";
             }
         }
         #endregion

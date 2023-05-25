@@ -51,7 +51,7 @@
 
                     <Frame Grid.Column="2" CornerRadius="30" HeightRequest="40" WidthRequest="40" BorderColor="Transparent" 
                            Style="{StaticResource FrameNoBorder}" HasShadow="False" Margin="-5,10" 
-                           IsVisible="{Binding ParameterIsNotView}"
+                           IsVisible="{Binding IsHide}"
                            HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="{StaticResource AppColor}" >
                         <Label Style="{StaticResource IconLabel}" FontSize="30" Text="{Static icon:FontIcons.Image}"
                                VerticalOptions="Center" HorizontalOptions="Center" TextColor="White"/>
@@ -60,7 +60,7 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
-                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" IsVisible="{Binding ParameterIsNotView}" Command="{Binding BookCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
+                    <mdc:MaterialButton Grid.Column="3" IsBusy="{Binding IsBusy}" IsVisible="{Binding IsHide}" Command="{Binding BookCommand}" VerticalOptions="Center" TextColor="White" BusyColor="White"
                                         Style="{StaticResource IconButtonStyle}" FontSize="{StaticResource Icon}" Text="{Static icon:FontIcons.Upload}" WidthRequest="50" Margin="10,5,10,0"/>
                 </Grid>
                 <!--#endregion-->
