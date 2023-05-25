@@ -244,7 +244,7 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Xóa bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.OK);
             }
-            if (!checkManager(auth, post))
+            if (!checkManager(auth, post) || post.getUser().getId().compareTo(auth.getName()) != 0)
                 return new ResponseEntity<>(new CustomErrorType("Bạn không quản lý cửa hàng có bài viết này."), HttpStatus.OK);
             if(post.getStatus() == CustomStatus.ADMIN_POST || post.getStatus() == CustomStatus.USER_POST_IS_APPROVED || post.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED) {
                 if (post.getUser().getId().equals(auth.getName()) || tokenProvider.getRoles(auth).contains("ROLE_ADMIN") || tokenProvider.getRoles(auth).contains("ROLE_MANAGER_POST")) {
@@ -282,7 +282,7 @@ public class PostController {
                 return new ResponseEntity(new CustomErrorType("Cập nhật bài đăng thất bại. Không thể tìm thấy bài đăng."),
                         HttpStatus.NOT_FOUND);
             }
-            if (!checkManager(auth, currPost))
+            if (!checkManager(auth, currPost)  || currPost.getUser().getId().compareTo(auth.getName()) != 0)
                 return new ResponseEntity<>(new CustomErrorType("Bạn không quản lý cửa hàng có bài viết này."), HttpStatus.OK);
             logger.info("Fetching & Updating Post with id: " + postDto.getId());
             try{
