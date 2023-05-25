@@ -66,7 +66,8 @@ namespace xfLibrary.ViewModels
         });
 
         public ICommand UpdateCommand => new Command<Book>(async (book) => await Shell.Current.GoToAsync($"{nameof(DetailBookView)}" +
-            $"?{nameof(DetailBookViewModel.ParameterBook)}={Newtonsoft.Json.JsonConvert.SerializeObject(book)}"));
+            $"?{nameof(DetailBookViewModel.ParameterBook)}={Newtonsoft.Json.JsonConvert.SerializeObject(book)}" +
+            $"&{nameof(DetailBookViewModel.ParameterIsNotView)}={true}"));
         #endregion
 
         public BookViewModel()

@@ -14,6 +14,7 @@ using xfLibrary.Models;
 namespace xfLibrary.ViewModels
 {
     [QueryProperty(nameof(ParameterBook), nameof(ParameterBook))]
+    [QueryProperty(nameof(ParameterIsNotView), nameof(ParameterIsNotView))]
     class DetailBookViewModel : BaseViewModel
     {
         #region Property
@@ -23,7 +24,7 @@ namespace xfLibrary.ViewModels
         private ObservableCollection<byte[]> slides;
         private List<Category> _category;
         private List<int> selects;
-        private bool isUpdate = false;
+        private bool isUpdate = false, parameterIsNotView = true;
 
         public ObservableCollection<byte[]> Slides { get => slides; set => SetProperty(ref slides, value); }
         public ObservableCollection<string> List { get => list; set => SetProperty(ref list, value); }
@@ -38,6 +39,16 @@ namespace xfLibrary.ViewModels
 
                 Book = Newtonsoft.Json.JsonConvert.DeserializeObject<Book>(parameterBook);
                 isUpdate = true;
+            }
+        }
+
+        public bool ParameterIsNotView
+        {
+            get => parameterIsNotView;
+            set
+            {
+                parameterIsNotView = value;
+                SetProperty(ref parameterIsNotView, value);
             }
         }
         #endregion

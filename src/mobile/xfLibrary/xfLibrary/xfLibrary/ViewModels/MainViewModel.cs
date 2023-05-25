@@ -21,8 +21,8 @@ namespace xfLibrary.ViewModels
     {
         #region Properties
         private bool isSearching;
-        private static List<Post> _allDatas;
-        private ObservableCollection<Post> searchDatas;
+        private static List<Book> _allDatas;
+        private ObservableCollection<Book> searchDatas;
         private int height = 70;
         private int badgeNotification, badgePost;
         private bool isExecuteAppearing = true, isExecuteDisappearing = true, isExecuteOne = true;
@@ -31,7 +31,7 @@ namespace xfLibrary.ViewModels
         public int Height { get => height; set => SetProperty(ref height, value); }
         public int BadgeNotification { get => badgeNotification; set => SetProperty(ref badgeNotification, value); }
         public int BadgePost { get => badgePost; set => SetProperty(ref badgePost, value); }
-        public ObservableCollection<Post> SearchDatas { get => searchDatas; set => SetProperty(ref searchDatas, value); }
+        public ObservableCollection<Book> SearchDatas { get => searchDatas; set => SetProperty(ref searchDatas, value); }
 
         #endregion
 
@@ -40,53 +40,10 @@ namespace xfLibrary.ViewModels
         {
             if (SearchDatas.Count == 0) return;
 
-            var postOne = SearchDatas[0];
-            //nếu là user hoặc chưa login cũng vào
-            if (IsUser() || !HasLogin())
-            {
-                postOne.IsAdmin = !IsUser();
-                var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(postOne, false));
-
-                if (item == null) return;
-                Response res = null;
-                //Thêm vào giỏ
-                if (item.IsChecked)
-                    res = await _mainService.OrderCartAsync(item.Id, _token);
-                //thanh toán luôn
-                else
-                    res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
-
-                if (res == null) return;
-
-                _message.ShortAlert(res.Message);
-            }
-            //chỉ admin hoặc manager
-            else
-            {
-                var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: $"Bạn muốn sửa/xóa bài: {postOne.Title}?",
-                                    confirmingText: "Sửa",
-                                    dismissiveText: "xóa");
-                IsBusy = false;
-                if (isOk == false)
-                {
-                    var res = await _mainService.DeletePostAsync(postOne.Id, _token);
-                    if (res == null) return;
-
-                    if (res.Success)
-                    {
-                        SearchDatas.Remove(postOne);
-                        _allDatas.Remove(postOne);
-                    }
-
-                    if (!string.IsNullOrEmpty(res.Message))
-                        _message.ShortAlert(res.Message);
-                }
-                else if (isOk == true)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
-                    $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(postOne)}");
-                }
-            }
+            var bookOne = SearchDatas[0];
+            await Shell.Current.GoToAsync($"{nameof(DetailBookView)}" +
+            $"?{nameof(DetailBookViewModel.ParameterBook)}={JsonConvert.SerializeObject(bookOne)}" +
+            $"&{nameof(DetailBookViewModel.ParameterIsNotView)}={false}");
         });
 
         public ICommand TextChangedCommand => new Command<string>((text) =>
@@ -99,7 +56,7 @@ namespace xfLibrary.ViewModels
 
             foreach (var item in _allDatas)
             {
-                string title = item.Title.Clone().ToString().ToLower();
+                string title = item.Name.Clone().ToString().ToLower();
 
                 if (title.Contains(text)) SearchDatas.Add(item);
             }
@@ -107,56 +64,9 @@ namespace xfLibrary.ViewModels
             Height = SearchDatas.Count >= 5 ? 350 : SearchDatas.Count * 70;
         });
 
-        public ICommand SelectedCommand => new Command<Post>(async (post) =>
-        {
-            //nếu là user hoặc chưa login cũng vào
-            if (IsUser() || !HasLogin())
-            {
-                post.IsAdmin = !IsUser();
-                var item = await Shell.Current.ShowPopupAsync(new DetailPostPopup(post, false));
-
-                if (item == null) return;
-                Response res = null;
-                //Thêm vào giỏ
-                if (item.IsChecked)
-                    res = await _mainService.OrderCartAsync(item.Id, _token);
-                //thanh toán luôn
-                else
-                    res = await _mainService.CheckoutCartAsync(new List<Post> { item }, _token);
-
-                if (res == null) return;
-
-                _message.ShortAlert(res.Message);
-
-            }
-            //chỉ admin hoặc manager
-            else
-            {
-                var isOk = await XF.Material.Forms.UI.Dialogs.MaterialDialog.Instance.ConfirmAsync(message: $"Bạn muốn sửa/xóa bài: {post.Title}?",
-                                    confirmingText: "Sửa",
-                                    dismissiveText: "xóa");
-                IsBusy = false;
-                if (isOk == false)
-                {
-                    var res = await _mainService.DeletePostAsync(post.Id, _token);
-                    if (res == null) return;
-
-                    if (res.Success)
-                    {
-                        SearchDatas.Remove(post);
-                        _allDatas.Remove(post);
-                    }
-
-                    if (!string.IsNullOrEmpty(res.Message))
-                        _message.ShortAlert(res.Message);
-                }
-                else if (isOk == true)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(DetailPostView)}" +
-                    $"?{nameof(DetailPostViewModel.ParameterPost)}={Newtonsoft.Json.JsonConvert.SerializeObject(post)}");
-                }
-            }
-        });
+        public ICommand SelectedCommand => new Command<Book>(async (book) => await Shell.Current.GoToAsync($"{nameof(DetailBookView)}" +
+            $"?{nameof(DetailBookViewModel.ParameterBook)}={JsonConvert.SerializeObject(book)}" + 
+            $"&{nameof(DetailBookViewModel.ParameterIsNotView)}={false}"));
         #endregion
 
         public MainViewModel()
@@ -210,11 +120,11 @@ namespace xfLibrary.ViewModels
                     posts = await _mainService.GetAllPostMeAsync(_token);
                 else
                     posts = await _mainService.GetAllPostAdminAsync(_token);
-                if(posts != null)
+                if (posts != null)
                 {
                     BadgePost = posts.Where(x => x.Status == Services.Api.USER_POST_IS_NOT_APPROVED).Count();
                     OnPropertyChanged("BadgePost");
-                }    
+                }
 
             }
 
@@ -228,12 +138,34 @@ namespace xfLibrary.ViewModels
             {
                 var category = await _mainService.CategoryAsync();
                 var post = await _mainService.GetAllPostAsync();
-                if (post != null)
-                {
-                    _allDatas = new List<Post>(post);
-                }
+                var suggest = await _mainService.SuggestAsync();
 
-                var suggest = await _mainService.SuggestAsync(_token);
+                //get all books and update data books
+                var allbook = await _accountService.GetAdminBookAsync();
+                if (allbook != null)
+                {
+                    allbook = allbook.OrderBy(x => x.Name).ToList();
+                    foreach (var book in allbook)
+                    {
+                        if (book.Imgs == null || book.Imgs.Count == 0)
+                            book.ImageSource = Services.Api.IconBook;
+                        else
+                        {
+                            var url = Services.Api.BaseUrl + book.Imgs[0].FileName.Replace("\\", "/");
+                            book.ImageSource = url;
+                        }
+
+                        //format to view
+                        if (book.Categories != null && book.Categories.Count != 0)
+                            book.StringCategories = ListToString(book.Categories);
+
+                        //show only manager
+                        book.IsNotUser = !IsUser();
+
+                        //add static data
+                        _allDatas.Add(book);
+                    }
+                }    
 
                 MessagingCenter.Send<object, object>(this, "category", category);
                 MessagingCenter.Send<object, object>(this, "post", post);
@@ -346,5 +278,16 @@ namespace xfLibrary.ViewModels
                 isExecuteAppearing = !isExecuteAppearing;
         }
         #endregion
+
+        string ListToString(List<string> categories)
+        {
+            var result = "";
+
+            foreach (var c in categories)
+            {
+                result += c + ",";
+            }
+            return result.Substring(0, result.Length - 1);
+        }
     }
 }

@@ -125,7 +125,7 @@ namespace xfLibrary.Services.Account
             return res;
         }
 
-        public async Task<List<Book>> GetAdminBookAsync(string token)
+        public async Task<List<Book>> GetAdminBookAsync(string token = null)
         {
             var res = await Service.Get(Api.AdminBook, token);
             if (res.Value == null || res.Value == null) return null;

@@ -24,7 +24,7 @@ namespace xfLibrary.Services.Login
         Task<Response> UpdateProfileAsync(object obj, string token);
 
 
-        Task<List<Book>> GetAdminBookAsync(string token);
+        Task<List<Book>> GetAdminBookAsync(string token = null);
         Task<List<Book>> GetUserBookAsync(string token);
 
         Task<Response> AddBookAsync(object obj, string token);
