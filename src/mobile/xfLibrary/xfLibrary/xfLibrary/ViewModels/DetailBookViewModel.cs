@@ -51,9 +51,6 @@ namespace xfLibrary.ViewModels
                 parameterIsNotView = value;
                 SetProperty(ref parameterIsNotView, value);
                 IsHide = parameterIsNotView;
-
-                if (!IsHide)
-                    Title = "Thông tin sách";
             }
         }
         #endregion
@@ -77,6 +74,9 @@ namespace xfLibrary.ViewModels
                 OnPropertyChanged("List");
             }
 
+            //remove /n
+            Book.Description = Book.Description.Replace("/n", "");
+
             if (isUpdate)
             {
                 Title = "Sửa sách";
@@ -94,6 +94,9 @@ namespace xfLibrary.ViewModels
             }    
             else
                 Title = "Tạo sách";
+
+            if (!IsHide)
+                Title = "Thông tin sách";
         });
 
         public ICommand BookCommand => new Command(async () =>
@@ -170,6 +173,7 @@ namespace xfLibrary.ViewModels
         void Init()
         {
             selects = new List<int>();
+            IsHide = true;
             List = new ObservableCollection<string>();
             Slides = new ObservableCollection<byte[]>();
             Book = new Book { Categories = new List<string>() };
