@@ -145,21 +145,17 @@ public class UnauthenticatedUserAPI {
 
     //books session
     @GetMapping("/books/suggest")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> suggestBook(Authentication auth){
         logger.info("[API-Unauthenticated] suggestBook - START");
-        logger.info("Return all suggest books for user: " + auth.getName());
-        Set<Book> books = bookService.searchBySuggest(auth.getName());
-        if(books == null){
-            books = bookService.getAllBook().stream().collect(Collectors.toSet());
+        Set<Book> books = null;
+        if(auth != null) {
+            logger.info("Return all suggest books for user: " + auth.getName());
+            books = bookService.searchBySuggest(auth.getName()).stream().limit(10).collect(Collectors.toSet());
         }
-        if(books.isEmpty()){
-            logger.warn("Books with poster's location: "+ auth.getName()+" could not be found");
-            logger.info("[API-Unauthenticated] suggestBook - END");
-            return new ResponseEntity(new CustomErrorType("Books with poster's location: "+ auth.getName()+" could not be found"), HttpStatus.OK);
+        if(auth == null || books.isEmpty()){
+            books = bookService.searchBySuggest("").stream().limit(10).collect(Collectors.toSet());
         }
         List<BookDTO> bookDTOS = BookDTO.convertAllBooks(books);
-        logger.info("Return all books with poster's location: "+ auth.getName());
         logger.info("[API-Unauthenticated] suggestBook - SUCCESS");
         return new ResponseEntity<>(new ResData<List<BookDTO>>(0, bookDTOS), HttpStatus.OK);
     }//view all books with location

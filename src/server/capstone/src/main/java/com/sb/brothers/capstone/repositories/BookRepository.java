@@ -36,10 +36,22 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             nativeQuery = true)
     Set<Book> findByPostLocation(@Param("address") String address);
 
-    @Query(value = "select * from books where id in " +
-            "(select bca.book_id from category as c inner join book_category as bca on c.name_code =  bca.category_id where c.name_code in " +
-            "(Select Distinct category_id from favourite_book as fb join book_category as bc on fb.book_id = bc.book_id where fb.user_id = :uId and fb.rating >= 7))", nativeQuery = true)
+    @Query(value = "SELECT * FROM books WHERE id IN " +
+            "(SELECT DISTINCT bca.book_id FROM category AS c INNER JOIN book_category AS bca ON c.name_code =  bca.category_id " +
+            "INNER JOIN post_detail AS pd ON pd.book_id = bca.book_id " +
+            "INNER JOIN post AS p ON p.id = pd.post_id " +
+            "WHERE p.status = 0 AND  c.name_code IN " +
+            "(SELECT DISTINCT category_id FROM post AS p JOIN post_detail AS pd ON p.id = pd.post_id " +
+            "INNER JOIN book_category AS bc ON bc.book_id = pd.book_id WHERE (p.status BETWEEN 32 AND 256) AND user_id = :uId))", nativeQuery = true)
     Set<Book> recommendBooks(@Param("uId") String uId);
+
+    @Query(value = "SELECT * FROM books WHERE id IN " +
+            "(SELECT DISTINCT bca.book_id FROM category AS c INNER JOIN book_category AS bca ON c.name_code =  bca.category_id " +
+            "INNER JOIN post_detail AS pd ON pd.book_id = bca.book_id " +
+            "INNER JOIN post AS p ON p.id = pd.post_id " +
+            "WHERE p.status = 0 AND  c.name_code IN " +
+            "(SELECT DISTINCT category_id FROM post AS p JOIN post_detail AS pd ON p.id = pd.post_id INNER JOIN book_category AS bc ON bc.book_id = pd.book_id WHERE p.status = 0))", nativeQuery = true)
+    Set<Book> recommendBooksForNonUser();
 
     @Query(value = "SELECT * FROM books WHERE id IN (SELECT book_id FROM post_detail WHERE sublet > 0 AND post_id IN (SELECT id FROM post WHERE `status` = 16) ) OR (user_id IN (SELECT DISTINCT user_Id FROM user_role WHERE user_role.role_id  = 1 OR user_role.role_id = 3) AND quantity = 0)",
             nativeQuery = true)
