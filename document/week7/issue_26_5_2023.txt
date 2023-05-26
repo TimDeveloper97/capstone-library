@@ -9,6 +9,7 @@ thuận thì ko cho gửi request ký gửi khác, chỗ khác.
 => sơn thêm 2 cái field nữa lý do: title, description 
 => mobile vs web update UI
 => mobile fixed
+=> web fixed
 
 3. Phần chấp thuận và từ chối đơn hàng -> bỏ, cho đơn hàng sang trạng thái "Chờ lấy sách" -> tạo mã
 => Sơn nhảy trạng thái
@@ -20,9 +21,11 @@ thuận thì ko cho gửi request ký gửi khác, chỗ khác.
 public string User { get; set; }
 => tức là thêm 1 field ở QR code khi gửi sang cho t
 => mobile fixed
+=> web fixed
 
 5. Đơn ký gửi manager bỏ luôn phần chấp thuận chỉ giữ lại tạo mã và từ chối, show đơn kí gửi bên mng
 => mobile fixed
+=> web fixed
 
 6. mobile dùng account user tạo sách thì crash app
 => fixed

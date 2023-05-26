@@ -33,6 +33,7 @@ import {
   DialogTitle,
   DialogContent,
   Avatar,
+  TextField,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
@@ -79,19 +80,33 @@ export default function PostRequest() {
     }
   };
 
+  const [denyId, setDenyId] = useState(0);
+  const [denyIndex, setDenyIndex] = useState(0);
+  const [openReason, setOpenReason] = useState(false);
+  const [reason, setReason] = useState("");
+  
+
   const handleDeny = async (e, id, index) => {
     e.preventDefault();
-    const { data } = await denyPost(id);
+    setDenyId(id);
+    setDenyIndex(index);
+    setOpenReason(true);
+  };
+
+  const confirmDenyOrder = async () => {
+    const { data } = await denyPost(denyId, {value: reason});
+    setOpenReason(false);
     if (data.success) {
       let temp = listPostDeposit;
-      temp[index].statusColor = getColorStatus(2);
-      temp[index].status = 2;
+      temp[denyIndex].statusColor = getColorStatus(2);
+      temp[denyIndex].status = 2;
       setListPostDeposit(temp.slice());
       NotificationManager.success(data.message, "Thông báo", 1000);
+      setReason("");
     } else {
       NotificationManager.error(data.message, "Lỗi", 1000);
     }
-  };
+  }
 
   const convertToDay = (input) => {
     const day = new Date(input);
@@ -160,11 +175,13 @@ export default function PostRequest() {
   const handleCreateQr = async (e, id, index) => {
     e.preventDefault();
     const token = window.localStorage.getItem("token");
+    const user = JSON.parse(window.localStorage.getItem("user"));
     const data = {
       time: new Date().getTime(),
       token: token,
       orderId: id,
       status: 4,
+      userId: user.id
     };
     const input = JSON.stringify(data);
     setQrValue(input);
@@ -328,7 +345,7 @@ export default function PostRequest() {
                               <td style={{ position: "relative" }}>
                                 {los.status === 2 ? null : los.status === 4 ? (
                                   <div className="button-action">
-                                    <div className="tooltip-action" style={{height: "150px"}}>
+                                    <div className="tooltip-action" style={{height: "110px"}}>
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
@@ -337,15 +354,6 @@ export default function PostRequest() {
                                       >
                                         <FontAwesomeIcon icon={faQrcode} /> Tạo
                                         mã
-                                      </button>
-                                      <button
-                                        className="btn btn-success"
-                                        onClick={(e) =>
-                                          handleAccept(e, los.id, index)
-                                        }
-                                      >
-                                        <FontAwesomeIcon icon={faCheck} /> Chấp
-                                        thuận
                                       </button>
                                       <button
                                         className="btn btn-danger"
@@ -425,6 +433,20 @@ export default function PostRequest() {
           <DialogActions>
             <Button onClick={checkResult}>Xem kết quả</Button>
             <Button onClick={handleCloseQr}>Hủy</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={openReason} onClose={() => setOpenReason(false)}>
+          <DialogTitle>Lý do từ chối</DialogTitle>
+          <DialogContent>
+            <TextField
+              margin="dense"
+              value={reason}
+              onChange={e => setReason(e.target.value)}
+              label="Lý do"
+             />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => confirmDenyOrder()}>Xác nhận</Button>
           </DialogActions>
         </Dialog>
       </section>
