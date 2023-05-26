@@ -83,7 +83,10 @@
                                         <SwipeItems SwipeBehaviorOnInvoked="Auto">
                                             <SwipeItem Text="Xem" Command="{Binding Path=BindingContext.ViewCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
                                             <SwipeItem Text="Từ chối" IsVisible="{Binding IsDeny}" Command="{Binding Path=BindingContext.DenyCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
-                                            <SwipeItem Text="{Binding Status, Converter={StaticResource StatusToAcceptConverter}}" IsVisible="{Binding IsAccept}" Command="{Binding Path=BindingContext.AcceptCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem Text="{Binding Status, Converter={StaticResource StatusToAcceptConverter}}"
+                                                       IsVisible="{Binding IsAccept}"
+                                                       Command="{Binding Path=BindingContext.AcceptCommand, Source={x:Reference Name=self}}" CommandParameter="{Binding .}" />
+                                            <!--IsVisible="{Binding IsAccept}"-->
                                         </SwipeItems>
                                     </SwipeView.RightItems>
                                     <!-- Content -->

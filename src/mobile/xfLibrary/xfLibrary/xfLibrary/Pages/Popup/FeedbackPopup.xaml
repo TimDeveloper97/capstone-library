@@ -9,7 +9,7 @@
              xmlns:icon="clr-namespace:xfLibrary.Resources"
              Size="350,300"
              xmlns:mdc="clr-namespace:Plugin.MaterialDesignControls;assembly=Plugin.MaterialDesignControls"
-             x:TypeArguments="x:String"
+             x:TypeArguments="x:Boolean"
              IsLightDismissEnabled="True"
              
              x:Class="xfLibrary.Pages.Popup.FeedbackPopup">
@@ -19,7 +19,7 @@
                 <ScrollView>
                     <StackLayout Spacing="0" VerticalOptions="FillAndExpand">
                         <Grid BackgroundColor="{StaticResource AppColor}" HeightRequest="55">
-                            <Label Text="Đóng góp ý kiến" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
+                            <Label Text="Mẫu phản hồi lý do" TextColor="White" Margin="20,0" FontSize="{StaticResource Title}" VerticalOptions="Center"/>
                         </Grid>
 
                         <StackLayout VerticalOptions="FillAndExpand">
@@ -27,12 +27,12 @@
                                 <Frame>
                                     <StackLayout Padding="10,5,10,15" Spacing="0">
                                         <StackLayout Margin="20,0">
-                                            <mdc:MaterialEntry x:Name="title" LabelText="Tiêu đề *"/>
+                                            <mdc:MaterialEntry x:Name="title" LabelText="Tiêu đề *" IsVisible="false"/>
                                             <mdc:MaterialEntry x:Name="description" LabelText="Mô tả *"/>
                                         </StackLayout>
                                     </StackLayout>
                                 </Frame>
-                                <Label Text="Mẫu đóng góp" Margin="15,-10,0,0" BackgroundColor="White" FontSize="{StaticResource SubTitle}"
+                                <Label Text="Thông tin" Margin="15,-10,0,0" BackgroundColor="White" FontSize="{StaticResource SubTitle}"
                                                VerticalOptions="Start" HorizontalOptions="Start" Padding="5,0"/>
                             </Grid>
                         </StackLayout>
