@@ -1,6 +1,7 @@
 package com.sb.brothers.capstone.controller;
 
 import com.sb.brothers.capstone.configuration.jwt.TokenProvider;
+import com.sb.brothers.capstone.dto.DataDTO;
 import com.sb.brothers.capstone.dto.OrderDto;
 import com.sb.brothers.capstone.dto.PostDetailDto;
 import com.sb.brothers.capstone.dto.PostDto;
@@ -380,8 +381,11 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
     @PutMapping("/deny-post/{id}")
-    public ResponseEntity<?> denyPost(Authentication auth, @PathVariable("id") int id){
-        return changePostStatus(auth, id, CustomStatus.USER_REQUEST_IS_DENY);
+    public ResponseEntity<?> denyPost(Authentication auth, @PathVariable("id") int id, @RequestBody DataDTO dataDto){
+        DataDTO dtos[] = new DataDTO[2];
+        dtos[0] = dataDto;
+        logger.info("DenyPost- START");
+        return changePostStatus(auth, id, CustomStatus.USER_REQUEST_IS_DENY, dtos);
     }//form edit post, fill old data into form
 
     @PreAuthorize("hasRole('ROLE_MANAGER_POST')")
@@ -390,7 +394,7 @@ public class PostController {
         return changePostStatus(auth, id, CustomStatus.RETURNED_THE_BOOK_TO_THE_USER);
     }//form edit post, fill old data into form
 
-    ResponseEntity<?> changePostStatus(Authentication auth, int id, int status){
+    ResponseEntity<?> changePostStatus(Authentication auth, int id, int status,DataDTO ... dtos){
         logger.info("[API-Post] changePostStatus - START");
         Post currPost = null;
         try{
@@ -427,6 +431,12 @@ public class PostController {
                         }
                     }
                     postService.updateStatus(id, status);
+                    Optional<User> manager = userService.getUserById(auth.getName());
+                    DataDTO dataDto = dtos[0];
+                    Notification notify = new Notification();
+                    notify.setUser(currPost.getUser());
+                    notify.setDescription("Đơn ký gửi của bạn đã bị từ chối" + (manager.isPresent() ? (" bởi: " + manager.get().getFirstName() + " " + manager.get().getLastName()) : "") + ". Lý do: "+ dataDto.getValue());
+                    notificationService.updateNotification(notify);
                 }
                 else throw new Exception("Không thể thay đổi trạng thái của bài đăng.");
             }
