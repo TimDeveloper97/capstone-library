@@ -3,6 +3,7 @@ import {
   Checkbox,
   Dialog,
   DialogActions,
+  DialogContent,
   DialogTitle,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -16,14 +17,18 @@ import {
 } from "react-notifications";
 import { Link } from "react-router-dom";
 import { removeFromCart } from "../../actions/cart";
+import { getUser } from "../../actions/user";
 
 export default function Order() {
   const dispatch = useDispatch();
+  const curUser = JSON.parse(window.localStorage.getItem("user"));
   useEffect(() => {
     dispatch(getOrder());
+    dispatch(getUser(curUser.id));
   }, []);
 
   const order = useSelector((state) => state.order);
+  const user = useSelector(state => state.user);
   const [listOrder, setListOrder] = useState([]);
 
   useEffect(() => {
@@ -104,7 +109,15 @@ export default function Order() {
   };
   const handleConfirm = (e) => {
     e.preventDefault();
-    setOpen(true);
+    let orders = [];
+    listOrder.forEach((l) => {
+      l.checked && orders.push({ id: l.id });
+    });
+    if(orders.length === 0){
+      NotificationManager.error("Bạn chưa chọn bài đăng để thanh toán", "Lỗi", 1000);
+    }else{
+      setOpen(true);
+    }
   };
 
   const handleCheckout = async () => {
@@ -112,10 +125,7 @@ export default function Order() {
     listOrder.forEach((l) => {
       l.checked && orders.push({ id: l.id });
     });
-    if (orders.length === 0) {
-      NotificationManager.error("Bạn chưa chọn bài đăng để thanh toán", "Lỗi", 1000);
-    } else {
-      const res = await dispatch(checkout({ orders }));
+    const res = await dispatch(checkout({ orders }));
       if (res.success) {
         dispatch(removeFromCart(orders.length));
         setListOrder((prev) => prev.filter((l) => !l.checked));
@@ -123,13 +133,6 @@ export default function Order() {
       } else {
         NotificationManager.error(res.message, "Lỗi", 1000);
       }
-      // const balance = JSON.parse(window.localStorage.getItem("user")).balance;
-      // if (sumTotal <= balance) {
-
-      // } else {
-      //   NotificationManager.error("Số dư còn lại không đủ", "Lỗi", 1000);
-      // }
-    }
     handleClose();
   };
 
@@ -236,7 +239,10 @@ export default function Order() {
         </div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Xác nhận thanh toán?</DialogTitle>
-
+          <DialogContent>
+            <p>Số tiền của bạn: {user?.balance} đ</p>
+            <p>Số tiền còn lại sau thanh toán: {user?.balance - sumTotal} đ</p>
+          </DialogContent>
           <DialogActions>
             <Button onClick={() => handleCheckout()}>Xác nhận</Button>
             <Button onClick={handleClose}>Hủy</Button>

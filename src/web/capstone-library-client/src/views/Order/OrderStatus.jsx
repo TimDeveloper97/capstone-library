@@ -1,10 +1,7 @@
 import {
   faBroom,
   faCheck,
-  faEllipsis,
   faEllipsisVertical,
-  faFileInvoiceDollar,
-  faPen,
   faQrcode,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
@@ -16,12 +13,10 @@ import {
   confirmOrder,
   denyOrder,
   getOrderStatus,
-  receivedOrder,
 } from "../../apis/order";
 import Loading from "../../components/Loading/Loading";
 import {
   compareDate,
-  compareDateEqual,
   formatMoney,
   getColorStatus,
 } from "../../helper/helpFunction";
@@ -86,19 +81,33 @@ export default function OrderStatus() {
     }
   };
 
-  const handleDenyOrder = async (e, id, index) => {
+  const [denyId, setDenyId] = useState(0);
+  const [denyIndex, setDenyIndex] = useState(0);
+  const [openReason, setOpenReason] = useState(false);
+  const [reason, setReason] = useState("");
+
+  const handleDenyOrder = (e, id, index) => {
     e.preventDefault();
-    const { data } = await denyOrder(id);
+    setDenyId(id);
+    setDenyIndex(index);
+    setOpenReason(true);
+  };
+
+  const confirmDenyOrder = async () => {
+    const { data } = await denyOrder(denyId, {value: reason});
+    setOpenReason(false);
     if (data.success) {
       let temp = listOrderDisplay;
-      temp[index].statusColor = getColorStatus(2);
-      temp[index].status = 2;
+      temp[denyIndex].statusColor = getColorStatus(2);
+      temp[denyIndex].status = 2;
       setListOrderDisplay(temp.slice());
       NotificationManager.success(data.message, "Thông báo", 1000);
+      setReason("");
     } else {
       NotificationManager.error(data.message, "Lỗi", 1000);
     }
-  };
+  }
+
   const [listOrderDisplay, setListOrderDisplay] = useState([]);
 
   const [qrValue, setQrValue] = useState("");
@@ -142,13 +151,14 @@ export default function OrderStatus() {
 
   const handleCreateQr = async (e, id, status) => {
     e.preventDefault();
-    //const user = JSON.parse(window.localStorage.getItem("user"));
+    const user = JSON.parse(window.localStorage.getItem("user"));
     const token = window.localStorage.getItem("token");
     const data = {
       time: new Date().getTime(),
       token: token,
       orderId: id,
       status: status,
+      userId: user.id
     };
     const input = JSON.stringify(data);
     setQrValue(input);
@@ -442,6 +452,20 @@ export default function OrderStatus() {
           <DialogActions>
             <Button onClick={checkResult}>Xem kết quả</Button>
             <Button onClick={handleClose}>Hủy</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={openReason} onClose={() => setOpenReason(false)}>
+          <DialogTitle>Lý do từ chối</DialogTitle>
+          <DialogContent>
+            <TextField
+              margin="dense"
+              value={reason}
+              onChange={e => setReason(e.target.value)}
+              label="Lý do"
+             />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => confirmDenyOrder()}>Xác nhận</Button>
           </DialogActions>
         </Dialog>
       </section>

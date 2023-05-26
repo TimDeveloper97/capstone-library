@@ -52,7 +52,7 @@ export default function ManagementSidebar() {
   return (
     <div className="sidebar pb-45px position-sticky top-70 mt-2 pt-30px">
       <h5 className="text-center">{user.lastName + " " + user.firstName}</h5>
-      <h6 className="text-center">{user.roles[0] === "ROLE_ADMIN" ? "admin" : user.roles[0] === "ROLE_MANAGER_POST" ? "quản lý" : "người dùng"}</h6>
+      <h6 className="text-center">{user.roles[0] === "ROLE_ADMIN" ? "admin" : user.roles[0] === "ROLE_MANAGER_POST" ? "quản lý" : "khách hàng"}</h6>
       <ul className="generic-list-item generic-list-item-highlight fs-15" style={{marginTop: "15px"}}>
         {user.roles[0] === "ROLE_ADMIN"
           ? adminManageLinks.map((link) => {

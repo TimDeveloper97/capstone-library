@@ -78,6 +78,9 @@ public class RechargeController {
             if(opUser.isPresent()){
                 user = opUser.get();
                 manager = userService.getUserById(auth.getName()).get();
+                if(paymentDto.getTransferAmount() + user.getBalance() < 0){
+                    return new ResponseEntity<>(new CustomErrorType("Tài khoản của người dùng không đủ. Vui lòng kiểm tra lại."), HttpStatus.OK);
+                }
                 userService.updateBalance(user.getId(), user.getBalance() + paymentDto.getTransferAmount());
                 user.setBalance(user.getBalance() + paymentDto.getTransferAmount());
                 Payment payment = new Payment();
