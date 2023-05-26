@@ -151,13 +151,14 @@ export default function OrderStatus() {
 
   const handleCreateQr = async (e, id, status) => {
     e.preventDefault();
-    //const user = JSON.parse(window.localStorage.getItem("user"));
+    const user = JSON.parse(window.localStorage.getItem("user"));
     const token = window.localStorage.getItem("token");
     const data = {
       time: new Date().getTime(),
       token: token,
       orderId: id,
       status: status,
+      userId: user.id
     };
     const input = JSON.stringify(data);
     setQrValue(input);
