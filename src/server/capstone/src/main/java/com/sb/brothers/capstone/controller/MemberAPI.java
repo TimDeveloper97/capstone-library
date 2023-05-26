@@ -90,7 +90,7 @@ public class MemberAPI {
         if(total <= user.getBalance()){
             for(Order order : orders) {
                 orderService.save(order);
-                changePostStatus(auth, order.getId(), CustomStatus.USER_PAYMENT_SUCCESS);
+                changePostStatus(auth, order.getId(), CustomStatus.USER_WAIT_TAKE_BOOK);
                 if(postDtos != null) {
                     postDtos.removeIf(p -> p.getId() == order.getPost().getId());
                 }
@@ -208,7 +208,7 @@ public class MemberAPI {
         logger.info("[API-Member] changePostStatus - START");
         Order order = orderService.getOrderById(oId).get();
         Post currPost = order.getPost();
-        if(status != CustomStatus.USER_PAYMENT_SUCCESS){
+        if(status != CustomStatus.USER_WAIT_TAKE_BOOK){
             int storeId = StoreUtils.findStoreIdByAddress(currPost.getAddress());
             if(storeId == -1){
                 logger.info("[API-Member] changePostStatus - END");
@@ -232,39 +232,7 @@ public class MemberAPI {
             User user = null;
             List<PostDetail> postDetails = postDetailService.findAllByPostId(currPost.getId());
             if (currPost.getStatus() == CustomStatus.USER_PAYMENT_SUCCESS) {
-                try {
-                    user = order.getUser();
-                    if (status == CustomStatus.USER_WAIT_TAKE_BOOK) {
-                        //@TODO triết khấu cho user đã ký gửi
-                        int discount = discountForPartner(currPost, postDetails);
-                        //@TODO cộng tiền cho manager đăng bài
-                        User manager = currPost.getUser();
-                        manager.setBalance(manager.getBalance() + order.getTotalPrice() - discount);
-                        userService.updateUser(manager);
-                        Notification notify = new Notification();
-                        notify.setUser(manager);
-                        notify.setDescription("Bạn được cộng " + (order.getTotalPrice() - discount) + "vnđ do có người dùng: " + user.getFirstName() + " " + user.getLastName() +" thuê sách.");
-                        notificationService.updateNotification(notify);
-                    } else if (status == CustomStatus.USER_REQUEST_IS_DENY) {
-                        //@TODO hoàn tiền cho user đã order
-                        user.setBalance(user.getBalance() + order.getTotalPrice());
-                        userService.updateUser(user);
-                        Notification ntf = new Notification();
-                        ntf.setUser(user);
-                        ntf.setDescription("Bạn được hoàn "+order.getTotalPrice()+"vnđ do Admin đã hủy đơn hàng có MĐH: CS"+ currPost.getId());
-                        notificationService.updateNotification(ntf);
-                        status = CustomStatus.ADMIN_POST;
-                        orderService.delete(order);
-                    }
-                    if (currPost.getStatus() == status) {
-                        logger.info("[API-Member] changePostStatus - END");
-                        return new ResponseEntity<>(new CustomErrorType("Trạng thái đơn hàng không thay đổi."), HttpStatus.OK);
-                    } else postService.updateStatus(currPost.getId(), status);
-                } catch (Exception ex) {
-                    logger.warn("Exception: " + ex.getMessage() + (ex.getCause() != null ? ". " + ex.getCause() : ""));
-                    logger.info("[API-Member] changePostStatus - END");
-                    return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: "+ex.getMessage() + ".\n Nguyên nhân: " + ex.getCause()), HttpStatus.OK);
-                }
+                //@TODO unused
             }
             else if (currPost.getStatus() == CustomStatus.USER_WAIT_TAKE_BOOK) {
                 if (status == CustomStatus.USER_RETURN_IS_NOT_APPROVED) {
@@ -279,9 +247,32 @@ public class MemberAPI {
                     //refunds(postDetails);
                     logger.info("Admin disable this post.");
                 }
-                if (status == CustomStatus.USER_PAYMENT_SUCCESS) {
+                if (status == CustomStatus.USER_WAIT_TAKE_BOOK) {
                     //@TODO
-                    //refunds(postDetails);
+                    try {
+                        user = order.getUser();
+                        //@TODO triết khấu cho user đã ký gửi
+                        int discount = discountForPartner(currPost, postDetails);
+                        //@TODO cộng tiền cho manager đăng bài
+                        User manager = currPost.getUser();
+                        manager.setBalance(manager.getBalance() + order.getTotalPrice() - discount);
+                        userService.updateUser(manager);
+                        Notification notify = new Notification();
+                        notify.setUser(manager);
+                        notify.setDescription("Bạn được cộng " + (order.getTotalPrice() - discount) + "vnđ do có người dùng: " + user.getFirstName() + " " + user.getLastName() +" thuê sách.");
+                        notificationService.updateNotification(notify);
+                        // notification for renter
+                        Notification noti = new Notification();
+                        noti.setUser(user);
+                        noti.setDescription("Hệ thống đã xác nhận đơn đặt hàng của bạn. Vui lòng đến cửa hàng Capstone ở địa chỉ: " + currPost.getAddress() +" để nhận sách.");
+                        notificationService.updateNotification(noti);
+                        // update status of this post
+                        postService.updateStatus(currPost.getId(), status);
+                    } catch (Exception ex) {
+                        logger.warn("Exception: " + ex.getMessage() + (ex.getCause() != null ? ". " + ex.getCause() : ""));
+                        logger.info("[API-Member] changePostStatus - END");
+                        return new ResponseEntity(new CustomErrorType(ex.getMessage()), HttpStatus.OK);
+                    }
                     logger.info("user payment success this post.");
                 }
             }
