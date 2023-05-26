@@ -14,7 +14,7 @@ export const getOrderStatus = () => axiosIntance.get("/order/request");
 export const confirmOrder = (id) =>
   axiosIntance.put(`/order/confirmation/${id}`);
 
-export const denyOrder = (id) => axiosIntance.put(`/order/cancellation/${id}`);
+export const denyOrder = (id, reason) => axiosIntance.put(`/order/cancellation/${id}`, reason);
 
 export const receivedOrder = (id) => axiosIntance.put(`/order/received/${id}`);
 

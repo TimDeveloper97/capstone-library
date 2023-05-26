@@ -10,7 +10,7 @@ export const getPostRequest = () => axiosIntance.get("/posts/request");
 
 export const acceptPost = (id) => axiosIntance.put(`/posts/accept-post/${id}`);
 
-export const denyPost = (id) => axiosIntance.put(`/posts/deny-post/${id}`);
+export const denyPost = (id, reason) => axiosIntance.put(`/posts/deny-post/${id}`, reason);
 
 export const getPostByUser = () => axiosIntance.get("/posts/me");
 
