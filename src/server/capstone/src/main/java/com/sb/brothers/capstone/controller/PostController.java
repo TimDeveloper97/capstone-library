@@ -225,7 +225,7 @@ public class PostController {
                 postService.removePostById(p.getId());
             logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
             logger.info("[API-Post] createNewPost - END");
-            return new ResponseEntity(new CustomErrorType("Xảy ra lỗi: " + ex.getMessage() +"."), HttpStatus.OK);
+            return new ResponseEntity(new CustomErrorType(ex.getMessage()), HttpStatus.OK);
         }
         logger.info("[API-Post] createNewPost - SUCCESS");
         return new ResponseEntity(new CustomErrorType(true,"Tạo bài đăng thành công."), HttpStatus.CREATED);
@@ -307,6 +307,7 @@ public class PostController {
             catch (Exception ex){
                 logger.error("Exception: " + ex.getMessage()+".\n" + ex.getCause());
                 logger.info("[API-Post] updatePost - END");
+                return new ResponseEntity<>(new CustomErrorType(ex.getMessage()), HttpStatus.OK);
             }
             logger.info("Update post with post id:"+ postDto.getId());
             logger.info("[API-Post] updatePost - SUCCESS");
@@ -328,6 +329,9 @@ public class PostController {
             postDetail.setBook(book);
             postDetail.setQuantity(pdDto.getQuantity());
             if(currPost.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED){
+                List<Post> depositList = postService.getAllPostsByUserId(auth.getName()).stream().filter(post -> post.getId() != currPost.getId()).collect(Collectors.toList());
+                if(depositList.stream().anyMatch(deposit -> deposit.getStatus() == CustomStatus.USER_POST_IS_NOT_APPROVED))
+                    throw new Exception("Bạn còn đơn ký gửi trước đó chưa được chấp nhận.");
                 if(book.getUser().getId().compareTo(auth.getName()) != 0) {
                     throw new Exception("Bạn không sở hữu cuốn sách này.");
                 }
