@@ -17,7 +17,7 @@ export default function Footer() {
       className="footer-area pt-20px position-relative"
       style={{
         backgroundColor:
-          curUser?.roles[0] === "ROLE_MANAGER_POST" ? "#576CBC" : "#343a40",
+        curUser?.roles[0] === "ROLE_MANAGER_POST" ? "#576CBC" : curUser?.roles[0] === "ROLE_ADMIN" ? "#B0A4A4" : "#343a40",
       }}
     >
       <span className="vertical-bar-shape vertical-bar-shape-1"></span>
