@@ -19,6 +19,9 @@ namespace xfLibrary.Models
         [JsonProperty("orderId")]
         public string Id { get; set; }
 
+        [JsonProperty("userId")]
+        public string User { get; set; }
+
         [JsonProperty("status")]
         public int Status { get; set; }
 

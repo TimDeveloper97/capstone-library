@@ -100,7 +100,7 @@ namespace xfLibrary.ViewModels
             {
                 foreach (var cart in carts)
                 {
-                    Posts.Add(cart);
+                    Posts.Add(UpdateItemData(cart));
                 }
             }
 
@@ -143,6 +143,20 @@ namespace xfLibrary.ViewModels
         {
             Posts = new ObservableCollection<Post>();
             IsCheckedAll = false;
+        }
+
+        Post UpdateItemData(Post post)
+        {
+            if (post.Order.Count != 0)
+            {
+                var imgs = post.Order[0].Book.Imgs;
+                if (imgs != null && imgs.Count != 0)
+                {
+                    var url = Services.Api.BaseUrl + imgs?[0].FileName.Replace("\\", "/");
+                    post.ImageSource = url;
+                }
+            }
+            return post;
         }
 
         void FakeData()
