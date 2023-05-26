@@ -51,7 +51,8 @@ namespace xfLibrary.ViewModels
             IsBusy = false;
         });
 
-        public ICommand AddCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(DetailBookView)));
+        public ICommand AddCommand => new Command(async () => await Shell.Current.GoToAsync($"{nameof(DetailBookView)}" +
+            $"?{nameof(DetailBookViewModel.ParameterIsNotView)}={true}"));
 
         public ICommand DeleteCommand => new Command<Book>(async (book) =>
         {

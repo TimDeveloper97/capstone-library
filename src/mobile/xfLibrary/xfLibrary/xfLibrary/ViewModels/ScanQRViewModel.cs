@@ -37,10 +37,18 @@ namespace xfLibrary.ViewModels
                 _qrCode = result.Text.Trim();
                 var qr = new QRCode(_qrCode);
                 if (qr == null || string.IsNullOrEmpty(qr.Token)
-                || string.IsNullOrEmpty(qr.Id))
+                || string.IsNullOrEmpty(qr.Id) || string.IsNullOrEmpty(qr.User))
                 {
                     IsBusy = false;
                     _message.ShortAlert("Sai format QR Code");
+                    return;
+                }
+
+                //check match user
+                if(qr.User != _user.Id)
+                {
+                    IsBusy = false;
+                    _message.ShortAlert("Bạn không phải chủ hóa đơn");
                     return;
                 }
 

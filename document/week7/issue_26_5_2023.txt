@@ -1,0 +1,38 @@
+Nay mình mới đi demo cho thầy lại thì cũng đã ok hơn r, và có 1 số các thầy bắt sửa là:
+
+1. Ràng buộc cái request ký gửi của user, khi đơn ký gửi của nó chưa dc chấp 
+thuận thì ko cho gửi request ký gửi khác, chỗ khác.
+=> Sơn check điều kiện kiểm tra user đã ký gửi (tốc độ nhanh hơn)
+
+2. Lúc manager hủy đơn ký gửi và đơn hàng, cho nó cái field ghi lí do r gửi cho customer,
+ gửi vô notification .
+=> sơn thêm 2 cái field nữa lý do: title, description 
+=> mobile vs web update UI
+=> mobile fixed
+
+3. Phần chấp thuận và từ chối đơn hàng -> bỏ, cho đơn hàng sang trạng thái "Chờ lấy sách" -> tạo mã
+=> Sơn nhảy trạng thái
+
+4. User1 mua hàng xong,manager tạo mã ,mobile user2 vô quét mã vẫn dc, user1 thì mất tiền 
+-> ràng buộc phần này giúp mình
+=> thắng gửi thêm userId của Order
+[JsonProperty("userId")]
+public string User { get; set; }
+=> tức là thêm 1 field ở QR code khi gửi sang cho t
+=> mobile fixed
+
+5. Đơn ký gửi manager bỏ luôn phần chấp thuận chỉ giữ lại tạo mã và từ chối, show đơn kí gửi bên mng
+=> mobile fixed
+
+6. mobile dùng account user tạo sách thì crash app
+=> fixed
+
+7. post đc add to cart bị mất hình
+=> fixed
+
+8. lúc ở screen này bấm vào các category hoặc book thì cái post ko call data nên phải reset lại.
+ Bạn cho nó tự động reset luôn đc ko
+=> khi bấm vào category hoặc book thì post bên dưới sẽ tự filter theo
+=> với category sẽ cộng dồn category và tìm kiếm post
+=> với book sẽ tìm kiếm tất cả các post với book và hiện ra
+=> ko làm tự reset vì những cái trên là filter 

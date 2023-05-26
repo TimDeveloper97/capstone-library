@@ -217,17 +217,15 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
-            var res = await _mainService.DenyPostAsync(post.Id, _token);
-            if (res.Success)
+            var isOk = true;
+            if(isOk)
             {
                 post.Status = Services.Api.USER_REQUEST_IS_DENY;
                 post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);
 
                 // remove
                 Posts.Remove(post);
-            }
-
-            _message.ShortAlert(res?.Message ?? "Không có phản hồi");
+            }    
         });
         /// <summary>
         /// chỉ có status = 16, 2
