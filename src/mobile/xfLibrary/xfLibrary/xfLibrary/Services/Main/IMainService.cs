@@ -26,7 +26,7 @@ namespace xfLibrary.Services.Main
         Task<Response> DeletePostAsync(string id, string token);
         Task<Response> UpdatePostAsync(object obj, string token);
         Task<Response> AcceptPostAsync(string id, string token);
-        Task<Response> DenyPostAsync(string id, string token);
+        Task<Response> DenyPostAsync(string id, string reason, string token);
         Task<Response> DisablePostAsync(string id, string token);
         Task<List<Post>> GetAllPostAdminAsync(string _token);
 

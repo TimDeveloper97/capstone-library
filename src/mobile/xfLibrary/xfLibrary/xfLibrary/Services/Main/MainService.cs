@@ -127,9 +127,9 @@ namespace xfLibrary.Services.Main
             return res;
         }
 
-        public async Task<Response> DenyPostAsync(string id, string token)
+        public async Task<Response> DenyPostAsync(string id, string reason, string token)
         {
-            var res = await Service.PutParameter(id, Api.DenyPost, token);
+            var res = await Service.PutObjParameter(id, reason, Api.DenyPost, token);
             return res;
         }
 
