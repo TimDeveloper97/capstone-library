@@ -30,7 +30,10 @@ namespace xfLibrary.ViewModels
 
                 //remove case scan multi
                 if (_qrCode != null && _qrCode == result.Text.Trim())
+                {
+                    IsBusy = false;
                     return;
+                }    
 
                 //result = token,orderid,status
                 //example = asdasdasdasd,kljdgkjasdkjaskdj,64

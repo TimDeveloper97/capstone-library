@@ -80,13 +80,13 @@
                             <view:ItemView Text="Cấu hình" Icon="{Static icon:FontIcons.Toolbox}" Color="DeepSkyBlue" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" TabCommand="{Binding ConfigCommand}"/>
                         </StackLayout>
 
-                        <StackLayout Spacing="0" IsVisible="{Binding IsVisible}">
+                        <StackLayout Spacing="0">
                             <Label Style="{StaticResource TitleLabelStyle}" FontFamily="MuliBold" Text="Tiện ích" HorizontalOptions="Start" Padding="15,10,10,5"/>
                             <view:ItemView Text="Thống kê" Icon="{Static icon:FontIcons.Charity}" TabCommand="{Binding StaticCommand}" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" Color="{StaticResource Tertiary}"/>
                             <view:ItemView Text="Đơn hàng" TabCommand="{Binding OrderCommand}" Icon="{Static icon:FontIcons.Package}" Color="{StaticResource Blue}" IsVisible="{Binding Profile.Level, Converter={StaticResource NotAdmin}}"/>
                             <view:ItemView Text="Nạp tiền" TabCommand="{Binding TransactionCommand}" Icon="{Static icon:FontIcons.Cash}" IsVisible="{Binding Profile.Level, Converter={StaticResource Admin}}" Color="{StaticResource Yellow}"/>
                             <view:ItemView Text="Giỏ hàng" Icon="{Static icon:FontIcons.Cart}" IsVisible="{Binding Profile.Level, Converter={StaticResource User}}" Color="{StaticResource Sky}" TabCommand="{Binding CartCommand}"/>
-                            <view:ItemView Text="QR Code" Icon="{Static icon:FontIcons.Qrcode}" IsVisible="{Binding Profile.Level, Converter={StaticResource User}}" Color="DarkGreen" TabCommand="{Binding QRCommand}"/>
+                            <view:ItemView Text="QR Code" Icon="{Static icon:FontIcons.Qrcode}" Color="DarkGreen" TabCommand="{Binding QRCommand}"/>
                         </StackLayout>
                         
                         <StackLayout Spacing="0">
