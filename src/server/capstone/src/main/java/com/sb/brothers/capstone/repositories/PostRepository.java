@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
-    @Query(value = "SELECT * FROM post WHERE status = :status AND address = :address order by created_date",
+    @Query(value = "SELECT * FROM post WHERE post.`status` = :status AND address = :address order by created_date",
             nativeQuery = true)
     List<Post> findAllPostsByStatus(@Param("status") int status, @Param("address") String address);
 
@@ -27,11 +27,11 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             nativeQuery = true)
     List<Post> findAllByUserId(@Param("id") String id);
 
-    @Query(value = "SELECT * FROM post WHERE status = 0 order by created_date",
+    @Query(value = "SELECT * FROM post WHERE post.`status` = 0 order by created_date",
             nativeQuery = true)
     List<Post> findAllPosts();
 
-    @Query(value = "SELECT * FROM post WHERE id IN (SELECT post_id FROM post_detail WHERE book_id = :bId) and post.status = 0 order by created_date",
+    @Query(value = "SELECT * FROM post WHERE id IN (SELECT post_id FROM post_detail WHERE book_id = :bId) and post.`status` = 0 order by created_date",
             nativeQuery = true)
     List<Post> getAllPostHasBookId(@Param("bId") int id);
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, String> {
-    @Query(value = "SELECT * FROM Report WHERE created_by = :userId",
+    @Query(value = "SELECT * FROM report WHERE created_by = :userId",
             nativeQuery = true)
     List<Role> getReportByUserId(@Param("userId") String userId);
 }
