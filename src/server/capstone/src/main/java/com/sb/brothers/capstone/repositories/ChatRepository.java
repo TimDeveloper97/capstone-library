@@ -11,7 +11,7 @@ import java.util.Set;
 @Repository
 public interface ChatRepository extends JpaRepository<Message, Integer> {
 
-    @Query(value = "Select * from Message where (userA_id = :fId AND userB_id = :sId) OR (userA_id = :sId AND userB_id = :fId) ORDER  BY created_date ASC",
+    @Query(value = "Select * from message where (usera_id = :fId AND userb_id = :sId) OR (usera_id = :sId AND userb_id = :fId) ORDER  BY created_date ASC",
             nativeQuery = true)
     Set<Message> findAllMessagesByUserId(@Param("fId") String fId, @Param("sId") String sId);
 

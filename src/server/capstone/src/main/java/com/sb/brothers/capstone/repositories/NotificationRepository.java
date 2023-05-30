@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
-    @Query(value = "SELECT * FROM Notification WHERE user_id = :userId",
+    @Query(value = "SELECT * FROM notification WHERE user_id = :userId",
             nativeQuery = true)
     List<Notification> getNotificationByUserId(@Param("userId") String userId);
 
