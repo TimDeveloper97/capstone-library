@@ -40,7 +40,7 @@ namespace xfLibrary.Pages.Popup
             }
 
             //2. Lúc manager hủy đơn ký gửi và đơn hàng, cho nó cái field ghi lí do r gửi cho customer, gửi vô notification.
-            var res = await _mainService.DenyPostAsync(_post.Id, _token);
+            var res = await _mainService.DenyPostAsync(_post.Id, description, _token);
             _message.ShortAlert(res?.Message ?? "Không có phản hồi");
 
             if (res.Success)

@@ -90,9 +90,9 @@ ALTER DATABASE `capstone_db` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `books_BEFORE_DELETE` BEFORE DELETE ON `books` FOR EACH ROW BEGIN
-	DELETE FROM `capstone_db`.`book_category`
-	WHERE `book_category`.book_id = OLD.id;
-    DELETE FROM `capstone_db`.`image`
+	DELETE FROM `book_category`
+	WHERE book_id = OLD.id;
+    DELETE FROM `image`
 	WHERE `image`.book_id = OLD.id;
 END */;;
 DELIMITER ;
@@ -139,7 +139,7 @@ CREATE TABLE `configuration` (
   `key_cfg` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `value_cfg` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `key_cfg_UNIQUE` (`key_cfg`)
+  UNIQUE KEY `key_cfg_unique` (`key_cfg`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -432,7 +432,7 @@ DELIMITER ;;
 	DECLARE username varchar(255);
 	SET username = NEW.user_id;
 	If(NEW.status = 4) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 		VALUES (now(), CONCAT_WS(' ',NEW.user_id,'đã yêu cầu ký gửi sách.'), "admin", 0);
     End if;
 END */;;
@@ -463,7 +463,7 @@ DELIMITER ;;
     SET @USER_RETURN_IS_APPROVED     = 256;
     SET @USER_POST_IS_EXPIRED 	     = 512;
     SET @MANAGER		     = 3;
-	SELECT user_id INTO @username FROM Orders where post_id = OLD.id;
+	SELECT user_id INTO @username FROM orders where post_id = OLD.id;
 
     -- Xử lý hết hạn ký gửi sách
     begin
@@ -488,7 +488,7 @@ DELIMITER ;;
     begin
 	DECLARE manager VARCHAR(255);
 	DECLARE done INT DEFAULT FALSE;
-	DECLARE cur CURSOR FOR select user_id from User_role where role_id = @MANAGER;
+	DECLARE cur CURSOR FOR select user_id from user_role where role_id = @MANAGER;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 	open cur;
 	read_loop: LOOP
@@ -497,40 +497,40 @@ DELIMITER ;;
 		  LEAVE read_loop;
 		END IF;
 		if(OLD.status = @ADMIN_POST AND NEW.status = @USER_PAYMENT_SUCCESS) THEN
-			INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+			INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 				VALUES (now(),  concat_ws('', @username, ' đã đặt hàng có MĐH: CS', OLD.id,' và thanh toán thành công. Vui lòng xác nhận.'), manager, 0);
 		elseif(OLD.status = @USER_POST_IS_APPROVED AND NEW.status = @USER_POST_IS_EXPIRED) THEN
-			INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+			INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 				VALUES (now(),  concat_ws('', 'Chờ xác nhận lấy sách khi hết thời gian ký gửi MĐH: CS', OLD.id), manager, 0);
 		END IF;
 	END LOOP;
 	CLOSE cur;
     end;
     If(OLD.status = @USER_POST_IS_NOT_APPROVED AND NEW.status = @USER_POST_IS_APPROVED) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(), 'Admin đã chấp nhận việc ký gửi sách của bạn.', OLD.user_id, 0);
 	elseif(OLD.status = @USER_POST_IS_NOT_APPROVED AND NEW.status = @USER_REQUEST_IS_DENY) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(),  'Admin đã từ chối việc ký gửi sách của bạn.', OLD.user_id, 0);
 	elseif(OLD.status = @ADMIN_POST AND NEW.status = @USER_PAYMENT_SUCCESS) THEN
-        INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+        INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(),  concat_ws('', 'Chờ xác nhận đơn hàng có MĐH: CS', OLD.id), @username, 0);
 	elseif(OLD.status = @USER_PAYMENT_SUCCESS AND NEW.status = @USER_WAIT_TAKE_BOOK) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(),  concat_ws('', 'Admin đã xác nhận đơn hàng có MĐH: CS', OLD.id ,' của bạn.'), @username, 0);
 	elseif(OLD.status = @USER_PAYMENT_SUCCESS AND NEW.status = @USER_REQUEST_IS_DENY) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(),  'Admin đã hủy đơn hàng của bạn.', @username, 0);
 	elseif(OLD.status = @USER_WAIT_TAKE_BOOK AND NEW.status = @USER_RETURN_IS_NOT_APPROVED) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(),  concat_ws('', 'Xác nhận đã lấy hàng thành công. MĐH: CS', OLD.id), @username, 0);
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(),  concat_ws('', 'Xác nhận đã giao hàng thành công. MĐH: CS', OLD.id), OLD.user_id, 0);
 	elseif(OLD.status = @USER_RETURN_IS_NOT_APPROVED AND NEW.status = @USER_RETURN_IS_APPROVED) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(),  'Admin đã xác nhận việc hoàn sách của bạn.', @username, 0);
 	elseif(OLD.status = @USER_POST_IS_APPROVED AND NEW.status = @USER_POST_IS_EXPIRED) THEN
-		INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+		INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 			VALUES (now(),  concat_ws('', 'Đã hết thời gian ký gửi MĐH: CS', OLD.id,' vui lòng liên hệ admin để lấy lại sách.'), OLD.user_id, 0);
     End if;
 END */;;
@@ -773,7 +773,7 @@ DELIMITER ;;
         DECLARE uId VARCHAR(255);
 		DECLARE d_Ntf INT DEFAULT FALSE;
 		DECLARE cur_Ntf CURSOR FOR
-			SELECT id, user_id FROM Post where  DATE_ADD(date(created_date), INTERVAL (no_days - @ntf_day) DAY) = curdate() AND `status` = 16;
+			SELECT id, user_id FROM post where  DATE_ADD(date(created_date), INTERVAL (no_days - @ntf_day) DAY) = curdate() AND `status` = 16;
         DECLARE CONTINUE HANDLER FOR NOT FOUND SET d_Ntf = TRUE;
         
 		OPEN cur_Ntf;
@@ -782,7 +782,7 @@ DELIMITER ;;
 			IF d_Ntf THEN
 			  LEAVE ntf_loop;
 			END IF;
-			INSERT INTO `capstone_db`.`notification`(`created_date`,`description`,`user_id`,`status`)
+			INSERT INTO `notification`(`created_date`,`description`,`user_id`,`status`)
 				VALUES (now(),  concat_ws('', 'Thời gian ký gửi MĐH: CS', pId_Ntf,' còn ', @ntf_day,' ngày, vui lòng liên hệ admin để lấy lại sách.'), uId, 0);
 		  END LOOP;	
 		CLOSE cur_Ntf;
@@ -793,7 +793,7 @@ DELIMITER ;;
 		DECLARE pId int;
 		DECLARE d_Expired INT DEFAULT FALSE;
 		DECLARE cur_Expired CURSOR FOR
-			SELECT id FROM Post where  DATE_ADD(date(created_date), INTERVAL no_days DAY)  < curdate() AND `status` = 16;
+			SELECT id FROM post where  DATE_ADD(date(created_date), INTERVAL no_days DAY)  < curdate() AND `status` = 16;
         DECLARE CONTINUE HANDLER FOR NOT FOUND SET d_Expired = TRUE;
         
         OPEN cur_Expired;

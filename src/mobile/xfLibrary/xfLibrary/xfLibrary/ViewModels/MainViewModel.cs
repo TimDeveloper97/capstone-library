@@ -65,7 +65,7 @@ namespace xfLibrary.ViewModels
         });
 
         public ICommand SelectedCommand => new Command<Book>(async (book) => await Shell.Current.GoToAsync($"{nameof(DetailBookView)}" +
-            $"?{nameof(DetailBookViewModel.ParameterBook)}={JsonConvert.SerializeObject(book)}" + 
+            $"?{nameof(DetailBookViewModel.ParameterBook)}={JsonConvert.SerializeObject(book)}" +
             $"&{nameof(DetailBookViewModel.ParameterIsNotView)}={false}"));
         #endregion
 
@@ -166,7 +166,7 @@ namespace xfLibrary.ViewModels
                         //add static data
                         _allDatas.Add(book);
                     }
-                }    
+                }
 
                 MessagingCenter.Send<object, object>(this, "category", category);
                 MessagingCenter.Send<object, object>(this, "post", post);
@@ -200,9 +200,11 @@ namespace xfLibrary.ViewModels
             });
         });
 
-        public ICommand PageAccountAppearingCommand => new Command(() =>
+        public ICommand PageAccountAppearingCommand => new Command(async () =>
         {
             MessagingCenter.Send<object, bool>(this, "haslogin", IsVisible);
+            //await Shell.Current.GoToAsync($"{nameof(DetailBookView)}" +
+            //$"?{nameof(DetailBookViewModel.ParameterIsNotView)}={true}");
         });
 
 

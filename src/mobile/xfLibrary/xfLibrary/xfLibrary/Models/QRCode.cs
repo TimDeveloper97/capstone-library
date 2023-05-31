@@ -39,6 +39,7 @@ namespace xfLibrary.Models
                 Token = m.Token;
                 Status = m.Status;
                 Id = m.Id;
+                User = m.User;
                 Start = start.AddMilliseconds(m.Time).ToLocalTime();
             }
             catch (Exception)

@@ -61,7 +61,7 @@ namespace xfLibrary.ViewModels
             //load data
             _category = await _mainService.CategoryAsync();
 
-            if (Book != null && Book.Categories != null)
+            if (Book != null && Book.Categories != null && _category != null || _category.Count != 0)
             {
                 foreach (var category in Book.Categories)
                 {
@@ -75,7 +75,8 @@ namespace xfLibrary.ViewModels
             }
 
             //remove /n
-            Book.Description = Book.Description.Replace("/n", "");
+            if(Book != null)
+                Book.Description = Book?.Description?.Replace("/n", "");
 
             if (isUpdate)
             {
@@ -143,6 +144,12 @@ namespace xfLibrary.ViewModels
 
         public ICommand CategoryCommand => new Command(async () =>
         {
+            if(_category is null || _category.Count == 0)
+            {
+                _message.ShortAlert("Không có địa chỉ");
+                return;
+            } 
+                
             //popup
             var result = await MaterialDialog.Instance.SelectChoicesAsync(title: "Chọn thể loại sách", selectedIndices: selects,
                                                                         choices: _category.Select(x => x.Name).ToList(), dismissiveText: "Hủy");
