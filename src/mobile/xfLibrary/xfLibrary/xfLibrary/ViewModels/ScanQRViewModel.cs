@@ -42,24 +42,33 @@ namespace xfLibrary.ViewModels
                 if (qr == null || string.IsNullOrEmpty(qr.Token)
                 || string.IsNullOrEmpty(qr.Id) || string.IsNullOrEmpty(qr.User))
                 {
-                    IsBusy = false;
-                    _message.ShortAlert("Sai format QR Code");
+                    Device.BeginInvokeOnMainThread(() => {
+                        IsBusy = false;
+                        _message.ShortAlert("Sai format QR Code");
+                    });
+
                     return;
                 }
 
                 //check match user
                 if(qr.User != _user.Id)
                 {
-                    IsBusy = false;
-                    _message.ShortAlert("Bạn không phải chủ hóa đơn");
+                    Device.BeginInvokeOnMainThread(() => {
+                        IsBusy = false;
+                        _message.ShortAlert("Bạn không phải chủ hóa đơn");
+                    });
+                    
                     return;
                 }
 
                 //qrcode experted
                 if (qr.Start.AddMinutes(5) < DateTime.Now)
                 {
-                    IsBusy = false;
-                    _message.ShortAlert("QR Code đã hết hạn");
+                    Device.BeginInvokeOnMainThread(() => {
+                        IsBusy = false;
+                        _message.ShortAlert("QR Code đã hết hạn");
+                    });
+
                     return;
                 }
 
