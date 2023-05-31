@@ -172,16 +172,15 @@ export default function PostRequest() {
     setOpenQr(false);
   };
   const [qrValue, setQrValue] = useState("");
-  const handleCreateQr = async (e, id, index) => {
+  const handleCreateQr = async (e, id, userid) => {
     e.preventDefault();
     const token = window.localStorage.getItem("token");
-    const user = JSON.parse(window.localStorage.getItem("user"));
     const data = {
       time: new Date().getTime(),
       token: token,
       orderId: id,
       status: 4,
-      userId: user.id
+      userId: userid
     };
     const input = JSON.stringify(data);
     setQrValue(input);
@@ -349,7 +348,7 @@ export default function PostRequest() {
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
-                                          handleCreateQr(e, los.id, index)
+                                          handleCreateQr(e, los.id, los.user)
                                         }
                                       >
                                         <FontAwesomeIcon icon={faQrcode} /> Tạo

@@ -149,16 +149,15 @@ export default function OrderStatus() {
     setStatus(e.target.value);
   };
 
-  const handleCreateQr = async (e, id, status) => {
+  const handleCreateQr = (e, id, status, userid) => {
     e.preventDefault();
-    const user = JSON.parse(window.localStorage.getItem("user"));
     const token = window.localStorage.getItem("token");
     const data = {
       time: new Date().getTime(),
       token: token,
       orderId: id,
       status: status,
-      userId: user.id
+      userId: userid
     };
     const input = JSON.stringify(data);
     setQrValue(input);
@@ -389,7 +388,7 @@ export default function OrderStatus() {
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
-                                          handleCreateQr(e, los.id, los.status)
+                                          handleCreateQr(e, los.id, los.status, los.userId)
                                         }
                                       >
                                         <FontAwesomeIcon icon={faQrcode} /> Tạo
@@ -408,7 +407,7 @@ export default function OrderStatus() {
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
-                                          handleCreateQr(e, los.id, los.status)
+                                          handleCreateQr(e, los.id, los.status, los.userId)
                                         }
                                       >
                                         <FontAwesomeIcon icon={faQrcode} /> Tạo
