@@ -102,7 +102,8 @@ public class PostController {
         try{
             Optional<User> user = userService.getUserById(auth.getName());
             if (user.isPresent()) {
-                posts = postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_NOT_APPROVED, user.get().getAddress());
+                posts = postService.getAllPostsByStatus(user.get().getAddress());
+                posts.removeIf(post -> post.getUser().userIsManager());
             }
             //posts.addAll(postService.getAllPostsByStatus(CustomStatus.USER_POST_IS_APPROVED));
         }catch (Exception ex){

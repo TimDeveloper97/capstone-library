@@ -14,7 +14,7 @@ public interface PostService {
 	 * ADMIN
 	 */
 	List<Post> getAllPosts();
-	List<Post> getAllPostsByStatus(int status, String address);
+	List<Post> getAllPostsByStatus(String address);
 	void updateStatus(int postId, int status);
 	List<Post> getAllPostHasBookId(int id);
 	List<Post> getAllPostsByUserId(String id);
