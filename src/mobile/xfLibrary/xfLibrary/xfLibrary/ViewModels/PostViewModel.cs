@@ -4,10 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 using xfLibrary.Domain;
 using xfLibrary.Models;
 using xfLibrary.Pages;
+using xfLibrary.Pages.Popup;
 
 namespace xfLibrary.ViewModels
 {
@@ -217,8 +219,8 @@ namespace xfLibrary.ViewModels
                 return;
             }
 
-            var isOk = true;
-            if(isOk)
+            var isOk = await Shell.Current.ShowPopupAsync(new FeedbackPopup(post, _token));
+            if (isOk)
             {
                 post.Status = Services.Api.USER_REQUEST_IS_DENY;
                 post.Color = Resources.ExtentionHelper.StatusToColor(post.Status);

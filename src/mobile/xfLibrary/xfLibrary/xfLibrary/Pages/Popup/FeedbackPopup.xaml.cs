@@ -30,7 +30,7 @@ namespace xfLibrary.Pages.Popup
         private async void okBtn_Clicked(object sender, EventArgs e)
         {
             okBtn.IsBusy = true;
-            var title = this.title.Text;
+            //var title = this.title.Text;
             var description = this.description.Text;
 
             if (string.IsNullOrEmpty(description))
