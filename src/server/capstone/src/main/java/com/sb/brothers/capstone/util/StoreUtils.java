@@ -26,7 +26,13 @@ public class StoreUtils {
     }
 
     public static boolean findManagerByStoreId(int storeId, String userId){
-        List<User> managers = userService.findManagerByStoreId(storeId);
+        List<User> managers = null;
+        try {
+            managers = userService.findManagerByStoreId(storeId);
+        }
+        catch (Exception e){
+            return false;
+        }
         for (User user : managers){
             if(user.getId().compareTo(userId) == 0){
                 return true;
