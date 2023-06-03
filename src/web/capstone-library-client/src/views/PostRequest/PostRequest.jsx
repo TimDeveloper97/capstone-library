@@ -1,6 +1,5 @@
 import {
   faBroom,
-  faCheck,
   faEllipsisVertical,
   faQrcode,
   faSearch,
@@ -15,7 +14,6 @@ import {
   compareDate,
   formatMoney,
   getColorStatus,
-  getImgUrl,
 } from "../../helper/helpFunction";
 import {
   NotificationContainer,
@@ -32,7 +30,6 @@ import {
   DialogActions,
   DialogTitle,
   DialogContent,
-  Avatar,
   TextField,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -46,21 +43,25 @@ export default function PostRequest() {
       const { data } = await getPostRequest();
       data.value &&
         setListPostRequest(
-          data.value.map((val) => {
-            return {
-              ...val,
-              statusColor: getColorStatus(val.status),
-            };
-          })
+          data.value
+            .sort((a, b) => b.id - a.id)
+            .map((val) => {
+              return {
+                ...val,
+                statusColor: getColorStatus(val.status),
+              };
+            })
         );
       data.value &&
         setListPostDeposit(
-          data.value.map((val) => {
-            return {
-              ...val,
-              statusColor: getColorStatus(val.status),
-            };
-          })
+          data.value
+            .sort((a, b) => b.id - a.id)
+            .map((val) => {
+              return {
+                ...val,
+                statusColor: getColorStatus(val.status),
+              };
+            })
         );
     };
     getPost();
@@ -84,7 +85,6 @@ export default function PostRequest() {
   const [denyIndex, setDenyIndex] = useState(0);
   const [openReason, setOpenReason] = useState(false);
   const [reason, setReason] = useState("");
-  
 
   const handleDeny = async (e, id, index) => {
     e.preventDefault();
@@ -94,7 +94,7 @@ export default function PostRequest() {
   };
 
   const confirmDenyOrder = async () => {
-    const { data } = await denyPost(denyId, {value: reason});
+    const { data } = await denyPost(denyId, { value: reason });
     setOpenReason(false);
     if (data.success) {
       let temp = listPostDeposit;
@@ -106,7 +106,7 @@ export default function PostRequest() {
     } else {
       NotificationManager.error(data.message, "Lỗi", 1000);
     }
-  }
+  };
 
   const convertToDay = (input) => {
     const day = new Date(input);
@@ -146,7 +146,9 @@ export default function PostRequest() {
     temp = temp.filter((t) => !t.title || t.title.indexOf(searchTitle) !== -1);
     temp = temp.filter((t) => t.user.indexOf(searchUser) !== -1);
     status !== -1 && (temp = temp.filter((t) => t.status === status));
-    temp = temp.filter(t => compareDate(t.createdDate, fromDate._d, rentDate._d));
+    temp = temp.filter((t) =>
+      compareDate(t.createdDate, fromDate._d, rentDate._d)
+    );
     setListPostDeposit(temp.slice());
   };
   const handleClickReset = () => {
@@ -180,7 +182,7 @@ export default function PostRequest() {
       token: token,
       orderId: id,
       status: 4,
-      userId: userid
+      userId: userid,
     };
     const input = JSON.stringify(data);
     setQrValue(input);
@@ -344,7 +346,10 @@ export default function PostRequest() {
                               <td style={{ position: "relative" }}>
                                 {los.status === 2 ? null : los.status === 4 ? (
                                   <div className="button-action">
-                                    <div className="tooltip-action" style={{height: "110px"}}>
+                                    <div
+                                      className="tooltip-action"
+                                      style={{ height: "110px" }}
+                                    >
                                       <button
                                         className="btn btn-success"
                                         onClick={(e) =>
@@ -360,7 +365,8 @@ export default function PostRequest() {
                                           handleDeny(e, los.id, index)
                                         }
                                       >
-                                        <FontAwesomeIcon icon={faXmark} /> Từ chối
+                                        <FontAwesomeIcon icon={faXmark} /> Từ
+                                        chối
                                       </button>
                                     </div>
                                     <span>
@@ -440,9 +446,9 @@ export default function PostRequest() {
             <TextField
               margin="dense"
               value={reason}
-              onChange={e => setReason(e.target.value)}
+              onChange={(e) => setReason(e.target.value)}
               label="Lý do"
-             />
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={() => confirmDenyOrder()}>Xác nhận</Button>
