@@ -153,7 +153,11 @@ export default function AddPost() {
           })
         );
         if (res.success) {
-          NotificationManager.success(res.message, "Thông báo", 1000);
+          if(role){
+            NotificationManager.success(res.message, "Thông báo", 1000);
+          }else{
+            NotificationManager.success("Tạo đơn ký gửi thành công", "Thông báo", 1000);
+          }
           resetData();
         } else {
           NotificationManager.error(res.message, "Lỗi", 1000);

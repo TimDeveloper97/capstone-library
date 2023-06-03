@@ -127,7 +127,7 @@ export default function UserDeposit() {
   const handleDeleteBook = async () => {
     const {data} = await deletePost(deleteId);
     if(data.success){
-      NotificationManager.success(data.message, "Thông báo", 1000);
+      NotificationManager.success("Hủy đơn ký gửi thành công", "Thông báo", 1000);
       setListPostRequest(prev => prev.filter(p => p.id !== deleteId));
       setListPostDeposit(prev => prev.filter(p => p.id !== deleteId));
       setOpenDeleteBook(false);
