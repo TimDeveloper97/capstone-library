@@ -18,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import { removeFromCart } from "../../actions/cart";
 import { getUser } from "../../actions/user";
+import { formatMoney } from "../../helper/helpFunction";
 
 export default function Order() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export default function Order() {
   }, []);
 
   const order = useSelector((state) => state.order);
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
   const [listOrder, setListOrder] = useState([]);
 
   useEffect(() => {
@@ -113,9 +114,13 @@ export default function Order() {
     listOrder.forEach((l) => {
       l.checked && orders.push({ id: l.id });
     });
-    if(orders.length === 0){
-      NotificationManager.error("Bạn chưa chọn bài đăng để thanh toán", "Lỗi", 1000);
-    }else{
+    if (orders.length === 0) {
+      NotificationManager.error(
+        "Bạn chưa chọn bài đăng để thanh toán",
+        "Lỗi",
+        1000
+      );
+    } else {
       setOpen(true);
     }
   };
@@ -126,13 +131,13 @@ export default function Order() {
       l.checked && orders.push({ id: l.id });
     });
     const res = await dispatch(checkout({ orders }));
-      if (res.success) {
-        dispatch(removeFromCart(orders.length));
-        setListOrder((prev) => prev.filter((l) => !l.checked));
-        NotificationManager.success(res.message, "Thông báo", 1000);
-      } else {
-        NotificationManager.error(res.message, "Lỗi", 1000);
-      }
+    if (res.success) {
+      dispatch(removeFromCart(orders.length));
+      setListOrder((prev) => prev.filter((l) => !l.checked));
+      NotificationManager.success(res.message, "Thông báo", 1000);
+    } else {
+      NotificationManager.error(res.message, "Lỗi", 1000);
+    }
     handleClose();
   };
 
@@ -203,7 +208,7 @@ export default function Order() {
                           </div>
                         </div>
                       </th>
-                      <td>{post.price}</td>
+                      <td>{formatMoney(post.price)}</td>
                       <td>
                         <button
                           className="icon-element icon-element-xs shadow-sm"
@@ -220,7 +225,7 @@ export default function Order() {
                   <td colSpan="6">
                     <div className="cart-actions d-flex align-items-center justify-content-between">
                       <div className="input-group my-2 w-auto">
-                        Tổng tiền: {sumTotal} đồng
+                        Tổng tiền: {formatMoney(sumTotal)} đồng
                       </div>
                       <div className="flex-grow-1 text-right my-2">
                         <button
@@ -240,8 +245,11 @@ export default function Order() {
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Xác nhận thanh toán?</DialogTitle>
           <DialogContent>
-            <p>Số tiền của bạn: {user?.balance} đ</p>
-            <p>Số tiền còn lại sau thanh toán: {user?.balance - sumTotal} đ</p>
+            <p>Số tiền của bạn: {formatMoney(user?.balance)} đ</p>
+            <p>
+              Số tiền còn lại sau thanh toán:{" "}
+              {formatMoney(user?.balance - sumTotal)} đ
+            </p>
           </DialogContent>
           <DialogActions>
             <Button onClick={() => handleCheckout()}>Xác nhận</Button>

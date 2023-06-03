@@ -19,9 +19,16 @@ import {
   NotificationContainer,
 } from "react-notifications";
 import "./post.css";
-import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import { formatMoney } from "../../helper/helpFunction";
 import { addToCart } from "../../actions/cart";
+import { getUser } from "../../actions/user";
 
 export default function DetailPost() {
   const [currentPost, setCurrentPost] = useState();
@@ -30,6 +37,12 @@ export default function DetailPost() {
 
   const dispatch = useDispatch();
   const user = JSON.parse(window.localStorage.getItem("user"))?.roles[0];
+
+  useEffect(() => {
+    dispatch(getUser(JSON.parse(window.localStorage.getItem("user")).id));
+  }, []);
+
+  const userInfo = useSelector((state) => state.user);
 
   const { id } = useParams();
   //const books = useSelector(state => state.book);
@@ -93,16 +106,16 @@ export default function DetailPost() {
 
   const confirmDelete = () => {
     setOpenDelete(true);
-  }
+  };
   const handleDeletePost = async () => {
     const res = await deletePost(currentPost.id);
     if (res.data.success) {
-      navigate("/post", {replace: true});
+      navigate("/post", { replace: true });
     } else {
       NotificationManager.error(res.data.message, "Lỗi", 1000);
       setOpenDelete(false);
     }
-  }
+  };
 
   return currentPost ? (
     <section className="question-area pb-40px">
@@ -218,24 +231,35 @@ export default function DetailPost() {
                                     Thuê ngay
                                   </button>
                                 </div>
-                              )
-                              }
+                              )}
                               {user && user === "ROLE_MANAGER_POST" ? (
                                 <div className="buy">
                                   <button
-                                  className="btn btn-danger"
-                                  onClick={() => confirmDelete()}
-                                >
-                                  <FontAwesomeIcon icon={faDeleteLeft} />{" "}
-                                  {"  "}
-                                  Xóa post
-                                </button>
+                                    className="btn btn-danger"
+                                    onClick={() => confirmDelete()}
+                                  >
+                                    <FontAwesomeIcon icon={faDeleteLeft} />{" "}
+                                    {"  "}
+                                    Xóa post
+                                  </button>
                                 </div>
                               ) : null}
                             </div>
                             <Dialog open={open} onClose={handleClose}>
                               <DialogTitle>Xác nhận thuê ngay?</DialogTitle>
-
+                              <DialogContent>
+                                <p>
+                                  Số tiền của bạn:{" "}
+                                  {formatMoney(userInfo?.balance)} đ
+                                </p>
+                                <p>
+                                  Số tiền còn lại sau thanh toán:{" "}
+                                  {formatMoney(
+                                    userInfo?.balance - (sum + currentPost?.fee)
+                                  )}{" "}
+                                  đ
+                                </p>
+                              </DialogContent>
                               <DialogActions>
                                 <Button onClick={handleRentNow}>
                                   Xác nhận
@@ -243,14 +267,21 @@ export default function DetailPost() {
                                 <Button onClick={handleClose}>Hủy</Button>
                               </DialogActions>
                             </Dialog>
-                            <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
-                              <DialogTitle>Xác nhận xóa bài đăng: {currentPost.title}?</DialogTitle>
+                            <Dialog
+                              open={openDelete}
+                              onClose={() => setOpenDelete(false)}
+                            >
+                              <DialogTitle>
+                                Xác nhận xóa bài đăng: {currentPost.title}?
+                              </DialogTitle>
 
                               <DialogActions>
                                 <Button onClick={() => handleDeletePost()}>
                                   Xác nhận
                                 </Button>
-                                <Button onClick={() => setOpenDelete(false)}>Hủy</Button>
+                                <Button onClick={() => setOpenDelete(false)}>
+                                  Hủy
+                                </Button>
                               </DialogActions>
                             </Dialog>
                           </div>
