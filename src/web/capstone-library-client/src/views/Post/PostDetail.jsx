@@ -1,6 +1,7 @@
 import {
   faBagShopping,
   faCartPlus,
+  faDeleteLeft,
   faDongSign,
   faLocation,
   faLocationDot,
@@ -10,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { checkout, orderBook } from "../../actions/order";
-import { getPostById } from "../../apis/post";
+import { deletePost, getPostById } from "../../apis/post";
 import Carousel from "../../components/Carousel/Carousel";
 import Loading from "../../components/Loading/Loading";
 import {
@@ -88,6 +89,20 @@ export default function DetailPost() {
     }
     setOpen(false);
   };
+  const [openDelete, setOpenDelete] = useState(false);
+
+  const confirmDelete = () => {
+    setOpenDelete(true);
+  }
+  const handleDeletePost = async () => {
+    const res = await deletePost(currentPost.id);
+    if (res.data.success) {
+      navigate("/post", {replace: true});
+    } else {
+      NotificationManager.error(res.data.message, "Lỗi", 1000);
+      setOpenDelete(false);
+    }
+  }
 
   return currentPost ? (
     <section className="question-area pb-40px">
@@ -133,10 +148,10 @@ export default function DetailPost() {
                                 </span>
                               </p>
                               <h6>Mô tả</h6>
-                              <p className="">
-                                {currentPost?.content}
-                              </p>
-                              <h6><FontAwesomeIcon icon={faLocationDot} /> Địa chỉ</h6>
+                              <p className="">{currentPost?.content}</p>
+                              <h6>
+                                <FontAwesomeIcon icon={faLocationDot} /> Địa chỉ
+                              </h6>
                               <p>{currentPost?.address}</p>
                               <div className="cart-form table-responsive px-2">
                                 <table className="table generic-table custom-table">
@@ -203,7 +218,20 @@ export default function DetailPost() {
                                     Thuê ngay
                                   </button>
                                 </div>
-                              )}
+                              )
+                              }
+                              {user && user === "ROLE_MANAGER_POST" ? (
+                                <div className="buy">
+                                  <button
+                                  className="btn btn-danger"
+                                  onClick={() => confirmDelete()}
+                                >
+                                  <FontAwesomeIcon icon={faDeleteLeft} />{" "}
+                                  {"  "}
+                                  Xóa post
+                                </button>
+                                </div>
+                              ) : null}
                             </div>
                             <Dialog open={open} onClose={handleClose}>
                               <DialogTitle>Xác nhận thuê ngay?</DialogTitle>
@@ -213,6 +241,16 @@ export default function DetailPost() {
                                   Xác nhận
                                 </Button>
                                 <Button onClick={handleClose}>Hủy</Button>
+                              </DialogActions>
+                            </Dialog>
+                            <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+                              <DialogTitle>Xác nhận xóa bài đăng: {currentPost.title}?</DialogTitle>
+
+                              <DialogActions>
+                                <Button onClick={() => handleDeletePost()}>
+                                  Xác nhận
+                                </Button>
+                                <Button onClick={() => setOpenDelete(false)}>Hủy</Button>
                               </DialogActions>
                             </Dialog>
                           </div>
