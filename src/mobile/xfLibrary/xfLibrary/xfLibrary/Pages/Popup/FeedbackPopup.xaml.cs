@@ -30,7 +30,7 @@ namespace xfLibrary.Pages.Popup
         private async void okBtn_Clicked(object sender, EventArgs e)
         {
             okBtn.IsBusy = true;
-            var title = this.title.Text;
+            //var title = this.title.Text;
             var description = this.description.Text;
 
             if (string.IsNullOrEmpty(description))
@@ -43,10 +43,10 @@ namespace xfLibrary.Pages.Popup
             var res = await _mainService.DenyPostAsync(_post.Id, description, _token);
             _message.ShortAlert(res?.Message ?? "Không có phản hồi");
 
+            okBtn.IsBusy = false;
             if (res.Success)
                 Dismiss(true);
 
-            okBtn.IsBusy = false;
             Dismiss(false);
         }
 

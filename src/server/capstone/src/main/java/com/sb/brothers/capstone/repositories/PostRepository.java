@@ -13,9 +13,9 @@ import java.util.Set;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
-    @Query(value = "SELECT * FROM post WHERE post.`status` = :status AND address = :address order by created_date",
+    @Query(value = "SELECT * FROM post WHERE ((post.`status` BETWEEN 2 AND 4) OR post.`status` = 16) AND address = :address order by created_date",
             nativeQuery = true)
-    List<Post> findAllPostsByStatus(@Param("status") int status, @Param("address") String address);
+    List<Post> findAllPostsByStatus(@Param("address") String address);
 
     @Modifying
     @Transactional
