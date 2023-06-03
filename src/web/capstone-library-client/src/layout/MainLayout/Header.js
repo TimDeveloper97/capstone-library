@@ -37,7 +37,7 @@ export default function Header() {
       className="header-area"
       style={{
         backgroundColor:
-          curUser?.roles[0] === "ROLE_MANAGER_POST" ? "#576CBC" : curUser?.roles[0] === "ROLE_ADMIN" ? "#B0A4A4" : "#343a40",
+          curUser?.roles[0] === "ROLE_MANAGER_POST" ? "#576CBC" : curUser?.roles[0] === "ROLE_ADMIN" ? "gray" : "#343a40",
       }}
     >
       <div className="container">

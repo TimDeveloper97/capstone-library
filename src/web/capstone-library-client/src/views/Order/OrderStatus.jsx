@@ -192,7 +192,7 @@ export default function OrderStatus() {
     let temp = listOrderStatus;
     temp = temp.filter((t) => t.postDto.title.indexOf(searchTitle) !== -1);
     temp = temp.filter((t) => t.userId.indexOf(searchUser) !== -1);
-    temp = temp.filter(t => compareDate(t.createdDate, fromDate._d, rentDate._d));
+    temp = temp.filter(t => compareDate(t.borrowedDate, fromDate._d, rentDate._d));
     status !== -1 && (temp = temp.filter((t) => t.status === status));
     setListOrderDisplay(temp.slice());
   };

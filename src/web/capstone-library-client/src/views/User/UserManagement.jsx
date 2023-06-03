@@ -266,11 +266,9 @@ export default function UserManagement() {
                               </td>
                               <td>
                                 <span
+                                className="user-status"
                                   style={{
-                                    backgroundColor: "#576CBC",
-                                    color: "#fff",
-                                    padding: "5px 10px 5px 10px",
-                                    borderRadius: "5px",
+                                    backgroundColor: user.roles[0] === "ROLE_USER" ? "gray" : "#576CBC"
                                   }}
                                 >
                                   {user.roles[0] === "ROLE_ADMIN"
@@ -340,25 +338,6 @@ export default function UserManagement() {
                             </tr>
                           );
                         })}
-                      {/* <tr className="fw-normal">
-                        <td colSpan={8}>
-                          <div className="table-paging">
-                            Trang: {curPage} trên {numPage}{" "}
-                            <button
-                              onClick={() => setCurPage((prev) => --prev)}
-                              disabled={curPage === 1}
-                            >
-                              <FontAwesomeIcon icon={faChevronLeft} />
-                            </button>{" "}
-                            <button
-                              onClick={() => setCurPage((prev) => ++prev)}
-                              disabled={curPage === numPage}
-                            >
-                              <FontAwesomeIcon icon={faChevronRight} />
-                            </button>
-                          </div>
-                        </td>
-                      </tr> */}
                     </tbody>
                   </table>
                 </div>
